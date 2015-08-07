@@ -14,12 +14,6 @@ namespace LanAdept.Controllers
 
 		public ActionResult Index()
 		{
-			Random rand = new Random();
-
-			uow.TestRepository.Insert(new Test() { Nom = "test #" + rand.Next(20000) });
-			uow.Save();
-
-			ViewBag.Test = uow.TestRepository.Get().Last().Nom;
 			return View();
 		}
 	}

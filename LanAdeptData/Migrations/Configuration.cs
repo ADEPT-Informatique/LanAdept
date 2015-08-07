@@ -10,6 +10,7 @@ namespace LanAdeptData.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+			AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(LanAdeptData.DAL.LanAdeptDataContext context)

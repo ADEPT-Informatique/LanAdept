@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using LanAdeptData.DAL.Generic;
+using LanAdeptData.DAL.Users;
 
 namespace LanAdeptData.DAL
 {
@@ -11,21 +13,61 @@ namespace LanAdeptData.DAL
 	{
 		private LanAdeptDataContext context;
 
+		public static UnitOfWork Current
+		{
+			get { return HttpContext.Current.Items["_UnitOfWork"] as UnitOfWork; }
+		}
+
 		public UnitOfWork()
 		{
 			context = new LanAdeptDataContext();
 		}
 
-		private TestRepository testRepository;
-
-		public TestRepository TestRepository
+		private UserRepository userRepository;
+		public UserRepository UserRepository
 		{
 			get
 			{
-				if (testRepository == null)
-					testRepository = new TestRepository(context);
+				if (userRepository == null)
+					userRepository = new UserRepository(context);
 
-				return testRepository;
+				return userRepository;
+			}
+		}
+
+		private RoleRepository roleRepository;
+		public RoleRepository RoleRepository
+		{
+			get
+			{
+				if (roleRepository == null)
+					roleRepository = new RoleRepository(context);
+
+				return roleRepository;
+			}
+		}
+
+		private PermissionRepository permissionRepository;
+		public PermissionRepository PermissionRepository
+		{
+			get
+			{
+				if (permissionRepository == null)
+					permissionRepository = new PermissionRepository(context);
+
+				return permissionRepository;
+			}
+		}
+
+		private LoginHistoryRepository loginHistoryRepository;
+		public LoginHistoryRepository LoginHistoryRepository
+		{
+			get
+			{
+				if (loginHistoryRepository == null)
+					loginHistoryRepository = new LoginHistoryRepository(context);
+
+				return loginHistoryRepository;
 			}
 		}
 

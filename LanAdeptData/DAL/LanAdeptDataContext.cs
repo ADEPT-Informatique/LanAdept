@@ -13,7 +13,10 @@ namespace LanAdeptData.DAL
 	{
 		public LanAdeptDataContext() : base("name=LanAdeptDataContext") { }
 
-		public DbSet<Test> Tests { get; set; }
+		public DbSet<User> Users { get; set; }
+		public DbSet<Role> Roles { get; set; }
+		public DbSet<Permission> Permissions { get; set; }
+		public DbSet<LoginHistory> LoginHistories { get; set; }
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
