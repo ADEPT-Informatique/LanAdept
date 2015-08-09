@@ -8,12 +8,14 @@ using LanAdeptData.Model;
 
 namespace LanAdept.Controllers
 {
+    [AllowAnonymous]
 	public class HomeController : Controller
 	{
 		UnitOfWork uow = new UnitOfWork();
 
 		public ActionResult Index()
 		{
+            ViewBag.Role = uow.RoleRepository.Get().First().Name;
 			return View();
 		}
 	}
