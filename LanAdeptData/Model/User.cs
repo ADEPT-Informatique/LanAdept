@@ -20,19 +20,16 @@ namespace LanAdeptData.Model
 		[UniqueEmail]
 		public string Email { get; set; }
 
-		[Required]
-		[StringLength(20, MinimumLength = 4)]
-		[Index("UK_User_Username", IsUnique = true)]
-		[UniqueUsername]
+		[StringLength(50, MinimumLength = 4)]
 		public string Username { get; set; }
+
+		public string 
 
 		[Required]
 		public string Password { get; set; }
 
 		[Required]
 		public string Salt { get; set; }
-
-		public string Prefix { get; set; }
 
 		[Required]
 		[ForeignKey("Role")]
