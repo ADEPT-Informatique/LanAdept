@@ -2,7 +2,11 @@
     ViewBag.Title = "Home Page";
 }
 
+
+
 <div class="jumbotron">
 	<h1>@ViewBag.Test</h1>
 	    <p class="lead">Ceci est un test</p>
+
+    @Html.AuthorizeActionLink("Test", "Index")
 </div>

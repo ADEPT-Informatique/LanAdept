@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using LanAdeptCore.HtmlExtension;
+
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -21,9 +23,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Accueil", "Index", "Home")</li>
-                    <li>@Html.ActionLink("À propos de", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @Html.ListItemAction("Accueil", "Index", "Home")
                 </ul>
             </div>
         </div>

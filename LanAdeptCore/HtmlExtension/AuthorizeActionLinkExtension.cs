@@ -10,7 +10,7 @@ using System.Web.Routing;
 
 namespace LanAdeptCore.HtmlExtension
 {
-	public static class AuthorizeActionLnkExtension
+	public static class AuthorizeActionLinkExtension
 	{
 		/// <summary>
 		/// Create a link if the user has permission, or else does nothing

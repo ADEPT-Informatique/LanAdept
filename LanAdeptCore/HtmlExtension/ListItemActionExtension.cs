@@ -7,8 +7,8 @@ using System.Web.Mvc;
 
 namespace LanAdeptCore.HtmlExtension
 {
-	public static class ActiveLinkHelper
-	{
+	public static class ListItemActionExtension
+    {
 		/// <summary>
 		/// Create a link wrapped inside a <li> tag and add the "active" class to it if the user is in this page.
 		/// This will also check if the user has permission for the action
