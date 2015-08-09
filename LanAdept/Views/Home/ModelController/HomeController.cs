@@ -14,7 +14,6 @@ namespace LanAdept.Controllers
 	{
 		UnitOfWork uow = new UnitOfWork();
 
-		[Permission("LanAdept.Home.Index")]
 		public ActionResult Index()
 		{
             ViewBag.Role = uow.RoleRepository.Get().First().Name;
