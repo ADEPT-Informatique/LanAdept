@@ -1,0 +1,34 @@
+﻿@model LanAdept.Views.Auth.ModelController.LoginModel
+@{
+	ViewBag.Title = "Se connecter";
+}
+
+	@using (Html.BeginForm("Login", "Auth", FormMethod.Post, new { @class = "form-login" }))
+	{ <h2 class="form-login-heading">Se connecter</h2>
+		@Html.ValidationSummary("", new { @class = "text-danger" })
+
+		@Html.LabelFor(model => model.Email, new { @class = "sr-only" })
+		@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", autofocus = true, placeholder = Html.NameFor(m2 => m2.Email), maxlength = 20 } })
+
+		@Html.LabelFor(model => model.Password, new { @class = "sr-only" })
+		@Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = Html.NameFor(m2 => m2.Password) } })
+
+		<div class="checkbox">
+			@Html.EditorFor(model => model.RememberMe)
+			@Html.LabelFor(model => model.RememberMe)
+		</div>
+
+		@Html.HiddenFor(model => model.ReturnURL)
+
+		<button type="submit" class="btn btn-lg btn-primary btn-block">Connexion</button>
+
+	}
+</div>
+
+@section Styles {
+	<link href="@Url.Content("~/Content/login.css")" rel="stylesheet" type="text/css" />
+}
+
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
+}

@@ -16,10 +16,5 @@ namespace LanAdeptData.DAL.Users
 		{
 			return Get(u => u.Email == email).FirstOrDefault();
 		}
-
-		public User GetUserByUsername(string username)
-		{
-			return Get(u => u.Username == username).FirstOrDefault();
-		}
 	}
 }
