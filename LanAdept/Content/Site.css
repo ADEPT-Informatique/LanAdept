@@ -22,3 +22,15 @@ select,
 textarea {
     max-width: 280px;
 }
+
+/*Pour centrer les img*/
+.center-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+ }
+
+.jumbotron {
+  background-color: #162550;
+}
+

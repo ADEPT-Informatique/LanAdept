@@ -95,7 +95,9 @@
     <Compile Include="Validation\UniqueEmailAttribute.cs" />
     <Compile Include="Validation\UniqueUsernameAttribute.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Image\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

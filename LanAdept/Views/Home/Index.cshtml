@@ -2,15 +2,27 @@
     ViewBag.Title = "Home Page";
 }
 
+<div class="jumbotron" c>
+    <img src="~/Image/LOGO_couleurs_Transparent.png" class="img-responsive center-block"/>
+
+    <h1>@ViewBag.dateLan</h1>
+
+    <h1 id="timer"></h1>
+    <input type="hidden" id="dateLan" value="@ViewBag.dateLan"/>
 
 
-<div class="jumbotron">
-	<h1>@ViewBag.Test</h1>
-	    <p class="lead">Ceci est un test</p>
-
-    @Html.AuthorizeActionLink("Test", "Index")
-
-    <br />
-    <br />
-    <h3>@ViewBag.Role</h3>
+    @Html.AuthorizeActionLink("Inscription", "Index")
 </div>
+
+<script type="text/javascript">
+    var dateLan = new Date(getElementById("dateLan"));
+    var dateNow = new Date();
+
+    var dateDiff = dateLan - dateNow;
+
+    var element = document.getElementById("timer")
+
+    element.innerHTML = dateDiff;
+
+    alert(dateLan);
+</script>
