@@ -20,6 +20,9 @@ namespace LanAdeptData.Model
 		[UniqueEmail]
 		public string Email { get; set; }
 
+		[StringLength(50, MinimumLength = 4)]
+		public string Username { get; set; }
+
 		[Required]
 		public string Password { get; set; }
 

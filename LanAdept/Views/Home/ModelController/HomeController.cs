@@ -16,7 +16,9 @@ namespace LanAdept.Controllers
 
 		public ActionResult Index()
 		{
-            ViewBag.Role = uow.RoleRepository.Get().First().Name;
+            DateTime dateLan = new DateTime(2015,10,18,12,0,0);
+
+            ViewBag.dateLan = 1;
 			return View();
 		}
 	}
