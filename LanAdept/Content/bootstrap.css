@@ -1880,13 +1880,15 @@ textarea.input-lg {
   color: #b94a48;
 }
 
-.has-error .form-control {
+.has-error .form-control,
+.form-control.input-validation-error {
   border-color: #b94a48;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 
-.has-error .form-control:focus {
+.has-error .form-control:focus,
+.form-control.input-validation-error:focus {
   border-color: #953b39;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;
