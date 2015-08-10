@@ -14,7 +14,6 @@ namespace LanAdept.Controllers
 	{
 		UnitOfWork uow = new UnitOfWork();
 
-		[Permission("LanAdept.Home.Index")]
 		public ActionResult Index()
 		{
             DateTime dateLan = new DateTime(2015,10,18,12,0,0);

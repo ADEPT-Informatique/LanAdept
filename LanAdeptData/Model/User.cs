@@ -23,6 +23,10 @@ namespace LanAdeptData.Model
 		[StringLength(50, MinimumLength = 4)]
 		public string Username { get; set; }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 		[Required]
 		public string Password { get; set; }
 
