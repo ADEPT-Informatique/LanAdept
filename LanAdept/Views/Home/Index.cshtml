@@ -12,27 +12,25 @@
 
 @section Scripts{
     <script type="text/javascript">
-        var dateLanString = document.getElementById("dateLan").value;
-        var dateLan = new Date(dateLanString);
-
-        function setElement() {
-            var timeDiff = new Date(dateLan - new Date());
-
-            var seconds = Math.floor((dateLan.getTime() - (new Date().getTime())) / 1000);
-            var minutes = Math.floor(seconds / 60);
-            var hours = Math.floor(minutes / 60);
-            var days = Math.floor(hours / 24);
-
-            hours = hours - (days * 24);
-            minutes = minutes - (days * 24 * 60) - (hours * 60);
-            seconds = seconds - (days * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60);
-
-            $("#timer").text("Il reste " + days + " jours " + hours + " heures " + minutes + " minutes " + seconds + " secondes");
-            $("#timer").text("Il reste " + days + " jours et " + hours + ":" + minutes + ":" + seconds);
-        }
-
         $(document).ready(function () {
-            refreshId = setInterval(setElement, 1000);
+            var dateLan = new Date($("#dateLan").val());
+
+            function setTimer() {
+                var timeDiff = new Date(dateLan - new Date());
+
+                var seconds = Math.floor((dateLan.getTime() - (new Date().getTime())) / 1000);
+                var minutes = Math.floor(seconds / 60);
+                var hours = Math.floor(minutes / 60);
+                var days = Math.floor(hours / 24);
+
+                hours = hours - (days * 24);
+                minutes = minutes - (days * 24 * 60) - (hours * 60);
+                seconds = seconds - (days * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60);
+
+                $("#timer").text("Il reste " + days + " jours " + hours + " heures " + minutes + " minutes " + seconds + " secondes");
+            }
+            setTimer();
+            setInterval(setTimer, 1000);
         });
     </script>
 }
