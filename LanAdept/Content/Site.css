@@ -16,13 +16,6 @@
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
-}
-
 /*Pour centrer les img*/
 .center-block {
     display: block;
@@ -32,4 +25,10 @@ textarea {
 
 .jumbotron {
   background-color: #162550;
+}
+
+.panel-body.termsAndCondition {
+	height:100%;
+	overflow-y:auto;
+	overflow-x:hidden;
 }

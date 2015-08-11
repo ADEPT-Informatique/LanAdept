@@ -9,7 +9,7 @@ using LanAdeptData.Model;
 
 namespace LanAdeptData.Validation
 {
-	class UniqueEmailAttribute : ValidationAttribute
+	public class UniqueEmailAttribute : ValidationAttribute
 	{
 		protected override ValidationResult IsValid(object value, ValidationContext validationContext)
 		{

@@ -24,8 +24,11 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @Html.ListItemAction("Accueil", "Index", "Home")
+					@Html.ListItemAction("Accueil", "Index", "Home")
+					@Html.ListItemAction("Connexion", "Login", "Auth")
+					@Html.ListItemAction("Inscription", "Register", "Auth")
                 </ul>
+
             </div>
         </div>
     </div>

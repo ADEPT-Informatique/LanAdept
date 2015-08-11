@@ -20,5 +20,11 @@ namespace LanAdept.Controllers
 		{
 			return View();
 		}
+
+		[AuthorizeGuestOnly]
+		public ActionResult Register(string returnURL)
+		{
+			return View();
+		}
     }
 }
