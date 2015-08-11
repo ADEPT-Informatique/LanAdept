@@ -10,16 +10,16 @@ using LanAdeptData.Model;
 namespace LanAdept.Controllers
 {
     [AllowAnonymous]
-	public class HomeController : Controller
-	{
-		UnitOfWork uow = new UnitOfWork();
+    public class HomeController : Controller
+    {
+        UnitOfWork uow = new UnitOfWork();
 
-		public ActionResult Index()
-		{
-            DateTime dateLan = new DateTime(2015,10,18,12,0,0);
+        public ActionResult Index()
+        {
+            DateTime dateLan = new DateTime(2015, 10, 18, 12, 0, 0);
 
             ViewBag.dateLan = dateLan.Date.ToString("s");
-			return View();
-		}
-	}
+            return View();
+        }
+    }
 }
