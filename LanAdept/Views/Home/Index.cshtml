@@ -2,20 +2,28 @@
     ViewBag.Title = "Home Page";
 }
 
+<input type="hidden" id="dateLan" value="@ViewBag.dateLan" />
+
 <div class="jumbotron">
-    <img src="~/Image/LOGO_noir_Transparent.png" class="img-responsive center-block" />
+    <div class="row">
+        <div class="col-md-6">
+            <img src="~/Image/LOGO_noir_Transparent.png" class="img-responsive center-block " />
+        </div>
 
-    <h2 id="timer" class="text-center"></h2>
-    <input type="hidden" id="dateLan" value="@ViewBag.dateLan" />
-
-    <h2 class="text-center">Prochain lan le @ViewBag.dateLan</h2>
-
+        <div class="col-md-6 text-center">
+            <h2 id="date"></h2>
+            <h2 id="timer"></h2>
+            @Html.AuthorizeActionLink("Inscrivez-vous des maintenant!", "Register", "Auth", "", "class=\"text-center btn btn-primary\" role=\"button\"")
+        </div>
+    </div>
 </div>
 
 @section Scripts{
     <script type="text/javascript">
         $(document).ready(function () {
-            var dateLan = new Date($("#dateLan").val());
+            var dateLan = new Date(parseInt($("#dateLan").val()));
+            $("#date").text("Prochain LAN le " + dateLan.toISOString());
+
 
             function setTimer() {
                 var timeDiff = new Date(dateLan - new Date());
@@ -30,6 +38,7 @@
                 seconds = seconds - (days * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60);
 
                 $("#timer").text("Il reste " + days + " jours " + hours + " heures " + minutes + " minutes " + seconds + " secondes");
+
             }
             setTimer();
             setInterval(setTimer, 1000);

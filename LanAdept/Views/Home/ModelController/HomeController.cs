@@ -16,9 +16,11 @@ namespace LanAdept.Controllers
 
         public ActionResult Index()
         {
-            DateTime dateLan = new DateTime(2015, 10, 18, 12, 0, 0);
+            DateTime dateLan = new DateTime(2015, 10, 14, 12, 0, 0);
 
-            ViewBag.dateLan = dateLan.Date.ToString("s");
+            double dateLanMs = dateLan.Subtract(new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+
+            ViewBag.dateLan = dateLanMs;
             return View();
         }
     }
