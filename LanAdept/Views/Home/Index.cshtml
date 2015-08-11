@@ -2,27 +2,38 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron" c>
-    <img src="~/Image/LOGO_couleurs_Transparent.png" class="img-responsive center-block"/>
+<div class="jumbotron">
+    <img src="~/Image/LOGO_noir_Transparent.png" class="img-responsive center-block" />
 
-    <h1>@ViewBag.dateLan</h1>
+    <h2 id="timer" class="text-center"></h2>
+    <input type="hidden" id="dateLan" value="@ViewBag.dateLan" />
 
-    <h1 id="timer"></h1>
-    <input type="hidden" id="dateLan" value="@ViewBag.dateLan"/>
-
-
-    @Html.AuthorizeActionLink("Inscription", "Index")
 </div>
 
-<script type="text/javascript">
-    var dateLan = new Date(getElementById("dateLan"));
-    var dateNow = new Date();
+@section Scripts{
+    <script type="text/javascript">
+        var dateLanString = document.getElementById("dateLan").value;
+        var dateLan = new Date(dateLanString);
 
-    var dateDiff = dateLan - dateNow;
+        function calculateTimeDiff() {
+            dateNow = new Date();
 
-    var element = document.getElementById("timer")
+            timeDiff = new Date(dateLan - dateNow);
+            dayDiff = Math.round(timeDiff.getTime() / (1000 * 3600 * 24))//1000ms = 1s, 3600s in 1h, 24h in 1day
+            hourDiff = Math.round((timeDiff.getTime() / (1000 * 3600)) - ((dayDiff - 1) * 24));
+            minuteDiff = Math.round((timeDiff.getTime() / (1000 * 60)) - ((dayDiff - 1) * 24 * 60) - ((hourDiff - 1) * 60));
+            secondDiff = Math.round((timeDiff.getTime() / (1000)) - ((dayDiff - 1) * 24 * 60 * 60) - ((hourDiff - 1) * 60 * 60) - ((minuteDiff) * 60));
+        }
 
-    element.innerHTML = dateDiff;
+        function setElement() {
+            calculateTimeDiff();
+            var element = document.getElementById("timer");
 
-    alert(dateLan);
-</script>
+            element.innerHTML = "Il reste " + dayDiff + " jours " + hourDiff + " heures " + minuteDiff + " minutes " + secondDiff + " secondes";
+        }
+
+        $(document).ready(function () {
+            var refreshId = setInterval(setElement(), 1000);
+        });
+    </script>
+}

@@ -18,7 +18,7 @@ namespace LanAdept.Controllers
 		{
             DateTime dateLan = new DateTime(2015,10,18,12,0,0);
 
-            ViewBag.dateLan = 1;
+            ViewBag.dateLan = dateLan.Date.ToString("s");
 			return View();
 		}
 	}
