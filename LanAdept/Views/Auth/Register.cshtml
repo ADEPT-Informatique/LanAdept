@@ -6,11 +6,11 @@
 <div class="container-fluid">
 	<section class="container">
 		<div class="container-page">
-			@using (Html.BeginForm("Login", "Auth", FormMethod.Post, new { @class = "form-login" }))
+			@using (Html.BeginForm("Register", "Auth", FormMethod.Post))
 			{
 				<div class="col-md-6">
 
-					<h3>S'inscrire</h3>
+					<h3>Inscription</h3>
 					<div id="subLeftCol" class="clearfix">
 						<div class="form-group col-lg-12">
 							@Html.LabelFor(model => model.CompleteName)
@@ -64,7 +64,7 @@
 						</div>
 					</div>
 
-					<button type="submit" class="btn btn-primary pull-right">Register</button>
+					<button type="submit" class="btn btn-primary pull-right">S'inscrire</button>
 				</div>
 			}
 		</div>
@@ -73,9 +73,16 @@
 
 @section Scripts {
 	<script>
-		$(window).resize(function () {
+		function resizeRules() {
 			$(".termsAndCondition").outerHeight($("#subLeftCol").outerHeight() - 15);
-			console.log($("#subLeftCol").outerHeight() + " -- " + $(".termsAndCondition").outerHeight());
+		}
+
+		$(window).resize(resizeRules);
+
+		$(function () {
+			resizeRules();
 		});
 	</script>
+	@Scripts.Render("~/bundles/jqueryval")
+
 }

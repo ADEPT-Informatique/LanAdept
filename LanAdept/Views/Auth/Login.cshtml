@@ -5,7 +5,7 @@
 
 @using (Html.BeginForm("Login", "Auth", FormMethod.Post, new { @class = "form-login" }))
 {
-	<h2 class="form-login-heading">Se connecter</h2>
+	<h2 class="form-login-heading">Connexion</h2>
 	@Html.ValidationSummary("", new { @class = "text-danger" })
 
 	@Html.LabelFor(model => model.Email, new { @class = "sr-only" })
@@ -21,7 +21,7 @@
 
 	@Html.HiddenFor(model => model.ReturnURL)
 
-	<button type="submit" class="btn btn-lg btn-primary btn-block">Connexion</button>
+	<button type="submit" class="btn btn-lg btn-primary btn-block">Se connecter</button>
 
 }
 
