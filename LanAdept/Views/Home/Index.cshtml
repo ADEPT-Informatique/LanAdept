@@ -26,7 +26,8 @@
 
 
             function setTimer() {
-                var timeDiff = new Date(dateLan - new Date());
+                var dateNow = new Date().toUTCString();
+                var timeDiff = new Date(dateLan - dateNow);
 
                 var seconds = Math.floor((dateLan.getTime() - (new Date().getTime())) / 1000);
                 var minutes = Math.floor(seconds / 60);
