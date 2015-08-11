@@ -16,14 +16,6 @@
     white-space: normal;
 }
 
-/*Pour centrer les img*/
-.center-block {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
- }
-
-
 .panel-body.termsAndCondition {
 	height:100%;
 	overflow-y:auto;
