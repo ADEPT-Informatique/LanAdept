@@ -27,6 +27,9 @@
 					@Html.ListItemAction("Accueil", "Index", "Home")
 					@Html.ListItemAction("Connexion", "Login", "Auth")
 					@Html.ListItemAction("Inscription", "Register", "Auth")
+
+					@* Le lien de déconnexion est visible pour tous le monde le temps que la base de donnée soit partagée (Question de permission) *@
+					@Html.ListItemAction("Déconnexion", "Logout", "Auth")
                 </ul>
 
             </div>

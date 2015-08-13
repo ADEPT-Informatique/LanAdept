@@ -74,6 +74,7 @@
     <Compile Include="HtmlExtension\ListItemActionExtension.cs" />
     <Compile Include="HtmlExtension\AuthorizeActionLinkExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\ServiceResult\TryLoginResult.cs" />
     <Compile Include="Service\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
