@@ -16,9 +16,12 @@ namespace LanAdept.Controllers
 
         public ActionResult Index()
         {
-            DateTime dateLan = new DateTime(2015, 10, 14, 12, 0, 0);
+            String date = "2015-10-08";
+            DateTime dateLan = DateTime.Parse(date);
+            dateLan = dateLan.AddHours(12);
+            //TimeZoneInfo.ConvertTimeToUtc(dateLan);
 
-            double dateLanMs = dateLan.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
+            double dateLanMs = dateLan.Subtract(new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds; //Donne le temps en unix time
 
             ViewBag.dateLan = dateLanMs;
             return View();

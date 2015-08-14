@@ -22,11 +22,11 @@
     <script type="text/javascript">
         $(document).ready(function () {
             var dateLan = new Date(parseInt($("#dateLan").val()));
-            $("#date").text("Prochain LAN le " + dateLan.toISOString());
+            $("#date").text("Prochain LAN le " + dateLan.toUTCString());
 
 
             function setTimer() {
-                var dateNow = new Date().toUTCString();
+                var dateNow = new Date();
                 var timeDiff = new Date(dateLan - dateNow);
 
                 var seconds = Math.floor((dateLan.getTime() - (new Date().getTime())) / 1000);
