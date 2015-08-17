@@ -40,7 +40,11 @@ namespace LanAdeptData.Model
 
 		public virtual Role Role { get; set; }
 
+		public virtual Place Place { get; set; }
+
 		public virtual ICollection<LoginHistory> LoginHistories { get; set; }
+
+		public virtual ICollection<PlaceHistory> PlaceHistories { get; set; }
 
 		#endregion
 

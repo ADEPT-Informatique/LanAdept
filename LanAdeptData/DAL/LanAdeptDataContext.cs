@@ -20,6 +20,9 @@ namespace LanAdeptData.DAL
 		public DbSet<Role> Roles { get; set; }
 		public DbSet<Permission> Permissions { get; set; }
 		public DbSet<LoginHistory> LoginHistories { get; set; }
+		public DbSet<Place> Places { get; set; }
+		public DbSet<PlaceSection> PlaceSections { get; set; }
+		public DbSet<PlaceHistory> PlaceHistories { get; set; }
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using LanAdeptData.DAL.Generic;
+using LanAdeptData.DAL.Places;
 using LanAdeptData.DAL.Users;
 
 namespace LanAdeptData.DAL
@@ -70,6 +71,43 @@ namespace LanAdeptData.DAL
 				return loginHistoryRepository;
 			}
 		}
+
+		private PlaceRepository placeRepository;
+		public PlaceRepository PlaceRepository
+		{
+			get
+			{
+				if (placeRepository == null)
+					placeRepository = new PlaceRepository(context);
+
+				return placeRepository;
+			}
+		}
+
+		private PlaceSectionRepository placeSectionRepository;
+		public PlaceSectionRepository PlaceSectionRepository
+		{
+			get
+			{
+				if (placeSectionRepository == null)
+					placeSectionRepository = new PlaceSectionRepository(context);
+
+				return placeSectionRepository;
+			}
+		}
+
+		private PlaceHistoryRepository placeHistoryRepository;
+		public PlaceHistoryRepository PlaceHistoryRepository
+		{
+			get
+			{
+				if (placeHistoryRepository == null)
+					placeHistoryRepository = new PlaceHistoryRepository(context);
+
+				return placeHistoryRepository;
+			}
+		}
+
 
 		public void Save()
 		{
