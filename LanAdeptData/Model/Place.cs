@@ -11,7 +11,7 @@ namespace LanAdeptData.Model
 	{
 		public int PlaceID { get; set; }
 
-		public int PlaceNumber { get; set; }
+		public int Number { get; set; }
 
 		[ForeignKey("PlaceSection")]
 		public virtual int PlaceSectionID { get; set; }

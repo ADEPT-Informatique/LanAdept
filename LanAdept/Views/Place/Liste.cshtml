@@ -1,0 +1,8 @@
+﻿@model LanAdept.Views.Place.ViewModel.ListeModel
+
+<h1>Liste des places du LAN</h1>
+
+@foreach (PlaceSection sectionCourante in Model.Sections)
+{
+	@Html.Partial("SingleSectionPartial", sectionCourante)
+}

@@ -51,7 +51,7 @@ namespace LanAdept.Controllers
 			return View(loginInfo);
 		}
 
-		[AllowAnonymous]
+		[Authorize]
 		public ActionResult Logout()
 		{
 			UserService.Logout();
