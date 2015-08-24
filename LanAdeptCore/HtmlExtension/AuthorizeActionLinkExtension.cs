@@ -17,12 +17,10 @@ namespace LanAdeptCore.HtmlExtension
 		/// </summary>
 		/// <param name="linkText">Text for the link</param>
 		/// <param name="actionName">Action for the link</param>
-		public static MvcHtmlString AuthorizeActionLink(this HtmlHelper helper, string linkText, string actionName)
+		/// <paramparam name="showText">True to show text without a link if unauthorized</paramparam>
+		public static MvcHtmlString AuthorizeActionLink(this HtmlHelper helper, string linkText, string actionName, bool showText = false)
 		{
-			if (HasActionPermission(helper, actionName, null))
-				return helper.ActionLink(linkText, actionName);
-
-			return MvcHtmlString.Empty;
+			return AuthorizeActionLink(helper, linkText, actionName, null, null, null, showText);
 		}
 
 		/// <summary>
@@ -31,12 +29,10 @@ namespace LanAdeptCore.HtmlExtension
 		/// <param name="linkText">Text for the link</param>
 		/// <param name="actionName">Action for the link</param>
 		/// <param name="controllerName">Controller for the link</param>
-		public static MvcHtmlString AuthorizeActionLink(this HtmlHelper helper, string linkText, string actionName, string controllerName)
+		/// <paramparam name="showText">True to show text without a link if unauthorized</paramparam>
+		public static MvcHtmlString AuthorizeActionLink(this HtmlHelper helper, string linkText, string actionName, string controllerName, bool showText = false)
 		{
-			if (HasActionPermission(helper, actionName, controllerName))
-				return helper.ActionLink(linkText, actionName, controllerName);
-
-			return MvcHtmlString.Empty;
+			return AuthorizeActionLink(helper, linkText, actionName, controllerName, null, null, showText);
 		}
 
 		/// <summary>
@@ -46,12 +42,10 @@ namespace LanAdeptCore.HtmlExtension
 		/// <param name="actionName">Action for the link</param>
 		/// <param name="controllerName">Controller for the link</param>
 		/// <param name="routeValues">routeValues for the link</param>
-		public static MvcHtmlString AuthorizeActionLink(this HtmlHelper helper, string linkText, string actionName, string controllerName, object routeValues)
+		/// <paramparam name="showText">True to show text without a link if unauthorized</paramparam>
+		public static MvcHtmlString AuthorizeActionLink(this HtmlHelper helper, string linkText, string actionName, string controllerName, object routeValues, bool showText = false)
 		{
-			if (HasActionPermission(helper, actionName, controllerName))
-				return helper.ActionLink(linkText, actionName, controllerName, routeValues, null);
-
-			return MvcHtmlString.Empty;
+			return AuthorizeActionLink(helper, linkText, actionName, controllerName, routeValues, null, showText);
 		}
 
 		/// <summary>
@@ -62,12 +56,16 @@ namespace LanAdeptCore.HtmlExtension
 		/// <param name="controllerName">Controller for the link</param>
 		/// <param name="routeValues">routeValues for the link</param>
 		/// <param name="htmlAttributes">htmlAttributes for the link (for style, classes, ...)</param>
-		public static MvcHtmlString AuthorizeActionLink(this HtmlHelper helper, string linkText, string actionName, string controllerName, object routeValues, object htmlAttributes)
+		/// <paramparam name="showText">True to show text without a link if unauthorized</paramparam>
+		public static MvcHtmlString AuthorizeActionLink(this HtmlHelper helper, string linkText, string actionName, string controllerName, object routeValues, object htmlAttributes, bool showText = false)
 		{
 			if (HasActionPermission(helper, actionName, controllerName))
 				return helper.ActionLink(linkText, actionName, controllerName, routeValues, htmlAttributes);
 
-			return MvcHtmlString.Empty;
+			if (showText)
+				return new MvcHtmlString(linkText);
+			else
+				return MvcHtmlString.Empty;
 		}
 
 		/// <summary>
@@ -78,12 +76,16 @@ namespace LanAdeptCore.HtmlExtension
 		/// <param name="controllerName">Controller for the link</param>
 		/// <param name="routeValues">routeValues for the link</param>
 		/// <param name="htmlAttributes">htmlAttributes for the link (for style, classes, ...)</param>
-		public static MvcHtmlString AuthorizeActionLink(this HtmlHelper helper, string linkText, string actionName, string controllerName, RouteValueDictionary routeValues, IDictionary<string, object> htmlAttributes)
+		/// <paramparam name="showText">True to show text without a link if unauthorized</paramparam>
+		public static MvcHtmlString AuthorizeActionLink(this HtmlHelper helper, string linkText, string actionName, string controllerName, RouteValueDictionary routeValues, IDictionary<string, object> htmlAttributes, bool showText = false)
 		{
 			if (HasActionPermission(helper, actionName, controllerName))
 				return helper.ActionLink(linkText, actionName, controllerName, routeValues, htmlAttributes);
 
-			return MvcHtmlString.Empty;
+			if (showText)
+				return new MvcHtmlString(linkText);
+			else
+				return MvcHtmlString.Empty;
 		}
 
 		private static bool HasActionPermission(this HtmlHelper htmlHelper, string actionName, string controllerName)
