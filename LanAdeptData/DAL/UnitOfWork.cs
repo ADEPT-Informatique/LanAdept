@@ -96,13 +96,13 @@ namespace LanAdeptData.DAL
 			}
 		}
 
-		private PlaceHistoryRepository placeHistoryRepository;
-		public PlaceHistoryRepository PlaceHistoryRepository
+		private ReservationRepository placeHistoryRepository;
+		public ReservationRepository PlaceHistoryRepository
 		{
 			get
 			{
 				if (placeHistoryRepository == null)
-					placeHistoryRepository = new PlaceHistoryRepository(context);
+					placeHistoryRepository = new ReservationRepository(context);
 
 				return placeHistoryRepository;
 			}

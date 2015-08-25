@@ -3,18 +3,20 @@
 @{
 	string classFirstDiv = "place";
 
-	if (Model.Number == 3)
+	/*if (Model.LastPlaceHistory != null
+		&& Model.LastPlaceHistory.User != null
+		&& Model.LastPlaceHistory.User == LanAdeptCore.Service.UserService.GetLoggedInUser())
 	{
 		classFirstDiv += " place-actuelle";
 	}
-	else if (Model.Number % 7 == 0)
+	else if (Model.EstOccupe)
 	{
 		classFirstDiv += " place-occupe";
 	}
-	else if(Model.Number % 5 == 0)
+	else if(Model.EstReserve)
 	{
-		classFirstDiv += " place-libre";
-	}
+		classFirstDiv += " place-reserve";
+	}*/
 
 }
 

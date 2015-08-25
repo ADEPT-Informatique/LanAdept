@@ -16,8 +16,24 @@ namespace LanAdeptData.Model
 		[ForeignKey("PlaceSection")]
 		public virtual int PlaceSectionID { get; set; }
 
+		#region Navigation properties
+
 		public virtual PlaceSection PlaceSection { get; set; }
 
-		public virtual ICollection<PlaceHistory> PlaceHistories { get; set; }
+		public virtual ICollection<Reservation> Reservations { get; set; }
+
+		#endregion
+
+		#region Calculated properties
+
+		public Reservation LastReservation
+		{
+			get
+			{
+				return Reservations.LastOrDefault();
+			}
+		}
+
+		#endregion
 	}
 }

@@ -40,11 +40,9 @@ namespace LanAdeptData.Model
 
 		public virtual Role Role { get; set; }
 
-		public virtual Place Place { get; set; }
-
 		public virtual ICollection<LoginHistory> LoginHistories { get; set; }
 
-		public virtual ICollection<PlaceHistory> PlaceHistories { get; set; }
+		public virtual ICollection<Reservation> Reservations { get; set; }
 
 		#endregion
 
@@ -54,7 +52,15 @@ namespace LanAdeptData.Model
 		{
 			get
 			{
-				return LoginHistories.OrderByDescending(x => x.Date).FirstOrDefault();
+				return LoginHistories.LastOrDefault();
+			}
+		}
+
+		public Reservation LastReservation
+		{
+			get
+			{
+				return Reservations.LastOrDefault();
 			}
 		}
 

@@ -22,7 +22,7 @@ namespace LanAdeptData.DAL
 		public DbSet<LoginHistory> LoginHistories { get; set; }
 		public DbSet<Place> Places { get; set; }
 		public DbSet<PlaceSection> PlaceSections { get; set; }
-		public DbSet<PlaceHistory> PlaceHistories { get; set; }
+		public DbSet<Reservation> Reservations { get; set; }
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{

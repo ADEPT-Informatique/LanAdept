@@ -40,6 +40,7 @@
     background-size:contain;
 	background-repeat:no-repeat;
 }*/
+
 .place {
 	padding-left: 5px;
 	padding-right: 5px;
@@ -91,11 +92,11 @@
 	background-color: #CDDB9B;
 }
 
-.place-libre div {
+.place-reserve div {
 	background-color: #d8ecf5;
 	border: 1px solid #aed7ea;
 }
 
-.place-libre div.hover:hover {
+.place-reserve div.hover:hover {
 	background-color: #aed7ea;
 }

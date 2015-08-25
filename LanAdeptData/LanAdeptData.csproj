@@ -92,7 +92,7 @@
     <Compile Include="Model\LoginHistory.cs" />
     <Compile Include="Model\Permission.cs" />
     <Compile Include="Model\Place.cs" />
-    <Compile Include="Model\PlaceHistory.cs" />
+    <Compile Include="Model\Reservation.cs" />
     <Compile Include="Model\PlaceSection.cs" />
     <Compile Include="Model\Role.cs" />
     <Compile Include="DAL\UnitOfWork.cs" />

@@ -8,8 +8,8 @@ using LanAdeptData.Model;
 
 namespace LanAdeptData.DAL.Places
 {
-	public class PlaceHistoryRepository : GenericRepository<PlaceHistory>
+	public class ReservationRepository : GenericRepository<Reservation>
 	{
-		public PlaceHistoryRepository(LanAdeptDataContext context) : base(context) { }
+		public ReservationRepository(LanAdeptDataContext context) : base(context) { }
 	}
 }

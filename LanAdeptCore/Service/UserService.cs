@@ -88,6 +88,16 @@ namespace LanAdeptCore.Service
 			return System.Text.Encoding.Unicode.GetString(saltByteArray);
 		}
 
+		public static User GetLoggedInUser()
+		{
+			if (!HttpContext.Current.User.Identity.IsAuthenticated)
+				return null;
+
+			return UnitOfWork.Current.UserRepository.GetUserByEmail(HttpContext.Current.User.Identity.Name);
+		}
+
+		/* =============== PRIVÉ =============== */
+
 		private static string HashPassword(string password, string salt)
 		{
 			HashAlgorithm algorithm = SHA256.Create();

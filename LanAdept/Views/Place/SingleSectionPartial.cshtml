@@ -2,14 +2,21 @@
 
 <div class="panel panel-primary">
 	<div class="panel-heading">
-		<h3 class="panel-title">Section @Model.Name</h3>
+		<h3 class="panel-title">
+			Section @Model.Name
+		</h3>
 	</div>
 	<div class="panel-body">
-
-		@foreach (LanAdeptData.Model.Place currentPlace in Model.Places)
+		@if (Model.Places == null || Model.Places.Count == 0)
 		{
-			@Html.Partial("SinglePlacePartial", currentPlace)
+			<text>Cette section ne contient aucune place</text>
+		}
+		else
+		{
+			foreach (LanAdeptData.Model.Place currentPlace in Model.Places)
+			{
+				@Html.Partial("SinglePlacePartial", currentPlace)
+			}
 		}
 	</div>
 </div>
-
