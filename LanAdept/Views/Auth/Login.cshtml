@@ -9,7 +9,7 @@
 	@Html.ValidationSummary("", new { @class = "text-danger" })
 
 	@Html.LabelFor(model => model.Email, new { @class = "sr-only" })
-	@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", autofocus = true, placeholder = Html.NameFor(m2 => m2.Email), maxlength = 20 } })
+	@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", autofocus = true, placeholder = Html.NameFor(m2 => m2.Email)} })
 
 	@Html.LabelFor(model => model.Password, new { @class = "sr-only" })
 	@Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = Html.NameFor(m2 => m2.Password) } })
