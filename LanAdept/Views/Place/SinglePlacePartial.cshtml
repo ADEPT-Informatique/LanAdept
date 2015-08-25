@@ -1,3 +1,27 @@
 ﻿@model LanAdeptData.Model.Place
 
-<div class="col-md-1 col-sm-2 col-xs-4 text-center">@Model.PlaceSection.Name-@Model.Number</div>
+@{
+	string classFirstDiv = "place";
+
+	if (Model.Number == 3)
+	{
+		classFirstDiv += " place-actuelle";
+	}
+	else if (Model.Number % 7 == 0)
+	{
+		classFirstDiv += " place-occupe";
+	}
+	else if(Model.Number % 5 == 0)
+	{
+		classFirstDiv += " place-libre";
+	}
+
+}
+
+<div class="col-md-1 col-sm-2 col-xs-4 @classFirstDiv">
+	<div class="hover">
+		<a href="#">
+			@Model.PlaceSection.Name-@Model.Number
+		</a>
+	</div>
+</div>

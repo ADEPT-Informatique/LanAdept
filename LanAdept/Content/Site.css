@@ -1,25 +1,25 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+	padding-top: 50px;
+	padding-bottom: 20px;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+	padding-left: 15px;
+	padding-right: 15px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
 .dl-horizontal dt {
-    white-space: normal;
+	white-space: normal;
 }
 
 .panel-body.termsAndCondition {
-	height:100%;
-	overflow-y:auto;
-	overflow-x:hidden;
+	height: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .input-validation-error.form-control {
@@ -27,11 +27,12 @@
 	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
 	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
 }
-.input-validation-error.form-control:focus {
-  border-color: #843534;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
-}
+
+	.input-validation-error.form-control:focus {
+		border-color: #843534;
+		-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+		box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+	}
 
 
 /*body {
@@ -39,3 +40,62 @@
     background-size:contain;
 	background-repeat:no-repeat;
 }*/
+.place {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+	.place div {
+		height: 75px;
+		line-height: 75px;
+		margin: 5px 0;
+		background-color: #eeeeee;
+		border: 1px solid #dddddd;
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		border-radius: 3px;
+		text-align: center;
+		color: #333;
+		font-weight: bold;
+	}
+
+	.place div.hover:hover {
+		background-color: #dddddd;
+	}
+
+	.place a {
+		display: block;
+		height: 75px;
+		color: #333;
+	}
+
+	.place a:hover {
+		text-decoration: none;
+	}
+
+.place-occupe div {
+	background-color: #F9E5E6;
+	border: 1px solid #FAD2D3;
+}
+
+.place-occupe div.hover:hover {
+	background-color: #FAD2D3;
+}
+
+.place-actuelle div {
+	background-color: #E3EBC6;
+	border: 1px solid #CDDB9B;
+}
+
+.place-actuelle div.hover:hover {
+	background-color: #CDDB9B;
+}
+
+.place-libre div {
+	background-color: #d8ecf5;
+	border: 1px solid #aed7ea;
+}
+
+.place-libre div.hover:hover {
+	background-color: #aed7ea;
+}

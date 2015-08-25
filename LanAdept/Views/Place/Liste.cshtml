@@ -1,6 +1,12 @@
 ﻿@model LanAdept.Views.Place.ViewModel.ListeModel
 
-<h1>Liste des places du LAN</h1>
+@{
+	ViewBag.Title = "Liste des places";
+}
+
+<div class="page-header">
+	<h1>Liste des places</h1>
+</div>
 
 @foreach (PlaceSection sectionCourante in Model.Sections)
 {
