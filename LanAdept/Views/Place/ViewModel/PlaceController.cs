@@ -8,16 +8,17 @@ using LanAdeptData.DAL;
 
 namespace LanAdept.Controllers
 {
-	[Authorize]
 	public class PlaceController : Controller
 	{
 		private UnitOfWork uow = UnitOfWork.Current;
 
+		[AllowAnonymous]
 		public ActionResult Index()
 		{
 			return RedirectToAction("Liste");
 		}
 
+		[AllowAnonymous]
 		public ActionResult Liste()
 		{
 			ListeModel listeModel = new ListeModel();

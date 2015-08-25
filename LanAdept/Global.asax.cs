@@ -18,10 +18,6 @@ namespace LanAdept
 			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
-
-#if DEBUG
-            GlobalFilters.Filters.Add(new AuthorizationRequiredAttribute());
-#endif
         }
 
         protected virtual void Application_BeginRequest()
