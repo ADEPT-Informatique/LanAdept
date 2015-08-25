@@ -8,43 +8,44 @@
 		<div class="container-page">
 			@using (Html.BeginForm("Register", "Auth", FormMethod.Post))
 			{
-				<div class="col-md-6">
+				<div class="col-sm-5 col-md-6">
 
 					<h3>Inscription</h3>
+
 					<div id="subLeftCol" class="clearfix">
-						<div class="form-group col-lg-12">
+						<div class="form-group col-lg-12 remove-padding">
 							@Html.LabelFor(model => model.CompleteName)
 							@Html.EditorFor(model => model.CompleteName, new { htmlAttributes = new { @class = "form-control" } })
 							@Html.ValidationMessageFor(model => model.CompleteName, "", new { @class = "text-danger" })
 						</div>
 
-						<div class="form-group col-lg-6">
-							@Html.LabelFor(model => model.Password)
-							@Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-							@Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-						</div>
-
-						<div class="form-group col-lg-6">
-							@Html.LabelFor(model => model.PasswordConfirmation)
-							@Html.EditorFor(model => model.PasswordConfirmation, new { htmlAttributes = new { @class = "form-control" } })
-							@Html.ValidationMessageFor(model => model.PasswordConfirmation, "", new { @class = "text-danger" })
-						</div>
-
-						<div class="form-group col-lg-6">
+						<div class="form-group col-lg-6 remove-padding">
 							@Html.LabelFor(model => model.Email)
 							@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
 							@Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
 						</div>
 
-						<div class="form-group col-lg-6">
+						<div class="form-group col-lg-6 remove-padding">
 							@Html.LabelFor(model => model.EmailConfirmation)
 							@Html.EditorFor(model => model.EmailConfirmation, new { htmlAttributes = new { @class = "form-control" } })
 							@Html.ValidationMessageFor(model => model.EmailConfirmation, "", new { @class = "text-danger" })
 						</div>
+
+						<div class="form-group col-lg-6 remove-padding">
+							@Html.LabelFor(model => model.Password)
+							@Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+							@Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+						</div>
+
+						<div class="form-group col-lg-6 remove-padding">
+							@Html.LabelFor(model => model.PasswordConfirmation)
+							@Html.EditorFor(model => model.PasswordConfirmation, new { htmlAttributes = new { @class = "form-control" } })
+							@Html.ValidationMessageFor(model => model.PasswordConfirmation, "", new { @class = "text-danger" })
+						</div>
 					</div>
 				</div>
 
-				<div class="col-md-6">
+				<div class="col-sm-7 col-md-6">
 					<h3>Règlements</h3>
 					<div class="panel panel-default" id="subRightCol">
 						<div class="panel-body termsAndCondition">
@@ -85,4 +86,13 @@
 	</script>
 	@Scripts.Render("~/bundles/jqueryval")
 
+}
+@section Styles {
+	<style>
+		@@media (max-width: 1199px) {
+			.remove-padding {
+				padding: 0;
+			}
+		}
+	</style>
 }
