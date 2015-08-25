@@ -176,8 +176,8 @@
     <Content Include="Views\Auth\Login.cshtml" />
     <Content Include="Views\Auth\Register.cshtml" />
     <Content Include="Views\Auth\Message.cshtml" />
-    <Content Include="Views\Place\SinglePlacePartial.cshtml" />
-    <Content Include="Views\Place\SingleSectionPartial.cshtml" />
+    <Content Include="Views\Place\Partial\SinglePlacePartial.cshtml" />
+    <Content Include="Views\Place\Partial\SingleSectionPartial.cshtml" />
     <Content Include="Views\Place\Liste.cshtml" />
   </ItemGroup>
   <ItemGroup>
