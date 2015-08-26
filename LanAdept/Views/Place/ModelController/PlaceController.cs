@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using LanAdept.Views.Place.ViewModel;
+using LanAdept.Views.Place.ModelController;
 using LanAdeptData.DAL;
 
 namespace LanAdept.Controllers
