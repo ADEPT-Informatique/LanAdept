@@ -3,27 +3,38 @@
 @{
 	string classFirstDiv = "place";
 
-	/*if (Model.LastPlaceHistory != null
-		&& Model.LastPlaceHistory.User != null
-		&& Model.LastPlaceHistory.User == LanAdeptCore.Service.UserService.GetLoggedInUser())
+	if (Model.LastReservation != null && !Model.LastReservation.EstAnnule)
 	{
-		classFirstDiv += " place-actuelle";
+		if (Model.LastReservation.User != null
+			&& Model.LastReservation.User == LanAdeptCore.Service.UserService.GetLoggedInUser()
+			&& Model.LastReservation.DateDepart == null)
+		{
+			classFirstDiv += " place-actuelle";
+		}
+		else if (Model.LastReservation.EstOccupe)
+		{
+			classFirstDiv += " place-occupe";
+		}
+		else
+		{
+			classFirstDiv += " place-reserve";
+		}
 	}
-	else if (Model.EstOccupe)
-	{
-		classFirstDiv += " place-occupe";
-	}
-	else if(Model.EstReserve)
-	{
-		classFirstDiv += " place-reserve";
-	}*/
 
+	string placeText = Model.PlaceSection.Name + "-" + Model.Number;
 }
 
 <div class="col-md-1 col-sm-2 col-xs-4 @classFirstDiv">
-	<div class="hover">
-		<a href="#">
-			@Model.PlaceSection.Name-@Model.Number
-		</a>
-	</div>
+	@if (Html.HasActionPermission("Place"))
+	{
+		<div class="hover" data-toggle="modal" data-target="#ModalReserverPlace" data-whatever="TEEESsstst">
+			@placeText
+		</div>
+	}
+	else
+	{
+		<div>
+			@placeText
+		</div>
+	}
 </div>
