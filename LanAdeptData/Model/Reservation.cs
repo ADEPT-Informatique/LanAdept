@@ -10,13 +10,13 @@ namespace LanAdeptData.Model
 	{
 		public int ReservationID { get; set; }
 
-		public bool EstAnnule { get; set; }
-
 		public DateTime DateCreation { get; set; }
 
 		public DateTime? DateArrive { get; set; }
 
 		public DateTime? DateDepart { get; set; }
+
+		public DateTime? DateAnnulation { get; set; }
 
 		#region Navigation properties
 
@@ -31,6 +31,11 @@ namespace LanAdeptData.Model
 		public bool EstOccupe
 		{
 			get { return DateArrive != null && DateDepart == null; }
+		}
+
+		public bool EstAnnule
+		{
+			get { return DateAnnulation == null; }
 		}
 
 		#endregion

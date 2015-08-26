@@ -27,5 +27,16 @@ namespace LanAdept.Controllers
 
 			return View(listeModel);
 		}
+
+		[Authorize]
+		public ActionResult Place(int? id)
+		{
+			if (id == null)
+				return RedirectToAction("Liste");
+
+
+
+			return View();
+		}
 	}
 }

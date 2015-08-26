@@ -77,7 +77,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DAL\DataInitializer.cs" />
     <Compile Include="DAL\Generic\GenericRepository.cs" />
     <Compile Include="DAL\Generic\IRepository.cs" />
     <Compile Include="DAL\Generic\IUnitOfWork.cs" />

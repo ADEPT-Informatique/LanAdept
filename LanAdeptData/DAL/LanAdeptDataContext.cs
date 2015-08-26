@@ -12,9 +12,7 @@ namespace LanAdeptData.DAL
 	public class LanAdeptDataContext : DbContext
 	{
 		public LanAdeptDataContext() : base("name=LanAdeptDataContext") 
-		{
-			Database.SetInitializer<LanAdeptDataContext>(new DataInitializer());
-		}
+		{ }
 
 		public DbSet<User> Users { get; set; }
 		public DbSet<Role> Roles { get; set; }

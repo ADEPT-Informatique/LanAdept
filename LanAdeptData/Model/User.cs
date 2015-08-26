@@ -11,6 +11,8 @@ namespace LanAdeptData.Model
 {
 	public class User
 	{
+		[Key]
+		[DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
 		public int UserID { get; set; }
 
 		[Required]
@@ -19,9 +21,6 @@ namespace LanAdeptData.Model
 		[Index("UK_User_Email", IsUnique = true)]
 		[UniqueEmail]
 		public string Email { get; set; }
-
-		[StringLength(60, MinimumLength = 4)]
-		public string Username { get; set; }
 
 		[Required]
 		public string Password { get; set; }

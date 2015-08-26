@@ -62,6 +62,7 @@
 
 	.place div.hover:hover {
 		background-color: #dddddd;
+		cursor: pointer;
 	}
 
 	.place a {

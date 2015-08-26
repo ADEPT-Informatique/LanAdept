@@ -179,6 +179,8 @@
     <Content Include="Views\Place\Partial\SinglePlacePartial.cshtml" />
     <Content Include="Views\Place\Partial\SingleSectionPartial.cshtml" />
     <Content Include="Views\Place\Liste.cshtml" />
+    <Content Include="Views\Place\Place.cshtml" />
+    <Content Include="Views\Place\Partial\ModalReserverPlacePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
