@@ -1,9 +1,4 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
-
-<input type="hidden" id="dateLan" value="@ViewBag.dateLan" />
-
+﻿
 <div class="jumbotron">
     <div class="row">
         <div class="col-md-6">
@@ -11,8 +6,8 @@
         </div>
 
         <div class="col-md-6 text-center">
-            <h2 id="date"></h2>
             <h2 id="timer"></h2>
+            <h2 id="date"></h2>
             @Html.AuthorizeActionLink("Inscrivez-vous des maintenant!", "Register", "Auth", "", "class=\"text-center btn btn-primary\" role=\"button\"")
         </div>
     </div>
@@ -21,9 +16,9 @@
 @section Scripts{
     <script type="text/javascript">
         $(document).ready(function () {
-            var dateLan = new Date(parseInt($("#dateLan").val()));
-            $("#date").text("Prochain LAN le " + dateLan.toUTCString());
 
+            var jourSemaine = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
+            var mois = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
 
             function setTimer() {
                 var dateNow = new Date();
@@ -38,9 +33,31 @@
                 minutes = minutes - (days * 24 * 60) - (hours * 60);
                 seconds = seconds - (days * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60);
 
-                $("#timer").text("Il reste " + days + " jours " + hours + " heures " + minutes + " minutes " + seconds + " secondes");
+                $("#timer").text("Prochain LAN dans " + days + " jours " + addLeadingZero(hours) + ":" + addLeadingZero(minutes) + ":" + addLeadingZero(seconds));
 
             }
+
+			function dateToString(date) {
+				var strDate = "";
+
+				strDate += jourSemaine[date.getDay()];
+				strDate += " le " + date.getDate();
+				strDate += " " + mois[date.getMonth()];
+				strDate += " " + date.getFullYear();
+				strDate += " à " + addLeadingZero(date.getHours());
+				strDate += ":" + addLeadingZero(date.getMinutes());
+
+				return strDate;
+			}
+
+			function addLeadingZero(number) {
+				return ("0" + number).slice(-2);
+			}
+
+			var dateLan = new Date(@ViewBag.dateLan);
+
+        	$("#date").text(dateToString(dateLan));
+
             setTimer();
             setInterval(setTimer, 1000);
         });
