@@ -10,14 +10,34 @@
 	<h1>Liste des places</h1>
 </div>
 
+@if (!string.IsNullOrWhiteSpace(Model.Type))
+{
+	if (Model.Type.ToLower() == "erreur")
+	{
+		<div class="alert alert-danger" role="alert">
+			@Model.Message
+		</div>
+	}
+	else if (Model.Type.ToLower() == "succes")
+	{
+		<div class="alert alert-success" role="alert">
+			@Model.Message
+		</div>
+	}
+}
+
+<div class="alert alert-warning" role="alert">
+	Le LAN a déjà débuté. Il n'est donc plus possible de réserver une place. Si vous désirez changer de place, veuillez vous rendre à l'accueil.
+</div>
+
+
 @foreach (PlaceSection sectionCourante in Model.Sections)
 {
 	@Html.Partial("SingleSectionPartial", sectionCourante)
 }
 
 
-
-<div class="panel panel-info">
+<div class="panel panel-default">
 	<div class="panel-heading">
 		<h3 class="panel-title">
 			Légende
@@ -51,3 +71,19 @@
 
 	</div>
 </div>
+
+@section scripts {
+
+	<script>
+		$('#ModalReserverPlace').on('show.bs.modal', function (event) {
+			var button = $(event.relatedTarget);
+			var placeID = button.data('placeId');
+			var text = button.data('placeText');
+
+			var modal = $(this);
+			modal.find('.modal-place-text').text(text);
+			modal.find('.btnReserver').attr("href", "@Url.Action("Reserver")/" + placeID)
+		})
+	</script>
+
+}

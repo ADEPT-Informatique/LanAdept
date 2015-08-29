@@ -21,13 +21,13 @@
 		}
 	}
 
-	string placeText = Model.PlaceSection.Name + "-" + Model.Number;
+	string placeText = Model.PlaceSection.Name + Model.Number.ToString("00");
 }
 
 <div class="col-md-1 col-sm-2 col-xs-4 @classFirstDiv">
-	@if (Html.HasActionPermission("Place"))
+	@if (Html.HasActionPermission("Reserver"))
 	{
-		<div class="hover" data-toggle="modal" data-target="#ModalReserverPlace" data-whatever="TEEESsstst">
+		<div class="hover" data-toggle="modal" data-target="#ModalReserverPlace" data-place-text="@placeText" data-place-id="@Model.PlaceID">
 			@placeText
 		</div>
 	}
