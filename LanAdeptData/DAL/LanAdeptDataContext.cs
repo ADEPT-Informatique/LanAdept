@@ -21,6 +21,9 @@ namespace LanAdeptData.DAL
 		public DbSet<Place> Places { get; set; }
 		public DbSet<PlaceSection> PlaceSections { get; set; }
 		public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Tournament> Tournaments { get; set; }
+        public DbSet<Team> Teams { get; set; }
+        public DbSet<Game> Games { get; set; }
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{

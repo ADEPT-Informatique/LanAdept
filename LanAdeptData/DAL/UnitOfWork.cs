@@ -7,134 +7,174 @@ using System.Web;
 using LanAdeptData.DAL.Generic;
 using LanAdeptData.DAL.Places;
 using LanAdeptData.DAL.Users;
+using LanAdeptData.DAL.Tournaments;
 
 namespace LanAdeptData.DAL
 {
-	public class UnitOfWork : IUnitOfWork
-	{
-		private LanAdeptDataContext context;
+    public class UnitOfWork : IUnitOfWork
+    {
+        private LanAdeptDataContext context;
 
-		public static UnitOfWork Current
-		{
-			get { return HttpContext.Current.Items["_UnitOfWork"] as UnitOfWork; }
-		}
+        public static UnitOfWork Current
+        {
+            get { return HttpContext.Current.Items["_UnitOfWork"] as UnitOfWork; }
+        }
 
-		public UnitOfWork()
-		{
-			context = new LanAdeptDataContext();
-		}
+        public UnitOfWork()
+        {
+            context = new LanAdeptDataContext();
+        }
 
-		private UserRepository userRepository;
-		public UserRepository UserRepository
-		{
-			get
-			{
-				if (userRepository == null)
-					userRepository = new UserRepository(context);
+        private UserRepository userRepository;
+        public UserRepository UserRepository
+        {
+            get
+            {
+                if (userRepository == null)
+                    userRepository = new UserRepository(context);
 
-				return userRepository;
-			}
-		}
+                return userRepository;
+            }
+        }
 
-		private RoleRepository roleRepository;
-		public RoleRepository RoleRepository
-		{
-			get
-			{
-				if (roleRepository == null)
-					roleRepository = new RoleRepository(context);
+        private RoleRepository roleRepository;
+        public RoleRepository RoleRepository
+        {
+            get
+            {
+                if (roleRepository == null)
+                    roleRepository = new RoleRepository(context);
 
-				return roleRepository;
-			}
-		}
+                return roleRepository;
+            }
+        }
 
-		private PermissionRepository permissionRepository;
-		public PermissionRepository PermissionRepository
-		{
-			get
-			{
-				if (permissionRepository == null)
-					permissionRepository = new PermissionRepository(context);
+        private PermissionRepository permissionRepository;
+        public PermissionRepository PermissionRepository
+        {
+            get
+            {
+                if (permissionRepository == null)
+                    permissionRepository = new PermissionRepository(context);
 
-				return permissionRepository;
-			}
-		}
+                return permissionRepository;
+            }
+        }
 
-		private LoginHistoryRepository loginHistoryRepository;
-		public LoginHistoryRepository LoginHistoryRepository
-		{
-			get
-			{
-				if (loginHistoryRepository == null)
-					loginHistoryRepository = new LoginHistoryRepository(context);
+        private LoginHistoryRepository loginHistoryRepository;
+        public LoginHistoryRepository LoginHistoryRepository
+        {
+            get
+            {
+                if (loginHistoryRepository == null)
+                    loginHistoryRepository = new LoginHistoryRepository(context);
 
-				return loginHistoryRepository;
-			}
-		}
+                return loginHistoryRepository;
+            }
+        }
 
-		private PlaceRepository placeRepository;
-		public PlaceRepository PlaceRepository
-		{
-			get
-			{
-				if (placeRepository == null)
-					placeRepository = new PlaceRepository(context);
+        private PlaceRepository placeRepository;
+        public PlaceRepository PlaceRepository
+        {
+            get
+            {
+                if (placeRepository == null)
+                    placeRepository = new PlaceRepository(context);
 
-				return placeRepository;
-			}
-		}
+                return placeRepository;
+            }
+        }
 
-		private PlaceSectionRepository placeSectionRepository;
-		public PlaceSectionRepository PlaceSectionRepository
-		{
-			get
-			{
-				if (placeSectionRepository == null)
-					placeSectionRepository = new PlaceSectionRepository(context);
+        private PlaceSectionRepository placeSectionRepository;
+        public PlaceSectionRepository PlaceSectionRepository
+        {
+            get
+            {
+                if (placeSectionRepository == null)
+                    placeSectionRepository = new PlaceSectionRepository(context);
 
-				return placeSectionRepository;
-			}
-		}
+                return placeSectionRepository;
+            }
+        }
 
-		private ReservationRepository placeHistoryRepository;
-		public ReservationRepository PlaceHistoryRepository
-		{
-			get
-			{
-				if (placeHistoryRepository == null)
-					placeHistoryRepository = new ReservationRepository(context);
+        private ReservationRepository placeHistoryRepository;
+        public ReservationRepository PlaceHistoryRepository
+        {
+            get
+            {
+                if (placeHistoryRepository == null)
+                    placeHistoryRepository = new ReservationRepository(context);
 
-				return placeHistoryRepository;
-			}
-		}
+                return placeHistoryRepository;
+            }
+        }
+
+        private TournamentRepository tournamentRepository;
+        public TournamentRepository TournamentRepository
+        {
+            get
+            {
+                if (tournamentRepository == null)
+                {
+                    tournamentRepository = new TournamentRepository(context);
+                }
+                return tournamentRepository;
+            }
+        }
+
+        private TeamRepository teamRepository;
+        public TeamRepository TeamRepository
+        {
+            get
+            {
+                if (teamRepository == null)
+                {
+                    teamRepository = new TeamRepository(context);
+                }
+                return teamRepository;
+            }
+        }
+
+        private GameRepository gameRepository;
+        public GameRepository GameRepository
+        {
+            get
+            {
+                if (gameRepository == null)
+                {
+                    gameRepository = new GameRepository(context);
+                }
+                return gameRepository;
+            }
+        }
 
 
-		public void Save()
-		{
-			context.SaveChanges();
-		}
+        public void Save()
+        {
+            context.SaveChanges();
+        }
 
-		#region IDisposable
+        #region IDisposable
 
-		private bool disposed = false;
-		protected virtual void Dispose(bool disposing)
-		{
-			if (!this.disposed)
-			{
-				if (disposing)
-				{
-					context.Dispose();
-				}
-			}
-			this.disposed = true;
-		}
+        private bool disposed = false;
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    context.Dispose();
+                }
+            }
+            this.disposed = true;
+        }
 
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
-		#endregion
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        #endregion
 
-	}
+    }
 }
