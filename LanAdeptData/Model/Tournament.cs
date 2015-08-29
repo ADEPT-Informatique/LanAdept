@@ -12,6 +12,6 @@ namespace LanAdeptData.Model
 
         public virtual Game Game { get; set; }
 
-        public virtual IEnumerable<Team> Teams { get; set; }
+        public virtual ICollection<Team> Teams { get; set; }
     }
 }
