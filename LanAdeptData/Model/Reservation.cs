@@ -10,13 +10,13 @@ namespace LanAdeptData.Model
 	{
 		public int ReservationID { get; set; }
 
-		public DateTime DateCreation { get; set; }
+		public DateTime CreationDate { get; set; }
 
-		public DateTime? DateArrive { get; set; }
+		public DateTime? ArrivalDate { get; set; }
 
-		public DateTime? DateDepart { get; set; }
+		public DateTime? LeavingDate { get; set; }
 
-		public DateTime? DateAnnulation { get; set; }
+		public DateTime? CancellationDate { get; set; }
 
 		#region Navigation properties
 
@@ -28,14 +28,9 @@ namespace LanAdeptData.Model
 
 		#region Calculated properties
 
-		public bool EstOccupe
+		public bool IsCancelled
 		{
-			get { return DateArrive != null && DateDepart == null; }
-		}
-
-		public bool EstAnnule
-		{
-			get { return DateAnnulation == null; }
+			get { return CancellationDate == null; }
 		}
 
 		#endregion

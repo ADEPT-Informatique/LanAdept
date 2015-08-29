@@ -34,6 +34,46 @@ namespace LanAdeptData.Model
 			}
 		}
 
+		/// <summary>
+		/// Determine wether the place is currently available and free or not
+		/// </summary>
+		public bool IsFree
+		{
+			get
+			{
+				return LastReservation == null
+					|| LastReservation.IsCancelled == true
+					|| LastReservation.LeavingDate != null;
+			}
+		}
+
+		/// <summary>
+		/// Determine whether the place is reserved or not
+		/// </summary>
+		public bool IsReserved
+		{
+			get
+			{
+				return LastReservation != null
+					&& LastReservation.IsCancelled == false
+					&& LastReservation.ArrivalDate == null;
+			}
+		}
+
+		/// <summary>
+		/// Determined wether there is actually someone sitting at this place or not
+		/// </summary>
+		public bool IsOccupied
+		{
+			get
+			{
+				return LastReservation != null
+					&& LastReservation.ArrivalDate != null
+					&& LastReservation.LeavingDate == null;
+			}
+		}
+
+
 		#endregion
 	}
 }

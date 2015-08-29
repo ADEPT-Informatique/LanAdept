@@ -3,15 +3,15 @@
 @{
 	string classFirstDiv = "place";
 
-	if (Model.LastReservation != null && !Model.LastReservation.EstAnnule)
+	if (!Model.IsFree)
 	{
 		if (Model.LastReservation.User != null
 			&& Model.LastReservation.User == LanAdeptCore.Service.UserService.GetLoggedInUser()
-			&& Model.LastReservation.DateDepart == null)
+			&& Model.LastReservation.ArrivalDate == null)
 		{
 			classFirstDiv += " place-actuelle";
 		}
-		else if (Model.LastReservation.EstOccupe)
+		else if (Model.IsOccupied)
 		{
 			classFirstDiv += " place-occupe";
 		}
