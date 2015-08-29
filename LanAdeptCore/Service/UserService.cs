@@ -62,7 +62,13 @@ namespace LanAdeptCore.Service
 			UnitOfWork.Current.UserRepository.Update(realUser);
 			UnitOfWork.Current.Save();
 
-			FormsAuthentication.SetAuthCookie(realUser.Email, rememberUser);
+			// Set le cookie de connexion avec un long timeout si le user veux rester connecté
+			int timeout = rememberUser ? 525600 : 30; //525600 = 1 an
+			var ticket = new FormsAuthenticationTicket(realUser.Email, rememberUser, timeout);
+			string encrypted = FormsAuthentication.Encrypt(ticket);
+			var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encrypted);
+			cookie.Expires = System.DateTime.Now.AddMinutes(timeout);//My Line
+			HttpContext.Current.Response.Cookies.Add(cookie);			
 
 			return new TryLoginResult() { HasSucceeded = true, User = realUser };
 		}
