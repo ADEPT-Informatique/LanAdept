@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using LanAdept.Views.Place.ModelController;
+using LanAdeptCore.Service;
+using LanAdeptCore.Service.ServiceResult;
 using LanAdeptData.DAL;
 using LanAdeptData.Model;
 
@@ -22,12 +24,10 @@ namespace LanAdept.Controllers
 		}
 
 		[AllowAnonymous]
-		public ActionResult Liste(string message, string type)
+		public ActionResult Liste()
 		{
 			ListeModel listeModel = new ListeModel();
 
-			listeModel.Message = message;
-			listeModel.Type = type;
 			listeModel.Sections = uow.PlaceSectionRepository.Get();
 
 			return View(listeModel);
@@ -37,14 +37,30 @@ namespace LanAdept.Controllers
 		public ActionResult Reserver(int? id)
 		{
 			if (id == null || id < 1)
-				return RedirectToAction("Liste", new { message = ERROR_INVALID_ID, type = "erreur" });
+			{
+				TempData["Error"] = ERROR_INVALID_ID;
+				return RedirectToAction("Liste");
+			}
 
 			Place placeAReserver = uow.PlaceRepository.GetByID(id.Value);
 
-			if(placeAReserver == null)
-				return RedirectToAction("Liste", new { message = ERROR_INVALID_ID, type = "erreur" });
+			if (placeAReserver == null)
+			{
+				TempData["Error"] = ERROR_INVALID_ID;
+				return RedirectToAction("Liste");
+			}
 
-			return RedirectToAction("Liste", new { message = "La place " + placeAReserver.PlaceSection.Name + placeAReserver.Number.ToString("00") + " a été réservée (SIMUL)", type = "succes" });
+			BaseResult result = PlaceService.ReservePlace(placeAReserver);
+
+			if (result.HasError)
+			{
+				TempData["Error"] = result.Message;
+			}
+			else {
+				TempData["Success"] = "La place <strong>" + placeAReserver + "</strong> a bien été réservée!";
+			}
+
+			return RedirectToAction("Liste");
 		}
 	}
 }

@@ -30,7 +30,7 @@ namespace LanAdeptData.Model
 
 		public bool IsCancelled
 		{
-			get { return CancellationDate == null; }
+			get { return CancellationDate != null; }
 		}
 
 		#endregion

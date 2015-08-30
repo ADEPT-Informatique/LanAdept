@@ -10,24 +10,22 @@
 	<h1>Liste des places</h1>
 </div>
 
-@if (!string.IsNullOrWhiteSpace(Model.Type))
+@if (!string.IsNullOrWhiteSpace(TempData["Error"] as string))
 {
-	if (Model.Type.ToLower() == "erreur")
-	{
-		<div class="alert alert-danger" role="alert">
-			@Model.Message
-		</div>
-	}
-	else if (Model.Type.ToLower() == "succes")
-	{
-		<div class="alert alert-success" role="alert">
-			@Model.Message
-		</div>
-	}
+	<div class="alert alert-danger" role="alert">
+		@Html.Raw(TempData["Error"])
+	</div>
+}
+@if (!string.IsNullOrWhiteSpace(TempData["Success"] as string))
+{
+	<div class="alert alert-success" role="alert">
+		@Html.Raw(TempData["Success"])
+	</div>
 }
 
+
 <div class="alert alert-warning" role="alert">
-	Le LAN a déjà débuté. Il n'est donc plus possible de réserver une place. Si vous désirez changer de place, veuillez vous rendre à l'accueil.
+	(JE SUIS HARDCODER)<br />Le LAN a déjà débuté. Il n'est donc plus possible de réserver une place. Si vous désirez changer de place, veuillez vous rendre à l'accueil.
 </div>
 
 

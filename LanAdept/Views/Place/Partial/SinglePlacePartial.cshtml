@@ -5,9 +5,7 @@
 
 	if (!Model.IsFree)
 	{
-		if (Model.LastReservation.User != null
-			&& Model.LastReservation.User == LanAdeptCore.Service.UserService.GetLoggedInUser()
-			&& Model.LastReservation.ArrivalDate == null)
+		if (LanAdeptCore.Service.PlaceService.IsUserPlace(Model))
 		{
 			classFirstDiv += " place-actuelle";
 		}
@@ -20,21 +18,21 @@
 			classFirstDiv += " place-reserve";
 		}
 	}
-
-	string placeText = Model.PlaceSection.Name + Model.Number.ToString("00");
 }
 
 <div class="col-md-1 col-sm-2 col-xs-4 @classFirstDiv">
-	@if (Html.HasActionPermission("Reserver"))
+	@if (Html.HasActionPermission("Reserver") 
+		&& Model.IsFree
+		&& !LanAdeptCore.Service.PlaceService.IsUserPlace(Model))
 	{
-		<div class="hover" data-toggle="modal" data-target="#ModalReserverPlace" data-place-text="@placeText" data-place-id="@Model.PlaceID">
-			@placeText
+		<div class="hover" data-toggle="modal" data-target="#ModalReserverPlace" data-place-text="@Model" data-place-id="@Model.PlaceID">
+			@Model
 		</div>
 	}
 	else
 	{
 		<div>
-			@placeText
+			@Model
 		</div>
 	}
 </div>

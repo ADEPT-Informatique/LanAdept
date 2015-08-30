@@ -75,5 +75,10 @@ namespace LanAdeptData.Model
 
 
 		#endregion
+
+		public override string ToString()
+		{
+			return PlaceSection.Name + Number.ToString("00");
+		}
 	}
 }
