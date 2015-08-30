@@ -1,41 +1,64 @@
 ﻿
 <div class="jumbotron">
-    <div class="row">
-        <div class="col-md-6">
-            <img src="~/Image/LOGO_noir_Transparent.png" class="img-responsive center-block " />
-        </div>
+	<div class="row">
+		<img src="~/Image/LOGO_noir_Transparent.png" class="img-responsive center-block " />
+	</div>
+	<div class="row text-center">
+		<h2 id="date"></h2>
+		@Html.AuthorizeActionLink("Inscrivez-vous dès maintenant!", "Register", "Auth", null, new { @class = "text-center btn btn-primary", @role = "button" })
+	</div>
+</div>
 
-        <div class="col-md-6 text-center">
-            <h2 id="timer"></h2>
-            <h2 id="date"></h2>
-            @Html.AuthorizeActionLink("Inscrivez-vous des maintenant!", "Register", "Auth", "", "class=\"text-center btn btn-primary\" role=\"button\"")
-        </div>
-    </div>
+<div class="row text-center">
+	<div class="col-sm-3">
+		<h1 id="days"></h1>
+		<hr />
+		<h4>jours</h4>
+	</div>
+	<div class="col-sm-3">
+		<h1 id="hours"></h1>
+		<hr />
+		<h4>heures</h4>
+	</div>
+	<div class="col-sm-3">
+		<h1 id="minutes"></h1>
+		<hr />
+		<h4>minutes</h4>
+	</div>
+	<div class="col-sm-3">
+		<h1 id="seconds"></h1>
+		<hr />
+		<h4>secondes</h4>
+	</div>
 </div>
 
 @section Scripts{
-    <script type="text/javascript">
-        $(document).ready(function () {
+	<script type="text/javascript">
+		$(document).ready(function () {
 
-            var jourSemaine = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
-            var mois = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+			var jourSemaine = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
+			var mois = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
 
-            function setTimer() {
-                var dateNow = new Date();
-                var timeDiff = new Date(dateLan - dateNow);
+			function setTimer() {
+				var dateNow = new Date();
+				var timeDiff = new Date(dateLan - dateNow);
 
-                var seconds = Math.floor((dateLan.getTime() - (new Date().getTime())) / 1000);
-                var minutes = Math.floor(seconds / 60);
-                var hours = Math.floor(minutes / 60);
-                var days = Math.floor(hours / 24);
+				var seconds = Math.floor((dateLan.getTime() - (new Date().getTime())) / 1000);
+				var minutes = Math.floor(seconds / 60);
+				var hours = Math.floor(minutes / 60);
+				var days = Math.floor(hours / 24);
 
-                hours = hours - (days * 24);
-                minutes = minutes - (days * 24 * 60) - (hours * 60);
-                seconds = seconds - (days * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60);
+				hours = hours - (days * 24);
+				minutes = minutes - (days * 24 * 60) - (hours * 60);
+				seconds = seconds - (days * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60);
 
-                $("#timer").text("Prochain LAN dans " + days + " jours " + addLeadingZero(hours) + ":" + addLeadingZero(minutes) + ":" + addLeadingZero(seconds));
+				//$("#timer").text("Prochain LAN dans " + days + " jours " + addLeadingZero(hours) + ":" + addLeadingZero(minutes) + ":" + addLeadingZero(seconds));
+				$("#days").text(days);
+				$("#hours").text(addLeadingZero(hours));
+				$("#minutes").text(addLeadingZero(minutes));
+				$("#seconds").text(addLeadingZero(seconds));
 
-            }
+			}
 
 			function dateToString(date) {
 				var strDate = "";
@@ -56,10 +79,10 @@
 
 			var dateLan = new Date(@ViewBag.dateLan);
 
-        	$("#date").text(dateToString(dateLan));
+			$("#date").text(dateToString(dateLan));
 
-            setTimer();
-            setInterval(setTimer, 1000);
-        });
-    </script>
+			setTimer();
+			setInterval(setTimer, 1000);
+		});
+	</script>
 }
