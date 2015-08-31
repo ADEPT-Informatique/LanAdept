@@ -18,6 +18,8 @@
 			classFirstDiv += " place-reserve";
 		}
 	}
+	
+	bool userHaveAPlace = true;
 }
 
 <div class="col-md-1 col-sm-2 col-xs-4 @classFirstDiv">
@@ -26,6 +28,12 @@
 		&& !LanAdeptCore.Service.PlaceService.IsUserPlace(Model))
 	{
 		<div class="hover" data-toggle="modal" data-target="#ModalReserverPlace" data-place-text="@Model" data-place-id="@Model.PlaceID">
+			@Model
+		</div>
+	}
+	else if (userHaveAPlace)
+	{
+		<div class="hover" data-toggle="modal" data-target="#ModalChangerPlace" data-place-text="@Model" data-place-id="@Model.PlaceID">
 			@Model
 		</div>
 	}

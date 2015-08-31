@@ -26,11 +26,12 @@
                 <ul class="nav navbar-nav">
 					@Html.ListItemAction("Accueil", "Index", "Home")
 					@Html.ListItemAction("Liste des places", "Liste", "Place")
-
+				</ul>
+				<ul class = "nav navbar-nav navbar-right">
 					@Html.ListItemAction("Connexion", "Login", "Auth")
 					@Html.ListItemAction("Inscription", "Register", "Auth")
 					@Html.ListItemAction("Déconnexion", "Logout", "Auth")
-                </ul>
+				</ul>
             </div>
         </div>
     </div>
