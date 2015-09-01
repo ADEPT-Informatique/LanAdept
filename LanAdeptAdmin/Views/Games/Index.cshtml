@@ -22,7 +22,7 @@
         <th></th>
     </tr>
 
-@foreach (Game item in ViewBag.Games) {
+@foreach (var item in Model) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Name)

@@ -16,8 +16,8 @@ namespace LanAdeptAdmin.Views.Games.ModelController
 		[Authorize]
 		public ActionResult Index()
 		{
-			ViewBag.Games = uow.GameRepository.Get();
-			return View();
+			//ViewBag.Games = uow.GameRepository.Get();
+			return View(uow.GameRepository.Get());
 		}
 
 		[Authorize]
