@@ -6,8 +6,18 @@
 
 @Html.Partial("ModalReserverPlacePartial")
 
-<div class="page-header">
-	<h1>Liste des places</h1>
+<div class="page-header clearfix">
+	<h1 class="pull-left">Liste des places</h1>
+
+	@if (LanAdeptCore.Service.PlaceService.HasUserPlace())
+	{
+		<div class="btn-toolbar pull-right">
+			<div class="btn-group">
+				@Html.AuthorizeActionLink("Ma place", "MaPlace", null, null, new { @class = "btn btn-success btn-lg btn-header" })
+			</div>
+		</div>
+	}
+	
 </div>
 
 @if (!string.IsNullOrWhiteSpace(TempData["Error"] as string))

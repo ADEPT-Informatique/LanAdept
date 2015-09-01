@@ -30,6 +30,12 @@
 				<ul class = "nav navbar-nav navbar-right">
 					@Html.ListItemAction("Connexion", "Login", "Auth")
 					@Html.ListItemAction("Inscription", "Register", "Auth")
+
+
+					@if (LanAdeptCore.Service.PlaceService.HasUserPlace())
+					{
+						@Html.ListItemAction("Ma place", "MaPlace", "Place")
+					}
 					@Html.ListItemAction("Déconnexion", "Logout", "Auth")
 				</ul>
             </div>

@@ -1,0 +1,19 @@
+﻿@model LanAdeptData.Model.Reservation
+
+@{
+    ViewBag.Title = "Ma place";
+}
+
+<div class="container-sm">
+	<h2>Ma place - @Model.Place</h2>
+
+	<div>
+		<h4>Réservé le @Model.CreationDate.ToShortDateString()</h4>
+		<hr />
+	</div>
+	<p class="pull-right">
+		@Html.AuthorizeActionLink("Retour", "Index", null, null, new { @class = "btn btn-default" })
+		@Html.AuthorizeActionLink("Annuler ma réservation", "Annuler", null, new { id = Model.ReservationID }, new { @class = "btn btn-danger" })
+	</p>
+	<div class="clearfix"></div>
+</div>

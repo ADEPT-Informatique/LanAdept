@@ -12,6 +12,29 @@ namespace LanAdeptCore.Service
 	public static class PlaceService
 	{
 		/// <summary>
+		/// Determine wether the currently connected user has reserved a place or not
+		/// </summary>
+		/// <returns>True if the user has a reserved place, else false</returns>
+		public static bool HasUserPlace()
+		{
+			return HasUserPlace(UserService.GetLoggedInUser());
+		}
+
+		/// <summary>
+		/// Determine wether a user has reserved a place or not
+		/// </summary>
+		/// <param name="user">The user to check</param>
+		/// <returns>True if the user has a reserved place, else false</returns>
+		public static bool HasUserPlace(User user)
+		{
+			return user != null
+				&& user.LastReservation != null
+				&& !user.LastReservation.IsCancelled
+				&& user.LastReservation.LeavingDate == null;
+		}
+
+
+		/// <summary>
 		/// Determine wether the place is the currently connected user's place
 		/// </summary>
 		/// <param name="place">Place to verify</param>
@@ -77,6 +100,10 @@ namespace LanAdeptCore.Service
 			return new BaseResult() { Message = "Désolé, ne erreur est survenue. Merci de réessayer dans quelques instants.", HasError = true };
 		}
 
+		/// <summary>
+		/// Cancel the reservation any user might have for a specific place
+		/// </summary>
+		/// <param name="place">Place to cancel the reservation</param>
 		public static void CancelReservation(Place place)
 		{
 			if (!place.LastReservation.IsCancelled)
@@ -87,6 +114,18 @@ namespace LanAdeptCore.Service
 			}
 		}
 
+		/// <summary>
+		/// Cancel the currently connected user's reservation
+		/// </summary>
+		public static void CancelUserReservation()
+		{
+			CancelUserReservation(UserService.GetLoggedInUser());
+		}
+
+		/// <summary>
+		/// Cancel a user's reservation
+		/// </summary>
+		/// <param name="user">User to whom the reservation will be cancelled</param>
 		public static void CancelUserReservation(User user)
 		{
 			if (!user.LastReservation.IsCancelled)

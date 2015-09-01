@@ -62,5 +62,34 @@ namespace LanAdept.Controllers
 
 			return RedirectToAction("Liste");
 		}
+
+		[Authorize]
+		public ActionResult MaPlace()
+		{
+			if (!PlaceService.HasUserPlace())
+			{
+				TempData["Error"] = "Vous n'avez pas encore réservé une place.";
+				return RedirectToAction("Liste");
+			}
+
+			Reservation reservation = UserService.GetLoggedInUser().LastReservation;
+
+			return View(reservation);
+		}
+
+		[Authorize]
+		public ActionResult Annuler()
+		{
+			if (!PlaceService.HasUserPlace())
+			{
+				TempData["Error"] = "Vous devez avoir une réservation pour pouvoir l'annuler.";
+				return RedirectToAction("Liste");
+			}
+
+			PlaceService.CancelUserReservation();
+
+			TempData["Success"] = "Votre réservation a été annulée.";
+			return RedirectToAction("Liste");
+		}
 	}
 }

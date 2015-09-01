@@ -101,3 +101,15 @@
 .place-reserve div.hover:hover {
 	background-color: #aed7ea;
 }
+
+.btn-header {
+	margin-top: 18px;
+}
+
+@media (min-width: 768px) {
+  .container-sm {
+    width: 700px;
+	margin:auto;
+  }
+}
+
