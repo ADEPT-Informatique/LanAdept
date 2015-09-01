@@ -4,7 +4,14 @@
 	ViewBag.Title = "Liste des places";
 }
 
-@Html.Partial("ModalReserverPlacePartial")
+@if (LanAdeptCore.Service.PlaceService.HasUserPlace())
+{
+	@Html.Partial("ModalChangerPlacePartial")
+}
+else
+{
+	@Html.Partial("ModalReserverPlacePartial")
+}
 
 <div class="page-header clearfix">
 	<h1 class="pull-left">Liste des places</h1>
@@ -17,7 +24,7 @@
 			</div>
 		</div>
 	}
-	
+
 </div>
 
 @if (!string.IsNullOrWhiteSpace(TempData["Error"] as string))
@@ -83,7 +90,7 @@
 @section scripts {
 
 	<script>
-		$('#ModalReserverPlace').on('show.bs.modal', function (event) {
+		$('#ModalReserverPlace, #ModalChangerPlace').on('show.bs.modal', function (event) {
 			var button = $(event.relatedTarget);
 			var placeID = button.data('placeId');
 			var text = button.data('placeText');

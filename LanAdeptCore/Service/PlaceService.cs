@@ -77,13 +77,13 @@ namespace LanAdeptCore.Service
 				if(!place.IsFree)
 					return new BaseResult() { Message = "Désolé, cette place est déjà occupée ou réservée. Vous ne pouvez pas la réservée.", HasError = true };
 
+				if (user.LastReservation != null && !user.LastReservation.IsCancelled)
+					CancelUserReservation(user);
+
 				Reservation reservation = new Reservation();
 				reservation.CreationDate = DateTime.Now;
 				reservation.User = user;
 				reservation.Place = place;
-
-				if (user.LastReservation != null && !user.LastReservation.IsCancelled)
-					CancelUserReservation(user);
 
 				UnitOfWork.Current.PlaceHistoryRepository.Insert(reservation);
 				UnitOfWork.Current.Save();

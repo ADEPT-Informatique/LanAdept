@@ -30,7 +30,7 @@ namespace LanAdeptData.Model
 		{
 			get
 			{
-				return Reservations.LastOrDefault();
+				return Reservations.OrderBy(x => x.ReservationID).LastOrDefault();
 			}
 		}
 
