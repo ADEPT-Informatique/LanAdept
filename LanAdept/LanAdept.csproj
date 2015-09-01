@@ -182,6 +182,7 @@
     <Content Include="Views\Place\Partial\ModalReserverPlacePartial.cshtml" />
     <Content Include="Views\Place\Partial\ModalChangerPlacePartial.cshtml" />
     <Content Include="Views\Place\MaPlace.cshtml" />
+    <Content Include="Views\Place\Partial\ModalAnnulerReservationPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
