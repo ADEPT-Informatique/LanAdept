@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanAdept", "LanAdept\LanAdept.csproj", "{C4C6F047-20F8-448B-8895-26455C5C050B}"
 EndProject
@@ -31,6 +31,7 @@ Global
 		{1CCE8183-5B3F-4C99-AC45-3F1AB609F661}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DA2BFAE4-8A01-4CA0-8637-4FE3805D487C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DA2BFAE4-8A01-4CA0-8637-4FE3805D487C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA2BFAE4-8A01-4CA0-8637-4FE3805D487C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{DA2BFAE4-8A01-4CA0-8637-4FE3805D487C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA2BFAE4-8A01-4CA0-8637-4FE3805D487C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using LanAdeptCore.Attribute.Authorization;
+using System.Web;
 using System.Web.Mvc;
 
 namespace LanAdeptAdmin
@@ -8,6 +9,10 @@ namespace LanAdeptAdmin
 		public static void RegisterGlobalFilters(GlobalFilterCollection filters)
 		{
 			filters.Add(new HandleErrorAttribute());
+
+			#if DEBUG
+				filters.Add(new AuthorizationRequiredAttribute());
+			#endif
 		}
 	}
 }
