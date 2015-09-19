@@ -15,7 +15,7 @@
     <AssemblyName>LanAdeptAdmin</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -122,20 +122,22 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Views\Auth\ModelController\AuthController.cs" />
     <Compile Include="Views\Auth\ModelController\LoginModel.cs" />
-    <Compile Include="Views\Auth\ModelController\MessageModel.cs" />
-    <Compile Include="Views\Auth\ModelController\RegisterModel.cs" />
-    <Compile Include="Views\Games\ModelController\GamesController.cs" />
+    <Compile Include="Views\Game\ModelController\GameController.cs" />
     <Compile Include="Views\Home\ModelController\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\Place\ModelController\ListeModel.cs" />
+    <Compile Include="Views\Place\ModelController\PlaceController.cs" />
     <Compile Include="Views\Tournaments\ModelController\TournamentsController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\jasny-bootstrap.css" />
     <Content Include="Content\login.css" />
+    <Content Include="Content\Place.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -143,6 +145,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jasny-bootstrap.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -165,23 +168,27 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\Games\Index.cshtml" />
-    <Content Include="Views\Games\Create.cshtml" />
+    <Content Include="Views\Game\Index.cshtml" />
+    <Content Include="Views\Game\Create.cshtml" />
     <Content Include="Views\Auth\Login.cshtml" />
-    <Content Include="Views\Auth\Message.cshtml" />
-    <Content Include="Views\Auth\Register.cshtml" />
-    <Content Include="Views\Games\Edit.cshtml" />
-    <Content Include="Views\Games\Delete.cshtml" />
-    <Content Include="Views\Games\Details.cshtml" />
+    <Content Include="Views\Game\Edit.cshtml" />
+    <Content Include="Views\Game\Delete.cshtml" />
+    <Content Include="Views\Game\Details.cshtml" />
     <Content Include="Views\Tournaments\Delete.cshtml" />
     <Content Include="Views\Tournaments\Details.cshtml" />
     <Content Include="Views\Tournaments\Index.cshtml" />
     <Content Include="Views\Tournaments\Create.cshtml" />
     <Content Include="Views\Tournaments\Edit.cshtml" />
+    <Content Include="Views\Shared\_Sidebar_Mobile.cshtml" />
+    <Content Include="Views\Shared\_Sidebar_General.cshtml" />
+    <Content Include="Views\Shared\_Sidebar_Place.cshtml" />
+    <Content Include="Views\Shared\_Sidebar_Tournoi.cshtml" />
+    <Content Include="Views\Place\Liste.cshtml" />
+    <Content Include="Views\Place\Partial\SinglePlacePartial.cshtml" />
+    <Content Include="Views\Place\Partial\SingleSectionPartial.cshtml" />
+    <Content Include="Views\Place\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -192,7 +199,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
-    <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LanAdeptCore\LanAdeptCore.csproj">
@@ -222,7 +228,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>11862</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:11862/</IISUrl>
+          <IISUrl>http://localhost/LanAdeptAdmin</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

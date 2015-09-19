@@ -10,14 +10,17 @@ namespace LanAdeptCore.Attribute.Authorization
 	/// <summary>
 	/// Use this attribute to redirect the user if he is logged in 
 	/// </summary>
-	public class AuthorizeGuestOnlyAttribute : AuthorizeAttribute
+	public class AuthorizeGuestOnlyAttribute : AuthorizeAttribute 
 	{
-		public override void OnAuthorization(AuthorizationContext filterContext)
+		protected override bool AuthorizeCore(System.Web.HttpContextBase httpContext)
 		{
-			if (filterContext.HttpContext.User.Identity.IsAuthenticated)
-			{
-				filterContext.Result = new RedirectResult("~/Home/Index");
-			}
+			return !httpContext.User.Identity.IsAuthenticated;
+
+		}
+
+		protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
+		{
+			filterContext.Result = new RedirectResult("~/Home/Index");
 		}
 	}
 }

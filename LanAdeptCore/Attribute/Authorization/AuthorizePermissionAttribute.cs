@@ -15,7 +15,7 @@ namespace LanAdeptCore.Attribute.Authorization
 	/// <summary>
 	/// Use this attribute to specify the permission required to access an action
 	/// </summary>
-	public class PermissionAttribute : AuthorizeAttribute
+	public class AuthorizePermissionAttribute : AuthorizeAttribute
 	{
 		private string _permissionName;
 
@@ -23,7 +23,7 @@ namespace LanAdeptCore.Attribute.Authorization
 		/// Specify the permission required to access this action or whole controller
 		/// </summary>
 		/// <param name="permissionName">Permission name in the database</param>
-		public PermissionAttribute(string permissionName)
+		public AuthorizePermissionAttribute(string permissionName)
 		{
 			_permissionName = permissionName;
 		}
@@ -32,12 +32,17 @@ namespace LanAdeptCore.Attribute.Authorization
 		{
 			Permission permissionToCheck = UnitOfWork.Current.PermissionRepository.GetPermissionByName(_permissionName);
 
+			if (permissionToCheck == null)
+				throw new NullReferenceException("La permission \"" + _permissionName + "\" n'existe pas dans la base de donnée sur l'action \"" + filterContext.Controller + "." + filterContext.ActionDescriptor.ActionName + "\"");
+
 			if (!HttpContext.Current.User.Identity.IsAuthenticated)
 			{
 				if (permissionToCheck.MinimumRoleLevel > 0)
 				{ 
 					// If is a guest and is not permitted
-					FormsAuthentication.RedirectToLoginPage();
+					UrlHelper url = new UrlHelper(filterContext.RequestContext);
+					string signInUrl = url.Action("Login", "Auth", new { ReturnUrl = filterContext.HttpContext.Request.UrlReferrer });
+					filterContext.Result = new RedirectResult(FormsAuthentication.LoginUrl);
 				}
 				return;
 			}

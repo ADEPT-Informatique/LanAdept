@@ -41,67 +41,6 @@
 	background-repeat:no-repeat;
 }*/
 
-.place {
-	padding-left: 5px;
-	padding-right: 5px;
-}
-
-	.place div {
-		height: 75px;
-		line-height: 75px;
-		margin: 5px 0;
-		background-color: #eeeeee;
-		border: 1px solid #dddddd;
-		-webkit-border-radius: 3px;
-		-moz-border-radius: 3px;
-		border-radius: 3px;
-		text-align: center;
-		color: #333;
-		font-weight: bold;
-	}
-
-	.place div.hover:hover {
-		background-color: #dddddd;
-		cursor: pointer;
-	}
-
-	.place a {
-		display: block;
-		height: 75px;
-		color: #333;
-	}
-
-	.place a:hover {
-		text-decoration: none;
-	}
-
-.place-occupe div {
-	background-color: #F9E5E6;
-	border: 1px solid #FAD2D3;
-}
-
-.place-occupe div.hover:hover {
-	background-color: #FAD2D3;
-}
-
-.place-actuelle div {
-	background-color: #E3EBC6;
-	border: 1px solid #CDDB9B;
-}
-
-.place-actuelle div.hover:hover {
-	background-color: #CDDB9B;
-}
-
-.place-reserve div {
-	background-color: #d8ecf5;
-	border: 1px solid #aed7ea;
-}
-
-.place-reserve div.hover:hover {
-	background-color: #aed7ea;
-}
-
 .btn-header {
 	margin-top: 18px;
 }

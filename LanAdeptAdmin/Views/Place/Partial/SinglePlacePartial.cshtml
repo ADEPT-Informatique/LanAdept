@@ -1,0 +1,29 @@
+﻿@model LanAdeptData.Model.Place
+
+@{
+	string classFirstDiv = "place";
+
+	if (!Model.IsFree)
+	{
+		if (LanAdeptCore.Service.PlaceService.IsUserPlace(Model))
+		{
+			classFirstDiv += " place-actuelle";
+		}
+		else if (Model.IsOccupied)
+		{
+			classFirstDiv += " place-occupe";
+		}
+		else
+		{
+			classFirstDiv += " place-reserve";
+		}
+	}
+
+	bool userHaveAPlace = LanAdeptCore.Service.PlaceService.HasUserPlace();
+}
+
+<div class="col-md-1 col-sm-2 col-xs-4 @classFirstDiv">
+	<div class="hover">
+		@Html.AuthorizeActionLink(@Model.ToString(), "Details", "Place", new { id = @Model.PlaceID }, true)
+	</div>
+</div>
