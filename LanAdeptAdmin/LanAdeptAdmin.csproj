@@ -182,12 +182,9 @@
     <Content Include="Views\Tournaments\Index.cshtml" />
     <Content Include="Views\Tournaments\Create.cshtml" />
     <Content Include="Views\Place\Liste.cshtml" />
-    <Content Include="Views\Place\MaPlace.cshtml" />
-    <Content Include="Views\Place\Partial\ModalAnnulerReservationPartial.cshtml" />
-    <Content Include="Views\Place\Partial\ModalChangerPlacePartial.cshtml" />
-    <Content Include="Views\Place\Partial\ModalReserverPlacePartial.cshtml" />
     <Content Include="Views\Place\Partial\SinglePlacePartial.cshtml" />
     <Content Include="Views\Place\Partial\SingleSectionPartial.cshtml" />
+    <Content Include="Views\Place\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using LanAdeptData.Model;
 
-namespace LanAdept.Views.Place.ModelController
+namespace LanAdeptAdmin.Views.Place.ModelController
 {
 	public class ListeModel
 	{

@@ -23,32 +23,7 @@
 }
 
 <div class="col-md-1 col-sm-2 col-xs-4 @classFirstDiv">
-	@if (Html.HasActionPermission("Reserver") 
-		&& Model.IsFree
-		&& !userHaveAPlace)
-	{
-		<div class="hover" data-toggle="modal" data-target="#ModalReserverPlace" data-place-text="@Model" data-place-id="@Model.PlaceID">
-			@Model
-		</div>
-	}
-	else if (Html.HasActionPermission("Reserver")
-		&& Model.IsFree
-		&& userHaveAPlace)
-	{
-		<div class="hover" data-toggle="modal" data-target="#ModalChangerPlace" data-place-text="@Model" data-place-id="@Model.PlaceID">
-			@Model
-		</div>
-	}
-	else if (LanAdeptCore.Service.PlaceService.IsUserPlace(Model))
-	{
-		<div class="hover">
-			@Html.AuthorizeActionLink(@Model.ToString(), "MaPlace", true)
-		</div>
-	}
-	else
-	{
-	<div>
-		@Model
+	<div class="hover">
+		@Html.AuthorizeActionLink(@Model.ToString(), "Details", "Place", new { id = @Model.PlaceID }, true)
 	</div>
-	}
 </div>
