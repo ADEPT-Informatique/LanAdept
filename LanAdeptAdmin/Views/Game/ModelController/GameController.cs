@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace LanAdeptAdmin.Views.Games.ModelController
 {
-	public class GamesController : Controller
+	public class GameController : Controller
 	{
 		UnitOfWork uow = UnitOfWork.Current;
 

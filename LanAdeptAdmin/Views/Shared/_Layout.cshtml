@@ -47,8 +47,9 @@
 
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				@Html.ListItemAction("Général", "Index", "Home")
+				@*@Html.ListItemAction("Général", "Index", "Home")*@
 				@Html.ListItemAction("Place", "Index", "Place")
+				@Html.ListItemAction("Tournoi", "Index", "Game")
 			</ul>
 		</div>
 
@@ -70,6 +71,14 @@
 
 	@Scripts.Render("~/bundles/jquery")
 	@Scripts.Render("~/bundles/bootstrap")
+	<script>
+		$('.dropdown-menu').dropdown().on("hide.bs.dropdown", function (e) {
+			if ($.contains(dropdown, e.target)) {
+				e.preventDefault();
+				//or return false;
+			}
+		});
+	</script>
 	@RenderSection("scripts", required: false)
 </body>
 </html>
