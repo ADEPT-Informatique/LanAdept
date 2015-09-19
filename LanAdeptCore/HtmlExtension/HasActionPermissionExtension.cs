@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -84,8 +85,16 @@ namespace LanAdeptCore.HtmlExtension
 			var tempRequestContext = new RequestContext(helper.ViewContext.RequestContext.HttpContext, new RouteData());
 
 			IControllerFactory factory = ControllerBuilder.Current.GetControllerFactory();
+			IController controller = null;
 
-			IController controller = factory.CreateController(tempRequestContext, controllerName);
+			try
+			{
+				controller = factory.CreateController(tempRequestContext, controllerName);
+			}
+			catch (HttpException)
+			{
+				throw new ArgumentException("Le controlleur \"" + controllerName + "\" n'est pas trouvable. Vérifiez que les controlleur spécifié dans les AuthorizeActionLink et HtmlHelper similaires sont correctement écrit.");
+			}
 
 			if (controller == null)
 			{
