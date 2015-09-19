@@ -35,7 +35,7 @@
 
 	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-center navbar-brand">
-			@Html.ActionLink("Admin Lan Adept", "Index", "Home", new { @class = "navbar-brand" })
+			@Html.ActionLink("Admin Lan Adept", "Index", "Home", null, new { @class = "navbar-brand" })
 		</div>
 		<div class="navbar-header navbar-left">
 			<button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".navmenu" data-canvas="body" data-auto-hide="false">
@@ -51,17 +51,24 @@
 				@Html.ListItemAction("Place", "Index", "Place")
 				@Html.ListItemAction("Tournoi", "Index", "Game")
 			</ul>
-		</div>
-
-		<div class="col-sm-3 col-lg-2 sidebar">
-			<ul class="nav nav-sidebar">
-				@Html.Partial((string)ViewBag.SideBar)
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="/lanadept">Retour au site</a></li>
+				@Html.ListItemAction("Connexion", "Login", "Auth")
+				@Html.ListItemAction("Déconnexion", "Logout", "Auth")
 			</ul>
 		</div>
 
+		@if (!String.IsNullOrWhiteSpace(ViewBag.SideBar))
+		{
+			<div class="col-sm-3 col-lg-2 sidebar">
+				<ul class="nav nav-sidebar">
+					@Html.Partial((string)ViewBag.SideBar)
+				</ul>
+			</div>
+		}
 	</div>
 
-	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+	<div class="@(String.IsNullOrWhiteSpace(ViewBag.SideBar) ? "col-md-12" : "col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2") main">
 		@RenderBody()
 		<hr />
 		<footer>
@@ -71,14 +78,6 @@
 
 	@Scripts.Render("~/bundles/jquery")
 	@Scripts.Render("~/bundles/bootstrap")
-	<script>
-		$('.dropdown-menu').dropdown().on("hide.bs.dropdown", function (e) {
-			if ($.contains(dropdown, e.target)) {
-				e.preventDefault();
-				//or return false;
-			}
-		});
-	</script>
 	@RenderSection("scripts", required: false)
 </body>
 </html>

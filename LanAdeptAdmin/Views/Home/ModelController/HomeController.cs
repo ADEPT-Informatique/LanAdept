@@ -8,7 +8,7 @@ namespace LanAdeptAdmin.Controllers
 {
 	public class HomeController : Controller
 	{
-		[AllowAnonymous]
+		[Authorize]
 		public ActionResult Index()
 		{
 			return View();

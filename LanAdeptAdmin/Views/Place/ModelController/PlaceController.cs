@@ -17,13 +17,13 @@ namespace LanAdeptAdmin.Controllers
 
 		private UnitOfWork uow = UnitOfWork.Current;
 
-		[AllowAnonymous]
+		[Authorize]
 		public ActionResult Index()
 		{
 			return RedirectToAction("Liste");
 		}
 
-        [AllowAnonymous]
+		[Authorize]
         public ActionResult Liste()
         {
             ListeModel listeModel = new ListeModel();
