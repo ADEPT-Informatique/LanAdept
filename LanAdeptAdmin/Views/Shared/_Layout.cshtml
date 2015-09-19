@@ -6,41 +6,61 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>@ViewBag.Title - LAN de l'Adept - Admin</title>
+	<title>@ViewBag.Title - Admin Lan Adept</title>
 	@Styles.Render("~/Content/css")
 	@RenderSection("Styles", false)
 	@Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-	<div class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				@Html.ActionLink("LAN de l'ADEPT - Admin", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-			</div>
-			<div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">
-					@Html.ListItemAction("Accueil", "Index", "Home")
-					@Html.ListItemAction("Games", "Index", "Games")
-					@Html.ListItemAction("Tournaments", "Index", "Tournaments")
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					@Html.ListItemAction("Connexion", "Login", "Auth")
-
-					@if (LanAdeptCore.Service.PlaceService.HasUserPlace())
-					{
-						@Html.ListItemAction("Ma place", "MaPlace", "Place")
-					}
-					@Html.ListItemAction("Déconnexion", "Logout", "Auth")
-				</ul>
-			</div>
-		</div>
+	<div class="navmenu navmenu-inverse navmenu-fixed-left offcanvas" id="myNavmenu">
+		@Html.Partial("_Sidebar_Mobile")
 	</div>
-	<div class="container body-content">
+
+	@*<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav">
+				@Html.ListItemAction("Accueil", "Index", "Home")
+				@Html.ListItemAction("Games", "Index", "Games")
+				@Html.ListItemAction("Tournaments", "Index", "Tournaments")
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				@Html.ListItemAction("Connexion", "Login", "Auth")
+
+				@if (LanAdeptCore.Service.PlaceService.HasUserPlace())
+				{
+					@Html.ListItemAction("Ma place", "MaPlace", "Place")
+				}
+				@Html.ListItemAction("Déconnexion", "Logout", "Auth")
+			</ul>
+		</div>*@
+
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-center navbar-brand">
+			@Html.ActionLink("Admin Lan Adept", "Index", "Home", new { @class = "navbar-brand" })
+		</div>
+		<div class="navbar-header navbar-left">
+			<button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".navmenu" data-canvas="body" data-auto-hide="false">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
+
+		<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav">
+				@Html.ListItemAction("General", "Index", "Home")
+				@*@Html.ListItemAction("Forum", "Index", "Forum")*@
+			</ul>
+		</div>
+
+		<div class="col-sm-3 col-lg-2 sidebar">
+			<ul class="nav nav-sidebar">
+				@Html.Partial((string)ViewBag.SideBar)
+			</ul>
+		</div>
+
+	</div>
+
+	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 		@RenderBody()
 		<hr />
 		<footer>

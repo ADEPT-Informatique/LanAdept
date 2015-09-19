@@ -1,0 +1,23 @@
+﻿@Html.ActionLink("Admin Options", "Index", "Home", new { @class = "navmenu-brand" })
+
+<ul class="nav navmenu-nav">
+	<li class="dropdown open">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown">Général <b class="caret"></b></a>
+		<ul class="dropdown-menu navmenu-nav">
+			@Html.Partial("_Sidebar_General")
+		</ul>
+	</li>
+
+	<li class="dropdown">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown">Place <b class="caret"></b></a>
+		<ul class="dropdown-menu navmenu-nav">
+			@Html.Partial("_Sidebar_Place")
+		</ul>
+	</li>
+	<li class="dropdown">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown">Tournoi <b class="caret"></b></a>
+		<ul class="dropdown-menu navmenu-nav">
+			@Html.Partial("_Sidebar_Tournoi")
+		</ul>
+	</li>
+</ul>
