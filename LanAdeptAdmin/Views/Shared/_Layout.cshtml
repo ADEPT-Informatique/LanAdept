@@ -48,14 +48,14 @@
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
 				@*@Html.ListItemAction("Général", "Index", "Home")*@
-				@Html.ListItemAction("Place", "Index", "Place")
-				@Html.ListItemAction("Jeux", "Index", "Game")
-				@Html.ListItemAction("Tournoi", "Index", "Tournaments")
+				@Html.ListItemCategory("Place", "Index", "Place")
+				@Html.ListItemCategory("Jeux", "Index", "Game")
+				@Html.ListItemCategory("Tournoi", "Index", "Tournaments")
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="/lanadept">Retour au site</a></li>
-				@Html.ListItemAction("Connexion", "Login", "Auth")
-				@Html.ListItemAction("Déconnexion", "Logout", "Auth")
+				@Html.ListItemCategory("Connexion", "Login", "Auth")
+				@Html.ListItemCategory("Déconnexion", "Logout", "Auth")
 			</ul>
 		</div>
 
