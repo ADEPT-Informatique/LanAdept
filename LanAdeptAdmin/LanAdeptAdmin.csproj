@@ -179,9 +179,9 @@
     <Content Include="Views\Games\Details.cshtml" />
     <Content Include="Views\Tournaments\Delete.cshtml" />
     <Content Include="Views\Tournaments\Details.cshtml" />
-    <Content Include="Views\Tournaments\Edit.cshtml" />
     <Content Include="Views\Tournaments\Index.cshtml" />
     <Content Include="Views\Tournaments\Create.cshtml" />
+    <Content Include="Views\Tournaments\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

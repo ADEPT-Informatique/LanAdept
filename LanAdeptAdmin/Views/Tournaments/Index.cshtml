@@ -13,13 +13,25 @@
 </p>
 <table class="table">
     <tr>
-        <th></th>
+        <th>@Html.DisplayNameFor(model => model.TournamentID)</th>
+		<th>@Html.DisplayNameFor(model => model.CreationDate)</th>
+		<th>@Html.DisplayNameFor(model => model.StartTime)</th>
+		<th>@Html.DisplayNameFor(model => model.StartDate)</th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
 		<td>
-			@Html.DisplayFor(modelItem => item.Game.Name)
+			@Html.DisplayFor(modelItem => item.TournamentID)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.CreationDate)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.StartTime)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.StartDate)
 		</td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.TournamentID }) |

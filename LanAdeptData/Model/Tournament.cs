@@ -7,13 +7,22 @@ using System.Threading.Tasks;
 
 namespace LanAdeptData.Model
 {
-    public class Tournament
-    {
-        public int TournamentID { get; set; }
+	public class Tournament
+	{
+		public int TournamentID { get; set; }
 
 		[DataType(DataType.DateTime)]
-		public DateTime StartTime { get; set; }
+		[Display(Name = "Heure")]
+		[DisplayFormat(DataFormatString = @"{0:HH\hmm}")]
+		public DateTime? StartTime { get; set; }
 
+		[DataType(DataType.Date)]
+		[Display(Name = "Date")]
+		[DisplayFormat(DataFormatString = "{0:D}")]
+		public DateTime? StartDate { get; set; }
+
+		[DataType(DataType.DateTime)]
+		[DisplayFormat(DataFormatString = "{0:D}")]
 		public DateTime CreationDate { get; set; }
 
         public virtual Game Game { get; set; }

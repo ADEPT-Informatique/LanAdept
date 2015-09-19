@@ -40,13 +40,15 @@ namespace LanAdeptAdmin.Views
 		public ActionResult Create()
 		{
 			ViewBag.GameID = new SelectList(uow.GameRepository.Get(), "GameID", "Name");
-			return View();
+			Tournament tournament = new Tournament();
+			tournament.StartDate = DateTime.Parse("2015-10-14");
+			return View(tournament);
 		}
 
 		[Authorize]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create([Bind(Include = "TournamentID, GameID, StartTime")] Tournament tournament)
+		public ActionResult Create([Bind(Include = "TournamentID, GameID, StartTime, StartDate")] Tournament tournament)
 		{
 			if (ModelState.IsValid)
 			{
@@ -72,14 +74,14 @@ namespace LanAdeptAdmin.Views
 			{
 				return HttpNotFound();
 			}
-			ViewBag.GameID = new SelectList(uow.GameRepository.Get(), "GameID", "Name", tournament.Game.GameID);
+			//ViewBag.GameID = new SelectList(uow.GameRepository.Get(), "GameID", "Name", tournament.Game.GameID);
 			return View(tournament);
 		}
 
 		[Authorize]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit([Bind(Include = "TournamentID, GameID, StartTime")] Tournament tournament)
+		public ActionResult Edit([Bind(Include = "TournamentID, GameID, StartTime, StartDate")] Tournament tournament)
 		{
 			if (ModelState.IsValid)
 			{
