@@ -34,10 +34,11 @@ namespace LanAdept.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				TryLoginResult realUser = UserService.TryLogin(loginInfo.Email, loginInfo.Password, loginInfo.RememberMe);
+				TryLoginResult realUser = UserService.TryLogin(loginInfo.Email, loginInfo.Password, false);
 
-				if (realUser.HasSucceeded)
+				if (realUser.HasSucceeded) {
 					return RedirectToReturnUrl(loginInfo.ReturnURL);
+				}
 				else
 					ModelState.AddModelError("", realUser.Reason);
 			}
@@ -57,38 +58,6 @@ namespace LanAdept.Controllers
 			UserService.Logout();
 			return RedirectToAction("Index", "Home");
 		}
-
-		[AuthorizeGuestOnly]
-		public ActionResult Register()
-		{
-			return View();
-		}
-
-		[HttpPost]
-		[AuthorizeGuestOnly]
-		public ActionResult Register(RegisterModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				User newUser = UserService.CreateUser(model.Email, model.Password, model.CompleteName);
-
-				UnitOfWork.Current.UserRepository.Insert(newUser);
-				UnitOfWork.Current.Save();
-
-				MessageModel result = new MessageModel();
-				result.Titre = "Vous êtes maintenant inscrit!";
-				result.Contenu = "Vous devez maintenant <strong>confirmer votre email</strong>. Une fois que ce sera fait, vous pourrez réserver une place pour participer au LAN de l'Adept.";
-				result.Type = AuthMessageType.Success;
-
-				return View("Message", result);
-			}
-
-			model.Password = null;
-			model.PasswordConfirmation = null;
-
-			return View(model);
-		}
-
 
 		private ActionResult RedirectToReturnUrl(string returnURL)
 		{

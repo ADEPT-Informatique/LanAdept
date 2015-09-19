@@ -122,8 +122,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Views\Auth\ModelController\AuthController.cs" />
     <Compile Include="Views\Auth\ModelController\LoginModel.cs" />
-    <Compile Include="Views\Auth\ModelController\MessageModel.cs" />
-    <Compile Include="Views\Auth\ModelController\RegisterModel.cs" />
     <Compile Include="Views\Games\ModelController\GamesController.cs" />
     <Compile Include="Views\Home\ModelController\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -172,8 +170,6 @@
     <Content Include="Views\Games\Index.cshtml" />
     <Content Include="Views\Games\Create.cshtml" />
     <Content Include="Views\Auth\Login.cshtml" />
-    <Content Include="Views\Auth\Message.cshtml" />
-    <Content Include="Views\Auth\Register.cshtml" />
     <Content Include="Views\Games\Edit.cshtml" />
     <Content Include="Views\Games\Delete.cshtml" />
     <Content Include="Views\Games\Details.cshtml" />
@@ -192,7 +188,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
-    <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LanAdeptCore\LanAdeptCore.csproj">
