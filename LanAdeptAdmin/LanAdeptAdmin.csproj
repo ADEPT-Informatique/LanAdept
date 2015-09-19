@@ -189,6 +189,7 @@
     <Content Include="Views\Place\Partial\SinglePlacePartial.cshtml" />
     <Content Include="Views\Place\Partial\SingleSectionPartial.cshtml" />
     <Content Include="Views\Place\Details.cshtml" />
+    <Content Include="Views\Shared\_Sidebar_Game.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
