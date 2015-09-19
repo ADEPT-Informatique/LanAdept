@@ -70,7 +70,7 @@
   <ItemGroup>
     <Compile Include="Attribute\Authorization\AuthorizationRequiredAttribute.cs" />
     <Compile Include="Attribute\Authorization\AuthorizeGuestOnlyAttribute.cs" />
-    <Compile Include="Attribute\Authorization\PermissionAttribute.cs" />
+    <Compile Include="Attribute\Authorization\AuthorizePermissionAttribute.cs" />
     <Compile Include="HtmlExtension\HasActionPermissionExtension.cs" />
     <Compile Include="HtmlExtension\ListItemActionExtension.cs" />
     <Compile Include="HtmlExtension\AuthorizeActionLinkExtension.cs" />
