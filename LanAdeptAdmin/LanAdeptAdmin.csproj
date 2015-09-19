@@ -128,6 +128,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\Place\ModelController\ListeModel.cs" />
+    <Compile Include="Views\Place\ModelController\PlaceController.cs" />
     <Compile Include="Views\Tournaments\ModelController\TournamentsController.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -135,6 +137,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\jasny-bootstrap.css" />
     <Content Include="Content\login.css" />
+    <Content Include="Content\Place.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -181,6 +184,10 @@
     <Content Include="Views\Shared\_Sidebar_General.cshtml" />
     <Content Include="Views\Shared\_Sidebar_Place.cshtml" />
     <Content Include="Views\Shared\_Sidebar_Tournoi.cshtml" />
+    <Content Include="Views\Place\Liste.cshtml" />
+    <Content Include="Views\Place\Partial\SinglePlacePartial.cshtml" />
+    <Content Include="Views\Place\Partial\SingleSectionPartial.cshtml" />
+    <Content Include="Views\Place\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,49 +1,26 @@
-﻿@model LanAdept.Views.Place.ModelController.ListeModel
+﻿@model LanAdeptAdmin.Views.Place.ModelController.ListeModel
 
 @{
 	ViewBag.Title = "Liste des places";
 }
 
-@if (LanAdeptCore.Service.PlaceService.HasUserPlace())
-{
-	@Html.Partial("ModalChangerPlacePartial")
-}
-else
-{
-	@Html.Partial("ModalReserverPlacePartial")
-}
-
 <div class="page-header clearfix">
-	<h1 class="pull-left">Liste des places</h1>
-
-	@if (LanAdeptCore.Service.PlaceService.HasUserPlace())
-	{
-		<div class="btn-toolbar pull-right">
-			<div class="btn-group">
-				@Html.AuthorizeActionLink("Ma place", "MaPlace", null, null, new { @class = "btn btn-success btn-lg btn-header" })
-			</div>
-		</div>
-	}
+    <h1 class="pull-left">Liste des places</h1>
 
 </div>
 
 @if (!string.IsNullOrWhiteSpace(TempData["Error"] as string))
 {
-	<div class="alert alert-danger" role="alert">
-		@Html.Raw(TempData["Error"])
-	</div>
+    <div class="alert alert-danger" role="alert">
+        @Html.Raw(TempData["Error"])
+    </div>
 }
 @if (!string.IsNullOrWhiteSpace(TempData["Success"] as string))
 {
-	<div class="alert alert-success" role="alert">
-		@Html.Raw(TempData["Success"])
-	</div>
+    <div class="alert alert-success" role="alert">
+        @Html.Raw(TempData["Success"])
+    </div>
 }
-
-
-<div class="alert alert-warning" role="alert">
-	(JE SUIS HARDCODÉ)<br />Le LAN a déjà débuté. Il n'est donc plus possible de réserver une place. Si vous désirez changer de place, veuillez vous rendre à l'accueil.
-</div>
 
 
 @foreach (PlaceSection sectionCourante in Model.Sections)
