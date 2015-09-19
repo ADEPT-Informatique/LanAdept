@@ -8,6 +8,7 @@ using LanAdeptData.DAL.Generic;
 using LanAdeptData.DAL.Places;
 using LanAdeptData.DAL.Users;
 using LanAdeptData.DAL.Tournaments;
+using LanAdeptData.DAL.Settings;
 
 namespace LanAdeptData.DAL
 {
@@ -135,18 +136,31 @@ namespace LanAdeptData.DAL
             }
         }
 
-        private GameRepository gameRepository;
-        public GameRepository GameRepository
-        {
-            get
-            {
-                if (gameRepository == null)
-                {
-                    gameRepository = new GameRepository(context);
-                }
-                return gameRepository;
-            }
-        }
+		private GameRepository gameRepository;
+		public GameRepository GameRepository
+		{
+			get
+			{
+				if (gameRepository == null)
+				{
+					gameRepository = new GameRepository(context);
+				}
+				return gameRepository;
+			}
+		}
+
+		private SettingRepository settingRepository;
+		public SettingRepository SettingRepository
+		{
+			get
+			{
+				if (settingRepository == null)
+				{
+					settingRepository = new SettingRepository(context);
+				}
+				return settingRepository;
+			}
+		}
 
 
         public void Save()
