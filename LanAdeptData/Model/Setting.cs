@@ -14,7 +14,7 @@ namespace LanAdeptData.Model
 
 		public DateTime EndDate { get; set; }
 
-		public String Rules { get; set; }
+		public string Rules { get; set; }
 
 		public bool SendRememberEmail { get; set; }
 
