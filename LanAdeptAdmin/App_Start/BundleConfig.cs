@@ -20,13 +20,16 @@ namespace LanAdeptAdmin
 						"~/Scripts/modernizr-*"));
 
 			bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+					  "~/Scripts/moment.min.js",
 					  "~/Scripts/bootstrap.js",
 					  "~/Scripts/jasny-bootstrap.js",
+					  "~/Scripts/bootstrap-datetimepicker.js",
 					  "~/Scripts/respond.js"));
 
 			bundles.Add(new StyleBundle("~/Content/css").Include(
 					  "~/Content/bootstrap.css",
 					  "~/Content/jasny-bootstrap.css",
+					  "~/Content/bootstrap-datetimepicker.css",
 					  "~/Content/site.css"));
 		}
 	}
