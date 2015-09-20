@@ -21,6 +21,7 @@ namespace LanAdeptAdmin
 
 			bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
 					  "~/Scripts/moment.min.js",
+					  "~/Scripts/moment-local/fr-ca.js",
 					  "~/Scripts/bootstrap.js",
 					  "~/Scripts/jasny-bootstrap.js",
 					  "~/Scripts/bootstrap-datetimepicker.js",
