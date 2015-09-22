@@ -8,6 +8,7 @@ using LanAdeptCore.Service;
 using LanAdeptCore.Service.ServiceResult;
 using LanAdeptData.DAL;
 using LanAdeptData.Model;
+using PagedList;
 
 namespace LanAdeptAdmin.Controllers
 {
@@ -35,7 +36,7 @@ namespace LanAdeptAdmin.Controllers
 
 
         [Authorize]
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, string sortOrder, string searchString, string currentFilter, int? page)
         {
             if (id == null || id < 1)
             {
@@ -53,6 +54,45 @@ namespace LanAdeptAdmin.Controllers
 
             Place place = uow.PlaceRepository.GetByID(id);
 
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.DateSort = String.IsNullOrEmpty(sortOrder) ? "date_desc" : "";
+            ViewBag.NameSort = sortOrder == "Name" ? "name_desc" : "Name";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                place.Reservations = place.Reservations.Where(s => s.User.CompleteName.Contains(searchString)).ToList();
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    place.Reservations = place.Reservations.OrderByDescending(s => s.User.CompleteName).ToList();
+                    break;
+                case "Name":
+                    place.Reservations = place.Reservations.OrderBy(s => s.User.CompleteName).ToList();
+                    break;
+                case "date_desc":
+                    place.Reservations = place.Reservations.OrderByDescending(s => s.CreationDate).ToList();
+                    break;
+                default:
+                    place.Reservations = place.Reservations.OrderBy(s => s.CreationDate).ToList();
+                    break;
+            }
+
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            ViewBag.Reservations = place.Reservations.ToPagedList(pageNumber, pageSize);
             return View(place);
         }
 

@@ -1,9 +1,12 @@
 ﻿@model LanAdeptData.Model.Place
+@using PagedList.Mvc;
+@using PagedList;
 
 @{
     ViewBag.Title = "Details";
     ViewBag.Sidebar = "_Sidebar_Place";
-    List<Reservation> reservations = Model.Reservations.ToList();
+    //List<Reservation> reservations = Model.Reservations.ToList();
+    PagedList<Reservation> reservations = ViewBag.Reservations;
 }
 
 <h2>Details</h2>
@@ -30,25 +33,37 @@
 
     </dl>
 </div>
+<hr />
+@using (Html.BeginForm("Details", "Place", FormMethod.Get))
+{
+    <p>
+        Find by full name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
 
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Full Name</th>
-                <th>Creation Date</th>
+                <th>@Html.ActionLink("Creation Date", "Details", new { sortOrder = ViewBag.DateSort })</th>
+                <th>@Html.ActionLink("Full Name", "Details", new { sortOrder = ViewBag.NameSort, currentFilter = ViewBag.CurrentFilter })</th>
             </tr>
         </thead>
         <tbody>
             @for (int i = 0; i < 5 && i < Model.Reservations.Count; i++)
             {
                 <tr>
-                    <th>@reservations[i].User.CompleteName</th>
                     <th>@reservations[i].CreationDate</th>
+                    <th>@reservations[i].User.CompleteName</th>
                 </tr>
             }
         </tbody>
     </table>
+
+    <br />
+    @Html.PagedListPager(reservations, page => Url.Action("Details",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 </div>
 
 <p>
