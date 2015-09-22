@@ -83,10 +83,10 @@ namespace LanAdeptAdmin.Controllers
                     place.Reservations = place.Reservations.OrderBy(s => s.User.CompleteName).ToList();
                     break;
                 case "date_desc":
-                    place.Reservations = place.Reservations.OrderByDescending(s => s.CreationDate).ToList();
+                    place.Reservations = place.Reservations.OrderBy(s => s.CreationDate).ToList();
                     break;
                 default:
-                    place.Reservations = place.Reservations.OrderBy(s => s.CreationDate).ToList();
+                    place.Reservations = place.Reservations.OrderByDescending(s => s.CreationDate).ToList();
                     break;
             }
 
@@ -94,6 +94,47 @@ namespace LanAdeptAdmin.Controllers
             int pageNumber = (page ?? 1);
             ViewBag.Reservations = place.Reservations.ToPagedList(pageNumber, pageSize);
             return View(place);
+        }
+
+        [Authorize]
+        public ActionResult Confirmer(int? id, string action)
+        {
+            if (id == null || id < 1 || action == null)
+            {
+                TempData["Error"] = ERROR_INVALID_ID;
+                return RedirectToAction("Liste");
+            }
+
+            Place placeAReserver = uow.PlaceRepository.GetByID(id.Value);
+
+            if (placeAReserver == null)
+            {
+                TempData["Error"] = ERROR_INVALID_ID;
+                return RedirectToAction("Liste");
+            }
+            BaseResult result = null;
+            switch (action)
+            {
+                case "Liberer":
+
+                    break;
+                case "Reserver":
+			        result = PlaceService.ReservePlace(placeAReserver);
+                    break;
+                case "Occuper":
+                    break;
+            }
+
+            if (result == null || result.HasError)
+            {
+                TempData["Error"] = result.Message;
+            }
+            else
+            {
+                TempData["Success"] = "La place <strong>" + placeAReserver + "</strong> a bien été réservée!";
+            }
+
+            return RedirectToAction("Liste");
         }
 
 		[Authorize]
