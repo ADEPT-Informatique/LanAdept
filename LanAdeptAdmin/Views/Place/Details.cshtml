@@ -13,7 +13,7 @@
 @Html.Partial("ModalConfirmerAdminAction")
 
 <div>
-    <h4>Place @Model.PlaceSection.Name@Model.Number</h4>
+    <h4>Place @Model</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -21,7 +21,7 @@
         </dt>
 
         <dd>
-            @Model.PlaceSection.Name@Model.Number
+            @Model
         </dd>
 
         <dt>
@@ -82,11 +82,11 @@
                 </tr>
             </thead>
             <tbody>
-                @for (int i = 0; i < 5 && i < Model.Reservations.Count; i++)
+                @foreach (Reservation reservation in reservations)
                 {
                     <tr>
-                        <th>@reservations[i].CreationDate</th>
-                        <th>@reservations[i].User.CompleteName</th>
+                        <th>@reservation.CreationDate</th>
+                        <th>@reservation.User.CompleteName</th>
                     </tr>
                 }
             </tbody>
