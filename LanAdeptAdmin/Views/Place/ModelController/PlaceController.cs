@@ -12,24 +12,24 @@ using PagedList;
 
 namespace LanAdeptAdmin.Controllers
 {
-	public class PlaceController : Controller
-	{
-		private const string ERROR_INVALID_ID = "Désolé, une erreur est survenue. Merci de réessayer dans quelques instants";
+    public class PlaceController : Controller
+    {
+        private const string ERROR_INVALID_ID = "Désolé, une erreur est survenue. Merci de réessayer dans quelques instants";
 
-		private UnitOfWork uow = UnitOfWork.Current;
+        private UnitOfWork uow = UnitOfWork.Current;
 
-		[Authorize]
-		public ActionResult Index()
-		{
-			return RedirectToAction("Liste");
-		}
+        [Authorize]
+        public ActionResult Index()
+        {
+            return RedirectToAction("Liste");
+        }
 
-		[Authorize]
+        [Authorize]
         public ActionResult Liste()
         {
             ListeModel listeModel = new ListeModel();
 
-           listeModel.Sections = uow.PlaceSectionRepository.Get();
+            listeModel.Sections = uow.PlaceSectionRepository.Get();
 
             return View(listeModel);
         }
@@ -97,9 +97,9 @@ namespace LanAdeptAdmin.Controllers
         }
 
         [Authorize]
-        public ActionResult Confirmer(int? id, string action)
+        public ActionResult Confirmer(int? id, string placeAction)
         {
-            if (id == null || id < 1 || action == null)
+            if (id == null || id < 1 || placeAction == null)
             {
                 TempData["Error"] = ERROR_INVALID_ID;
                 return RedirectToAction("Liste");
@@ -113,19 +113,32 @@ namespace LanAdeptAdmin.Controllers
                 return RedirectToAction("Liste");
             }
             BaseResult result = null;
-            switch (action)
+            switch (placeAction)
             {
                 case "Liberer":
+                    if (!placeAReserver.IsFree)
+                        PlaceService.CancelReservation(placeAReserver);
 
                     break;
                 case "Reserver":
-			        result = PlaceService.ReservePlace(placeAReserver);
+                    if (!placeAReserver.IsFree)
+                        PlaceService.CancelReservation(placeAReserver);
+
+                    result = PlaceService.ReservePlace(placeAReserver);
                     break;
                 case "Occuper":
+                    if (!placeAReserver.IsFree)
+                        PlaceService.CancelReservation(placeAReserver);
+
+                    result = PlaceService.ReservePlace(placeAReserver);
                     break;
             }
 
-            if (result == null || result.HasError)
+            if (result == null)
+            {
+                TempData["Error"] = "L'action " + placeAction + " n'existe pas.";
+            }
+            else if (result.HasError)
             {
                 TempData["Error"] = result.Message;
             }
@@ -137,49 +150,50 @@ namespace LanAdeptAdmin.Controllers
             return RedirectToAction("Liste");
         }
 
-		[Authorize]
-		public ActionResult Reserver(int? id)
-		{
-			if (id == null || id < 1)
-			{
-				TempData["Error"] = ERROR_INVALID_ID;
-				return RedirectToAction("Liste");
-			}
+        [Authorize]
+        public ActionResult Reserver(int? id)
+        {
+            if (id == null || id < 1)
+            {
+                TempData["Error"] = ERROR_INVALID_ID;
+                return RedirectToAction("Liste");
+            }
 
-			Place placeAReserver = uow.PlaceRepository.GetByID(id.Value);
+            Place placeAReserver = uow.PlaceRepository.GetByID(id.Value);
 
-			if (placeAReserver == null)
-			{
-				TempData["Error"] = ERROR_INVALID_ID;
-				return RedirectToAction("Liste");
-			}
+            if (placeAReserver == null)
+            {
+                TempData["Error"] = ERROR_INVALID_ID;
+                return RedirectToAction("Liste");
+            }
 
-			BaseResult result = PlaceService.ReservePlace(placeAReserver);
+            BaseResult result = PlaceService.ReservePlace(placeAReserver);
 
-			if (result.HasError)
-			{
-				TempData["Error"] = result.Message;
-			}
-			else {
-				TempData["Success"] = "La place <strong>" + placeAReserver + "</strong> a bien été réservée!";
-			}
+            if (result.HasError)
+            {
+                TempData["Error"] = result.Message;
+            }
+            else
+            {
+                TempData["Success"] = "La place <strong>" + placeAReserver + "</strong> a bien été réservée!";
+            }
 
-			return RedirectToAction("Liste");
-		}
+            return RedirectToAction("Liste");
+        }
 
-		[Authorize]
-		public ActionResult Annuler()
-		{
-			if (!PlaceService.HasUserPlace())
-			{
-				TempData["Error"] = "Vous devez avoir une réservation pour pouvoir l'annuler.";
-				return RedirectToAction("Liste");
-			}
+        [Authorize]
+        public ActionResult Annuler()
+        {
+            if (!PlaceService.HasUserPlace())
+            {
+                TempData["Error"] = "Vous devez avoir une réservation pour pouvoir l'annuler.";
+                return RedirectToAction("Liste");
+            }
 
-			PlaceService.CancelUserReservation();
+            PlaceService.CancelUserReservation();
 
-			TempData["Success"] = "Votre réservation a été annulée.";
-			return RedirectToAction("Liste");
-		}
-	}
+            TempData["Success"] = "Votre réservation a été annulée.";
+            return RedirectToAction("Liste");
+        }
+    }
 }

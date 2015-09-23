@@ -116,7 +116,7 @@
 			var modal = $(this);
 			modal.find('.modal-place-text').text(text);
 			modal.find('.action').text(buttonText);
-			modal.find('.btnConfirmer').attr("href", "@Url.Action("Confirmer")/" + placeID + "?action=" + action)
+			modal.find('.btnConfirmer').attr("href", "@Url.Action("Confirmer")?id=" + placeID + "&placeAction=" + action)
 		})
     </script>
 
