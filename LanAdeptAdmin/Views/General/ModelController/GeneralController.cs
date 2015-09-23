@@ -43,7 +43,7 @@ namespace LanAdeptAdmin.Controllers
 				uow.SettingRepository.Update(settings);
 				uow.Save();
 
-				TempData["Success"] = "Les changements ont bien été changés";
+				TempData["Success"] = "Les changements ont été enregistré";
 			}
 
 			return View(model);
