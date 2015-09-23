@@ -112,33 +112,26 @@ namespace LanAdeptAdmin.Controllers
                 TempData["Error"] = ERROR_INVALID_ID;
                 return RedirectToAction("Liste");
             }
+
             BaseResult result = null;
             switch (placeAction)
             {
                 case "Liberer":
-                    if (!placeAReserver.IsFree)
-                        PlaceService.CancelReservation(placeAReserver);
-
+                    result = PlaceService.LiberePlaceAdmin(placeAReserver);
                     break;
                 case "Reserver":
-                    if (!placeAReserver.IsFree)
-                        PlaceService.CancelReservation(placeAReserver);
-
-                    result = PlaceService.ReservePlace(placeAReserver);
+                    result = PlaceService.ReservePlaceAdmin(placeAReserver);
                     break;
                 case "Occuper":
-                    if (!placeAReserver.IsFree)
-                        PlaceService.CancelReservation(placeAReserver);
-
-                    result = PlaceService.ReservePlace(placeAReserver);
-                    break;
+                    throw new NotImplementedException();
+                //break;
             }
 
             if (result == null)
             {
                 TempData["Error"] = "L'action " + placeAction + " n'existe pas.";
             }
-            else if (result.HasError)
+            if (result.HasError)
             {
                 TempData["Error"] = result.Message;
             }
