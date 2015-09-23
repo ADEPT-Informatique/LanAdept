@@ -41,6 +41,7 @@ namespace LanAdeptAdmin.Controllers
 				settings.NbDaysBeforeRemember = model.NbDaysBeforeRemember;
 
 				uow.SettingRepository.Update(settings);
+				uow.Save();
 
 				TempData["Success"] = "Les changements ont bien été changés";
 			}

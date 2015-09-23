@@ -16,10 +16,8 @@ namespace LanAdept.Controllers
 
 		public ActionResult Index()
 		{
-			String date = "2015-10-14";
-			DateTime dateLan = DateTime.Parse(date);
-			dateLan = dateLan.AddHours(12);
-			dateLan = TimeZoneInfo.ConvertTimeToUtc(dateLan);
+			Setting settings = uow.SettingRepository.GetCurrentSettings();
+			DateTime dateLan = TimeZoneInfo.ConvertTimeToUtc(settings.StartDate);
 
 			double dateLanMs = dateLan.Subtract(new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds; //Donne le temps en unix time
 
