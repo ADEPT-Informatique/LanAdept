@@ -9,8 +9,8 @@ using LanAdeptData.Model;
 
 namespace LanAdeptAdmin.Controllers
 {
-    public class GeneralController : Controller
-    {
+	public class GeneralController : Controller
+	{
 		UnitOfWork uow = UnitOfWork.Current;
 
 		[Authorize]
@@ -26,6 +26,26 @@ namespace LanAdeptAdmin.Controllers
 			SettingsModel settingsModel = new SettingsModel(settings);
 
 			return View(settingsModel);
+		}
+
+		[Authorize]
+		[HttpPost]
+		public ActionResult Settings(SettingsModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				Setting settings = uow.SettingRepository.GetCurrentSettings();
+				settings.StartDate = model.StartDate;
+				settings.EndDate = model.EndDate;
+				settings.SendRememberEmail = model.SendRememberEmail;
+				settings.NbDaysBeforeRemember = model.NbDaysBeforeRemember;
+
+				uow.SettingRepository.Update(settings);
+
+				TempData["Success"] = "Les changements ont bien été changés";
+			}
+
+			return View(model);
 		}
 	}
 }
