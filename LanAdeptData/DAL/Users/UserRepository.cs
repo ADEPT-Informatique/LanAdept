@@ -16,5 +16,15 @@ namespace LanAdeptData.DAL.Users
 		{
 			return Get(u => u.Email == email).FirstOrDefault();
 		}
+
+        public User GetUserByName(string name)
+        {
+            return Get().Where(n => n.CompleteName.Contains(name)).FirstOrDefault();
+        }
+
+        public User GetUserByBarCode(string codeBare)
+        {
+            return Get().Where(model => model.CodeBare == codeBare).FirstOrDefault();
+        }
 	}
 }

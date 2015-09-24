@@ -98,15 +98,15 @@ namespace LanAdeptData.DAL
             }
         }
 
-        private ReservationRepository placeHistoryRepository;
-        public ReservationRepository PlaceHistoryRepository
+        private ReservationRepository reservationRepository;
+        public ReservationRepository ReservationRepository
         {
             get
             {
-                if (placeHistoryRepository == null)
-                    placeHistoryRepository = new ReservationRepository(context);
+                if (reservationRepository == null)
+                    reservationRepository = new ReservationRepository(context);
 
-                return placeHistoryRepository;
+                return reservationRepository;
             }
         }
 

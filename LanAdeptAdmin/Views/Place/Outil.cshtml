@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Outil";
+    ViewBag.Sidebar = "_Sidebar_Place";
+}
+
+<h2>Outil</h2>
+
+<div>
+    <hr />
+    @using (Html.BeginForm("BarcodeReader", "Place", FormMethod.Get))
+    {
+        <p>
+            Find User: @Html.TextBox("reader")
+            <input type="submit" value="Search" />
+        </p>
+    }
+</div>

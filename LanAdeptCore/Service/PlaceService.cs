@@ -85,7 +85,7 @@ namespace LanAdeptCore.Service
                 reservation.User = user;
                 reservation.Place = place;
 
-                UnitOfWork.Current.PlaceHistoryRepository.Insert(reservation);
+                UnitOfWork.Current.ReservationRepository.Insert(reservation);
                 UnitOfWork.Current.Save();
 
                 return new BaseResult();
@@ -97,7 +97,7 @@ namespace LanAdeptCore.Service
 #endif
             }
 
-            return new BaseResult() { Message = "Désolé, ne erreur est survenue. Merci de réessayer dans quelques instants.", HasError = true };
+            return new BaseResult() { Message = "Désolé, une erreur est survenue. Merci de réessayer dans quelques instants.", HasError = true };
         }
 
         /// <summary>
@@ -113,6 +113,10 @@ namespace LanAdeptCore.Service
                     PlaceService.CancelReservation(place);
                     return new BaseResult() { Message = "La place <strong>" + place + "</strong> a bien été libérée!", HasError = false };
                 }
+                else
+                {
+                    return new BaseResult() { Message = "La place <strong>" + place + "</strong> est déja libre!", HasError = true };
+                }
             }
             catch
             {
@@ -121,7 +125,7 @@ namespace LanAdeptCore.Service
 #endif
             }
 
-            return new BaseResult() { Message = "La place <strong>" + place + "</strong> est déja libre!", HasError = true };
+            return new BaseResult() { Message = "Désolé, une erreur est survenue. Merci de réessayer dans quelques instants.", HasError = true };
         }
 
         /// <summary>
@@ -149,7 +153,7 @@ namespace LanAdeptCore.Service
                 reservation.User = user;
                 reservation.Place = place;
 
-                UnitOfWork.Current.PlaceHistoryRepository.Insert(reservation);
+                UnitOfWork.Current.ReservationRepository.Insert(reservation);
                 UnitOfWork.Current.Save();
 
                 return new BaseResult() { Message = "La place <strong>" + place + "</strong> a bien été réservée!", HasError = false };
@@ -161,7 +165,31 @@ namespace LanAdeptCore.Service
 #endif
             }
 
-            return new BaseResult() { Message = "Désolé, ne erreur est survenue. Merci de réessayer dans quelques instants.", HasError = true };
+            return new BaseResult() { Message = "Désolé, une erreur est survenue. Merci de réessayer dans quelques instants.", HasError = true };
+        }
+
+        public static BaseResult OccuperPlaceAdmin(Place place)
+        {
+            try
+            {
+                if (!place.IsFree) return new BaseResult() { Message = "La place <strong>" + place + "</strong> n'est pas réservé!", HasError = true };
+                if (place.LastReservation.ArrivalDate != null) return new BaseResult() { Message = "La place <strong>" + place + "</strong> est déja occupé!", HasError = true };
+
+                Reservation reservation = place.LastReservation;
+                reservation.ArrivalDate = DateTime.Now;
+                UnitOfWork.Current.ReservationRepository.Update(reservation);
+                UnitOfWork.Current.Save();
+
+                return new BaseResult() { Message = "La place <strong>" + place + "</strong> a bien été réservée!", HasError = false };
+            }
+            catch
+            {
+#if DEBUG
+                throw;
+#endif
+            }
+
+            return new BaseResult() { Message = "Désolé, une erreur est survenue. Merci de réessayer dans quelques instants.", HasError = true };
         }
 
         /// <summary>
@@ -173,7 +201,7 @@ namespace LanAdeptCore.Service
             if (!place.LastReservation.IsCancelled)
             {
                 place.LastReservation.CancellationDate = DateTime.Now;
-                UnitOfWork.Current.PlaceHistoryRepository.Update(place.LastReservation);
+                UnitOfWork.Current.ReservationRepository.Update(place.LastReservation);
                 UnitOfWork.Current.Save();
             }
         }
@@ -195,7 +223,7 @@ namespace LanAdeptCore.Service
             if (!user.LastReservation.IsCancelled)
             {
                 user.LastReservation.CancellationDate = DateTime.Now;
-                UnitOfWork.Current.PlaceHistoryRepository.Update(user.LastReservation);
+                UnitOfWork.Current.ReservationRepository.Update(user.LastReservation);
                 UnitOfWork.Current.Save();
             }
         }

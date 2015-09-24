@@ -220,6 +220,7 @@
     <Content Include="Views\Shared\_Sidebar_Game.cshtml" />
     <Content Include="Views\General\Settings.cshtml" />
     <Content Include="Views\Place\Partial\ModalConfirmerAdminAction.cshtml" />
+    <Content Include="Views\Place\Outil.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

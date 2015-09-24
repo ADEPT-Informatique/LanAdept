@@ -123,8 +123,8 @@ namespace LanAdeptAdmin.Controllers
                     result = PlaceService.ReservePlaceAdmin(placeAReserver);
                     break;
                 case "Occuper":
-                    throw new NotImplementedException();
-                //break;
+                    result = PlaceService.OccuperPlaceAdmin(placeAReserver);
+                    break;
             }
 
             if (result == null)
@@ -137,7 +137,7 @@ namespace LanAdeptAdmin.Controllers
             }
             else
             {
-                TempData["Success"] = "La place <strong>" + placeAReserver + "</strong> a bien été réservée!";
+                TempData["Success"] = result.Message;
             }
 
             return RedirectToAction("Liste");
@@ -172,6 +172,38 @@ namespace LanAdeptAdmin.Controllers
             }
 
             return RedirectToAction("Liste");
+        }
+
+        [Authorize]
+        public ActionResult Outil() 
+        {
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult BarcodeReader(string reader)
+        {
+            User user = uow.UserRepository.GetUserByBarCode(reader);
+
+            if (user == null)
+            {
+                user = uow.UserRepository.GetUserByEmail(reader);
+            }
+
+            if (user == null)
+            {
+                user = uow.UserRepository.GetUserByName(reader);
+            }
+
+            if (user == null)
+            {
+                TempData["Error"] = "Aucun user n'a été trouvé";
+                return RedirectToAction("Liste");
+            }
+
+            Place place = user.LastReservation.Place;
+
+            return RedirectToAction("Details", new { id = place.PlaceID });
         }
 
         [Authorize]

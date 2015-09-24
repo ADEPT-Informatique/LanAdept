@@ -63,6 +63,14 @@ namespace LanAdeptData.Model
 			}
 		}
 
+        public string CodeBare
+        {
+            get 
+            {
+                return Email.Substring(0, 4) + UserID;
+            }
+        }
+
 		#endregion
 	}
 }
