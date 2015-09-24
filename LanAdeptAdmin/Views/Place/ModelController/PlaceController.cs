@@ -181,7 +181,7 @@ namespace LanAdeptAdmin.Controllers
         }
 
         [Authorize]
-        public ActionResult BarcodeReader(string reader)
+        public ActionResult FindUser(string reader)
         {
             User user = uow.UserRepository.GetUserByBarCode(reader);
 
@@ -197,7 +197,13 @@ namespace LanAdeptAdmin.Controllers
 
             if (user == null)
             {
-                TempData["Error"] = "Aucun user n'a été trouvé";
+                TempData["Error"] = "L'utilisateur n'a pas été trouvé";
+                return RedirectToAction("Liste");
+            }
+
+            if (!PlaceService.HasUserPlace())
+            {
+                TempData["Error"] = "L'utilisateur n'a pas de place réservé";
                 return RedirectToAction("Liste");
             }
 

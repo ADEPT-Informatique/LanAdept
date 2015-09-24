@@ -67,7 +67,7 @@ namespace LanAdeptData.Model
         {
             get 
             {
-                return Email.Substring(0, 4) + UserID;
+                return Email.GetHashCode().ToString("00000000") + UserID;
             }
         }
 
