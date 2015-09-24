@@ -1,7 +1,8 @@
-﻿@model LanAdeptData.Model.Tournament
+﻿@model  LanAdeptAdmin.Views.Tournaments.ModelController.TournamentModel
 
 @{
-    ViewBag.Title = "Details";
+	ViewBag.Title = "Details";
+	ViewBag.Sidebar = "_Sidebar_Tournoi";
 }
 
 <h2>Details</h2>
@@ -13,6 +14,5 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.TournamentID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
 </p>

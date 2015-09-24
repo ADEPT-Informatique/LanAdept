@@ -1,7 +1,8 @@
-﻿@model LanAdeptData.Model.Tournament
+﻿@model LanAdeptAdmin.Views.Tournaments.ModelController.TournamentModel
 
 @{
-    ViewBag.Title = "Edit";
+	ViewBag.Title = "Edit";
+	ViewBag.Sidebar = "_Sidebar_Tournoi";
 }
 
 <h2>Edit</h2>
@@ -14,21 +15,21 @@
         <h4>Tournament</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.TournamentID)
+        @Html.HiddenFor(model => model.Id)
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.Game, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-5">
+				@Html.DropDownList("GameID", null, htmlAttributes: new { @class = "form-control" })
+				@Html.ValidationMessageFor(model => model.Game.GameID, "", new { @class = "text-danger" })
+			</div>
+		</div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-5">
                 @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", Value = Model.StartDate != null ? Model.StartDate.Value.ToShortDateString() : "" } })
-                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -39,7 +40,3 @@
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

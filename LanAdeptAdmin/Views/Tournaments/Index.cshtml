@@ -1,6 +1,4 @@
-﻿@using LanAdeptData.Model;
-
-@model IEnumerable<LanAdeptData.Model.Tournament>
+﻿@model IEnumerable<LanAdeptAdmin.Views.Tournaments.ModelController.TournamentModel>
 
 @{
 	ViewBag.Title = "Index";
@@ -9,37 +7,28 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
-    <tr>
-        <th>@Html.DisplayNameFor(model => model.TournamentID)</th>
-		<th>@Html.DisplayNameFor(model => model.CreationDate)</th>
+	<tr>
+		<th>@Html.DisplayNameFor(model => model.Game)</th>
 		<th>@Html.DisplayNameFor(model => model.StartTime)</th>
-		<th>@Html.DisplayNameFor(model => model.StartDate)</th>
-    </tr>
+		<th></th>
+	</tr>
 
-@foreach (var item in Model) {
-    <tr>
-		<td>
-			@Html.DisplayFor(modelItem => item.TournamentID)
-		</td>
-		<td>
-			@Html.DisplayFor(modelItem => item.CreationDate)
-		</td>
-		<td>
-			@Html.DisplayFor(modelItem => item.StartTime)
-		</td>
-		<td>
-			@Html.DisplayFor(modelItem => item.StartDate)
-		</td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.TournamentID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.TournamentID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.TournamentID })
-        </td>
-    </tr>
-}
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Game.Name)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.StartTime)
+			</td>
+			<td>
+				@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+				@Html.ActionLink("Details", "Details", new { id = item.Id }) |
+				@Html.ActionLink("Delete", "Delete", new { id = item.Id })
+			</td>
+		</tr>
+	}
 
 </table>

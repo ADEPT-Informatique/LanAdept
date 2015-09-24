@@ -140,7 +140,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\Place\ModelController\ListeModel.cs" />
     <Compile Include="Views\Place\ModelController\PlaceController.cs" />
-    <Compile Include="Views\Tournaments\ModelController\TournamentsController.cs" />
+    <Compile Include="Views\Tournaments\ModelController\TournamentModel.cs" />
+    <Compile Include="Views\Tournaments\ModelController\TournamentController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-datetimepicker.css" />

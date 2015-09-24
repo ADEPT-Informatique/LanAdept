@@ -1,7 +1,8 @@
-﻿@model LanAdeptData.Model.Tournament
+﻿@model  LanAdeptAdmin.Views.Tournaments.ModelController.TournamentModel
 
 @{
-    ViewBag.Title = "Delete";
+	ViewBag.Title = "Delete";
+	ViewBag.Sidebar = "_Sidebar_Tournoi";
 }
 
 <h2>Delete</h2>
@@ -17,8 +18,7 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Delete" class="btn btn-default" />
         </div>
     }
 </div>

@@ -1,7 +1,8 @@
-﻿@model LanAdeptData.Model.Tournament
+﻿@model  LanAdeptAdmin.Views.Tournaments.ModelController.TournamentModel
 
 @{
-    ViewBag.Title = "Create";
+	ViewBag.Title = "Create";
+	ViewBag.Sidebar = "_Sidebar_Tournoi";
 }
 
 <h2>Create</h2>
@@ -17,7 +18,7 @@
 
 		<div class="form-group">
 			@Html.LabelFor(model => model.Game, htmlAttributes: new { @class = "control-label col-md-2" })
-			<div class="col-md-6">
+			<div class="col-md-5">
 				@Html.DropDownList("GameID", null, htmlAttributes: new { @class = "form-control" })
 				@Html.ValidationMessageFor(model => model.Game.GameID, "", new { @class = "text-danger" })
 			</div>
@@ -25,19 +26,11 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-5">
                 @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
             </div>
         </div>
-
-		<div class="form-group">
-			@Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
-			<div class="col-md-10">
-				@Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
-				@Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
-			</div>
-		</div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -46,7 +39,3 @@
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

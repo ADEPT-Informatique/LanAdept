@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using LanAdeptData.DAL;
 using LanAdeptData.Model;
+using LanAdeptAdmin.Views.Tournaments.ModelController;
 
 namespace LanAdeptAdmin.Views
 {
@@ -18,7 +19,13 @@ namespace LanAdeptAdmin.Views
 		[Authorize]
 		public ActionResult Index()
 		{
-			return View(uow.TournamentRepository.Get());
+			List<TournamentModel> tournamentModelList = new List<TournamentModel>();
+			IEnumerable<Tournament> tournaments = uow.TournamentRepository.Get();
+			foreach (Tournament tournament in tournaments) {
+				tournamentModelList.Add(new TournamentModel(tournament));
+
+			}
+			return View(tournamentModelList);
 		}
 
 		[Authorize]
@@ -28,7 +35,7 @@ namespace LanAdeptAdmin.Views
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
-			Tournament tournament = uow.TournamentRepository.GetByID(id);
+			TournamentModel tournament = new TournamentModel(uow.TournamentRepository.GetByID(id));
 			if (tournament == null)
 			{
 				return HttpNotFound();
@@ -40,26 +47,31 @@ namespace LanAdeptAdmin.Views
 		public ActionResult Create()
 		{
 			ViewBag.GameID = new SelectList(uow.GameRepository.Get(), "GameID", "Name");
-			Tournament tournament = new Tournament();
-			tournament.StartDate = DateTime.Parse("2015-10-14");
+			TournamentModel tournament = new TournamentModel();
 			return View(tournament);
 		}
 
 		[Authorize]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create([Bind(Include = "TournamentID, GameID, StartTime, StartDate")] Tournament tournament)
+		public ActionResult Create([Bind(Include = "GameID, StartTime")] TournamentModel tournamentModel)
 		{
 			if (ModelState.IsValid)
 			{
+				Tournament tournament = new Tournament();
+
+				tournament.StartTime = tournamentModel.StartTime;
+				tournament.Game = tournamentModel.Game;
+
 				tournament.CreationDate = DateTime.Now;
+
 				uow.TournamentRepository.Insert(tournament);
 				uow.Save();
 				return RedirectToAction("Index");
 			}
 
-			ViewBag.GameID = new SelectList(uow.GameRepository.Get(), "GameID", "Name", tournament.Game.GameID);
-			return View(tournament);
+			ViewBag.GameID = new SelectList(uow.GameRepository.Get(), "GameID", "Name", tournamentModel.Game.GameID);
+			return View(tournamentModel);
 		}
 
 		[Authorize]
@@ -69,28 +81,34 @@ namespace LanAdeptAdmin.Views
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
-			Tournament tournament = uow.TournamentRepository.GetByID(id);
+			TournamentModel tournament = new TournamentModel(uow.TournamentRepository.GetByID(id));
 			if (tournament == null)
 			{
 				return HttpNotFound();
 			}
-			//ViewBag.GameID = new SelectList(uow.GameRepository.Get(), "GameID", "Name", tournament.Game.GameID);
+			ViewBag.Id = tournament.Id;
+			ViewBag.GameID = new SelectList(uow.GameRepository.Get(), "GameID", "Name", tournament.Game.GameID);
 			return View(tournament);
 		}
 
 		[Authorize]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit([Bind(Include = "TournamentID, GameID, StartTime, StartDate")] Tournament tournament)
+		public ActionResult Edit([Bind(Include = "GameID, StartTime, Id")] TournamentModel tournamentModel)
 		{
 			if (ModelState.IsValid)
 			{
+				Tournament tournament = uow.TournamentRepository.GetByID(tournamentModel.Id);
+
+				tournament.Game = tournamentModel.Game;
+				tournament.StartTime = tournamentModel.StartTime;
+
 				uow.TournamentRepository.Update(tournament);
 				uow.Save();
 				return RedirectToAction("Index");
 			}
-			ViewBag.GameID = new SelectList(uow.GameRepository.Get(), "GameID", "Name", tournament.Game.GameID);
-			return View(tournament);
+			ViewBag.GameID = new SelectList(uow.GameRepository.Get(), "GameID", "Name", tournamentModel.Game.GameID);
+			return View(tournamentModel);
 		}
 
 		[Authorize]
@@ -100,7 +118,7 @@ namespace LanAdeptAdmin.Views
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
-			Tournament tournament = uow.TournamentRepository.GetByID(id);
+			TournamentModel tournament = new TournamentModel(uow.TournamentRepository.GetByID(id));
 			if (tournament == null)
 			{
 				return HttpNotFound();
@@ -113,7 +131,7 @@ namespace LanAdeptAdmin.Views
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteConfirmed(int id)
 		{
-			Tournament tournament = uow.TournamentRepository.GetByID(id);
+			TournamentModel tournament = new TournamentModel(uow.TournamentRepository.GetByID(id));
 			uow.TournamentRepository.Delete(tournament);
 			uow.Save();
 			return RedirectToAction("Index");
