@@ -27,6 +27,8 @@ namespace LanAdeptData.Model
 
 		public bool IsLanStarted { get { return DateTime.Now > StartDate; } }
 
+		public bool IsLanOver { get { return DateTime.Now > EndDate; } }
+
 		#endregion
 	}
 }

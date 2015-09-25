@@ -1,7 +1,7 @@
 ﻿@model LanAdept.Views.Place.ModelController.ListeModel
 
 @{
-	ViewBag.Title = "Liste des places";
+	ViewBag.Title = "Liste des places"; 
 }
 
 @if (LanAdeptCore.Service.PlaceService.HasUserPlace())
@@ -40,11 +40,18 @@ else
 	</div>
 }
 
-
-<div class="alert alert-warning" role="alert">
-	(JE SUIS HARDCODÉ)<br />Le LAN a déjà débuté. Il n'est donc plus possible de réserver une place. Si vous désirez changer de place, veuillez vous rendre à l'accueil.
-</div>
-
+@if (ViewBag.Settings.IsLanOver)
+{
+	<div class="alert alert-warning" role="alert">
+		Le LAN est maintenant terminé. Il n'est donc plus possible de réserver une place.
+	</div>
+}
+else if (ViewBag.Settings.IsLanStarted)
+{
+	<div class="alert alert-warning" role="alert">
+		Le LAN a déjà débuté. Il n'est donc plus possible de réserver une place. Si vous désirez obtenir une place ou changer de place, veuillez vous rendre à l'accueil du LAN.
+	</div>
+}
 
 @foreach (PlaceSection sectionCourante in Model.Sections)
 {
@@ -104,5 +111,5 @@ else
 }
 
 @section Styles {
-    <link href="@Url.Content("~/Content/Place.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/Place.css")" rel="stylesheet" type="text/css" />
 }

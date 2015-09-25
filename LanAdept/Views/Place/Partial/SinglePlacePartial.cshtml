@@ -25,7 +25,8 @@
 <div class="col-md-1 col-sm-2 col-xs-4 @classFirstDiv">
 	@if (Html.HasActionPermission("Reserver") 
 		&& Model.IsFree
-		&& !userHaveAPlace)
+		&& !userHaveAPlace
+		&& !ViewBag.Settings.IsLanStarted)
 	{
 		<div class="hover" data-toggle="modal" data-target="#ModalReserverPlace" data-place-text="@Model" data-place-id="@Model.PlaceID">
 			@Model
@@ -33,7 +34,8 @@
 	}
 	else if (Html.HasActionPermission("Reserver")
 		&& Model.IsFree
-		&& userHaveAPlace)
+		&& userHaveAPlace
+		&& !ViewBag.Settings.IsLanStarted)
 	{
 		<div class="hover" data-toggle="modal" data-target="#ModalChangerPlace" data-place-text="@Model" data-place-id="@Model.PlaceID">
 			@Model

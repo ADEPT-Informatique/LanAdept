@@ -14,6 +14,10 @@ namespace LanAdept.Controllers
 	public class PlaceController : Controller
 	{
 		private const string ERROR_INVALID_ID = "Désolé, une erreur est survenue. Merci de réessayer dans quelques instants";
+		private const string ERROR_RESERVE_LAN_STARTED = "Désolé, il est impossible de réserver une place lorsque le LAN est déjà commencé. Vous devrez vous présenter à l'accueil du LAN pour obtenir une place.";
+		private const string ERROR_CANCEL_LAN_NO_RESERVATION = "Vous devez avoir une réservation pour pouvoir l'annuler.";
+		private const string ERROR_CANCEL_LAN_STARTED = "Désolé, il est impossible d'annler une réservation lorsque le LAN est déjà terminé.";
+		private const string ERROR_CANCEL_LAN_OVER = "Désolé, il est impossible d'annuler une réservation lorsque le LAN est déjà terminé.";
 
 		private UnitOfWork uow = UnitOfWork.Current;
 
@@ -27,6 +31,7 @@ namespace LanAdept.Controllers
 		public ActionResult Liste()
 		{
 			ListeModel listeModel = new ListeModel();
+			ViewBag.Settings = LanAdeptData.DAL.UnitOfWork.Current.SettingRepository.GetCurrentSettings();
 
 			listeModel.Sections = uow.PlaceSectionRepository.Get();
 
@@ -39,6 +44,14 @@ namespace LanAdept.Controllers
 			if (id == null || id < 1)
 			{
 				TempData["Error"] = ERROR_INVALID_ID;
+				return RedirectToAction("Liste");
+			}
+
+			Setting settings = LanAdeptData.DAL.UnitOfWork.Current.SettingRepository.GetCurrentSettings();
+
+			if (settings.IsLanStarted)
+			{
+				TempData["Error"] = ERROR_RESERVE_LAN_STARTED;
 				return RedirectToAction("Liste");
 			}
 
@@ -73,6 +86,7 @@ namespace LanAdept.Controllers
 			}
 
 			Reservation reservation = UserService.GetLoggedInUser().LastReservation;
+			ViewBag.Settings = LanAdeptData.DAL.UnitOfWork.Current.SettingRepository.GetCurrentSettings();
 
 			return View(reservation);
 		}
@@ -82,7 +96,19 @@ namespace LanAdept.Controllers
 		{
 			if (!PlaceService.HasUserPlace())
 			{
-				TempData["Error"] = "Vous devez avoir une réservation pour pouvoir l'annuler.";
+				TempData["Error"] = ERROR_CANCEL_LAN_NO_RESERVATION;
+				return RedirectToAction("Liste");
+			}
+			Setting settings = LanAdeptData.DAL.UnitOfWork.Current.SettingRepository.GetCurrentSettings();
+
+			if (settings.IsLanOver)
+			{
+				TempData["Error"] = ERROR_CANCEL_LAN_OVER;
+				return RedirectToAction("Liste");
+			}
+			else if (settings.IsLanStarted)
+			{
+				TempData["Error"] = ERROR_CANCEL_LAN_STARTED;
 				return RedirectToAction("Liste");
 			}
 
