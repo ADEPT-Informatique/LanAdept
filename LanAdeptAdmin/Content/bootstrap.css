@@ -3711,7 +3711,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   height: 1px;
   margin: 9px 0;
   overflow: hidden;
-  background-color: #e5e5e5;
+  background-color: #777;
 }
 .nav > li > a > img {
   max-width: none;

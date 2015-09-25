@@ -19,6 +19,9 @@ namespace LanAdeptAdmin
 			bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
 						"~/Scripts/modernizr-*"));
 
+			bundles.Add(new ScriptBundle("~/bundles/markdown").Include(
+						"~/Scripts/MarkdownDeep.min.js"));
+
 			bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
 					  "~/Scripts/moment.min.js",
 					  "~/Scripts/moment-local/fr-ca.js",

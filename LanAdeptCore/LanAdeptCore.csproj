@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MarkdownDeep, Version=1.1.4117.36784, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MarkdownDeep.NET.1.4\lib\.NetFramework 3.5\MarkdownDeep.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
@@ -71,6 +75,7 @@
     <Compile Include="Attribute\Authorization\AuthorizationRequiredAttribute.cs" />
     <Compile Include="Attribute\Authorization\AuthorizeGuestOnlyAttribute.cs" />
     <Compile Include="Attribute\Authorization\AuthorizePermissionAttribute.cs" />
+    <Compile Include="HtmlExtension\MarkdownHelper.cs" />
     <Compile Include="HtmlExtension\HasActionPermissionExtension.cs" />
     <Compile Include="HtmlExtension\ListItemCategoryExtension.cs" />
     <Compile Include="HtmlExtension\ListItemActionExtension.cs" />

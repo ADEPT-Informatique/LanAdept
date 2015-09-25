@@ -48,5 +48,33 @@ namespace LanAdeptAdmin.Controllers
 
 			return View(model);
 		}
+
+		[Authorize]
+		public ActionResult Rules()
+		{
+			Setting settings = uow.SettingRepository.GetCurrentSettings();
+			RulesModel rulesModel = new RulesModel();
+			rulesModel.Rules = settings.Rules;
+
+			return View(rulesModel);
+		}
+
+		[Authorize]
+		[HttpPost]
+		public ActionResult Rules(RulesModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				Setting settings = uow.SettingRepository.GetCurrentSettings();
+				settings.Rules = model.Rules;
+
+				uow.SettingRepository.Update(settings);
+				uow.Save();
+
+				TempData["Success"] = "Les changements ont été enregistré";
+			}
+
+			return View(model);
+		}
 	}
 }

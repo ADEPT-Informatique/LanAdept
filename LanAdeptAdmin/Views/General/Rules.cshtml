@@ -1,0 +1,42 @@
+﻿@model LanAdeptAdmin.Views.General.ModelController.RulesModel
+
+@{
+	ViewBag.Title = "Règlements";
+	ViewBag.Sidebar = "_Sidebar_General";
+}
+
+<h2>Règlements</h2>
+
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+	<div class="form-horizontal">
+		@Html.EditorFor(model => model.Rules, new { htmlAttributes = new { @class = "form-control", style = "height:400px;" } })
+		@Html.ValidationMessageFor(model => model.Rules, "", new { @class = "text-danger" })
+		<br />
+		<input type="submit" value="Enregistrer" class="btn btn-primary pull-right" />
+	</div>
+}
+<h2>Prévisualisation:</h2>
+<pre id="prev">
+	@Html.Markdown(Model.Rules)
+</pre>
+
+@section scripts {
+	@Scripts.Render("~/bundles/markdown")
+
+	<script>
+		$(function () {
+
+			var markdown = new MarkdownDeep.Markdown();
+			markdown.ExtraMode = true;
+			markdown.SafeMode = false;
+
+			$("#Rules").keyup(function () {
+				console.log("CHange!");
+				$("#prev").html(markdown.Transform($("#Rules").val()));
+			});
+		});
+	</script>
+}

@@ -132,6 +132,7 @@
     <Compile Include="Views\Auth\ModelController\LoginModel.cs" />
     <Compile Include="Views\Game\ModelController\GameController.cs" />
     <Compile Include="Views\General\ModelController\GeneralController.cs" />
+    <Compile Include="Views\General\ModelController\RulesModel.cs" />
     <Compile Include="Views\General\ModelController\SettingsModel.cs" />
     <Compile Include="Views\Home\ModelController\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -168,6 +169,7 @@
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\MarkdownDeep.min.js" />
     <Content Include="Scripts\moment-local\fr-ca.js" />
     <Content Include="Scripts\jasny-bootstrap.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -222,6 +224,7 @@
     <Content Include="Views\General\Settings.cshtml" />
     <Content Include="Views\Place\Partial\ModalConfirmerAdminAction.cshtml" />
     <Content Include="Views\Place\Outil.cshtml" />
+    <Content Include="Views\General\Rules.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

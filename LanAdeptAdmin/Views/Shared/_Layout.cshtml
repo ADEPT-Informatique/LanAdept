@@ -16,23 +16,6 @@
 		@Html.Partial("_Sidebar_Mobile")
 	</div>
 
-	@*<div class="navbar-collapse collapse">
-			<ul class="nav navbar-nav">
-				@Html.ListItemAction("Accueil", "Index", "Home")
-				@Html.ListItemAction("Games", "Index", "Games")
-				@Html.ListItemAction("Tournaments", "Index", "Tournaments")
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				@Html.ListItemAction("Connexion", "Login", "Auth")
-
-				@if (LanAdeptCore.Service.PlaceService.HasUserPlace())
-				{
-					@Html.ListItemAction("Ma place", "MaPlace", "Place")
-				}
-				@Html.ListItemAction("Déconnexion", "Logout", "Auth")
-			</ul>
-		</div>*@
-
 	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-center navbar-brand">
 			@Html.ActionLink("Admin Lan Adept", "Index", "Home", null, new { @class = "navbar-brand" })
@@ -52,7 +35,7 @@
 				@Html.ListItemCategory("Jeux", "Index", "Game")
 				@Html.ListItemCategory("Tournoi", "Index", "Tournaments")
 			</ul>
-			<ul class="nav navbar-nav navbar-right">
+			<ul class="nav navbar-nav navbar-right" style="margin-right:15px;">
 				<li><a href="/lanadept">Retour au site</a></li>
 				@Html.ListItemCategory("Connexion", "Login", "Auth")
 				@Html.ListItemCategory("Déconnexion", "Logout", "Auth")
