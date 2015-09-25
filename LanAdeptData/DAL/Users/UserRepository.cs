@@ -17,9 +17,9 @@ namespace LanAdeptData.DAL.Users
 			return Get(u => u.Email == email).FirstOrDefault();
 		}
 
-        public User GetUserByName(string name)
+        public IEnumerable<User> GetUserByName(string name)
         {
-            return Get().Where(n => n.CompleteName.Contains(name)).FirstOrDefault();
+            return Get().Where(n => n.CompleteName.Contains(name));
         }
 
         public User GetUserByBarCode(string codeBare)

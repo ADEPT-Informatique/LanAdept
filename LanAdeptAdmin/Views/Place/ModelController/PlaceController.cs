@@ -175,14 +175,21 @@ namespace LanAdeptAdmin.Controllers
         }
 
         [Authorize]
-        public ActionResult Outil() 
+        public ActionResult Outil(IEnumerable<User> users) 
         {
+            ViewBag.Users = users;
             return View();
         }
 
         [Authorize]
         public ActionResult FindUser(string reader)
         {
+            if (reader == null)
+            {
+                TempData["Error"] = "Vous devez insérer des valeurs pour rechercher une personne";
+                return View();
+            }
+
             User user = uow.UserRepository.GetUserByBarCode(reader);
 
             if (user == null)
@@ -192,19 +199,24 @@ namespace LanAdeptAdmin.Controllers
 
             if (user == null)
             {
-                user = uow.UserRepository.GetUserByName(reader);
+                IEnumerable<User> users = uow.UserRepository.GetUserByName(reader);
+                if (users.Count() != 0)
+                {
+                    TempData["Success"] = "Vous avez trouvé plusieurs personnes";
+                    return RedirectToAction("Outil", users);   
+                }
             }
 
             if (user == null)
             {
                 TempData["Error"] = "L'utilisateur n'a pas été trouvé";
-                return RedirectToAction("Liste");
+                return View();
             }
 
             if (!PlaceService.HasUserPlace())
             {
                 TempData["Error"] = "L'utilisateur n'a pas de place réservé";
-                return RedirectToAction("Liste");
+                return View();
             }
 
             Place place = user.LastReservation.Place;

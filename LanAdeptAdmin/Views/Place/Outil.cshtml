@@ -6,6 +6,19 @@
 
 <h2>Outil</h2>
 
+@if (!string.IsNullOrWhiteSpace(TempData["Error"] as string))
+{
+    <div class="alert alert-danger" role="alert">
+        @Html.Raw(TempData["Error"])
+    </div>
+}
+@if (!string.IsNullOrWhiteSpace(TempData["Success"] as string))
+{
+    <div class="alert alert-success" role="alert">
+        @Html.Raw(TempData["Success"])
+    </div>
+}
+
 <div>
     <hr />
     @using (Html.BeginForm("FindUser", "Place", FormMethod.Get))
