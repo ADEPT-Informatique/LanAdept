@@ -23,7 +23,7 @@ namespace LanAdeptAdmin.Controllers
 		public ActionResult Settings()
 		{
 			Setting settings = uow.SettingRepository.GetCurrentSettings();
-			SettingsModel settingsModel = new SettingsModel(settings);
+			SettingsModel settingsModel = new SettingsModel(settings); 
 
 			return View(settingsModel);
 		}
