@@ -1,6 +1,6 @@
-﻿@using LanAdeptData.Model;
+﻿@using LanAdeptAdmin.Views.Game.ModelController;
 
-@model IEnumerable<LanAdeptData.Model.Game>
+@model IEnumerable<GameModel>
 
 @{
     ViewBag.Title = "Index";
@@ -9,16 +9,10 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
         </th>
         <th></th>
     </tr>
@@ -27,9 +21,6 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.GameID }) |

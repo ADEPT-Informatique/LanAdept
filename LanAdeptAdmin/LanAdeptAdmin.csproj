@@ -140,6 +140,7 @@
     <Compile Include="Views\Auth\ModelController\LoginModel.cs" />
     <Compile Include="Views\Emails\ModelController\TestEmail.cs" />
     <Compile Include="Views\Game\ModelController\GameController.cs" />
+    <Compile Include="Views\Game\ModelController\GameModel.cs" />
     <Compile Include="Views\General\ModelController\GeneralController.cs" />
     <Compile Include="Views\General\ModelController\RulesModel.cs" />
     <Compile Include="Views\General\ModelController\SettingsModel.cs" />

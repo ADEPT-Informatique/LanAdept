@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace LanAdeptAdmin.Views.Tournaments.ModelController
 {
@@ -17,9 +14,11 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 
 		public int Id { get; set; }
 
+		public int GameID { get; set; }
+
 		#region Navigation properties
 		[Display(Name = "Jeu")]
-		public virtual Game Game { get; set; }
+		public virtual LanAdeptData.Model.Game Game { get; set; }
 
 		public virtual ICollection<Team> Teams { get; set; }
 		#endregion
@@ -31,6 +30,7 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 		public TournamentModel(Tournament tournament) {
 			StartTime = tournament.StartTime;
 			Game = tournament.Game;
+			GameID = tournament.GameID;
 			Teams = tournament.Teams;
 			Id = tournament.TournamentID;
 		}

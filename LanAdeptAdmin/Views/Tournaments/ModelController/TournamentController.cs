@@ -21,7 +21,8 @@ namespace LanAdeptAdmin.Views
 		{
 			List<TournamentModel> tournamentModelList = new List<TournamentModel>();
 			IEnumerable<Tournament> tournaments = uow.TournamentRepository.Get();
-			foreach (Tournament tournament in tournaments) {
+			foreach (Tournament tournament in tournaments)
+			{
 				tournamentModelList.Add(new TournamentModel(tournament));
 
 			}
@@ -47,8 +48,7 @@ namespace LanAdeptAdmin.Views
 		public ActionResult Create()
 		{
 			ViewBag.GameID = new SelectList(uow.GameRepository.Get(), "GameID", "Name");
-			TournamentModel tournament = new TournamentModel();
-			return View(tournament);
+			return View();
 		}
 
 		[Authorize]
@@ -61,7 +61,7 @@ namespace LanAdeptAdmin.Views
 				Tournament tournament = new Tournament();
 
 				tournament.StartTime = tournamentModel.StartTime;
-				tournament.Game = tournamentModel.Game;
+				tournament.GameID = tournamentModel.GameID;
 
 				tournament.CreationDate = DateTime.Now;
 
@@ -69,8 +69,7 @@ namespace LanAdeptAdmin.Views
 				uow.Save();
 				return RedirectToAction("Index");
 			}
-
-			ViewBag.GameID = new SelectList(uow.GameRepository.Get(), "GameID", "Name", tournamentModel.Game.GameID);
+			ViewBag.GameID = new SelectList(uow.GameRepository.Get(), "GameID", "Name", tournamentModel.GameID);
 			return View(tournamentModel);
 		}
 
@@ -131,8 +130,7 @@ namespace LanAdeptAdmin.Views
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteConfirmed(int id)
 		{
-			TournamentModel tournament = new TournamentModel(uow.TournamentRepository.GetByID(id));
-			uow.TournamentRepository.Delete(tournament);
+			uow.TournamentRepository.Delete(uow.TournamentRepository.GetByID(id));
 			uow.Save();
 			return RedirectToAction("Index");
 		}
