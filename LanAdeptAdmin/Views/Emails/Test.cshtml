@@ -1,0 +1,15 @@
+﻿@model LanAdeptAdmin.Emails.TestEmail
+
+Hello,
+@Model.Message
+Thanks!
+
+@Html.EmbedImage("~/Images/LOGO_noir_Transparent.png")
+
+
+
+@section Headers {
+	To: @Model.To
+	From: IAmAn@example.com
+	Subject: Example
+}

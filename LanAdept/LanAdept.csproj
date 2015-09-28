@@ -141,6 +141,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Image\bg.jpg" />
+    <Content Include="Image\LOGO_couleurs_Transparent.png" />
+    <Content Include="Image\LOGO_noir_Transparent.png" />
+    <Content Include="Image\LOGO_noir_transparent_v2.png" />
+    <Content Include="Image\LOGO_noir_transparent_v3.png" />
+    <Content Include="Image\LOGO_noir_transparent_v4.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -188,7 +194,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Image\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

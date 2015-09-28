@@ -1,0 +1,23 @@
+﻿@RenderSection("Headers", true)
+
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="utf-8" />
+	<title>LanAdept</title>
+	@RenderSection("Styles", false)
+</head>
+<body>
+	<div bgcolor="#3399ff" style="width:100%; background-color:#3399ff;">
+		<div style="max-width:600px; background-color:#ffffff">
+			<h1>CECI EST UN TEST</h1>
+			<div>
+				@RenderBody()
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
