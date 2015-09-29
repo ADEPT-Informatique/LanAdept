@@ -24,7 +24,7 @@ namespace LanAdeptData.DAL.Users
 
         public User GetUserByBarCode(string codeBare)
         {
-            return Get().Where(model => model.CodeBare == codeBare).FirstOrDefault();
+            return Get().Where(model => model.Barcode == codeBare).FirstOrDefault();
         }
 	}
 }

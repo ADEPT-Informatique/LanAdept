@@ -10,7 +10,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
-				@Html.AuthorizeActionLink("Annuler ma réservation", "Annuler", null, new { id = Model.ReservationID }, new { @class = "btn btn-danger" })
+				@Html.AuthorizeActionLink("Annuler ma réservation", "Annuler", null, new { id = Model.reservation.ReservationID }, new { @class = "btn btn-danger" })
 			</div>
 		</div>
 	</div>

@@ -63,7 +63,7 @@ namespace LanAdeptData.Model
 			}
 		}
 
-        public string CodeBare
+        public string Barcode
         {
             get 
             {
