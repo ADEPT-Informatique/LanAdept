@@ -11,13 +11,13 @@ namespace LanAdept.Views.Tournament.ModelController
 
 		public int TournamentID { get; set; }
 
-		public virtual int UserID { get; set; }
+		public int UserID { get; set; }
 
-		public virtual User TeamLeader { get; set; }
+		public User TeamLeader { get; set; }
 
-		public virtual LanAdeptData.Model.Tournament Tournament { get; set; }
+		public LanAdeptData.Model.Tournament Tournament { get; set; }
 
-		public virtual ICollection<User> Users { get; set; }
+		public ICollection<User> Users { get; set; }
 
 		public TeamModel()
 		{

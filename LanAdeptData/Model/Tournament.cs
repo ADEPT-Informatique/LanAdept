@@ -35,11 +35,5 @@ namespace LanAdeptData.Model
 
 		public virtual ICollection<Team> Teams { get; set; }
 		#endregion
-
-		public Tournament()
-		{
-			Teams = new List<Team>();
-		}
-
 	}
 }

@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using System.Net;
 using LanAdeptData.Model;
 using LanAdeptCore.Service;
+using System.Data;
 
 namespace LanAdept.Views.Tournament.ModelController
 {
@@ -14,13 +15,11 @@ namespace LanAdept.Views.Tournament.ModelController
 		[AllowAnonymous]
 		public ActionResult Index()
 		{
-
 			List<TournamentModel> tournamentModels = new List<TournamentModel>();
 			IEnumerable<LanAdeptData.Model.Tournament> tournaments = uow.TournamentRepository.Get();
 			foreach (LanAdeptData.Model.Tournament tournament in tournaments)
 			{
 				tournamentModels.Add(new TournamentModel(tournament));
-
 			}
 			return View(tournamentModels);
 		}
@@ -44,10 +43,10 @@ namespace LanAdept.Views.Tournament.ModelController
 		public ActionResult Addteam(int id)
 		{
 			TeamModel team = new TeamModel();
-			team.TournamentID = id;
-			User user = UserService.GetLoggedInUser();
-			int userId = user.UserID;
-            team.UserID = userId;
+			team.Tournament = uow.TournamentRepository.GetByID(id);
+			team.TournamentID = team.Tournament.TournamentID;
+			team.TeamLeader = UserService.GetLoggedInUser();
+			team.UserID = team.TeamLeader.UserID;
 			return View(team);
 		}
 
@@ -59,22 +58,30 @@ namespace LanAdept.Views.Tournament.ModelController
 			if (ModelState.IsValid)
 			{
 				Team team = new Team();
-
-				team.TeamID = teamModel.Id;
 				team.Name = teamModel.Name;
-				team.UserID = teamModel.UserID;
 				team.TeamLeader = uow.UserRepository.GetByID(teamModel.UserID);
 				List<User> users = new List<User>();
 				users.Add(uow.UserRepository.GetByID(teamModel.UserID));
 				team.Users = users;
-				team.TournamentID = teamModel.TournamentID;
+				team.Tournament = uow.TournamentRepository.GetByID(teamModel.TournamentID);
 
 				uow.TeamRepository.Insert(team);
 
-				uow.TournamentRepository.GetByID(team.TournamentID).Teams.Add(team);
+				LanAdeptData.Model.Tournament tournament = team.Tournament;
 
+				if (tournament.Teams == null)
+				{
+					ICollection<Team> teamList;
+					teamList = new List<Team>();
+					teamList.Add(team);
+					tournament.Teams = teamList;
+				}
+				else
+				{
+					tournament.Teams.Add(team);
+				}
 				uow.Save();
-				return RedirectToAction("Details", new { id = team.TournamentID } );
+				return RedirectToAction("Details", new { id = team.Tournament.TournamentID });
 			}
 
 			return View(teamModel);

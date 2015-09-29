@@ -56,8 +56,14 @@
 		<div class="form-group">
 			@Html.LabelFor(model => model.Info, htmlAttributes: new { @class = "control-label col-md-2" })
 			<div class="col-md-5">
-				@Html.EditorFor(model => model.Info, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.EditorFor(model => model.Info, new { htmlAttributes = new { @class = "form-control", style = "height:400px;" } })
 				@Html.ValidationMessageFor(model => model.Info, "", new { @class = "text-danger" })
+				<br />
+
+				<h4>Prévisualisation:</h4>
+				<pre id="prev">
+					@Html.Markdown(Model.Info)
+				</pre>
 			</div>
 		</div>
 
@@ -68,3 +74,22 @@
 		</div>
 	</div>
 			}
+
+
+@section scripts {
+	@Scripts.Render("~/bundles/markdown")
+
+	<script>
+		$(function () {
+
+			var markdown = new MarkdownDeep.Markdown();
+			markdown.ExtraMode = true;
+			markdown.SafeMode = false;
+
+			$("#Rules").keyup(function () {
+				console.log("CHange!");
+				$("#prev").html(markdown.Transform($("#Rules").val()));
+			});
+		});
+	</script>
+}

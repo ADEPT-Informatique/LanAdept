@@ -16,6 +16,7 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 
 		public bool IsOver { get; set; }
 
+		[DataType(DataType.MultilineText)]
 		public string Info { get; set; }
 
 		public int Id { get; set; }
