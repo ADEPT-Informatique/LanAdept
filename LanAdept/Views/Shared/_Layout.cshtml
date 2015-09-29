@@ -26,6 +26,7 @@
                 <ul class="nav navbar-nav">
 					@Html.ListItemAction("Accueil", "Index", "Home")
 					@Html.ListItemAction("Liste des places", "Liste", "Place")
+					@Html.ListItemAction("Tournois", "Index", "Tournament")
 				</ul>
 				<ul class = "nav navbar-nav navbar-right">
 					@Html.ListItemAction("Connexion", "Login", "Auth")
@@ -45,7 +46,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p class="small">&copy; @DateTime.Now.Year - Adept - Christophe Gagnier et Charles Giguère</p>
+            <p class="small">&copy; @DateTime.Now.Year - Adept - Christophe Gagnier, Charles Giguère et Marc-Olivier Belisle</p>
         </footer>
     </div>
 

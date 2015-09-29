@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
 
-namespace LanAdeptAdmin.Views.Tournaments.ModelController
+namespace LanAdept.Views.Tournament.ModelController
 {
 	public class TournamentModel
 	{
@@ -12,37 +14,29 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 		[DisplayFormat(DataFormatString = @"{0:HH\hmm}")]
 		public DateTime? StartTime { get; set; }
 
-		public bool IsStarted { get; set; }
-
-		public bool IsOver { get; set; }
-
-		public string Info { get; set; }
-
 		public int Id { get; set; }
 
 		public int GameID { get; set; }
 
 		#region Navigation properties
 		[Display(Name = "Jeu")]
-		public virtual LanAdeptData.Model.Game Game { get; set; }
+		public virtual Game Game { get; set; }
 
 		public virtual ICollection<Team> Teams { get; set; }
 		#endregion
 
-		public TournamentModel() {
+		public TournamentModel()
+		{
 
 		}
 
-		public TournamentModel(Tournament tournament) {
+		public TournamentModel(LanAdeptData.Model.Tournament tournament)
+		{
 			StartTime = tournament.StartTime;
 			Game = tournament.Game;
 			GameID = tournament.GameID;
 			Teams = tournament.Teams;
 			Id = tournament.TournamentID;
-			IsOver = tournament.IsOver;
-			IsStarted = tournament.IsStarted;
-			Info = tournament.Info;
-
 		}
 	}
 }
