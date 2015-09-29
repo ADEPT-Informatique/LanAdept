@@ -27,9 +27,9 @@ namespace LanAdeptData.DAL.Users
 			return Get(u => u.CompleteName.Contains(query) || u.Email.Contains(query));
 		}
 
-        public User GetUserByBarCode(string codeBare)
+        public User GetUserByBarCode(string codeBarre)
         {
-            return Get().Where(model => model.Barcode == codeBare).FirstOrDefault();
+			return Get().Where(model => model.CodeBarre == codeBarre).FirstOrDefault();
         }
 	}
 }
