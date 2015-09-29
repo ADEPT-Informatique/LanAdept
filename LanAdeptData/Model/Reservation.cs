@@ -33,6 +33,16 @@ namespace LanAdeptData.Model
 			get { return CancellationDate != null; }
 		}
 
+		public bool HasArrived
+		{
+			get { return ArrivalDate != null; }
+		}
+
+		public bool HasLeft
+		{
+			get { return LeavingDate != null; }
+		}
+
 		#endregion
 	}
 }

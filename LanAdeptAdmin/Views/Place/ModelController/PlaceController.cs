@@ -90,7 +90,7 @@ namespace LanAdeptAdmin.Controllers
 					break;
 			}
 
-			int pageSize = 3;
+			int pageSize = 5;
 			int pageNumber = (page ?? 1);
 			ViewBag.Reservations = place.Reservations.ToPagedList(pageNumber, pageSize);
 			return View(place);
@@ -175,53 +175,48 @@ namespace LanAdeptAdmin.Controllers
 		}
 
 		[Authorize]
-		public ActionResult Outil(IEnumerable<User> users)
+		public ActionResult Search()
 		{
-			ViewBag.Users = users;
-			return View();
+			SearchModel searchModel = new SearchModel();
+			searchModel.UsersFound = uow.UserRepository.Get()
+				.OrderByDescending(x => PlaceService.HasUserPlace(x))
+				.ThenBy(y => y.CompleteName)
+				.ThenBy(y => y.Email);
+
+			return View(searchModel);
 		}
 
 		[Authorize]
-		public ActionResult FindUser(string reader)
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Search(SearchModel model)
 		{
-			if (reader == null)
+			if(ModelState.IsValid)
 			{
-				TempData["Error"] = "Vous devez insérer des valeurs pour rechercher une personne";
-				return View();
-			}
+				IEnumerable<User> usersFound = uow.UserRepository.SearchUsersByNameAndEmail(model.Query);
 
-			User user = uow.UserRepository.GetUserByBarCode(reader);
-
-			if (user == null)
-			{
-				user = uow.UserRepository.GetUserByEmail(reader);
-			}
-
-			if (user == null)
-			{
-				IEnumerable<User> users = uow.UserRepository.GetUserByName(reader);
-				if (users.Count() != 0)
+				if (usersFound.Count() == 0)
 				{
-					TempData["Success"] = "Vous avez trouvé plusieurs personnes";
-					return RedirectToAction("Outil", users);
+					TempData["Error"] = "Aucun utilisateur n'as été trouvé";
 				}
+				else if (usersFound.Count() == 1)
+				{
+					User userFound = usersFound.First();
+
+					if(!PlaceService.HasUserPlace(userFound))
+					{
+						TempData["Warning"] = "L'utilisateur n'a pas de réservation";
+					}
+					else
+					{
+						return RedirectToAction("Details", new { id = userFound.LastReservation.Place.PlaceID });
+					}
+				}
+
+				model.UsersFound = usersFound;
 			}
 
-			if (user == null)
-			{
-				TempData["Error"] = "L'utilisateur n'a pas été trouvé";
-				return View();
-			}
-
-			if (!PlaceService.HasUserPlace())
-			{
-				TempData["Error"] = "L'utilisateur n'a pas de place réservé";
-				return View();
-			}
-
-			Place place = user.LastReservation.Place;
-
-			return RedirectToAction("Details", new { id = place.PlaceID });
+			return View(model);
 		}
 
 		[Authorize]

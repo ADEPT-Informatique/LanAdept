@@ -1,0 +1,41 @@
+﻿@model IEnumerable<User>
+
+<h4>Résultats</h4>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Code barre</th>
+			<th>Nom complet</th>
+			<th>Email</th>
+			<th>Réservation</th>
+		</tr>
+	</thead>
+	<tbody>
+
+		@foreach (User user in Model)
+		{
+			string labelClass = "";
+			string labelText = "";
+			bool clickable = false;
+
+			if (user.LastReservation != null && !user.LastReservation.IsCancelled)
+			{
+				labelClass = "success";
+				labelText = "Oui";
+				clickable = true;
+			}
+			else
+			{
+				labelClass = "danger";
+				labelText = "Non";
+			}
+
+			<tr @(clickable ? "class=clickable-row data-row-url=" + Url.Action("Details", new { id=user.LastReservation.Place.PlaceID }) : "")>
+				<td>@user.CodeBarre</td>
+				<td>@user.CompleteName</td>
+				<td>@user.Email</td>
+				<td><span class="label label-@labelClass label-small">@labelText</span></td>
+			</tr>
+		}
+	</tbody>
+</table>

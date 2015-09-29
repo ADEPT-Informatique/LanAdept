@@ -151,6 +151,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\Place\ModelController\ListeModel.cs" />
     <Compile Include="Views\Place\ModelController\PlaceController.cs" />
+    <Compile Include="Views\Place\ModelController\SearchModel.cs" />
     <Compile Include="Views\Tournaments\ModelController\TournamentModel.cs" />
     <Compile Include="Views\Tournaments\ModelController\TournamentController.cs" />
   </ItemGroup>
@@ -180,6 +181,7 @@
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\general.js" />
     <Content Include="Scripts\MarkdownDeep.min.js" />
     <Content Include="Scripts\moment-local\fr-ca.js" />
     <Content Include="Scripts\jasny-bootstrap.js" />
@@ -234,12 +236,13 @@
     <Content Include="Views\Shared\_Sidebar_Game.cshtml" />
     <Content Include="Views\General\Settings.cshtml" />
     <Content Include="Views\Place\Partial\ModalConfirmerAdminAction.cshtml" />
-    <Content Include="Views\Place\Outil.cshtml" />
+    <Content Include="Views\Place\search.cshtml" />
     <Content Include="Views\General\Rules.cshtml" />
     <Content Include="Views\Emails\Web.config" />
     <Content Include="Views\Emails\_ViewStart.cshtml" />
     <Content Include="Views\Emails\_Layout.cshtml" />
     <Content Include="Views\Emails\Test.cshtml" />
+    <Content Include="Views\Place\Partial\ListUserFoundPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

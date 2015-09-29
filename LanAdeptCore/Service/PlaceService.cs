@@ -172,8 +172,10 @@ namespace LanAdeptCore.Service
 		{
 			try
 			{
-				if (!place.IsFree) return new BaseResult() { Message = "La place <strong>" + place + "</strong> n'est pas réservé!", HasError = true };
-				if (place.LastReservation.ArrivalDate != null) return new BaseResult() { Message = "La place <strong>" + place + "</strong> est déja occupé!", HasError = true };
+				if (!place.IsFree) 
+					return new BaseResult() { Message = "La place <strong>" + place + "</strong> n'est pas réservé!", HasError = true };
+				if (place.LastReservation.ArrivalDate != null) 
+					return new BaseResult() { Message = "La place <strong>" + place + "</strong> est déja occupé!", HasError = true };
 
 				Reservation reservation = place.LastReservation;
 				reservation.ArrivalDate = DateTime.Now;

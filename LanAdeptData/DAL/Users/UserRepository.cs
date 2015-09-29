@@ -17,14 +17,19 @@ namespace LanAdeptData.DAL.Users
 			return Get(u => u.Email == email).FirstOrDefault();
 		}
 
-        public IEnumerable<User> GetUserByName(string name)
-        {
-            return Get().Where(n => n.CompleteName.Contains(name));
-        }
+		public IEnumerable<User> GetUsersByName(string name)
+		{
+			return Get().Where(n => n.CompleteName.Contains(name));
+		}
 
-        public User GetUserByBarCode(string codeBare)
-        {
-            return Get().Where(model => model.CodeBare == codeBare).FirstOrDefault();
-        }
+		public User GetUserByBarCode(string codeBarre)
+		{
+			return Get().Where(model => model.CodeBarre == codeBarre).FirstOrDefault();
+		}
+
+		public IEnumerable<User> SearchUsersByNameAndEmail(string query)
+		{
+			return Get(u => u.CompleteName.Contains(query) || u.Email.Contains(query));
+		}
 	}
 }

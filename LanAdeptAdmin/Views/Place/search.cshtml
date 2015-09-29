@@ -1,0 +1,48 @@
+﻿@model LanAdeptAdmin.Views.Place.ModelController.SearchModel
+
+@{
+	ViewBag.Title = "Recherche";
+	ViewBag.Sidebar = "_Sidebar_Place";
+}
+
+<h2>Rechercher une réservation</h2>
+<hr />
+
+@if (!string.IsNullOrWhiteSpace(TempData["Error"] as string))
+{
+	<div class="alert alert-danger" role="alert">
+		@Html.Raw(TempData["Error"])
+	</div>
+}
+@if (!string.IsNullOrWhiteSpace(TempData["Success"] as string))
+{
+	<div class="alert alert-success" role="alert">
+		@Html.Raw(TempData["Success"])
+	</div>
+}
+
+<div>
+	<div class="form-horizontal">
+		@using (Html.BeginForm())
+		{
+			@Html.AntiForgeryToken();
+			<div class="form-group">
+				<div class="col-md-6">
+					<div class="input-group">
+						@Html.EditorFor(model => model.Query, new { htmlAttributes = new { @class = "form-control", placeholder = "Code barre, email ou nom complet" } })
+						<span class="input-group-btn">
+							<button class="btn btn-primary" type="submit">
+								<span class="glyphicon glyphicon-search"></span>
+								Chercher
+							</button>
+						</span>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+	@if (Model.FoundManyUser)
+	{
+		@Html.Partial("ListUserFoundPartial", Model.UsersFound)
+	}
+</div>
