@@ -31,7 +31,7 @@
 			}
 
 			<tr @(clickable ? "class=clickable-row data-row-url=" + Url.Action("Details", new { id=user.LastReservation.Place.PlaceID }) : "")>
-				<td>@user.CodeBarre</td>
+				<td>@user.Barcode</td>
 				<td>@user.CompleteName</td>
 				<td>@user.Email</td>
 				<td><span class="label label-@labelClass label-small">@labelText</span></td>
