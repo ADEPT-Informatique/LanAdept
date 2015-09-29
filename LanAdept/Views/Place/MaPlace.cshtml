@@ -13,7 +13,12 @@
     </div>
 
     <p class="pull-right">
-        @Html.AuthorizeActionLink("Retour", "Index", null, null, new { @class = "btn btn-default" })
+        @Html.AuthorizeActionLink(" ", "Index", null, null, new { @class = "glyphicon glyphicon-arrow-left btn btn-default" })
+
+        @using (Html.BeginForm("CreateTicket", "Place", new { reservation = Model.reservation, setting = Model.setting }, FormMethod.Post))
+        {
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span></button>
+        }
 
 		@if (!Model.reservation.Place.IsOccupied && !Model.setting.IsLanOver)
 		{
