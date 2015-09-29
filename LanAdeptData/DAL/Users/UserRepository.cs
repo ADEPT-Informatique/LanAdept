@@ -22,14 +22,14 @@ namespace LanAdeptData.DAL.Users
 			return Get().Where(n => n.CompleteName.Contains(name));
 		}
 
-		public User GetUserByBarCode(string codeBarre)
-		{
-			return Get().Where(model => model.CodeBarre == codeBarre).FirstOrDefault();
-		}
-
 		public IEnumerable<User> SearchUsersByNameAndEmail(string query)
 		{
 			return Get(u => u.CompleteName.Contains(query) || u.Email.Contains(query));
 		}
+
+        public User GetUserByBarCode(string codeBare)
+        {
+            return Get().Where(model => model.Barcode == codeBare).FirstOrDefault();
+        }
 	}
 }

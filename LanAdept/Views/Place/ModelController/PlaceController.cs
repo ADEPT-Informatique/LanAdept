@@ -85,10 +85,11 @@ namespace LanAdept.Controllers
 				return RedirectToAction("Liste");
 			}
 
-			Reservation reservation = UserService.GetLoggedInUser().LastReservation;
-			ViewBag.Settings = LanAdeptData.DAL.UnitOfWork.Current.SettingRepository.GetCurrentSettings();
+            PDFModel model = new PDFModel();
+            model.reservation = UserService.GetLoggedInUser().LastReservation;
+            model.setting = LanAdeptData.DAL.UnitOfWork.Current.SettingRepository.GetCurrentSettings();
 
-			return View(reservation);
+            return View(model);
 		}
 
 		[Authorize]

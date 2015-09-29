@@ -3,34 +3,34 @@
 	padding-right: 5px;
 }
 
-	.place div {
-		height: 75px;
-		line-height: 75px;
-		margin: 5px 0;
-		background-color: #eeeeee;
-		border: 1px solid #dddddd;
-		-webkit-border-radius: 3px;
-		-moz-border-radius: 3px;
-		border-radius: 3px;
-		text-align: center;
-		color: #333;
-		font-weight: bold;
-	}
+.place div {
+	height: 75px;
+	line-height: 75px;
+	margin: 5px 0;
+	background-color: #eeeeee;
+	border: 1px solid #dddddd;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	text-align: center;
+	color: #333;
+	font-weight: bold;
+}
 
-	.place div.hover:hover {
-		background-color: #dddddd;
-		cursor: pointer;
-	}
+.place div.hover:hover {
+	background-color: #dddddd;
+	cursor: pointer;
+}
 
-	.place a {
-		display: block;
-		height: 75px;
-		color: #333;
-	}
+.place a {
+	display: block;
+	height: 75px;
+	color: #333;
+}
 
-	.place a:hover {
-		text-decoration: none;
-	}
+.place a:hover {
+	text-decoration: none;
+}
 
 .place-occupe div {
 	background-color: #F9E5E6;

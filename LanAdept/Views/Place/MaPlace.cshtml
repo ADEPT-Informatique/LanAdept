@@ -1,4 +1,4 @@
-﻿@model LanAdeptData.Model.Reservation
+﻿@model LanAdept.Views.Place.ModelController.PDFModel
 
 @{
 	ViewBag.Title = "Ma place";
@@ -7,18 +7,21 @@
 @Html.Partial("ModalAnnulerReservationPartial")
 
 <div class="container-sm">
-	<h2>Ma place - @Model.Place</h2>
+    
+    <div id="render_me">
+        @Html.Partial("DownloadFilePDFPartiel", Model)
+    </div>
 
-	<div>
-		<h4>Réservé le @Model.CreationDate.ToShortDateString()</h4>
-		<hr />
-	</div>
-	<p class="pull-right">
-		@Html.AuthorizeActionLink("Retour", "Index", null, null, new { @class = "btn btn-default" })
-		@if (!Model.Place.IsOccupied && !ViewBag.Settings.IsLanOver)
+    <p class="pull-right">
+        @Html.AuthorizeActionLink("Retour", "Index", null, null, new { @class = "btn btn-default" })
+
+		@if (!Model.reservation.Place.IsOccupied && !Model.setting.IsLanOver)
 		{
 			<a href="#" class="btn btn-danger" data-toggle="modal" data-target="#ModalAnnulerReservation">Annuler ma réservation</a>
 		}
-	</p>
 	<div class="clearfix"></div>
 </div>
+
+@section Styles {
+    @Styles.Render("~/Content/PDF.css")
+}
