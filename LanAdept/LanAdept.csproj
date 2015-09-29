@@ -131,9 +131,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\Place\ModelController\ListeModel.cs" />
     <Compile Include="Views\Place\ModelController\PlaceController.cs" />
-    <Compile Include="Views\Tournament\ModelController\TeamModel.cs" />
-    <Compile Include="Views\Tournament\ModelController\TournamentController.cs" />
-    <Compile Include="Views\Tournament\ModelController\TournamentModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -194,9 +191,6 @@
     <Content Include="Views\Place\Partial\ModalChangerPlacePartial.cshtml" />
     <Content Include="Views\Place\MaPlace.cshtml" />
     <Content Include="Views\Place\Partial\ModalAnnulerReservationPartial.cshtml" />
-    <Content Include="Views\Tournament\Index.cshtml" />
-    <Content Include="Views\Tournament\Details.cshtml" />
-    <Content Include="Views\Tournament\AddTeam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

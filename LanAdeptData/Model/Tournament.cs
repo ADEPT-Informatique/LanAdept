@@ -16,30 +16,18 @@ namespace LanAdeptData.Model
 
 		public DateTime CreationDate { get; set; }
 
-		public bool IsStarted { get; set; }
-
-		public bool IsOver { get; set; }
-
-		public string Info { get; set; }
-
+		[ForeignKey("Game")]
 		public virtual int GameID { get; set; }
 
+		[ForeignKey("Organizer")]
 		public virtual int? UserID { get; set; }
 
 		#region Navigation properties
-		[ForeignKey("GameID")]
 		public virtual Game Game { get; set; }
 
-		[ForeignKey("UserID")]
 		public virtual User Organizer { get; set; }
 
 		public virtual ICollection<Team> Teams { get; set; }
 		#endregion
-
-		public Tournament()
-		{
-			Teams = new List<Team>();
-		}
-
 	}
 }

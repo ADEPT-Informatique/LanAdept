@@ -93,7 +93,7 @@ namespace LanAdeptAdmin.Views
 		[Authorize]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit([Bind(Include = "GameID, StartTime, Id, IsStarted, IsOver, Info")] TournamentModel tournamentModel)
+		public ActionResult Edit([Bind(Include = "GameID, StartTime, Id")] TournamentModel tournamentModel)
 		{
 			if (ModelState.IsValid)
 			{
@@ -101,9 +101,6 @@ namespace LanAdeptAdmin.Views
 
 				tournament.Game = tournamentModel.Game;
 				tournament.StartTime = tournamentModel.StartTime;
-				tournament.IsStarted = tournamentModel.IsStarted;
-				tournament.IsOver = tournamentModel.IsOver;
-				tournament.Info = tournamentModel.Info;
 
 				uow.TournamentRepository.Update(tournament);
 				uow.Save();
