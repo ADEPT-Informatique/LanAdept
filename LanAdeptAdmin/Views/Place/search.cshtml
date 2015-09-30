@@ -1,4 +1,4 @@
-﻿@model LanAdeptAdmin.Views.Place.ModelController.SearchModel
+﻿@model LanAdeptAdmin.Views.Places.ModelController.SearchModel
 
 @{
 	ViewBag.Title = "Recherche";
@@ -20,6 +20,12 @@
 		@Html.Raw(TempData["Success"])
 	</div>
 }
+@if (!string.IsNullOrWhiteSpace(TempData["Warning"] as string))
+{
+	<div class="alert alert-warning" role="alert">
+		@Html.Raw(TempData["Warning"])
+	</div>
+}
 
 <div>
 	<div class="form-horizontal">
@@ -29,7 +35,7 @@
 			<div class="form-group">
 				<div class="col-md-6">
 					<div class="input-group">
-						@Html.EditorFor(model => model.Query, new { htmlAttributes = new { @class = "form-control", placeholder = "Code barre, email ou nom complet" } })
+						@Html.EditorFor(model => model.Query, new { htmlAttributes = new { @class = "form-control", placeholder = "Code barre, email ou nom complet", autofocus="true" } })
 						<span class="input-group-btn">
 							<button class="btn btn-primary" type="submit">
 								<span class="glyphicon glyphicon-search"></span>
@@ -41,8 +47,19 @@
 			</div>
 		}
 	</div>
-	@if (Model.FoundManyUser)
+	@if (Model.FoundUsers)
 	{
 		@Html.Partial("ListUserFoundPartial", Model.UsersFound)
 	}
 </div>
+
+@section Scripts {
+	<script>
+		$(function () {
+			$("#Query").blur(function () {
+				$(this).focus();
+			})
+		});
+	</script>
+	
+}

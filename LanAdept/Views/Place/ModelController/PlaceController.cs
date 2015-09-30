@@ -69,7 +69,7 @@ namespace LanAdept.Controllers
                 return RedirectToAction("Liste");
             }
 
-            BaseResult result = PlaceService.ReservePlace(placeAReserver);
+            BaseResult result = ReservationService.ReservePlace(placeAReserver);
 
             if (result.HasError)
             {
@@ -86,7 +86,7 @@ namespace LanAdept.Controllers
         [Authorize]
         public ActionResult MaPlace()
         {
-            if (!PlaceService.HasUserPlace())
+            if (!ReservationService.HasUserPlace())
             {
                 TempData["Error"] = "Vous n'avez pas encore réservé une place.";
                 return RedirectToAction("Liste");
@@ -102,7 +102,7 @@ namespace LanAdept.Controllers
         [Authorize]
         public ActionResult Annuler()
         {
-            if (!PlaceService.HasUserPlace())
+            if (!ReservationService.HasUserPlace())
             {
                 TempData["Error"] = ERROR_CANCEL_LAN_NO_RESERVATION;
                 return RedirectToAction("Liste");
@@ -120,7 +120,7 @@ namespace LanAdept.Controllers
                 return RedirectToAction("Liste");
             }
 
-            PlaceService.CancelUserReservation();
+            ReservationService.CancelUserReservation();
 
             TempData["Success"] = "Votre réservation a été annulée.";
             return RedirectToAction("Liste");

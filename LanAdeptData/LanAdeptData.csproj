@@ -97,6 +97,7 @@
     <Compile Include="DAL\Users\RoleRepository.cs" />
     <Compile Include="DAL\Users\UserRepository.cs" />
     <Compile Include="Model\Game.cs" />
+    <Compile Include="Model\Guest.cs" />
     <Compile Include="Model\LoginHistory.cs" />
     <Compile Include="Model\Permission.cs" />
     <Compile Include="Model\Place.cs" />

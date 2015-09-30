@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using LanAdeptData.Model;
 
-namespace LanAdeptAdmin.Views.Place.ModelController
+namespace LanAdeptAdmin.Views.Places.ModelController
 {
 	public class SearchModel
 	{
@@ -14,9 +14,14 @@ namespace LanAdeptAdmin.Views.Place.ModelController
 
 		public IEnumerable<User> UsersFound { get; set; }
 
-		public bool FoundManyUser
+		public bool FoundUsers
 		{
-			get { return UsersFound != null && UsersFound.Count() > 1; }
+			get { return UsersFound != null && UsersFound.Count() > 0; }
+		}
+
+		public SearchModel()
+		{
+			UsersFound = new List<User>();
 		}
 	}
 }

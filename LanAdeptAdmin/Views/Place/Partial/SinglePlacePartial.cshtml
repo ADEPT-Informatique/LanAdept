@@ -5,7 +5,7 @@
 
 	if (!Model.IsFree)
 	{
-		if (LanAdeptCore.Service.PlaceService.IsUserPlace(Model))
+		if (LanAdeptCore.Service.ReservationService.IsUserPlace(Model))
 		{
 			classFirstDiv += " place-actuelle";
 		}
@@ -19,7 +19,7 @@
 		}
 	}
 
-	bool userHaveAPlace = LanAdeptCore.Service.PlaceService.HasUserPlace();
+	bool userHaveAPlace = LanAdeptCore.Service.ReservationService.HasUserPlace();
 }
 
 <div class="col-md-1 col-sm-2 col-xs-4 @classFirstDiv">

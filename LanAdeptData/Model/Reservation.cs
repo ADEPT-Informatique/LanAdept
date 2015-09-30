@@ -24,9 +24,16 @@ namespace LanAdeptData.Model
 
 		public virtual User User { get; set; }
 
+		public virtual Guest Guest { get; set; }
+
 		#endregion
 
 		#region Calculated properties
+
+		public bool IsGuest
+		{
+			get { return Guest != null; }
+		}
 
 		public bool IsCancelled
 		{

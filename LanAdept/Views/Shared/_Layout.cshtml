@@ -33,7 +33,7 @@
 					@Html.ListItemAction("Inscription", "Register", "Auth")
 
 
-					@if (LanAdeptCore.Service.PlaceService.HasUserPlace())
+					@if (LanAdeptCore.Service.ReservationService.HasUserPlace())
 					{
 						@Html.ListItemAction("Ma place", "MaPlace", "Place")
 					}
