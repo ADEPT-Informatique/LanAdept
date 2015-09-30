@@ -146,6 +146,7 @@ namespace LanAdept.Controllers
             {
 
                 using (var doc = new Document())
+
                 {
 
                     using (var writer = PdfWriter.GetInstance(doc, ms))
