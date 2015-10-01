@@ -53,6 +53,12 @@ else if (ViewBag.Settings.IsLanStarted)
 	</div>
 }
 
+@foreach (Map map in Model.Maps)
+{
+    @Html.Partial("SingleMapPartial", map)
+}
+
+
 @foreach (PlaceSection sectionCourante in Model.Sections)
 {
 	@Html.Partial("SingleSectionPartial", sectionCourante)
@@ -112,4 +118,5 @@ else if (ViewBag.Settings.IsLanStarted)
 
 @section Styles {
 	<link href="@Url.Content("~/Content/Place.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Map.css")" rel="stylesheet" type="text/css" />
 }

@@ -83,7 +83,7 @@ namespace LanAdept.Views.Tournament.ModelController
 				}
 				else
 				{
-					tournament.Teams.Add(team);
+                    tournament.Teams.Add(team);
 				}
 
 				uow.TournamentRepository.Update(tournament);

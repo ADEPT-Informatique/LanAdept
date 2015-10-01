@@ -177,6 +177,18 @@ namespace LanAdeptData.DAL
 			}
 		}
 
+        private MapRepository mapRepository;
+        public MapRepository MapRepository
+        {
+            get
+            {
+                if (mapRepository == null)
+                {
+                    mapRepository = new MapRepository(context);
+                }
+                return mapRepository;
+            }
+        }
 
         public void Save()
         {

@@ -85,6 +85,7 @@
     <Compile Include="DAL\Generic\IRepository.cs" />
     <Compile Include="DAL\Generic\IUnitOfWork.cs" />
     <Compile Include="DAL\LanAdeptDataContext.cs" />
+    <Compile Include="DAL\Places\MapRepository.cs" />
     <Compile Include="DAL\Places\ReservationRepository.cs" />
     <Compile Include="DAL\Places\PlaceRepository.cs" />
     <Compile Include="DAL\Places\PlaceSectionRepository.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Model\Gamer.cs" />
     <Compile Include="Model\Guest.cs" />
     <Compile Include="Model\LoginHistory.cs" />
+    <Compile Include="Model\Map.cs" />
     <Compile Include="Model\Permission.cs" />
     <Compile Include="Model\Place.cs" />
     <Compile Include="Model\Reservation.cs" />
@@ -110,6 +112,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Setting.cs" />
     <Compile Include="Model\Team.cs" />
+    <Compile Include="Model\Tile.cs" />
     <Compile Include="Model\Tournament.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

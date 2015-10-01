@@ -8,6 +8,7 @@ namespace LanAdeptAdmin.Views.Places.ModelController
 {
 	public class ListeModel
 	{
+        public IEnumerable<Map> Maps { get; set; }
 		public IEnumerable<PlaceSection> Sections { get; set; }
 
 	}

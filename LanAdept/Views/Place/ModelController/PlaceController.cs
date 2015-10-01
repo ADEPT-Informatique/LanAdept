@@ -39,6 +39,7 @@ namespace LanAdept.Controllers
             ListeModel listeModel = new ListeModel();
             ViewBag.Settings = LanAdeptData.DAL.UnitOfWork.Current.SettingRepository.GetCurrentSettings();
 
+            listeModel.Maps = uow.MapRepository.Get();
             listeModel.Sections = uow.PlaceSectionRepository.Get();
 
             return View(listeModel);
