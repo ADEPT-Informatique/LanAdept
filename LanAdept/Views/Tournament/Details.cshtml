@@ -1,14 +1,18 @@
 ﻿@model LanAdept.Views.Tournament.ModelController.TournamentModel
 
+
+
 @{
 	ViewBag.Title = "Details";
 }
 
 <h2>@Html.DisplayFor(model => model.Game.Name)</h2>
 
-<table>
+<h4>Teams</h4>
+<table class="table">
 	<tr>
 		<th>@Html.DisplayNameFor(model => model.Teams.First().Name)</th>
+		<th>@Html.DisplayNameFor(model => model.Teams.First().Tag)</th>
 		<th>Nombre de joueur</th>
 	</tr>
 
@@ -16,14 +20,21 @@
 	{
 		<tr>
 			<td>
-				@{ team.Name.ToString();}
+				@team.Name.ToString()
 			</td>
 			<td>
-				@{ team.Users.Count.ToString();}
+				@if (team.Tag != null)
+				{
+					@team.Tag.ToString()
+				}
+			</td>
+			<td>
+				@team.Users.Count.ToString()
 			</td>
 		</tr>
 	}
 </table>
+
 
 
 @Html.ActionLink("Ajouter une equipe", "AddTeam", new { id = Model.Id }, new { @class = "btn btn-default" })

@@ -93,13 +93,14 @@ namespace LanAdeptAdmin.Views
 		[Authorize]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit([Bind(Include = "GameID, StartTime, Id, IsStarted, IsOver, Info")] TournamentModel tournamentModel)
+		public ActionResult Edit([Bind(Include = "GameID, MaxPlayerPerTeam, StartTime, Id, IsStarted, IsOver, Info")] TournamentModel tournamentModel)
 		{
 			if (ModelState.IsValid)
 			{
 				Tournament tournament = uow.TournamentRepository.GetByID(tournamentModel.Id);
 
 				tournament.Game = tournamentModel.Game;
+				tournament.MaxPlayerPerTeam = tournamentModel.MaxPlayerPerTeam;
 				tournament.StartTime = tournamentModel.StartTime;
 				tournament.IsStarted = tournamentModel.IsStarted;
 				tournament.IsOver = tournamentModel.IsOver;
@@ -133,9 +134,44 @@ namespace LanAdeptAdmin.Views
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteConfirmed(int id)
 		{
-			uow.TournamentRepository.Delete(uow.TournamentRepository.GetByID(id));
+			Tournament tournament = uow.TournamentRepository.GetByID(id);
+
+			while (tournament.Teams.Count != 0)
+			{
+				Team team = tournament.Teams.First();
+				team.Users.Clear();
+                uow.TeamRepository.Delete(team);
+			}
+
+			uow.TournamentRepository.Delete(tournament);
 			uow.Save();
 			return RedirectToAction("Index");
+		}
+
+		[Authorize]
+		public ActionResult DeleteTeam(int? TeamId)
+		{
+			if (TeamId == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			TeamModel team = new TeamModel(uow.TeamRepository.GetByID(TeamId));
+			if (team == null)
+			{
+				return HttpNotFound();
+			}
+			return View(team);
+		}
+
+		[Authorize]
+		[HttpPost, ActionName("DeleteTeam")]
+		[ValidateAntiForgeryToken]
+		public ActionResult DeleteTeamConfirmed(int TeamId)
+		{
+			int tournamentID = uow.TeamRepository.GetByID(TeamId).TournamentID;
+			uow.TeamRepository.Delete(uow.TeamRepository.GetByID(TeamId));
+			uow.Save();
+			return RedirectToAction("Details", new { id = tournamentID });
 		}
 
 		protected override void Dispose(bool disposing)

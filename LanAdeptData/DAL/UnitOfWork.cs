@@ -110,7 +110,8 @@ namespace LanAdeptData.DAL
             }
         }
 
-        private TournamentRepository tournamentRepository;
+		#region Tournaments Repo
+		private TournamentRepository tournamentRepository;
         public TournamentRepository TournamentRepository
         {
             get
@@ -148,6 +149,20 @@ namespace LanAdeptData.DAL
 				return gameRepository;
 			}
 		}
+
+		private GamerRepository gamerRepository;
+		public GamerRepository GamerRepository
+		{
+			get
+			{
+				if (gamerRepository == null)
+				{
+					gamerRepository = new GamerRepository(context);
+				}
+				return gamerRepository;
+			}
+		}
+		#endregion
 
 		private SettingRepository settingRepository;
 		public SettingRepository SettingRepository

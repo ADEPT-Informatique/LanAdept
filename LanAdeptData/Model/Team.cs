@@ -13,6 +13,8 @@ namespace LanAdeptData.Model
 
 		public string Name { get; set; }
 
+		public string Tag { get; set; }
+
 		public int TournamentID { get; set; }
 
 		public virtual int UserID { get; set; }

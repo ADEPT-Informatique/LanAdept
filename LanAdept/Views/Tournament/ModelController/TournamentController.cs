@@ -56,13 +56,15 @@ namespace LanAdept.Views.Tournament.ModelController
 		[AllowAnonymous]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-        public ActionResult Addteam([Bind(Include = "Name,TournamentID,UserID")]TeamModel teamModel)
+        public ActionResult Addteam([Bind(Include = "Name,Tag,TournamentID,UserID")]TeamModel teamModel)
 		{
 			if (ModelState.IsValid)
 			{
 				Team team = new Team();
 				team.Name = teamModel.Name;
+				team.Tag = teamModel.Tag;
 				team.TeamLeader = uow.UserRepository.GetByID(teamModel.UserID);
+				
 				List<User> users = new List<User>();
                 users.Add(uow.UserRepository.GetByID(teamModel.UserID));
 				team.Users = users;
@@ -83,6 +85,9 @@ namespace LanAdept.Views.Tournament.ModelController
 				{
 					tournament.Teams.Add(team);
 				}
+
+				uow.TournamentRepository.Update(tournament);
+
 				uow.Save();
 				return RedirectToAction("Details", new { id = team.Tournament.TournamentID });
 			}

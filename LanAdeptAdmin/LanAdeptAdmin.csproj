@@ -153,6 +153,7 @@
     <Compile Include="Views\Place\ModelController\PlaceController.cs" />
     <Compile Include="Views\Place\ModelController\ReserveModel.cs" />
     <Compile Include="Views\Place\ModelController\SearchModel.cs" />
+    <Compile Include="Views\Tournaments\ModelController\TeamModel.cs" />
     <Compile Include="Views\Tournaments\ModelController\TournamentModel.cs" />
     <Compile Include="Views\Tournaments\ModelController\TournamentController.cs" />
   </ItemGroup>
@@ -245,6 +246,8 @@
     <Content Include="Views\Emails\Test.cshtml" />
     <Content Include="Views\Place\Partial\ListUserFoundPartial.cshtml" />
     <Content Include="Views\Place\Reserve.cshtml" />
+    <Content Include="Views\Tournaments\DeleteTeam.cshtml" />
+    <Content Include="Views\Tournaments\Shared\UserList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

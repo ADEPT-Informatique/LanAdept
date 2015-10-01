@@ -1,72 +1,83 @@
 ﻿@model  LanAdeptAdmin.Views.Tournaments.ModelController.TournamentModel
 
-@{
-	ViewBag.Title = "Details";
-	ViewBag.Sidebar = "_Sidebar_Tournoi";
-}
+	@{
+		ViewBag.Title = "Details";
+		ViewBag.Sidebar = "_Sidebar_Tournoi";
+	}
 
-<h2>Details</h2>
+	<h2>Details</h2>
 
-<div>
-	<h4>@Html.DisplayFor(model => model.Game.Name)</h4>
-	<hr />
-
-
-	<dl class="dl-horizontal">
-
-		<dt>
-			@Html.DisplayNameFor(model => model.StartTime)
-		</dt>
-
-		<dd>
-			@Html.DisplayFor(model => model.StartTime)
-		</dd>
-
-		<dt>
-			@Html.DisplayNameFor(model => model.IsOver)
-		</dt>
-
-		<dd>
-			@Html.DisplayFor(model => model.IsOver)
-		</dd>
-
-		<dt>
-			@Html.DisplayNameFor(model => model.IsStarted)
-		</dt>
-
-		<dd>
-			@Html.DisplayFor(model => model.IsStarted)
-		</dd>
-
-	</dl>
 	<div>
-		<h4>Informations et reglements</h4>
-		<p>
-			@Html.DisplayFor(model => model.Info)
-		</p>
-	</div>
+		<h4>@Html.DisplayFor(model => model.Game.Name)</h4>
+		<hr />
 
-	<h4>Teams</h4>
-	<table>
-		<tr>
-			<th>@Html.DisplayNameFor(model => model.Teams.First().Name)</th>
-			<th>Nombre de joueur</th>
-		</tr>
 
-		@foreach (Team team in Model.Teams)
-			{
+		<dl class="dl-horizontal">
+
+			<dt>
+				@Html.DisplayNameFor(model => model.StartTime)
+			</dt>
+
+			<dd>
+				@Html.DisplayFor(model => model.StartTime)
+			</dd>
+
+			<dt>
+				@Html.DisplayNameFor(model => model.IsStarted)
+			</dt>
+
+			<dd>
+				@Html.DisplayFor(model => model.IsStarted)
+			</dd>
+
+			<dt>
+				@Html.DisplayNameFor(model => model.IsOver)
+			</dt>
+
+			<dd>
+				@Html.DisplayFor(model => model.IsOver)
+			</dd>
+
+		</dl>
+		<div>
+			<h4>Informations et reglements</h4>
+			<p>
+				@Html.DisplayFor(model => model.Info)
+			</p>
+		</div>
+
+		<h4>Teams</h4>
+		<table class="table">
 			<tr>
-				<td>
-					@{ team.Name.ToString();}
-				</td>
-				<td>
-					@{ team.Users.Count.ToString();}
-				</td>
+				<th>@Html.DisplayNameFor(model => model.Teams.First().Name)</th>
+				<th>@Html.DisplayNameFor(model => model.Teams.First().Tag)</th>
+				<th>Nombre de joueur</th>
+				<th></th>
 			</tr>
-						}
-	</table>
 
-</div>
-<p>
-	@Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-default" })
-</p>
+			@foreach (Team team in Model.Teams)
+			{
+				<tr>
+					<td>
+						@team.Name.ToString()
+					</td>
+					<td>
+						@if (team.Tag != null)
+						{
+							@team.Tag.ToString()
+						}
+					</td>
+					<td>
+						@team.Users.Count.ToString()
+					</td>
+					<td>
+						@Html.ActionLink("Delete", "DeleteTeam", new { TeamId = team.TeamID }, new { @class = "btn btn-danger" })
+					</td>
+				</tr>
+			}
+		</table>
+
+	</div>
+	<p>
+		@Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-default" })
+	</p>

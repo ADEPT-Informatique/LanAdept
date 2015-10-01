@@ -22,6 +22,8 @@ namespace LanAdeptData.Model
 
 		public string Info { get; set; }
 
+		public int MaxPlayerPerTeam { get; set; }
+
 		public virtual int GameID { get; set; }
 
 		public virtual int? UserID { get; set; }

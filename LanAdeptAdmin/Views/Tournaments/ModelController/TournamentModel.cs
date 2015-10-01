@@ -19,6 +19,8 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 		[DataType(DataType.MultilineText)]
 		public string Info { get; set; }
 
+		public int MaxPlayerPerTeam { get; set; }
+
 		public int Id { get; set; }
 
 		public int GameID { get; set; }
@@ -36,6 +38,7 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 
 		public TournamentModel(Tournament tournament) {
 			StartTime = tournament.StartTime;
+			MaxPlayerPerTeam = tournament.MaxPlayerPerTeam;
 			Game = tournament.Game;
 			GameID = tournament.GameID;
 			Teams = tournament.Teams;
@@ -43,7 +46,6 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 			IsOver = tournament.IsOver;
 			IsStarted = tournament.IsStarted;
 			Info = tournament.Info;
-
 		}
 	}
 }

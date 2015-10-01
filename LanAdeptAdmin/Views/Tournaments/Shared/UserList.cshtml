@@ -1,0 +1,29 @@
+﻿@model LanAdeptAdmin.Views.Tournaments.ModelController.TeamModel
+
+
+@{
+    ViewBag.Title = "UserList";
+}
+
+<h4>Gamers</h4>
+
+<table class="table">
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.Users.First().CompleteName)
+		</th>
+	</tr>
+
+
+	@foreach (User user in Model.Users)
+	{
+		<tr>
+			<td>
+				@user.CompleteName.ToString()
+			</td>
+		</tr>
+	}
+</table>
+
+
+
