@@ -127,7 +127,7 @@ namespace LanAdept.Controllers
         }
 
         [Authorize]
-        public ActionResult CreateTicket(Reservation reservation, Setting setting)
+        public ActionResult CreateTicket()
         {
             PDFModel model = new PDFModel();
             model.reservation = UserService.GetLoggedInUser().LastReservation;
@@ -141,19 +141,13 @@ namespace LanAdept.Controllers
         private void CreateFilePDF(string html, string css)
         {
             Byte[] bytes;
-
             using (var ms = new MemoryStream())
             {
-
                 using (var doc = new Document())
-
                 {
-
                     using (var writer = PdfWriter.GetInstance(doc, ms))
                     {
-
                         doc.Open();
-
                         using (var msCss = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(css)))
                         {
                             using (var msHtml = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(html)))
@@ -161,8 +155,6 @@ namespace LanAdept.Controllers
                                 iTextSharp.tool.xml.XMLWorkerHelper.GetInstance().ParseXHtml(writer, doc, msHtml, msCss);
                             }
                         }
-
-
                         doc.Close();
                     }
                 }

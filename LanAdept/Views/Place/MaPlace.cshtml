@@ -8,22 +8,20 @@
 
 <div class="container-sm">
     
-    <div id="render_me">
-        @Html.Partial("DownloadFilePDFPartiel", Model)
-    </div>
+    @Html.Partial("DownloadFilePDFPartiel", Model)
 
     <p class="pull-right">
         @Html.AuthorizeActionLink(" ", "Index", null, null, new { @class = "glyphicon glyphicon-arrow-left btn btn-default" })
 
-        @using (Html.BeginForm("CreateTicket", "Place", new { reservation = Model.reservation, setting = Model.setting }, FormMethod.Post))
+        @if (!Model.reservation.Place.IsOccupied)
         {
-            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span></button>
+            @Html.AuthorizeActionLink(" ", "CreateTicket", null, null, new { @class = "glyphicon glyphicon-print btn btn-primary" })
+            if (!Model.setting.IsLanOver)
+            {
+                <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#ModalAnnulerReservation">Annuler ma réservation</a>
+            }
         }
-
-		@if (!Model.reservation.Place.IsOccupied && !Model.setting.IsLanOver)
-		{
-			<a href="#" class="btn btn-danger" data-toggle="modal" data-target="#ModalAnnulerReservation">Annuler ma réservation</a>
-		}
+    </p>
 	<div class="clearfix"></div>
 </div>
 

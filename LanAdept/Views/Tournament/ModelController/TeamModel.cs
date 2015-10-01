@@ -5,8 +5,6 @@ namespace LanAdept.Views.Tournament.ModelController
 {
 	public class TeamModel
 	{
-		public int Id { get; set; }
-
 		public string Name { get; set; }
 
 		public int TournamentID { get; set; }
@@ -17,8 +15,6 @@ namespace LanAdept.Views.Tournament.ModelController
 
 		public LanAdeptData.Model.Tournament Tournament { get; set; }
 
-		public ICollection<User> Users { get; set; }
-
 		public TeamModel()
 		{
 
@@ -26,9 +22,7 @@ namespace LanAdept.Views.Tournament.ModelController
 
 		public TeamModel(Team team)
 		{
-			Id = team.TeamID;
 			Name = team.Name;
-			Users = team.Users;
 			UserID = team.UserID;
 			TeamLeader = team.TeamLeader;
 		}

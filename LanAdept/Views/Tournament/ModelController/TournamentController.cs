@@ -44,16 +44,19 @@ namespace LanAdept.Views.Tournament.ModelController
 		{
 			TeamModel team = new TeamModel();
 			team.Tournament = uow.TournamentRepository.GetByID(id);
-			team.TournamentID = team.Tournament.TournamentID;
 			team.TeamLeader = UserService.GetLoggedInUser();
-			team.UserID = team.TeamLeader.UserID;
+            team.TournamentID = team.Tournament.TournamentID;
+            team.UserID = team.TeamLeader.UserID;
 			return View(team);
 		}
+
+        //        @Html.HiddenFor(model => model.Tournament.TournamentID)
+        //@Html.HiddenFor(model => model.TeamLeader.UserID)
 
 		[AllowAnonymous]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Addteam([Bind(Include = "Name,TournamentID,UserID")] TeamModel teamModel)
+        public ActionResult Addteam([Bind(Include = "Name,TournamentID,UserID")]TeamModel teamModel)
 		{
 			if (ModelState.IsValid)
 			{
@@ -61,7 +64,7 @@ namespace LanAdept.Views.Tournament.ModelController
 				team.Name = teamModel.Name;
 				team.TeamLeader = uow.UserRepository.GetByID(teamModel.UserID);
 				List<User> users = new List<User>();
-				users.Add(uow.UserRepository.GetByID(teamModel.UserID));
+                users.Add(uow.UserRepository.GetByID(teamModel.UserID));
 				team.Users = users;
 				team.Tournament = uow.TournamentRepository.GetByID(teamModel.TournamentID);
 
