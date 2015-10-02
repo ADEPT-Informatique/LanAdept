@@ -279,6 +279,12 @@ namespace LanAdeptAdmin.Controllers
 				uow.ReservationRepository.Delete(reservation);
 			}
 
+			IEnumerable<Tile> tiles = uow.TileRepository.Get();
+			foreach (Tile tile in tiles)
+			{
+				uow.TileRepository.Delete(tile);
+			}
+
 			IEnumerable<Place> places = uow.PlaceRepository.Get();
 			foreach (Place place in places)
 			{

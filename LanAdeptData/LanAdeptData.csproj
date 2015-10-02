@@ -85,7 +85,8 @@
     <Compile Include="DAL\Generic\IRepository.cs" />
     <Compile Include="DAL\Generic\IUnitOfWork.cs" />
     <Compile Include="DAL\LanAdeptDataContext.cs" />
-    <Compile Include="DAL\Places\MapRepository.cs" />
+    <Compile Include="DAL\Maps\MapRepository.cs" />
+    <Compile Include="DAL\Maps\TileRepository.cs" />
     <Compile Include="DAL\Places\ReservationRepository.cs" />
     <Compile Include="DAL\Places\PlaceRepository.cs" />
     <Compile Include="DAL\Places\PlaceSectionRepository.cs" />

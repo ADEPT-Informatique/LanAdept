@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LanAdeptData.DAL.Places
+namespace LanAdeptData.DAL.Maps
 {
     public class MapRepository : GenericRepository<Map>
     {

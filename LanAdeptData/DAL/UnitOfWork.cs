@@ -9,6 +9,7 @@ using LanAdeptData.DAL.Places;
 using LanAdeptData.DAL.Users;
 using LanAdeptData.DAL.Tournaments;
 using LanAdeptData.DAL.Settings;
+using LanAdeptData.DAL.Maps;
 
 namespace LanAdeptData.DAL
 {
@@ -177,20 +178,33 @@ namespace LanAdeptData.DAL
 			}
 		}
 
-        private MapRepository mapRepository;
-        public MapRepository MapRepository
-        {
-            get
-            {
-                if (mapRepository == null)
-                {
-                    mapRepository = new MapRepository(context);
-                }
-                return mapRepository;
-            }
-        }
+		private MapRepository mapRepository;
+		public MapRepository MapRepository
+		{
+			get
+			{
+				if (mapRepository == null)
+				{
+					mapRepository = new MapRepository(context);
+				}
+				return mapRepository;
+			}
+		}
 
-        public void Save()
+		private TileRepository tileRepository;
+		public TileRepository TileRepository
+		{
+			get
+			{
+				if (tileRepository == null)
+				{
+					tileRepository = new TileRepository(context);
+				}
+				return tileRepository;
+			}
+		}
+
+		public void Save()
         {
             context.SaveChanges();
         }
