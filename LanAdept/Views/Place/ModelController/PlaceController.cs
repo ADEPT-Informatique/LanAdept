@@ -146,11 +146,11 @@ namespace LanAdept.Controllers
             Document doc = new Document(iTextSharp.text.PageSize.A4, 30f, 30f, 30f, 30f);
             PdfWriter writer = PdfWriter.GetInstance(doc, ms);
 
-            doc.AddTitle("Hello World example");
-            doc.AddSubject("This is an Example 4 of Chapter 1 of Book 'iText in Action'");
-            doc.AddKeywords("Metadata, iTextSharp 5.4.4, Chapter 1, Tutorial");
-            doc.AddCreator("iTextSharp 5.4.4");
-            doc.AddAuthor("Debopam Pal");
+            doc.AddTitle("Ticket PDF");
+            doc.AddSubject("Ticket for the lan");
+            doc.AddKeywords("Ticket, Billet, Lan, Adept");
+            doc.AddCreator("LanAdept Website");
+            doc.AddAuthor("LanAdept");
             doc.AddHeader("Nothing", "No Header");
 
             string fontpath = Server.MapPath("../fonts/code128.ttf");
@@ -160,6 +160,7 @@ namespace LanAdept.Controllers
             doc.Open();
 
             doc.Add(new Paragraph(model.reservation.User.Barcode, code128));
+
             doc.Close();
 
             SendPdf(ms.ToArray());
