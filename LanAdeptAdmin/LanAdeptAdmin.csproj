@@ -248,6 +248,7 @@
     <Content Include="Views\Place\Reserve.cshtml" />
     <Content Include="Views\Tournaments\DeleteTeam.cshtml" />
     <Content Include="Views\Tournaments\Shared\UserList.cshtml" />
+    <Content Include="Views\Place\Reset.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

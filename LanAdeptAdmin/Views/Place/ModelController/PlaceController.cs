@@ -264,6 +264,72 @@ namespace LanAdeptAdmin.Controllers
 			return View(model);
 		}
 
+		[Authorize]
+		public ActionResult Reset()
+		{
+			return View();
+		}
+
+		[Authorize]
+		public ActionResult DoReset()
+		{
+			IEnumerable<Reservation> reservations = uow.ReservationRepository.Get();
+			foreach (Reservation reservation in reservations)
+			{
+				uow.ReservationRepository.Delete(reservation);
+			}
+
+			IEnumerable<Place> places = uow.PlaceRepository.Get();
+			foreach (Place place in places)
+			{
+				uow.PlaceRepository.Delete(place);
+			}
+
+			IEnumerable<PlaceSection> sections = uow.PlaceSectionRepository.Get();
+			foreach (PlaceSection section in sections)
+			{
+				uow.PlaceSectionRepository.Delete(section);
+			}
+
+			for (char sectionName = 'A'; sectionName <= 'H'; sectionName++)
+			{
+				PlaceSection section = new PlaceSection();
+				section.Name = sectionName.ToString();
+
+				for (int i = 1; i <= 24; i++)
+				{
+					Place place = new Place();
+					place.Number = i;
+					place.PlaceSection = section;
+
+					uow.PlaceRepository.Insert(place);
+				}
+
+				uow.PlaceSectionRepository.Insert(section);
+			}
+
+			for (char sectionName = 'I'; sectionName <= 'J'; sectionName++)
+			{
+				PlaceSection section = new PlaceSection();
+				section.Name = sectionName.ToString();
+
+				for (int i = 1; i <= 9; i++)
+				{
+					Place place = new Place();
+					place.Number = i;
+					place.PlaceSection = section;
+
+					uow.PlaceRepository.Insert(place);
+				}
+
+				uow.PlaceSectionRepository.Insert(section);
+			}
+
+			uow.Save();
+
+			return RedirectToAction("Index");
+		}
+
 		//[Authorize]
 		//public ActionResult Confirmer(int? id, string placeAction)
 		//{

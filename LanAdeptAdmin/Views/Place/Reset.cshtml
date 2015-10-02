@@ -1,0 +1,21 @@
+﻿@{
+	ViewBag.Title = "Reset";
+	ViewBag.Sidebar = "_Sidebar_Place";
+}
+
+<h2>
+	Réinitialiser les places
+</h2>
+<hr />
+
+<div class="col-lg-7">
+	<strong class="text-danger">Attention!</strong>
+	<p>
+		Voulez-vous vraiment réinitialiser les places du LAN? Ce changement effacera toutes les places actuelle et les recréera selon la configuration de base.<br />
+		<strong>Ce changement est irréversible!</strong>
+	</p>
+	<div class="btn-group pull-right">
+		@Html.ActionLink("Annuler", "Index", null, new { @class = "btn btn-default" })
+		@Html.ActionLink("Réinitialiser", "DoReset", null, new { @class = "btn btn-danger" })
+	</div>
+</div>

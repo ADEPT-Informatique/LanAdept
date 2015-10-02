@@ -53,11 +53,15 @@
 	</div>
 
 	<div class="@(String.IsNullOrWhiteSpace(ViewBag.SideBar) ? "col-md-12" : "col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2") main">
-		@RenderBody()
-		<hr />
-		<footer>
-			<p class="small">&copy; @DateTime.Now.Year - Adept</p>
-		</footer>
+		<div class="row">
+			@RenderBody()
+		</div>
+		<div class="row">
+			<hr />
+			<footer>
+				<p class="small">&copy; @DateTime.Now.Year - Adept</p>
+			</footer>
+		</div>
 	</div>
 
 	@Scripts.Render("~/bundles/jquery")
