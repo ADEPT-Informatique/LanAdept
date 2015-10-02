@@ -133,35 +133,65 @@ namespace LanAdept.Controllers
             PDFModel model = new PDFModel();
             model.reservation = UserService.GetLoggedInUser().LastReservation;
             model.setting = LanAdeptData.DAL.UnitOfWork.Current.SettingRepository.GetCurrentSettings();
-            string html = RenderViewToString(ControllerContext, "~/Views/Place/DownloadFilePDFPartiel.cshtml", model, true);
-            string css = System.IO.File.ReadAllText(Server.MapPath("~/Content/PDF.css"));
-            CreateFilePDF(html, css);
+            //string html = RenderViewToString(ControllerContext, "~/Views/Place/DownloadFilePDFPartiel.cshtml", model, true);
+            //string css = System.IO.File.ReadAllText(Server.MapPath("~/Content/PDF.css"));
+            //CreateFilePDF(html, css);
+            CreatePDF(model);
             return View("MaPlace");
         }
 
-        private void CreateFilePDF(string html, string css)
+        private void CreatePDF(PDFModel model)
         {
-            Byte[] bytes;
-            using (var ms = new MemoryStream())
-            {
-                using (var doc = new Document())
-                {
-                    using (var writer = PdfWriter.GetInstance(doc, ms))
-                    {
-                        doc.Open();
-                        using (var msCss = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(css)))
-                        {
-                            using (var msHtml = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(html)))
-                            {
-                                iTextSharp.tool.xml.XMLWorkerHelper.GetInstance().ParseXHtml(writer, doc, msHtml, msCss);
-                            }
-                        }
-                        doc.Close();
-                    }
-                }
-                bytes = ms.ToArray();
-            }
+            MemoryStream ms = new MemoryStream();
+            Document doc = new Document(iTextSharp.text.PageSize.A4, 30f, 30f, 30f, 30f);
+            PdfWriter writer = PdfWriter.GetInstance(doc, ms);
 
+            doc.AddTitle("Hello World example");
+            doc.AddSubject("This is an Example 4 of Chapter 1 of Book 'iText in Action'");
+            doc.AddKeywords("Metadata, iTextSharp 5.4.4, Chapter 1, Tutorial");
+            doc.AddCreator("iTextSharp 5.4.4");
+            doc.AddAuthor("Debopam Pal");
+            doc.AddHeader("Nothing", "No Header");
+
+            string fontpath = Server.MapPath("../fonts/code128.ttf");
+            BaseFont customfont = BaseFont.CreateFont(fontpath, BaseFont.CP1252, BaseFont.EMBEDDED);
+            Font code128 = new Font(customfont, 120);
+
+            doc.Open();
+
+            doc.Add(new Paragraph(model.reservation.User.Barcode, code128));
+            doc.Close();
+
+            SendPdf(ms.ToArray());
+        }
+
+        //private void CreateFilePDF(string html, string css)
+        //{
+        //    Byte[] bytes;
+        //    using (var ms = new MemoryStream())
+        //    {
+        //        using (var doc = new Document())
+        //        {
+        //            using (var writer = PdfWriter.GetInstance(doc, ms))
+        //            {
+        //                doc.Open();
+        //                using (var msCss = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(css)))
+        //                {
+        //                    using (var msHtml = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(html)))
+        //                    {
+        //                        iTextSharp.tool.xml.XMLWorkerHelper.GetInstance().ParseXHtml(writer, doc, msHtml, msCss);
+        //                    }
+        //                }
+        //                doc.Close();
+        //            }
+        //        }
+        //        bytes = ms.ToArray();
+        //    }
+        //    SendPdf(bytes);
+        //}
+
+        private void SendPdf(byte[] bytes)
+        {
             Response.Clear();
             Response.ClearHeaders();
             Response.ClearContent();
@@ -172,38 +202,38 @@ namespace LanAdept.Controllers
             Response.End();
         }
 
-        static string RenderViewToString(ControllerContext context,
-                                    string viewPath,
-                                    object model = null,
-                                    bool partial = false)
-        {
-            // first find the ViewEngine for this view
-            ViewEngineResult viewEngineResult = null;
-            if (partial)
-                viewEngineResult = ViewEngines.Engines.FindPartialView(context, viewPath);
-            else
-                viewEngineResult = ViewEngines.Engines.FindView(context, viewPath, null);
+        //static string RenderViewToString(ControllerContext context,
+        //                            string viewPath,
+        //                            object model = null,
+        //                            bool partial = false)
+        //{
+        //    // first find the ViewEngine for this view
+        //    ViewEngineResult viewEngineResult = null;
+        //    if (partial)
+        //        viewEngineResult = ViewEngines.Engines.FindPartialView(context, viewPath);
+        //    else
+        //        viewEngineResult = ViewEngines.Engines.FindView(context, viewPath, null);
 
-            if (viewEngineResult == null)
-                throw new FileNotFoundException("View cannot be found.");
+        //    if (viewEngineResult == null)
+        //        throw new FileNotFoundException("View cannot be found.");
 
-            // get the view and attach the model to view data
-            var view = viewEngineResult.View;
-            context.Controller.ViewData.Model = model;
+        //    // get the view and attach the model to view data
+        //    var view = viewEngineResult.View;
+        //    context.Controller.ViewData.Model = model;
 
-            string result = null;
+        //    string result = null;
 
-            using (var sw = new StringWriter())
-            {
-                var ctx = new ViewContext(context, view,
-                                            context.Controller.ViewData,
-                                            context.Controller.TempData,
-                                            sw);
-                view.Render(ctx, sw);
-                result = sw.ToString();
-            }
+        //    using (var sw = new StringWriter())
+        //    {
+        //        var ctx = new ViewContext(context, view,
+        //                                    context.Controller.ViewData,
+        //                                    context.Controller.TempData,
+        //                                    sw);
+        //        view.Render(ctx, sw);
+        //        result = sw.ToString();
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
     }
 }
