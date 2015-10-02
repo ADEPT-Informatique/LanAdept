@@ -47,3 +47,7 @@
 .place-none div {
 	background-color: #fff;
 }
+
+.map-max-width {
+	width: 1200px;
+}
