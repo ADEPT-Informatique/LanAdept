@@ -59,10 +59,10 @@ else if (ViewBag.Settings.IsLanStarted)
 }
 
 
-@foreach (PlaceSection sectionCourante in Model.Sections)
+@*@foreach (PlaceSection sectionCourante in Model.Sections)
 {
 	@Html.Partial("SingleSectionPartial", sectionCourante)
-}
+}*@
 
 
 <div class="panel panel-default">
@@ -117,6 +117,6 @@ else if (ViewBag.Settings.IsLanStarted)
 }
 
 @section Styles {
-	<link href="@Url.Content("~/Content/Place.css")" rel="stylesheet" type="text/css" />
+	@*<link href="@Url.Content("~/Content/Place.css")" rel="stylesheet" type="text/css" />*@
     <link href="@Url.Content("~/Content/Map.css")" rel="stylesheet" type="text/css" />
 }

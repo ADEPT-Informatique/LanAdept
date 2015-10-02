@@ -2,10 +2,9 @@
 	ViewBag.Title = "Accueil";
 }
 
-
 <div class="jumbotron">
 	<div class="row">
-		<img src="~/Image/LOGO_noir_Transparent_v3.png" class="img-responsive center-block " />
+		<img src="~/Image/LOGO_noir_Transparent.png" class="img-responsive center-block home-image" />
 	</div>
 	<div class="row text-center">
 		<h2 id="date"></h2>
@@ -35,6 +34,10 @@
 		<h4>secondes</h4>
 	</div>
 </div>
+
+@section Styles {
+    @Styles.Render("~/Content/Home.css")
+}
 
 @section Scripts{
 	<script type="text/javascript">

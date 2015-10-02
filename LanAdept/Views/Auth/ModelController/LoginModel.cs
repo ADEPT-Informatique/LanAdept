@@ -9,7 +9,7 @@ namespace LanAdept.Views.Auth.ModelController
 	public class LoginModel
 	{
 		[Required]
-		[EmailAddress(ErrorMessage = "L'adresse Email doit être valide")]
+		[EmailAddress(ErrorMessage = "L'adresse email doit être valide.")]
 		[Display(Name = "Email")]
 		public string Email { get; set; }
 

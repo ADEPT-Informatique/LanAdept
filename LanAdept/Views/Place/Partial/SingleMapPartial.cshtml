@@ -1,23 +1,17 @@
 ﻿@model LanAdeptData.Model.Map
 
-<div class="row">
-    <div id="map" class="col-lg">
-        @for (int i = 0; i < Model.Height; i++)
-        {
+<div id="mapContainer">
+    <div id="map">
+        @for (int i = 0; i < Model.Height; i++) {
             <div class="row">
-                @for (int j = 0; j < Model.Width; j++)
-                {
+                @for (int j = 0; j < Model.Width; j++) {
                     Tile tile = Model.Tiles.Where(x => x.PositionX == j && x.PositionY == i).FirstOrDefault();
-                    if (tile == null)
-                    {
+                    if (tile == null) {
                         <div class="col-md-1 place place-none">
-                            <div>
-
-                            </div>
+                            <div></div>
                         </div>
                     }
-                    else
-                    {
+                    else {
                         @Html.Partial("SinglePlacePartial", tile.Place)
                     }
                 }
@@ -25,3 +19,4 @@
         }
     </div>
 </div>
+

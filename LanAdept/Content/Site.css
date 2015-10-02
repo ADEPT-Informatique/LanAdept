@@ -55,3 +55,7 @@
     width: 375px;
   }
 }
+
+.clearfix {
+    margin-top: 0;
+}
