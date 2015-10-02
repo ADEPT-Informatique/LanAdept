@@ -16,6 +16,7 @@ namespace LanAdeptAdmin.Controllers
 	{
 		private const string ERROR_INVALID_ID = "Désolé, une erreur est survenue. Merci de réessayer dans quelques instants";
 		private const string ERROR_PLACE_OCCUPIED = "Cette place est présentement occupé. Vous devez libérer la place avant de pouvoir modifier la réservation";
+		private const string WARNING_PLACE_OCCUPIED = "Attention! Cette place est déjà réservé! Si vous changer le nom de la personne dans ce formulaire, vous annulerez du même coup la réservation de cette personne!";
 
 		private UnitOfWork uow = UnitOfWork.Current;
 
@@ -173,12 +174,25 @@ namespace LanAdeptAdmin.Controllers
 				return RedirectToAction("Details", new { id = id });
 			}
 
-			ViewBag.UserID = new SelectList(uow.UserRepository.Get().OrderBy(u => u.CompleteName), "UserID", "CompleteName");
+			IEnumerable<User> Userlist = uow.UserRepository.Get().OrderBy(u => u.CompleteName);
+
+			if (placeAReserver.IsFree)
+			{
+				ViewBag.UserID = new SelectList(Userlist, "UserID", "CompleteName");
+			}
+			else
+			{
+				//TODO: Faire marcher ça genre...
+				TempData["Warning"] = WARNING_PLACE_OCCUPIED;
+				var test = new SelectList(Userlist, "UserID", "CompleteName", Userlist.Last().UserID);
+				ViewBag.UserID = new SelectList(Userlist, "UserID", "CompleteName", Userlist.Last());
+			}
+
 			ReserveModel model = new ReserveModel();
 			model.PlaceID = placeAReserver.PlaceID;
 			model.Place = placeAReserver;
 
-			return View(model);
+			return View(model); 
 		}
 
 		[Authorize]

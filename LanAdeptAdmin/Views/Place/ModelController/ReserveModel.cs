@@ -13,11 +13,12 @@ namespace LanAdeptAdmin.Views.Places.ModelController
 
 		public int PlaceID { get; set; }
 
-		[DisplayName("Réserver pour un utilisateur")]
 		public bool IsUser { get; set; }
 
+		[DisplayName("Utilisateur inscrit")]
 		public int UserID { get; set; }
 
+		[DisplayName("Utilisateur non inscrit")]
 		public string FullNameNoAccount { get; set; }
 	}
 }
