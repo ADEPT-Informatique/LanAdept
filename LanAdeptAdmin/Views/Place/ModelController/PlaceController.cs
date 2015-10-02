@@ -297,6 +297,20 @@ namespace LanAdeptAdmin.Controllers
 				uow.PlaceSectionRepository.Delete(section);
 			}
 
+            IEnumerable<Map> maps = uow.MapRepository.Get();
+            foreach (Map map in maps) 
+            {
+                uow.MapRepository.Delete(map);
+            }
+
+            Map newMap = new Map();
+            newMap.MapName = "Caféteria orange";
+            newMap.Width = 18;
+            newMap.Height = 13;
+            newMap.Tiles = new List<Tile>();
+
+            int x = 1;
+            int y = 0;
 			for (char sectionName = 'A'; sectionName <= 'H'; sectionName++)
 			{
 				PlaceSection section = new PlaceSection();
@@ -304,16 +318,33 @@ namespace LanAdeptAdmin.Controllers
 
 				for (int i = 1; i <= 24; i++)
 				{
+                    if (i == 13) {
+                        x++;
+                        y = 0;
+                    }
+                    y++;
 					Place place = new Place();
 					place.Number = i;
 					place.PlaceSection = section;
 
+                    Tile tile = new Tile();
+                    
+                    tile.Place = place;
+                    tile.PositionX = x;
+                    tile.PositionY = y;
+
+                    newMap.Tiles.Add(tile);
+
 					uow.PlaceRepository.Insert(place);
+                    uow.TileRepository.Insert(tile);
 				}
+                x++;
+                y = 0;
 
 				uow.PlaceSectionRepository.Insert(section);
 			}
 
+            x = 0;
 			for (char sectionName = 'I'; sectionName <= 'J'; sectionName++)
 			{
 				PlaceSection section = new PlaceSection();
@@ -325,11 +356,24 @@ namespace LanAdeptAdmin.Controllers
 					place.Number = i;
 					place.PlaceSection = section;
 
+                    Tile tile = new Tile();
+
+                    tile.Place = place;
+                    tile.PositionX = x;
+                    tile.PositionY = 0;
+
+                    newMap.Tiles.Add(tile);
+
+                    x++;
+
 					uow.PlaceRepository.Insert(place);
 				}
+                x = 9;
 
 				uow.PlaceSectionRepository.Insert(section);
 			}
+
+            uow.MapRepository.Insert(newMap);
 
 			uow.Save();
 
