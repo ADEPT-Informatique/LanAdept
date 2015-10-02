@@ -6,7 +6,7 @@
 #barcode div {
     text-align:center;
     font-family: code128;
-    font-size:120px;
+    font-size:36px;
 }
 
 #barcode p {

@@ -155,7 +155,7 @@ namespace LanAdept.Controllers
 
             string fontpath = Server.MapPath("../fonts/code128.ttf");
             BaseFont customfont = BaseFont.CreateFont(fontpath, BaseFont.CP1252, BaseFont.EMBEDDED);
-            Font code128 = new Font(customfont, 72);
+            Font code128 = new Font(customfont, 36);
 
             doc.Open();
 
