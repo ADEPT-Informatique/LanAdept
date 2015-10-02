@@ -14,7 +14,6 @@
     height: 40px;
     line-height: 40px;
     text-align: center;
-
     padding: 0;
 
     border: 1px solid #ddd;
@@ -39,15 +38,44 @@
     margin: 0;
 }
 
+#map .place:hover {
+    background-color: #dddddd;
+    cursor: pointer;
+}
+
+#map .place-none:hover {
+    background-color: #fff;
+    cursor: default;
+}
+
 #map .place-none {
     border: none;
     background-color: #fff;
 }
 
-.place-none div {
-	background-color: #fff;
+#map .place-occupe {
+    background-color: #F9E5E6;
 }
 
+#map .place-occupe:hover {
+	background-color: #FAD2D3;
+}
+
+#map .place-actuelle {
+    background-color: #E3EBC6;
+}
+
+#map .place-actuelle:hover {
+    background-color: #CDDB9B;
+}
+
+#map .place-reserve {
+    background-color: #D8ECF5;
+}
+
+#map .place-reserve:hover {
+    background-color: #AED7EA;
+}
 .map-max-width {
 	width: 1200px;
 }
