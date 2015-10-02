@@ -155,11 +155,21 @@ namespace LanAdept.Controllers
 
             string fontpath = Server.MapPath("../fonts/code128.ttf");
             BaseFont customfont = BaseFont.CreateFont(fontpath, BaseFont.CP1252, BaseFont.EMBEDDED);
-            Font code128 = new Font(customfont, 120);
+            Font code128 = new Font(customfont, 72);
 
             doc.Open();
 
-            doc.Add(new Paragraph(model.reservation.User.Barcode, code128));
+            Paragraph nameInfo = new Paragraph("Votre nom: " + model.reservation.User.CompleteName);
+            nameInfo.IndentationLeft = 100.0f;
+            doc.Add(nameInfo);
+
+            Paragraph barcode = new Paragraph(model.reservation.User.Barcode, code128);
+            barcode.Alignment = Element.ALIGN_CENTER;
+            doc.Add(barcode);
+
+            Paragraph barcodeNumber = new Paragraph(model.reservation.User.Barcode);
+            barcodeNumber.Alignment = Element.ALIGN_CENTER;
+            doc.Add(barcodeNumber);
 
             doc.Close();
 
