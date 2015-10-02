@@ -1,7 +1,7 @@
 ﻿@model LanAdept.Views.Place.ModelController.ListeModel
 
 @{
-	ViewBag.Title = "Liste des places"; 
+	ViewBag.Title = "Liste des places";
 }
 
 @if (LanAdeptCore.Service.ReservationService.HasUserPlace())
@@ -12,91 +12,92 @@ else
 {
 	@Html.Partial("ModalReserverPlacePartial")
 }
+<div class="map-max-width">
+	<div class="page-header clearfix">
+		<h1 class="pull-left">Liste des places</h1>
 
-<div class="page-header clearfix">
-	<h1 class="pull-left">Liste des places</h1>
-
-	@if (LanAdeptCore.Service.ReservationService.HasUserPlace())
-	{
-		<div class="btn-toolbar pull-right">
-			<div class="btn-group">
-				@Html.AuthorizeActionLink("Ma place", "MaPlace", null, null, new { @class = "btn btn-success btn-lg btn-header" })
+		@if (LanAdeptCore.Service.ReservationService.HasUserPlace())
+		{
+			<div class="btn-toolbar pull-right">
+				<div class="btn-group">
+					@Html.AuthorizeActionLink("Ma place", "MaPlace", null, null, new { @class = "btn btn-success btn-lg btn-header" })
+				</div>
 			</div>
+		}
+
+	</div>
+
+	@if (!string.IsNullOrWhiteSpace(TempData["Error"] as string))
+	{
+		<div class="alert alert-danger" role="alert">
+			@Html.Raw(TempData["Error"])
+		</div>
+	}
+	@if (!string.IsNullOrWhiteSpace(TempData["Success"] as string))
+	{
+		<div class="alert alert-success" role="alert">
+			@Html.Raw(TempData["Success"])
 		</div>
 	}
 
-</div>
-
-@if (!string.IsNullOrWhiteSpace(TempData["Error"] as string))
-{
-	<div class="alert alert-danger" role="alert">
-		@Html.Raw(TempData["Error"])
-	</div>
-}
-@if (!string.IsNullOrWhiteSpace(TempData["Success"] as string))
-{
-	<div class="alert alert-success" role="alert">
-		@Html.Raw(TempData["Success"])
-	</div>
-}
-
-@if (ViewBag.Settings.IsLanOver)
-{
-	<div class="alert alert-warning" role="alert">
-		Le LAN est maintenant terminé. Il n'est donc plus possible de réserver une place.
-	</div>
-}
-else if (ViewBag.Settings.IsLanStarted)
-{
-	<div class="alert alert-warning" role="alert">
-		Le LAN a déjà débuté. Il n'est donc plus possible de réserver une place. Si vous désirez obtenir une place ou changer de place, veuillez vous rendre à l'accueil du LAN.
-	</div>
-}
-
-@foreach (Map map in Model.Maps)
-{
-    @Html.Partial("SingleMapPartial", map)
-}
-
-
-@*@foreach (PlaceSection sectionCourante in Model.Sections)
-{
-	@Html.Partial("SingleSectionPartial", sectionCourante)
-}*@
-
-
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title">
-			Légende
-		</h3>
-	</div>
-	<div class="panel-body">
-
-		<div class="col-lg-1 col-md-2 col-sm-2 col-xs-6 place">
-			<div>
-				Libre
-			</div>
+	@if (ViewBag.Settings.IsLanOver)
+	{
+		<div class="alert alert-warning" role="alert">
+			Le LAN est maintenant terminé. Il n'est donc plus possible de réserver une place.
 		</div>
-
-		<div class="col-lg-1 col-md-2 col-sm-2 col-xs-6 place place-reserve">
-			<div>
-				Réservée
-			</div>
+	}
+	else if (ViewBag.Settings.IsLanStarted)
+	{
+		<div class="alert alert-warning" role="alert">
+			Le LAN a déjà débuté. Il n'est donc plus possible de réserver une place. Si vous désirez obtenir une place ou changer de place, veuillez vous rendre à l'accueil du LAN.
 		</div>
+	}
 
-		<div class="col-lg-1 col-md-2 col-sm-2 col-xs-6 place place-actuelle">
-			<div>
-				Ma place
-			</div>
+	@foreach (Map map in Model.Maps)
+	{
+		@Html.Partial("SingleMapPartial", map)
+	}
+
+
+	@*@foreach (PlaceSection sectionCourante in Model.Sections)
+		{
+			@Html.Partial("SingleSectionPartial", sectionCourante)
+		}*@
+
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				Légende
+			</h3>
 		</div>
+		<div class="panel-body">
 
-		<div class="col-lg-1 col-md-2 col-sm-2 col-xs-6 place place-occupe">
-			<div>
-				Occupée
+			<div class="col-lg-1 col-md-2 col-sm-2 col-xs-6 place">
+				<div>
+					Libre
+				</div>
 			</div>
-		</div>
 
+			<div class="col-lg-1 col-md-2 col-sm-2 col-xs-6 place place-reserve">
+				<div>
+					Réservée
+				</div>
+			</div>
+
+			<div class="col-lg-1 col-md-2 col-sm-2 col-xs-6 place place-actuelle">
+				<div>
+					Ma place
+				</div>
+			</div>
+
+			<div class="col-lg-1 col-md-2 col-sm-2 col-xs-6 place place-occupe">
+				<div>
+					Occupée
+				</div>
+			</div>
+
+		</div>
 	</div>
 </div>
 
@@ -118,5 +119,5 @@ else if (ViewBag.Settings.IsLanStarted)
 
 @section Styles {
 	@*<link href="@Url.Content("~/Content/Place.css")" rel="stylesheet" type="text/css" />*@
-    <link href="@Url.Content("~/Content/Map.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/Map.css")" rel="stylesheet" type="text/css" />
 }

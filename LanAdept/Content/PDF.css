@@ -3,10 +3,16 @@
     src: url("../fonts/code128.ttf");
 }
 
+@font-face {
+    font-family: code39;
+    src: url("../fonts/code39.ttf");
+}
+
 #barcode div {
     text-align:center;
-    font-family: code128;
-    font-size:36px;
+    font-family: code39;
+    font-size:12px;
+	line-height: normal;
 }
 
 #barcode p {
