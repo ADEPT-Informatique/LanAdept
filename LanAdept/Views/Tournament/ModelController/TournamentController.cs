@@ -94,5 +94,15 @@ namespace LanAdept.Views.Tournament.ModelController
 
 			return View(teamModel);
 		}
+
+        [Authorize]
+        public ActionResult JoinTeam(int? id)
+        {
+            if(id == null)
+            {
+                return View("Index");
+            }
+            return View("Details", id);
+        }
 	}
 }

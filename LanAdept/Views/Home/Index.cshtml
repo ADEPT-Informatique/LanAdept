@@ -3,36 +3,36 @@
 }
 
 <div class="jumbotron">
-	<div class="row">
-		<img src="~/Image/LOGO_noir_Transparent.png" class="img-responsive center-block home-image" />
-	</div>
-	<div class="row text-center">
-		<h2 id="date"></h2>
-		@Html.AuthorizeActionLink("Inscrivez-vous dès maintenant!", "Register", "Auth", null, new { @class = "text-center btn btn-primary", @role = "button" })
-	</div>
+    <div class="row">
+        <img src="~/Image/LOGO_noir_Transparent.png" class="img-responsive center-block home-image" />
+    </div>
+    <div class="row text-center">
+        <h2 id="date"></h2>
+        @Html.AuthorizeActionLink("Inscrivez-vous dès maintenant!", "Register", "Auth", null, new { @class = "text-center btn btn-primary", @role = "button" })
+    </div>
 </div>
 
 <div class="row text-center">
-	<div class="col-sm-3">
-		<h1 id="days"></h1>
-		<hr />
-		<h4>jours</h4>
-	</div>
-	<div class="col-sm-3">
-		<h1 id="hours"></h1>
-		<hr />
-		<h4>heures</h4>
-	</div>
-	<div class="col-sm-3">
-		<h1 id="minutes"></h1>
-		<hr />
-		<h4>minutes</h4>
-	</div>
-	<div class="col-sm-3">
-		<h1 id="seconds"></h1>
-		<hr />
-		<h4>secondes</h4>
-	</div>
+    <div class="col-sm-3">
+        <h1 id="days"></h1>
+        <hr />
+        <h4>jours</h4>
+    </div>
+    <div class="col-sm-3">
+        <h1 id="hours"></h1>
+        <hr />
+        <h4>heures</h4>
+    </div>
+    <div class="col-sm-3">
+        <h1 id="minutes"></h1>
+        <hr />
+        <h4>minutes</h4>
+    </div>
+    <div class="col-sm-3">
+        <h1 id="seconds"></h1>
+        <hr />
+        <h4>secondes</h4>
+    </div>
 </div>
 
 @section Styles {

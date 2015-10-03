@@ -24,7 +24,6 @@ namespace LanAdeptAdmin.Views
 			foreach (Tournament tournament in tournaments)
 			{
 				tournamentModelList.Add(new TournamentModel(tournament));
-
 			}
 			return View(tournamentModelList);
 		}
