@@ -1,9 +1,4 @@
 ﻿@font-face {
-    font-family: code128;
-    src: url("../fonts/code128.ttf");
-}
-
-@font-face {
     font-family: code39;
     src: url("../fonts/code39.ttf");
 }
