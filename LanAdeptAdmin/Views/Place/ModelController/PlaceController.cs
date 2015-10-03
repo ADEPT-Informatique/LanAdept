@@ -285,6 +285,40 @@ namespace LanAdeptAdmin.Controllers
 		}
 
 		[Authorize]
+		public ActionResult Cancel(int? id)
+		{
+			if (id == null || id < 1)
+			{
+				TempData["Error"] = ERROR_INVALID_ID;
+				return RedirectToAction("Liste");
+			}
+			Place currentPlace = uow.PlaceRepository.GetByID(id.Value);
+			if (currentPlace == null)
+			{
+				TempData["Error"] = ERROR_INVALID_ID;
+				return RedirectToAction("Liste");
+			}
+
+			if (currentPlace.IsFree)
+			{
+				TempData["Error"] = "Impossible d'annuler la réservation de cette place car celle-ci n'est pas réservée.";
+			}
+			else if (currentPlace.LastReservation.HasArrived)
+			{
+				TempData["Error"] = "Impossible d'annuler la réservation car la personne qui a réservée cette place est déjà arrivée.";
+			}
+			else
+			{
+				ReservationService.CancelReservation(currentPlace);
+
+				TempData["Success"] = "Cette place n'est plus réservée.";
+			}
+
+			return RedirectToAction("Details", new { id = currentPlace.PlaceID });
+		}
+
+
+		[Authorize]
 		public ActionResult Arriving(int? id)
 		{
 			if (id == null || id < 1)
@@ -474,84 +508,6 @@ namespace LanAdeptAdmin.Controllers
 		}
 
 #endif
-
-		//[Authorize]
-		//public ActionResult Confirmer(int? id, string placeAction)
-		//{
-		//	if (id == null || id < 1 || placeAction == null)
-		//	{
-		//		TempData["Error"] = ERROR_INVALID_ID;
-		//		return RedirectToAction("Liste");
-		//	}
-
-		//	Place placeAReserver = uow.PlaceRepository.GetByID(id.Value);
-
-		//	if (placeAReserver == null)
-		//	{
-		//		TempData["Error"] = ERROR_INVALID_ID;
-		//		return RedirectToAction("Liste");
-		//	}
-
-		//	BaseResult result = null;
-		//	switch (placeAction)
-		//	{
-		//		case "Liberer":
-		//			//result = ReservationService.LiberePlaceAdmin(placeAReserver);
-		//			break;
-		//		case "Reserver":
-		//			//result = ReservationService.ReservePlaceAdmin(placeAReserver);
-		//			break;
-		//		case "Occuper":
-		//			result = ReservationService.UserArrived(placeAReserver);
-		//			break;
-		//	}
-
-		//	if (result == null)
-		//	{
-		//		TempData["Error"] = "L'action " + placeAction + " n'existe pas.";
-		//	}
-		//	if (result.HasError)
-		//	{
-		//		TempData["Error"] = result.Message;
-		//	}
-		//	else
-		//	{
-		//		TempData["Success"] = result.Message;
-		//	}
-
-		//	return RedirectToAction("Liste");
-		//}
-
-		//[Authorize]
-		//public ActionResult Reserver(int? id)
-		//{
-		//	if (id == null || id < 1)
-		//	{
-		//		TempData["Error"] = ERROR_INVALID_ID;
-		//		return RedirectToAction("Liste");
-		//	}
-
-		//	Place placeAReserver = uow.PlaceRepository.GetByID(id.Value);
-
-		//	if (placeAReserver == null)
-		//	{
-		//		TempData["Error"] = ERROR_INVALID_ID;
-		//		return RedirectToAction("Liste");
-		//	}
-
-		//	BaseResult result = ReservationService.ReservePlace(placeAReserver);
-
-		//	if (result.HasError)
-		//	{
-		//		TempData["Error"] = result.Message;
-		//	}
-		//	else
-		//	{
-		//		TempData["Success"] = "La place <strong>" + placeAReserver + "</strong> a bien été réservée!";
-		//	}
-
-		//	return RedirectToAction("Liste");
-		//}
 
 	}
 }

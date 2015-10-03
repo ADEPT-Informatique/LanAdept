@@ -59,7 +59,8 @@
 
 <h2>
 	Place @Model
-	<div class="btn-group pull-right">
+
+	<div class="pull-right">
 		@if (Model.IsFree || !Model.LastReservation.HasArrived)
 		{
 			@Html.AuthorizeActionLink("Réserver", "Reserve", null, new { id = Model.PlaceID }, new { @class = "btn btn-default" })
@@ -67,6 +68,7 @@
 		@if (!Model.IsFree && !Model.LastReservation.HasArrived)
 		{
 			@Html.AuthorizeActionLink("Confirmer la présence", "Arriving", null, new { id = Model.PlaceID }, new { @class = "btn btn-success" })
+			@Html.AuthorizeActionLink("Annuler la réservation", "Cancel", null, new { id = Model.PlaceID }, new { @class = "btn btn-danger" })
 		}
 		@if (!Model.IsFree && Model.LastReservation.HasArrived && !Model.LastReservation.HasLeft)
 		{
