@@ -6,55 +6,84 @@
 	ViewBag.Title = "Details";
 	ViewBag.Sidebar = "_Sidebar_Place";
 	PagedList<Reservation> reservations = ViewBag.Reservations;
+
+	string classeEtat = "";
+	string messageEtat = "";
+
+	if (!Model.IsFree)
+	{
+		if (LanAdeptCore.Service.ReservationService.IsUserPlace(Model))
+		{
+			classeEtat = "label-success";
+			messageEtat = "Ma place";
+		}
+		else if (Model.IsOccupied)
+		{
+			classeEtat = "label-danger";
+			messageEtat = "Occupée";
+		}
+		else
+		{
+			classeEtat = "label-primary";
+			messageEtat = "Réservée";
+		}
+	}
+	else
+	{
+		classeEtat = "label-default";
+		messageEtat = "Libre";
+	}
+
 }
 
 @Html.Partial("ModalConfirmerAdminAction")
 
+@if (!string.IsNullOrWhiteSpace(TempData["Error"] as string))
+{
+	<div class="alert alert-danger" role="alert">
+		@Html.Raw(TempData["Error"])
+	</div>
+}
+@if (!string.IsNullOrWhiteSpace(TempData["Success"] as string))
+{
+	<div class="alert alert-success" role="alert">
+		@Html.Raw(TempData["Success"])
+	</div>
+}
+@if (!string.IsNullOrWhiteSpace(TempData["Warning"] as string))
+{
+	<div class="alert alert-warning" role="alert">
+		@Html.Raw(TempData["Warning"])
+	</div>
+}
 
 <h2>
-	Détails - Place @Model
+	Place @Model
 	<div class="btn-group pull-right">
-		@*<div class="hover btn btn-default" data-toggle="modal" data-target="#ModalConfirmerAdminAction"
-				 data-place-text="@Model" data-place-id="@Model.PlaceID" data-action="Liberer" data-text="Libérée">
-				Libérée
-			</div>
-
-			<div class="hover btn btn-info" data-toggle="modal" data-target="#ModalConfirmerAdminAction"
-				 data-place-text="@Model" data-place-id="@Model.PlaceID" data-action="Reserver" data-text="Réservée">
-				Réservée
-			</div>
-
-			<div class="hover btn btn-warning" data-toggle="modal" data-target="#ModalConfirmerAdminAction"
-				 data-place-text="@Model" data-place-id="@Model.PlaceID" data-action="Occuper" data-text="Occupée">
-				Occupée
-			</div>*@
-
-		@Html.AuthorizeActionLink("Réserver", "Reserve", null, new { id = Model.PlaceID }, new { @class = "btn btn-default" })
+		@if (Model.IsFree || !Model.LastReservation.HasArrived)
+		{
+			@Html.AuthorizeActionLink("Réserver", "Reserve", null, new { id = Model.PlaceID }, new { @class = "btn btn-default" })
+		}
+		@if (!Model.IsFree && !Model.LastReservation.HasArrived)
+		{
+			@Html.AuthorizeActionLink("Confirmer la présence", "Arriving", null, new { id = Model.PlaceID }, new { @class = "btn btn-success" })
+		}
+		@if (!Model.IsFree && Model.LastReservation.HasArrived && !Model.LastReservation.HasLeft)
+		{
+			@Html.AuthorizeActionLink("Confirmer le départ", "Leaving", null, new { id = Model.PlaceID }, new { @class = "btn btn-danger" })
+		}
 	</div>
 </h2>
+<h4><span class="label @classeEtat">@messageEtat</span></h4>
 
-
-<div>
+@if (!Model.IsFree)
+{
 	<hr />
+
+	<h3>Réservation actuelle</h3>
 	<dl class="dl-horizontal">
 		<dt>
-			@Html.DisplayNameFor(model => model.PlaceSection.Name)
-		</dt>
-
-		<dd>
-			@Model
-		</dd>
-
-		<dt>
-			@Html.DisplayNameFor(model => model.LastReservation.CreationDate)
-		</dt>
-
-		<dd>
-			@Html.DisplayFor(model => model.LastReservation.CreationDate)
-		</dd>
-
-		<dt>
-			@Html.DisplayNameFor(model => model.LastReservation.User.CompleteName)
+			Nom complet
 		</dt>
 
 		<dd>
@@ -62,7 +91,7 @@
 		</dd>
 
 		<dt>
-			@Html.DisplayNameFor(model => model.LastReservation.User.Email)
+			Email
 		</dt>
 
 		<dd>
@@ -70,21 +99,57 @@
 		</dd>
 
 		<dt>
-			@Html.DisplayNameFor(model => model.LastReservation.User.Barcode)
+			Date de réservation
 		</dt>
 
 		<dd>
-			@Html.DisplayFor(model => model.LastReservation.User.Barcode)
+			@Html.DisplayFor(model => model.LastReservation.CreationDate)
 		</dd>
+
 	</dl>
+}
 
-	<hr />
+<hr />
 
-	@if (reservations.TotalItemCount > 0)
-	{
-		using (Html.BeginForm("Details", "Place", FormMethod.Get, new { @class = "clearfix" }))
+<h3>Historique des réservations</h3>
+
+@if (reservations.TotalItemCount > 0)
+{
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>@Html.ActionLink("Date de réservation", "Details", new { sortOrder = ViewBag.DateSort })</th>
+					<th>@Html.ActionLink("Nom complet", "Details", new { sortOrder = ViewBag.NameSort, currentFilter = ViewBag.CurrentFilter })</th>
+					<th>Date d'arrivée</th>
+					<th>Date de départ</th>
+					<th>Date d'annulation</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (Reservation reservation in reservations)
+				{
+					<tr>
+						<td>@reservation.CreationDate</td>
+						<td>@reservation.User.CompleteName</td>
+						<td>@(reservation.HasArrived ? reservation.ArrivalDate.ToString() : " -- ")</td>
+						<td>@(reservation.HasLeft ? reservation.LeavingDate.ToString() : " -- ")</td>
+						<td>@(reservation.IsCancelled ? reservation.CancellationDate.ToString() : " -- ")</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+
+		@if (reservations.PageCount > 1)
 		{
-			<div class="col-sm-10 col-md-7 col-lg-5">
+			<br />
+			@Html.PagedListPager(reservations, page => Url.Action("Details",
+				new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+		}
+
+		@using (Html.BeginForm("Details", "Place", FormMethod.Get, new { @class = "clearfix" }))
+		{
+			<div class="col-sm-10 col-md-7 col-lg-5 remove-padding">
 				<p class="input-group">
 					@Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", placeholder = "Code barre, email ou nom complet" })
 					<span class="input-group-btn">
@@ -97,39 +162,13 @@
 			</div>
 		}
 
-		<div class="table-responsive">
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>@Html.ActionLink("Date de création", "Details", new { sortOrder = ViewBag.DateSort })</th>
-						<th>@Html.ActionLink("Nom complet", "Details", new { sortOrder = ViewBag.NameSort, currentFilter = ViewBag.CurrentFilter })</th>
-					</tr>
-				</thead>
-				<tbody>
-					@foreach (Reservation reservation in reservations)
-					{
-						<tr>
-							<th>@reservation.CreationDate</th>
-							<th>@reservation.User.CompleteName</th>
-						</tr>
-					}
-				</tbody>
-			</table>
+	</div>
+}
+else
+{
+	<em>Cette place n'a pas encore été réservé</em>
+}
 
-			<br />
-			@if (reservations.PageCount > 1)
-			{
-				@Html.PagedListPager(reservations, page => Url.Action("Details",
-				new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
-			}
-		</div>
-	}
-	else
-	{
-		<em>Cette place n'a pas encore été réservé</em>
-	}
-
-</div>
 
 @section Scripts {
 
@@ -147,5 +186,4 @@
 			modal.find('.btnConfirmer').attr("href", "@Url.Action("Confirmer")?id=" + placeID + "&placeAction=" + action)
 		})
 	</script>
-
 }
