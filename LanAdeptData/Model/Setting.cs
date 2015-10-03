@@ -16,6 +16,8 @@ namespace LanAdeptData.Model
 
 		public string Rules { get; set; }
 
+        public string Description { get; set; }
+
 		public bool SendRememberEmail { get; set; }
 
 		public int NbDaysBeforeRemember { get; set; }

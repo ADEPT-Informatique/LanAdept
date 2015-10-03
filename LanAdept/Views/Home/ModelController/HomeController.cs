@@ -19,6 +19,9 @@ namespace LanAdept.Controllers
 			Setting settings = uow.SettingRepository.GetCurrentSettings();
 			DateTime dateLan = TimeZoneInfo.ConvertTimeToUtc(settings.StartDate);
 
+            Setting setting = uow.SettingRepository.GetCurrentSettings();
+            ViewBag.Description = setting.Description;
+
 			double dateLanMs = dateLan.Subtract(new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds; //Donne le temps en unix time
 
 			ViewBag.dateLan = dateLanMs;

@@ -141,6 +141,7 @@
     <Compile Include="Views\Emails\ModelController\TestEmail.cs" />
     <Compile Include="Views\Game\ModelController\GameController.cs" />
     <Compile Include="Views\Game\ModelController\GameModel.cs" />
+    <Compile Include="Views\General\ModelController\DescriptionModel.cs" />
     <Compile Include="Views\General\ModelController\GeneralController.cs" />
     <Compile Include="Views\General\ModelController\RulesModel.cs" />
     <Compile Include="Views\General\ModelController\SettingsModel.cs" />
@@ -252,6 +253,7 @@
     <Content Include="Views\Tournaments\Shared\UserList.cshtml" />
     <Content Include="Views\Place\Reset.cshtml" />
     <Content Include="Views\Place\Partial\SingleMapPartial.cshtml" />
+    <Content Include="Views\General\Description.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,10 +1,20 @@
 ﻿#carousel {
     display: inline-block;
-    margin: 50px 0 10px 0;
+    margin: 30px 0 10px 0;
     width: 89%;
 }
 
-#carouselContainer {
+#carousel-container {
+    text-align: center;
+}
+
+#description {
+    display: inline-block;
+    margin: 30px 0 0 0;
+    width: 50%;
+}
+
+#description-container {
     text-align: center;
 }
 

@@ -35,7 +35,16 @@
     </div>
 </div>
 
-<div id="carouselContainer">
+<div id="description-container">
+    <div id="description">
+        <h2>À propos du LAN</h2>
+        @Html.Markdown((string)ViewBag.Description)
+    </div>
+</div>
+
+<hr />
+
+<div id="carousel-container" class="hidden-xs">
     <div id="carousel" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carousel" data-slide-to="0" class="active"></li>
