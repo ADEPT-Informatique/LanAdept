@@ -15,6 +15,7 @@ namespace LanAdeptData.DAL
 		{ }
 
 		public DbSet<User> Users { get; set; }
+		public DbSet<Guest> Guests { get; set; }
 		public DbSet<Role> Roles { get; set; }
 		public DbSet<Permission> Permissions { get; set; }
 		public DbSet<LoginHistory> LoginHistories { get; set; }

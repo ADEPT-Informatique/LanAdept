@@ -89,6 +89,35 @@ namespace LanAdeptCore.Service
 			return new BaseResult();
 		}
 
+		/// <summary>
+		/// Reserve a place for a guest.
+		/// </summary>
+		/// <param name="place">Place to reserve</param>
+		/// <param name="user">Guest that is reserving the place</param>
+		public static BaseResult ReservePlace(Place place, String guestName)
+		{
+			if (!place.IsFree)
+				return new BaseResult() { Message = "Désolé, cette place est déjà occupée ou réservée. Vous ne pouvez pas la réservée.", HasError = true };
+
+			if (string.IsNullOrWhiteSpace(guestName))
+				return new BaseResult() { Message = "Le nom de l'invité ne peut pas être vide.", HasError = true };
+
+
+			Guest guest = new Guest();
+			guest.CompleteName = guestName;
+
+			Reservation reservation = new Reservation();
+			reservation.CreationDate = DateTime.Now;
+			reservation.Guest = guest;
+			reservation.Place = place;
+
+			UnitOfWork.Current.GuestRepository.Insert(guest);
+			UnitOfWork.Current.ReservationRepository.Insert(reservation);
+			UnitOfWork.Current.Save();
+
+			return new BaseResult();
+		}
+
 		public static BaseResult UserArrived(Place place)
 		{
 			if (place.IsFree)

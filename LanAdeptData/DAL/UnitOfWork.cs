@@ -204,6 +204,19 @@ namespace LanAdeptData.DAL
 			}
 		}
 
+		private GuestRepository guestRepository;
+		public GuestRepository GuestRepository
+		{
+			get
+			{
+				if (guestRepository == null)
+				{
+					guestRepository = new GuestRepository(context);
+				}
+				return guestRepository;
+			}
+		}
+
 		public void Save()
         {
             context.SaveChanges();

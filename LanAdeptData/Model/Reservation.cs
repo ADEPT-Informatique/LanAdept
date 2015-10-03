@@ -50,6 +50,16 @@ namespace LanAdeptData.Model
 			get { return LeavingDate != null; }
 		}
 
+		public string UserCompleteName
+		{
+			get {
+				if (IsGuest)
+					return Guest.CompleteName;
+
+				return User.CompleteName;
+			}
+		}
+
 		#endregion
 	}
 }

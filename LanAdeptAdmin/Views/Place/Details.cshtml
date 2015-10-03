@@ -87,7 +87,7 @@
 		</dt>
 
 		<dd>
-			@Html.DisplayFor(model => model.LastReservation.User.CompleteName)
+			@Html.DisplayFor(model => model.LastReservation.UserCompleteName)
 		</dd>
 
 		<dt>
@@ -95,7 +95,7 @@
 		</dt>
 
 		<dd>
-			@Html.DisplayFor(model => model.LastReservation.User.Email)
+			@(Model.LastReservation.IsGuest ? " -- " : Model.LastReservation.User.Email)
 		</dd>
 
 		<dt>
@@ -115,6 +115,22 @@
 
 @if (reservations.TotalItemCount > 0)
 {
+	using (Html.BeginForm("Details", "Place", FormMethod.Get, new { @class = "clearfix" }))
+	{
+		<div class="col-sm-10 col-md-7 col-lg-5 remove-padding">
+			<p class="input-group">
+				@Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", placeholder = "Code barre, email ou nom complet" })
+				<span class="input-group-btn">
+					<button type="submit" class="btn btn-primary">
+						<span class="glyphicon glyphicon-search"></span>
+						Chercher
+					</button>
+				</span>
+			</p>
+		</div>
+
+	}
+
 	<div class="table-responsive">
 		<table class="table table-striped">
 			<thead>
@@ -131,7 +147,7 @@
 				{
 					<tr>
 						<td>@reservation.CreationDate</td>
-						<td>@reservation.User.CompleteName</td>
+						<td>@reservation.UserCompleteName</td>
 						<td>@(reservation.HasArrived ? reservation.ArrivalDate.ToString() : " -- ")</td>
 						<td>@(reservation.HasLeft ? reservation.LeavingDate.ToString() : " -- ")</td>
 						<td>@(reservation.IsCancelled ? reservation.CancellationDate.ToString() : " -- ")</td>
@@ -145,21 +161,6 @@
 			<br />
 			@Html.PagedListPager(reservations, page => Url.Action("Details",
 				new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
-		}
-
-		@using (Html.BeginForm("Details", "Place", FormMethod.Get, new { @class = "clearfix" }))
-		{
-			<div class="col-sm-10 col-md-7 col-lg-5 remove-padding">
-				<p class="input-group">
-					@Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", placeholder = "Code barre, email ou nom complet" })
-					<span class="input-group-btn">
-						<button type="submit" class="btn btn-primary">
-							<span class="glyphicon glyphicon-search"></span>
-							Chercher
-						</button>
-					</span>
-				</p>
-			</div>
 		}
 
 	</div>

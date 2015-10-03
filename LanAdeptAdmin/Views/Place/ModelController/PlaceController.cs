@@ -175,19 +175,25 @@ namespace LanAdeptAdmin.Controllers
 
 			IEnumerable<User> Userlist = uow.UserRepository.Get().OrderBy(u => u.CompleteName);
 
-			if (placeAReserver.IsFree)
+			ReserveModel model = new ReserveModel();
+
+			if (!placeAReserver.IsFree)
 			{
-				ViewBag.UserID = new SelectList(Userlist, "UserID", "CompleteName");
-			}
-			else
-			{
-				//TODO: Faire marcher ça genre...
 				TempData["Warning"] = WARNING_PLACE_OCCUPIED;
-				var test = new SelectList(Userlist, "UserID", "CompleteName", Userlist.Last().UserID);
-				ViewBag.UserID = new SelectList(Userlist, "UserID", "CompleteName", Userlist.Last());
+
+				//TODO: Faire marcher ça genre...
+				if (placeAReserver.LastReservation.IsGuest)
+				{
+					model.FullNameNoAccount = placeAReserver.LastReservation.Guest.CompleteName;
+					model.IsGuest = true;
+				}
+				else
+				{
+					model.UserID = placeAReserver.LastReservation.User.UserID;
+				}
 			}
 
-			ReserveModel model = new ReserveModel();
+			model.Users = new SelectList(Userlist, "UserID", "CompleteName");
 			model.PlaceID = placeAReserver.PlaceID;
 			model.Place = placeAReserver;
 
@@ -197,7 +203,7 @@ namespace LanAdeptAdmin.Controllers
 		[Authorize]
 		[HttpPost]
 		[ValidateAntiForgeryToken]	//Le code de cette action est affreux
-		public ActionResult Reserve([Bind(Include = "PlaceID,UserID,IsUser,Place,FullNameNoAccount")] ReserveModel model)
+		public ActionResult Reserve([Bind(Include = "PlaceID,UserID,IsGuest,Place,FullNameNoAccount")] ReserveModel model)
 		{
 			if (model.PlaceID < 1)
 			{
@@ -218,7 +224,7 @@ namespace LanAdeptAdmin.Controllers
 
 			if (ModelState.IsValid)
 			{
-				if (model.IsUser)		//Enregistrement pour un User inscrit
+				if (!model.IsGuest)		//Enregistrement pour un User inscrit
 				{
 					if (model.UserID < 1)
 					{
@@ -253,9 +259,21 @@ namespace LanAdeptAdmin.Controllers
 						}
 					}
 				}
-				else
+				else				//Enregistrement pour un invité
 				{
-					throw new NotImplementedException();
+					if (!currentPlace.IsFree)
+						ReservationService.CancelReservation(currentPlace);
+
+					BaseResult result = ReservationService.ReservePlace(currentPlace, model.FullNameNoAccount);
+
+					if (result.HasError)
+						ModelState.AddModelError("", result.Message);
+
+					else
+					{
+						TempData["Success"] = "La place a bien été enregistré";
+						return RedirectToAction("Details", new { id = currentPlace.PlaceID });
+					}
 				}
 			}
 

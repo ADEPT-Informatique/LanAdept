@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using LanAdeptData.Model;
 
 namespace LanAdeptAdmin.Views.Places.ModelController
@@ -13,17 +15,15 @@ namespace LanAdeptAdmin.Views.Places.ModelController
 
 		public int PlaceID { get; set; }
 
-		public bool IsUser { get; set; }
+		public bool IsGuest { get; set; }
 
-		[DisplayName("Utilisateur inscrit")]
+		[DisplayName("Utilisateur")]
 		public int UserID { get; set; }
 
-		[DisplayName("Utilisateur non inscrit")]
-		public string FullNameNoAccount { get; set; }
+		public IEnumerable<SelectListItem> Users { get; set; } 
 
-		public ReserveModel()
-		{
-			IsUser = true;
-		}
+		[StringLength(50, MinimumLength = 4)]
+		[DisplayName("Nom complet")]
+		public string FullNameNoAccount { get; set; }
 	}
 }
