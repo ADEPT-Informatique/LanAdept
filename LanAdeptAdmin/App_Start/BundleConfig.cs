@@ -29,7 +29,8 @@ namespace LanAdeptAdmin
 					  "~/Scripts/jasny-bootstrap.js",
 					  "~/Scripts/bootstrap-datetimepicker.js",
 					  "~/Scripts/respond.js",
-					  "~/Scripts/general.js"));
+					  "~/Scripts/general.js",
+					  "~/Scripts/scanner.js"));
 
 			bundles.Add(new StyleBundle("~/Content/css").Include(
 					  "~/Content/bootstrap.css",

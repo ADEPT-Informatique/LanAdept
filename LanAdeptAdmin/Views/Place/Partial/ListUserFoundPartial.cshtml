@@ -4,7 +4,6 @@
 <table class="table">
 	<thead>
 		<tr>
-			<th>Code barre</th>
 			<th>Nom complet</th>
 			<th>Email</th>
 			<th>Réservation</th>
@@ -30,8 +29,7 @@
 				labelText = "Non";
 			}
 
-			<tr @(clickable ? "class=clickable-row data-row-url=" + Url.Action("Details", new { id=user.LastReservation.Place.PlaceID }) : "")>
-				<td>@user.Barcode</td>
+			<tr @(clickable ? "class=vertical-align clickable-row data-row-url=" + Url.Action("Details", new { id=user.LastReservation.Place.PlaceID }) : "")>
 				<td>@user.CompleteName</td>
 				<td>@user.Email</td>
 				<td><span class="label label-@labelClass label-small">@labelText</span></td>

@@ -107,7 +107,6 @@ namespace LanAdeptAdmin.Controllers
 
 		[Authorize]
 		[HttpPost]
-		[ValidateAntiForgeryToken]
 		public ActionResult Search(SearchModel model)
 		{
 			if (ModelState.IsValid)
