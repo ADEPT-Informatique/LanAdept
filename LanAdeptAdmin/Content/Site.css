@@ -135,3 +135,7 @@
 .vertical-align td {
 	vertical-align: central;
 }
+
+.remove-padding {
+	padding: 0;
+}

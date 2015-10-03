@@ -20,5 +20,10 @@ namespace LanAdeptAdmin.Views.Places.ModelController
 
 		[DisplayName("Utilisateur non inscrit")]
 		public string FullNameNoAccount { get; set; }
+
+		public ReserveModel()
+		{
+			IsUser = true;
+		}
 	}
 }

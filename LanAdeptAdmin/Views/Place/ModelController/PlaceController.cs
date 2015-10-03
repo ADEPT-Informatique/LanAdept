@@ -16,7 +16,7 @@ namespace LanAdeptAdmin.Controllers
 	{
 		private const string ERROR_INVALID_ID = "Désolé, une erreur est survenue. Merci de réessayer dans quelques instants";
 		private const string ERROR_PLACE_OCCUPIED = "Cette place est présentement occupé. Vous devez libérer la place avant de pouvoir modifier la réservation";
-		private const string WARNING_PLACE_OCCUPIED = "Attention! Cette place est déjà réservé! Si vous changer le nom de la personne dans ce formulaire, vous annulerez du même coup la réservation de cette personne!";
+		private const string WARNING_PLACE_OCCUPIED = "Attention! Cette place est déjà réservée. Si vous changer le nom de la personne dans ce formulaire, vous annulerez du même coup la réservation de cette personne.";
 
 		private UnitOfWork uow = UnitOfWork.Current;
 
@@ -191,7 +191,7 @@ namespace LanAdeptAdmin.Controllers
 			model.PlaceID = placeAReserver.PlaceID;
 			model.Place = placeAReserver;
 
-			return View(model); 
+			return View(model);
 		}
 
 		[Authorize]
@@ -225,7 +225,7 @@ namespace LanAdeptAdmin.Controllers
 						model.UserID = 0;
 						ModelState.AddModelError("", ERROR_INVALID_ID);
 					}
-					else if (!currentPlace.IsFree || currentPlace.LastReservation.User.UserID == model.UserID)
+					else if (!currentPlace.IsFree && currentPlace.LastReservation.User.UserID == model.UserID)
 					{
 						TempData["Warning"] = "Aucune donnée n'a été mise à jours";
 						return RedirectToAction("Details", new { id = currentPlace.PlaceID });
@@ -246,13 +246,16 @@ namespace LanAdeptAdmin.Controllers
 							if (result.HasError)
 								ModelState.AddModelError("", result.Message);
 							else
+							{
 								TempData["Success"] = "La place a bien été enregistré";
+								return RedirectToAction("Details", new { id = currentPlace.PlaceID });
+							}
 						}
 					}
 				}
 				else
 				{
-
+					throw new NotImplementedException();
 				}
 			}
 
@@ -262,6 +265,78 @@ namespace LanAdeptAdmin.Controllers
 
 			return View(model);
 		}
+
+		[Authorize]
+		public ActionResult Arriving(int? id)
+		{
+			if (id == null || id < 1)
+			{
+				TempData["Error"] = ERROR_INVALID_ID;
+				return RedirectToAction("Liste");
+			}
+			Place currentPlace = uow.PlaceRepository.GetByID(id.Value);
+			if (currentPlace == null)
+			{
+				TempData["Error"] = ERROR_INVALID_ID;
+				return RedirectToAction("Liste");
+			}
+
+			if (currentPlace.IsFree)
+			{
+				TempData["Error"] = "Impossible de marquer comme quoi cette place est occupée car celle-ci n'a pas de réservation.";
+			}
+			else if (currentPlace.LastReservation.HasArrived)
+			{
+				TempData["Error"] = "Impossible de marquer comme quoi cette place est occupée car elle est déjà occupée.";
+			}
+			else
+			{
+				currentPlace.LastReservation.ArrivalDate = DateTime.Now;
+				uow.ReservationRepository.Update(currentPlace.LastReservation);
+				uow.Save();
+
+				TempData["Success"] = "Cette place est maintenant occupée.";
+			}
+
+			return RedirectToAction("Details", new { id = currentPlace.PlaceID });
+		}
+
+		[Authorize]
+		public ActionResult Leaving(int? id)
+		{
+			if (id == null || id < 1)
+			{
+				TempData["Error"] = ERROR_INVALID_ID;
+				return RedirectToAction("Liste");
+			}
+			Place currentPlace = uow.PlaceRepository.GetByID(id.Value);
+			if (currentPlace == null)
+			{
+				TempData["Error"] = ERROR_INVALID_ID;
+				return RedirectToAction("Liste");
+			}
+
+			if (currentPlace.IsFree)
+			{
+				TempData["Error"] = "Impossible de marquer comme quoi cette place est maintenant disponible car celle-ci l'est déjà.";
+			}
+			else if (!currentPlace.LastReservation.HasArrived)
+			{
+				TempData["Error"] = "Impossible de marquer comme quoi la personne à cette place est partie puisqu'elle n'est pas encore arrivée.";
+			}
+			else
+			{
+				currentPlace.LastReservation.LeavingDate = DateTime.Now;
+				uow.ReservationRepository.Update(currentPlace.LastReservation);
+				uow.Save();
+
+				TempData["Success"] = "Cette place est maintenant libérée.";
+			}
+
+			return RedirectToAction("Details", new { id = currentPlace.PlaceID });
+		}
+
+#if DEBUG
 
 		[Authorize]
 		public ActionResult Reset()
@@ -296,20 +371,20 @@ namespace LanAdeptAdmin.Controllers
 				uow.PlaceSectionRepository.Delete(section);
 			}
 
-            IEnumerable<Map> maps = uow.MapRepository.Get();
-            foreach (Map map in maps) 
-            {
-                uow.MapRepository.Delete(map);
-            }
+			IEnumerable<Map> maps = uow.MapRepository.Get();
+			foreach (Map map in maps)
+			{
+				uow.MapRepository.Delete(map);
+			}
 
-            Map newMap = new Map();
-            newMap.MapName = "Caféteria orange";
-            newMap.Width = 18;
-            newMap.Height = 13;
-            newMap.Tiles = new List<Tile>();
+			Map newMap = new Map();
+			newMap.MapName = "Caféteria orange";
+			newMap.Width = 18;
+			newMap.Height = 13;
+			newMap.Tiles = new List<Tile>();
 
-            int x = 1;
-            int y = 0;
+			int x = 1;
+			int y = 0;
 			for (char sectionName = 'A'; sectionName <= 'H'; sectionName++)
 			{
 				PlaceSection section = new PlaceSection();
@@ -317,33 +392,34 @@ namespace LanAdeptAdmin.Controllers
 
 				for (int i = 1; i <= 24; i++)
 				{
-                    if (i == 13) {
-                        x++;
-                        y = 0;
-                    }
-                    y++;
+					if (i == 13)
+					{
+						x++;
+						y = 0;
+					}
+					y++;
 					Place place = new Place();
 					place.Number = i;
 					place.PlaceSection = section;
 
-                    Tile tile = new Tile();
-                    
-                    tile.Place = place;
-                    tile.PositionX = x;
-                    tile.PositionY = y;
+					Tile tile = new Tile();
 
-                    newMap.Tiles.Add(tile);
+					tile.Place = place;
+					tile.PositionX = x;
+					tile.PositionY = y;
+
+					newMap.Tiles.Add(tile);
 
 					uow.PlaceRepository.Insert(place);
-                    uow.TileRepository.Insert(tile);
+					uow.TileRepository.Insert(tile);
 				}
-                x++;
-                y = 0;
+				x++;
+				y = 0;
 
 				uow.PlaceSectionRepository.Insert(section);
 			}
 
-            x = 0;
+			x = 0;
 			for (char sectionName = 'I'; sectionName <= 'J'; sectionName++)
 			{
 				PlaceSection section = new PlaceSection();
@@ -355,29 +431,31 @@ namespace LanAdeptAdmin.Controllers
 					place.Number = i;
 					place.PlaceSection = section;
 
-                    Tile tile = new Tile();
+					Tile tile = new Tile();
 
-                    tile.Place = place;
-                    tile.PositionX = x;
-                    tile.PositionY = 0;
+					tile.Place = place;
+					tile.PositionX = x;
+					tile.PositionY = 0;
 
-                    newMap.Tiles.Add(tile);
+					newMap.Tiles.Add(tile);
 
-                    x++;
+					x++;
 
 					uow.PlaceRepository.Insert(place);
 				}
-                x = 9;
+				x = 9;
 
 				uow.PlaceSectionRepository.Insert(section);
 			}
 
-            uow.MapRepository.Insert(newMap);
+			uow.MapRepository.Insert(newMap);
 
 			uow.Save();
 
 			return RedirectToAction("Index");
 		}
+
+#endif
 
 		//[Authorize]
 		//public ActionResult Confirmer(int? id, string placeAction)
