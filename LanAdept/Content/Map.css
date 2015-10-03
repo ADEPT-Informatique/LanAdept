@@ -1,12 +1,13 @@
 ﻿@media screen and (max-width: 1200px) {
     #map-container {
         overflow: scroll;
+		overflow-y: hidden;
     }
 
     #map {
         margin-left: 20px;
         margin-right: 20px;
-        width: 1200px;
+        width: 1030px;
     }
 }
 
