@@ -1,12 +1,14 @@
 ﻿@media screen and (max-width: 1200px) {
     #map-container {
         overflow: scroll;
+        overflow-y: hidden;
+        margin-bottom: 20px;
     }
 
     #map {
         margin-left: 20px;
         margin-right: 20px;
-        width: 1200px;
+        width: 1050px;
     }
 }
 
@@ -27,7 +29,7 @@
     text-align: center;
     display: inline-block;
 
-    width: 300px;
+    width: 275px;
     padding: 10px 10px 5px 10px;
     border: 1px solid #ddd;
 }
@@ -36,10 +38,22 @@
     padding: 0;
 }
 
+#legende .place {
+    cursor: default;
+}
+
 .legende-label {
+    position: relative;
     font-size: 12px;
     width: 50px;
     padding-right: 5px;
+}
+
+.legende-col {
+    float: left;
+    width: 40px;
+    margin: 0 15px 0 15px;
+    padding: 0;
 }
 
 .place {
@@ -74,13 +88,27 @@
     margin-right: 0;
 }
 
-.place:hover {
+#map .place:hover {
     background-color: #dddddd;
     cursor: pointer;
 }
 
-.place-none:hover {
+#map .place-none:hover {
     background-color: #fff;
+    cursor: default;
+}
+
+#map .place-occupe:hover {
+	background-color: #FAD2D3;
+    cursor: default;
+}
+
+#map .place-actuelle:hover {
+    background-color: #CDDB9B;
+}
+
+#map .place-reserve:hover {
+    background-color: #AED7EA;
     cursor: default;
 }
 
@@ -94,18 +122,9 @@
     border: 1px solid #FAD2D3;
 }
 
-.place-occupe:hover {
-	background-color: #FAD2D3;
-    cursor: default;
-}
-
 .place-actuelle {
     background-color: #E3EBC6;
     border: 1px solid #CDDB9B;
-}
-
-.place-actuelle:hover {
-    background-color: #CDDB9B;
 }
 
 .place-reserve {
@@ -113,10 +132,7 @@
     border: 1px solid #aed7ea;
 }
 
-.place-reserve:hover {
-    background-color: #AED7EA;
-    cursor: default;
-}
+
 
 .map-max-width {
 	width: 1200px;

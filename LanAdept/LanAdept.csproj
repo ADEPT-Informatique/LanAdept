@@ -150,7 +150,6 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Home.css" />
-    <Content Include="Content\List.css" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\Map.css" />
     <Content Include="Content\PDF.css" />
