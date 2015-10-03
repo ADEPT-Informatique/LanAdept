@@ -24,45 +24,43 @@
 }
 
 
-@foreach (PlaceSection sectionCourante in Model.Sections)
+@foreach (Map map in Model.Maps)
 {
-	@Html.Partial("SingleSectionPartial", sectionCourante)
+	@Html.Partial("SingleMapPartial", map)
 }
 
 
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title">
-			Légende
-		</h3>
-	</div>
-	<div class="panel-body">
-
-		<div class="col-lg-1 col-md-2 col-sm-2 col-xs-6 place">
-			<div>
-				Libre
-			</div>
-		</div>
-
-		<div class="col-lg-1 col-md-2 col-sm-2 col-xs-6 place place-reserve">
-			<div>
-				Réservée
-			</div>
-		</div>
-
-		<div class="col-lg-1 col-md-2 col-sm-2 col-xs-6 place place-actuelle">
-			<div>
-				Ma place
-			</div>
-		</div>
-
-		<div class="col-lg-1 col-md-2 col-sm-2 col-xs-6 place place-occupe">
-			<div>
-				Occupée
-			</div>
-		</div>
-
-	</div>
+<div id="legende-container">
+    <div id="legende">
+        <div class="row">
+            <div class="legende-col">
+                <div class="place">L01</div>
+            </div>
+            <div class="legende-col">
+                <div class="place place-reserve">L02</div>
+            </div>
+            <div class="legende-col">
+                <div class="place place-actuelle">L03</div>
+            </div>
+            <div class="legende-col">
+                <div class="place place-occupe">L04</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="legende-col">
+                <div class="legende-label">Libre</div>
+            </div>
+            <div class="legende-col">
+                <div class="legende-label">Réservée</div>
+            </div>
+            <div class="legende-col">
+                <div class="legende-label">Ma place</div>
+            </div>
+            <div class="legende-col">
+                <div class="legende-label">Occupée</div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
@@ -82,5 +80,5 @@
 }
 
 @section Styles {
-    <link href="@Url.Content("~/Content/Place.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Map.css")" rel="stylesheet" type="text/css" />
 }

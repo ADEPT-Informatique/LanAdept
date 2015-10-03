@@ -31,7 +31,7 @@ namespace LanAdeptAdmin.Controllers
 		{
 			ListeModel listeModel = new ListeModel();
 
-			listeModel.Sections = uow.PlaceSectionRepository.Get();
+			listeModel.Maps = uow.MapRepository.Get();
 
 			return View(listeModel);
 		}

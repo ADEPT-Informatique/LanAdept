@@ -166,6 +166,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\jasny-bootstrap.css" />
     <Content Include="Content\login.css" />
+    <Content Include="Content\Map.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Place.css" />
     <Content Include="favicon.ico" />
@@ -251,6 +252,7 @@
     <Content Include="Views\Tournaments\DeleteTeam.cshtml" />
     <Content Include="Views\Tournaments\Shared\UserList.cshtml" />
     <Content Include="Views\Place\Reset.cshtml" />
+    <Content Include="Views\Place\Partial\SingleMapPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
