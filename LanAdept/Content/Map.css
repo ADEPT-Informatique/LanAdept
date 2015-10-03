@@ -8,7 +8,7 @@
     #map {
         margin-left: 20px;
         margin-right: 20px;
-        width: 1050px;
+        width: 1035px;
     }
 }
 
@@ -89,25 +89,40 @@
 }
 
 #map .place:hover {
+    cursor: default;
+}
+
+#map .place-actuelle a {
+    color: #000;
+    text-decoration: none;
+    display: block;
+    line-height: 40px;
+}
+
+#map .place-actuelle a:hover {
+    text-decoration: none;
+}
+
+#map .place .hover:hover {
     background-color: #dddddd;
     cursor: pointer;
 }
 
-#map .place-none:hover {
+#map .place-none .hover:hover {
     background-color: #fff;
     cursor: default;
 }
 
-#map .place-occupe:hover {
+#map .place-occupe .hover:hover {
 	background-color: #FAD2D3;
     cursor: default;
 }
 
-#map .place-actuelle:hover {
+#map .place-actuelle .hover:hover {
     background-color: #CDDB9B;
 }
 
-#map .place-reserve:hover {
+#map .place-reserve .hover:hover {
     background-color: #AED7EA;
     cursor: default;
 }
