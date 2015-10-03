@@ -14,7 +14,7 @@
 
 					var form = $('<form></form>');
 					form.attr("method", "post");
-					form.attr("action", "/lanadeptadmin/place/search/");
+					form.attr("action", "/place/search/");
 
 					var field = $('<input></input>');
 					field.attr("type", "hidden");
