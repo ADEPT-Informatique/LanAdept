@@ -13,25 +13,72 @@
 </div>
 
 <div class="row text-center">
-    <div class="col-sm-3">
+    <div class="col-xs-3">
         <h1 id="days"></h1>
         <hr />
         <h4>jours</h4>
     </div>
-    <div class="col-sm-3">
+    <div class="col-xs-3">
         <h1 id="hours"></h1>
         <hr />
         <h4>heures</h4>
     </div>
-    <div class="col-sm-3">
+    <div class="col-xs-3">
         <h1 id="minutes"></h1>
         <hr />
         <h4>minutes</h4>
     </div>
-    <div class="col-sm-3">
+    <div class="col-xs-3">
         <h1 id="seconds"></h1>
         <hr />
         <h4>secondes</h4>
+    </div>
+</div>
+
+<div id="carouselContainer">
+    <div id="carousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carousel" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel" data-slide-to="1"></li>
+            <li data-target="#carousel" data-slide-to="2"></li>
+            <li data-target="#carousel" data-slide-to="3"></li>
+            <li data-target="#carousel" data-slide-to="4"></li>
+            <li data-target="#carousel" data-slide-to="5"></li>
+            <li data-target="#carousel" data-slide-to="6"></li>
+            <li data-target="#carousel" data-slide-to="7"></li>
+            <li data-target="#carousel" data-slide-to="8"></li>
+            <li data-target="#carousel" data-slide-to="9"></li>
+            <li data-target="#carousel" data-slide-to="10"></li>
+            <li data-target="#carousel" data-slide-to="11"></li>
+            <li data-target="#carousel" data-slide-to="12"></li>
+            <li data-target="#carousel" data-slide-to="13"></li>
+        </ol>
+
+        <div class="carousel-inner" role="listbox">
+            <div class="item active"><img src="~/Image/Carousel/1.jpg"></div>
+            <div class="item"><img src="~/Image/Carousel/2.jpg"></div>
+            <div class="item"><img src="~/Image/Carousel/3.jpg"></div>
+            <div class="item"><img src="~/Image/Carousel/4.jpg"></div>
+            <div class="item"><img src="~/Image/Carousel/5.jpg"></div>
+            <div class="item"><img src="~/Image/Carousel/6.jpg"></div>
+            <div class="item"><img src="~/Image/Carousel/7.jpg"></div>
+            <div class="item"><img src="~/Image/Carousel/8.jpg"></div>
+            <div class="item"><img src="~/Image/Carousel/9.jpg"></div>
+            <div class="item"><img src="~/Image/Carousel/10.jpg"></div>
+            <div class="item"><img src="~/Image/Carousel/11.jpg"></div>
+            <div class="item"><img src="~/Image/Carousel/12.jpg"></div>
+            <div class="item"><img src="~/Image/Carousel/13.jpg"></div>
+            <div class="item"><img src="~/Image/Carousel/14.jpg"></div>
+        </div>
+
+        <a class="left carousel-control" href="#carousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Précédent</span>
+        </a>
+        <a class="right carousel-control" href="#carousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Suivant</span>
+        </a>
     </div>
 </div>
 
@@ -40,56 +87,58 @@
 }
 
 @section Scripts{
-	<script type="text/javascript">
-		$(document).ready(function () {
+    <script>
+        $(document).ready(function () {
+            timer();
+        });
 
-			var jourSemaine = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
-			var mois = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+        function timer() {
+            var jourSemaine = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
+            var mois = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
 
-			function setTimer() {
-				var dateNow = new Date();
-				var timeDiff = new Date(dateLan - dateNow);
+            function setTimer() {
+                var dateNow = new Date();
+                var timeDiff = new Date(dateLan - dateNow);
 
-				var seconds = Math.floor((dateLan.getTime() - (new Date().getTime())) / 1000);
-				var minutes = Math.floor(seconds / 60);
-				var hours = Math.floor(minutes / 60);
-				var days = Math.floor(hours / 24);
+                var seconds = Math.floor((dateLan.getTime() - (new Date().getTime())) / 1000);
+                var minutes = Math.floor(seconds / 60);
+                var hours = Math.floor(minutes / 60);
+                var days = Math.floor(hours / 24);
 
-				hours = hours - (days * 24);
-				minutes = minutes - (days * 24 * 60) - (hours * 60);
-				seconds = seconds - (days * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60);
+                hours = hours - (days * 24);
+                minutes = minutes - (days * 24 * 60) - (hours * 60);
+                seconds = seconds - (days * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60);
 
-				//$("#timer").text("Prochain LAN dans " + days + " jours " + addLeadingZero(hours) + ":" + addLeadingZero(minutes) + ":" + addLeadingZero(seconds));
-				$("#days").text(days);
-				$("#hours").text(addLeadingZero(hours));
-				$("#minutes").text(addLeadingZero(minutes));
-				$("#seconds").text(addLeadingZero(seconds));
+                //$("#timer").text("Prochain LAN dans " + days + " jours " + addLeadingZero(hours) + ":" + addLeadingZero(minutes) + ":" + addLeadingZero(seconds));
+                $("#days").text(days);
+                $("#hours").text(addLeadingZero(hours));
+                $("#minutes").text(addLeadingZero(minutes));
+                $("#seconds").text(addLeadingZero(seconds));
+            }
 
-			}
+            function dateToString(date) {
+                var strDate = "";
 
-			function dateToString(date) {
-				var strDate = "";
+                strDate += jourSemaine[date.getDay()];
+                strDate += " le " + date.getDate();
+                strDate += " " + mois[date.getMonth()];
+                strDate += " " + date.getFullYear();
+                strDate += " à " + addLeadingZero(date.getHours());
+                strDate += ":" + addLeadingZero(date.getMinutes());
 
-				strDate += jourSemaine[date.getDay()];
-				strDate += " le " + date.getDate();
-				strDate += " " + mois[date.getMonth()];
-				strDate += " " + date.getFullYear();
-				strDate += " à " + addLeadingZero(date.getHours());
-				strDate += ":" + addLeadingZero(date.getMinutes());
+                return strDate;
+            }
 
-				return strDate;
-			}
+            function addLeadingZero(number) {
+                return ("0" + number).slice(-2);
+            }
 
-			function addLeadingZero(number) {
-				return ("0" + number).slice(-2);
-			}
+            var dateLan = new Date(@ViewBag.dateLan);
 
-			var dateLan = new Date(@ViewBag.dateLan);
+            $("#date").text(dateToString(dateLan));
 
-			$("#date").text(dateToString(dateLan));
-
-			setTimer();
-			setInterval(setTimer, 1000);
-		});
-	</script>
+            setTimer();
+            setInterval(setTimer, 1000);
+        }
+    </script>
 }

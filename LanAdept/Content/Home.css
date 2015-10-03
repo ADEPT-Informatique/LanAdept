@@ -1,3 +1,13 @@
-﻿.home-image {
+﻿#carousel {
+    display: inline-block;
+    margin: 50px 0 10px 0;
+    width: 89%;
+}
+
+#carouselContainer {
+    text-align: center;
+}
+
+.home-image {
     width: 50%;
 }
