@@ -1,15 +1,51 @@
-﻿#mapContainer {
+﻿@media screen and (max-width: 1200px) {
+    #map-container {
+        overflow: scroll;
+    }
+
+    #map {
+        margin-left: 20px;
+        margin-right: 20px;
+        width: 1200px;
+    }
+}
+
+#map-container {
     text-align: center;
     padding-bottom: 10px;
-    width: 100%;
-    height: 100%;
 }
 
 #map {
     display: inline-block;
 }
 
-#map .place {
+#legende-container {
+    text-align: center;
+}
+
+#legende {
+    text-align: center;
+    display: inline-block;
+
+    width: 300px;
+    padding: 10px 10px 5px 10px;
+    border: 1px solid #ddd;
+}
+
+#legende .row {
+    padding: 0;
+}
+
+.legende-label {
+    font-size: 12px;
+    width: 50px;
+    padding-right: 5px;
+}
+
+.place {
+    position: relative;
+    float: left;
+
     width: 40px;
     height: 40px;
     line-height: 40px;
@@ -22,60 +58,66 @@
     margin: 2px;
 }
 
-#map .row:nth-child(1) {
+.row:nth-child(1) {
     padding-bottom: 25px;
 }
 
-#map .row:nth-child(1) .place:nth-child(9) {
+.row:nth-child(1) .place:nth-child(9) {
     margin-right: 270px;
 }
 
-#map .row:nth-child(n+2) .place:nth-child(2n+3) {
+.row:nth-child(n+2) .place:nth-child(2n+3) {
     margin-right: 40px;
 }
 
-#map .row:nth-child(n+2) .place:last-child {
-    margin: 0;
+.row:nth-child(n+2) .place:nth-last-child(-n+2) {
+    margin-right: 0;
 }
 
-#map .place:hover {
+.place:hover {
     background-color: #dddddd;
     cursor: pointer;
 }
 
-#map .place-none:hover {
+.place-none:hover {
     background-color: #fff;
     cursor: default;
 }
 
-#map .place-none {
+.place-none {
     border: none;
     background-color: #fff;
 }
 
-#map .place-occupe {
+.place-occupe {
     background-color: #F9E5E6;
+    border: 1px solid #FAD2D3;
 }
 
-#map .place-occupe:hover {
+.place-occupe:hover {
 	background-color: #FAD2D3;
+    cursor: default;
 }
 
-#map .place-actuelle {
+.place-actuelle {
     background-color: #E3EBC6;
+    border: 1px solid #CDDB9B;
 }
 
-#map .place-actuelle:hover {
+.place-actuelle:hover {
     background-color: #CDDB9B;
 }
 
-#map .place-reserve {
+.place-reserve {
     background-color: #D8ECF5;
+    border: 1px solid #aed7ea;
 }
 
-#map .place-reserve:hover {
+.place-reserve:hover {
     background-color: #AED7EA;
+    cursor: default;
 }
+
 .map-max-width {
 	width: 1200px;
 }

@@ -22,7 +22,7 @@
 	bool userHaveAPlace = LanAdeptCore.Service.ReservationService.HasUserPlace();
 }
 
-<div class="col-md-1 col-sm-2 col-xs-4 @classFirstDiv">
+<div class=" @classFirstDiv">
 	@if (Html.HasActionPermission("Reserver") 
 		&& Model.IsFree
 		&& !userHaveAPlace

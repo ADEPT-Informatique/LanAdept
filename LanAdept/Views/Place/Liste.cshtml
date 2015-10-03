@@ -12,7 +12,6 @@ else
 {
 	@Html.Partial("ModalReserverPlacePartial")
 }
-<div class="map-max-width">
 	<div class="page-header clearfix">
 		<h1 class="pull-left">Liste des places</h1>
 
@@ -20,7 +19,7 @@ else
 		{
 			<div class="btn-toolbar pull-right">
 				<div class="btn-group">
-					@Html.AuthorizeActionLink("Ma place", "MaPlace", null, null, new { @class = "btn btn-success btn-lg btn-header" })
+					@Html.AuthorizeActionLink("Ma place", "MaPlace", null, null, new { @class = "btn btn-success btn-header" })
 				</div>
 			</div>
 		}
@@ -65,41 +64,64 @@ else
 		}*@
 
 
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h3 class="panel-title">
-				Légende
-			</h3>
-		</div>
-		<div class="panel-body">
-
-			<div class="col-lg-1 col-md-2 col-sm-2 col-xs-6 place">
-				<div>
-					Libre
-				</div>
-			</div>
-
-			<div class="col-lg-1 col-md-2 col-sm-2 col-xs-6 place place-reserve">
-				<div>
-					Réservée
-				</div>
-			</div>
-
-			<div class="col-lg-1 col-md-2 col-sm-2 col-xs-6 place place-actuelle">
-				<div>
-					Ma place
-				</div>
-			</div>
-
-			<div class="col-lg-1 col-md-2 col-sm-2 col-xs-6 place place-occupe">
-				<div>
-					Occupée
-				</div>
-			</div>
-
-		</div>
-	</div>
+<div id="legende-container">
+    <div id="legende">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="place">L01</div>
+            </div>
+            <div class="col-md-3">
+                <div class="place place-reserve">L02</div>
+            </div>
+            <div class="col-md-3">
+                <div class="place place-actuelle">L03</div>
+            </div>
+            <div class="col-md-3">
+                <div class="place place-occupe">L04</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="legende-label">Libre</div>
+            </div>
+            <div class="col-md-3">
+                <div class="legende-label">Réservée</div>
+            </div>
+            <div class="col-md-3">
+                <div class="legende-label">Ma place</div>
+            </div>
+            <div class="col-md-3">
+                <div class="legende-label">Occupée</div>
+            </div>
+        </div>
+    </div>
 </div>
+
+@*<div id="legende-container">
+	<div id="legende">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="place">L01</div>
+                <div class="legende-label">Libre</div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="place place-reserve">L02</div>
+                <div class="legende-label">Réservée</div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="place place-actuelle">L03</div>
+                <div class="legende-label">Ma place</div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="place place-occupe">L04</div>
+                <div class="legende-label">Occupée</div>
+            </div>
+        </div>
+	</div>
+</div>*@
 
 @section scripts {
 
