@@ -1,21 +1,16 @@
 ﻿#carousel {
-    display: inline-block;
-    margin: 30px 0 10px 0;
-    width: 89%;
+    
 }
 
 #carousel-container {
-    text-align: center;
+width: 89%;
+margin:auto;
 }
 
 #description {
-    display: inline-block;
-    margin: 30px 0 0 0;
-    width: 50%;
-}
-
-#description-container {
-    text-align: center;
+    margin: 30px auto;
+	text-align:center;
+	float:none;
 }
 
 .home-image {

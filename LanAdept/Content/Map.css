@@ -34,6 +34,10 @@
     border: 1px solid #ddd;
 }
 
+#legende h4 {
+	margin-top: 0;
+}
+
 #legende .row {
     padding: 0;
 }
