@@ -25,6 +25,7 @@
             <th>@Html.DisplayNameFor(model => model.Teams.First().Name)</th>
             <th>@Html.DisplayNameFor(model => model.Teams.First().Tag)</th>
             <th>Nombre de joueur</th>
+            <th>Membre de l'équipe</th>
             @if (isConnected)
             {
                 <th></th>
@@ -44,13 +45,19 @@
                     }
                 </td>
                 <td>
-                    @team.Users.Count.ToString()
+                    @team.GamerTags.Count.ToString() / @team.Tournament.MaxPlayerPerTeam
+                </td>
+                <td>
+                    @foreach (var tag in team.GamerTags)
+                    {
+                        <div class="col-xs-12">@tag.Gamertag</div>
+                    }
                 </td>
                 @if (isConnected)
                 {
                     <td>
                         <div class="btn-group">
-                            @Html.ActionLink("Rejoindre", "JoinTeam", "Tournament", new JoinTeamModel { TournamentID = Model.TournamentID, TeamID = team.TeamID }, new { id = "teamButton", @class = "btn btn-default" })
+                            @Html.ActionLink("Rejoindre", "JoinTeam", "Tournament", new JoinTeamModel { TournamentID = Model.TournamentID, TeamID = team.TeamID }, new { @class = "teamButton btn btn-default" })
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="caret"></span>
                                 <span class="sr-only">Toggle Dropdown</span>
@@ -90,12 +97,12 @@
             
             var gamerTagId = 0;
 
-            $('#teamButton').click(function (event) {
+            $('.teamButton').click(function (event) {
                 if (gamerTagId == 0) event.preventDefault();
                 else
                 {
                     var url = $(this).attr('href');
-                    url += '&gamerTagId=' + gamerTagId;
+                    url += '&GamerTagId=' + gamerTagId;
                     $(this).attr('href', url);
                 }
             })
@@ -103,7 +110,8 @@
             $('.dropdown-menu li a').click(function () {
                 gamerTagId = $(this).attr('data-tagid')
                 $('.selectedTag').removeClass('selectedTag glyphicon glyphicon-ok');
-                $(this).children('span').addClass('selectedTag glyphicon glyphicon-ok')
+                var attr = 'ul li a[data-tagid=' + gamerTagId + ']';
+                $(attr).children('span').addClass('selectedTag glyphicon glyphicon-ok')
             })
 
         })

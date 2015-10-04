@@ -13,13 +13,11 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 
 		public int TournamentID { get; set; }
 
-		public int UserID { get; set; }
-
-		public User TeamLeader { get; set; }
+		public GamerTag TeamLeaderTag { get; set; }
 
 		public Tournament Tournament { get; set; }
 
-		public ICollection<User> Users { get; set; }
+        public ICollection<GamerTag> TeamGamerTags { get; set; }
 
 		public TeamModel()
 		{
@@ -31,11 +29,10 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 			TeamID = team.TeamID;
 			Name = team.Name;
 			Tag = team.Tag;
-			UserID = team.UserID;
-			TeamLeader = team.TeamLeader;
+            TeamLeaderTag = team.TeamLeaderTag;
 			TournamentID = team.TournamentID;
 			Tournament = team.Tournament;
-			Users = team.Users;
+			TeamGamerTags = team.GamerTags;
 		}
 	}
 }

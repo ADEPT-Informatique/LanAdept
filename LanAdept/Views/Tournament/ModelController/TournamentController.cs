@@ -44,38 +44,40 @@ namespace LanAdept.Views.Tournament.ModelController
             User user = UserService.GetLoggedInUser();
             if (user != null)
             {
-                tournamentModel.GamerTags = uow.GamerTagRepository.GetGamerTagsByUser(user);
+                tournamentModel.GamerTags = uow.GamerTagRepository.GetByUser(user);
             }
 
             return View(tournamentModel);
 		}
 
-		[AllowAnonymous]
+		[Authorize]
 		public ActionResult Addteam(int id)
 		{
-			TeamModel team = new TeamModel();
+			AddTeamModel team = new AddTeamModel();
 			team.Tournament = uow.TournamentRepository.GetByID(id);
-			team.TeamLeader = UserService.GetLoggedInUser();
             team.TournamentID = team.Tournament.TournamentID;
-            team.UserID = team.TeamLeader.UserID;
+
+            IEnumerable<GamerTag> gamerTags = uow.GamerTagRepository.GetByUser(UserService.GetLoggedInUser());
+            team.LeaderTags = new SelectList(gamerTags, "GamerTagID", "Gamertag");
 			return View(team);
 		}
 
-		[AllowAnonymous]
+		[Authorize]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-        public ActionResult Addteam([Bind(Include = "Name,Tag,TournamentID,UserID")]TeamModel teamModel)
+        public ActionResult Addteam(AddTeamModel teamModel)
 		{
 			if (ModelState.IsValid)
 			{
 				Team team = new Team();
 				team.Name = teamModel.Name;
 				team.Tag = teamModel.Tag;
-				team.TeamLeader = uow.UserRepository.GetByID(teamModel.UserID);
-				
-				List<User> users = new List<User>();
-                users.Add(uow.UserRepository.GetByID(teamModel.UserID));
-				team.Users = users;
+                User user = UserService.GetLoggedInUser();
+				team.TeamLeaderTag = uow.GamerTagRepository.GetByUserAndGamerTagID(user, teamModel.LeaderTagID);
+
+                List<GamerTag> listGamerTags = new List<GamerTag>();
+                listGamerTags.Add(team.TeamLeaderTag);
+                team.GamerTags = listGamerTags;
 				team.Tournament = uow.TournamentRepository.GetByID(teamModel.TournamentID);
 
 				uow.TeamRepository.Insert(team);
@@ -100,6 +102,8 @@ namespace LanAdept.Views.Tournament.ModelController
 				return RedirectToAction("Details", new { id = team.Tournament.TournamentID });
 			}
 
+            IEnumerable<GamerTag> gamerTags = uow.GamerTagRepository.GetByUser(UserService.GetLoggedInUser());
+            teamModel.LeaderTags = new SelectList(gamerTags, "GamerTagID", "Gamertag");
 			return View(teamModel);
 		}
 
@@ -126,15 +130,17 @@ namespace LanAdept.Views.Tournament.ModelController
         {
             if (model.GamerTagID == null || model.TournamentID == null || model.TeamID == null )
             {
+                //TODO : Add client error
                 return HttpNotFound();
             }
 
             Demande demande = new Demande();
             User user = UserService.GetLoggedInUser();
 
-            GamerTag gamerTag = uow.GamerTagRepository.GetGamerTagByUserAndGamerTagID(user, model.GamerTagID.Value);
+            GamerTag gamerTag = uow.GamerTagRepository.GetByUserAndGamerTagID(user, model.GamerTagID.Value);
             if (gamerTag == null)
             {
+                //TODO : Add client error
                 return HttpNotFound();
             }
 
@@ -143,6 +149,7 @@ namespace LanAdept.Views.Tournament.ModelController
             Team team = uow.TeamRepository.GetByID(model.TeamID);
             if (team == null)
             {
+                //TODO : Add client error
                 return HttpNotFound();
             }
             demande.Team = team;

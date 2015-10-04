@@ -19,5 +19,10 @@ namespace LanAdeptData.Model
 		[ForeignKey("UserID")]
 		public virtual User User { get; set; }
 		#endregion
+
+        public override string ToString()
+        {
+            return Gamertag;
+        }
 	}
 }

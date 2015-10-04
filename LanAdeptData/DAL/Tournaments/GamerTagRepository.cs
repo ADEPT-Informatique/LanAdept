@@ -12,12 +12,12 @@ namespace LanAdeptData.DAL.Tournaments
 	{
 		public GamerTagRepository(LanAdeptDataContext context) : base(context) { }
 
-        public IEnumerable<GamerTag> GetGamerTagsByUser(User user)
+        public IEnumerable<GamerTag> GetByUser(User user)
         {
             return this.Get().Where(x => x.UserID == user.UserID);
         }
 
-        public GamerTag GetGamerTagByUserAndGamerTagID(User user, int gamerTagID)
+        public GamerTag GetByUserAndGamerTagID(User user, int gamerTagID)
         {
             return this.Get().Where(x => x.UserID == user.UserID && x.GamerTagID == gamerTagID).First();
         }

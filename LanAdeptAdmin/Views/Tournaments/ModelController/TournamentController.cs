@@ -138,7 +138,7 @@ namespace LanAdeptAdmin.Views
 			while (tournament.Teams.Count != 0)
 			{
 				Team team = tournament.Teams.First();
-				team.Users.Clear();
+				team.GamerTags.Clear();
                 uow.TeamRepository.Delete(team);
 			}
 

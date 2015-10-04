@@ -17,16 +17,14 @@ namespace LanAdeptData.Model
 
 		public int TournamentID { get; set; }
 
-		public virtual int UserID { get; set; }
-
 		#region Navigation properties
-		[ForeignKey("UserID")]
-		public virtual User TeamLeader { get; set; }
+
+        public virtual GamerTag TeamLeaderTag { get; set; }
 
 		[ForeignKey("TournamentID")]
 		public virtual Tournament Tournament { get; set; }
 
-		public virtual ICollection<User> Users { get; set; }
+		public virtual ICollection<GamerTag> GamerTags { get; set; }
 		#endregion
 	}
 }
