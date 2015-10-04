@@ -98,18 +98,9 @@ namespace LanAdeptAdmin.Controllers
 		}
 
 		[Authorize]
-		public ActionResult Search()
-		{
-			SearchModel searchModel = new SearchModel();
-
-			return View(searchModel);
-		}
-
-		[Authorize]
-		[HttpPost]
 		public ActionResult Search(SearchModel model)
 		{
-			if (ModelState.IsValid)
+			if (ModelState.IsValid && model.Query != null)
 			{
 				User byBarcode = uow.UserRepository.GetUserByBarCode(model.Query);
 				if (byBarcode != null)
@@ -152,6 +143,7 @@ namespace LanAdeptAdmin.Controllers
 
 			return View(model);
 		}
+
 
 		[Authorize]
 		public ActionResult Reserve(int? id)
