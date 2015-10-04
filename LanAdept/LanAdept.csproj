@@ -155,6 +155,7 @@
     <Content Include="Content\Login.css" />
     <Content Include="Content\Map.css" />
     <Content Include="Content\Tournois.css" />
+    <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
