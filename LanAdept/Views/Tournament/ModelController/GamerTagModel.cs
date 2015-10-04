@@ -10,5 +10,7 @@ namespace LanAdept.Views.Tournament.ModelController
         public int TournamentID { get; set; }
 
         public string Gamertag { get; set; }
+
+        public string ActionRedir { get; set; }
     }
 }

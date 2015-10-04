@@ -22,9 +22,9 @@ namespace LanAdeptData.DAL.Tournaments
             return this.Get().Where(x => x.UserID == user.UserID && x.GamerTagID == gamerTagID).First();
         }
 
-        public bool HasSameGamerTag(string gamerTag)
+        public bool HasSameGamerTag(User user, string gamerTag)
         {
-            return this.Get().Where(x => x.Gamertag == gamerTag).Count() != 0;
+            return this.Get().Where(x => x.UserID == user.UserID && x.Gamertag == gamerTag).Count() != 0;
         }
 	}
 }

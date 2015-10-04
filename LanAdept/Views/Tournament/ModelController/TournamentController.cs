@@ -114,7 +114,7 @@ namespace LanAdept.Views.Tournament.ModelController
         {
             User user = UserService.GetLoggedInUser();
 
-            if (!uow.GamerTagRepository.HasSameGamerTag(model.Gamertag))
+            if (!uow.GamerTagRepository.HasSameGamerTag(user, model.Gamertag))
             {
                 GamerTag gamerTag = new GamerTag();
                 gamerTag.Gamertag = model.Gamertag;
@@ -124,7 +124,7 @@ namespace LanAdept.Views.Tournament.ModelController
                 uow.Save();   
             }
 
-            return RedirectToAction("Details", new { id = model.TournamentID });
+            return RedirectToAction(model.ActionRedir, new { id = model.TournamentID });
         }
 
         [Authorize]

@@ -32,9 +32,7 @@
 				@Html.ValidationMessageFor(model => model.Tag, "", new { @class = "text-danger" })
 			</div>
 		</div>
-
-
-		<div class="form-group">
+        <div class="form-group">
             <div class="btn-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="Ajouter une equipe" class="teamButton btn btn-default" />
@@ -50,26 +48,25 @@
                     }
                     <li role="separator" class="divider"></li>
                     <li>
-                        @using (Html.BeginForm("AddGamerTag", "Tournament", new GamerTagModel() { TournamentID = Model.TournamentID }, FormMethod.Post))
-                        {
-                            <div class="col-lg-12">
-                                <div class="input-group input-group-sm">
-                                    @Html.Editor("Gamertag")
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="submit">+</button>
-                                    </span>
-                                </div>
+                        <div class="col-lg-12">
+                            <div class="input-group input-group-sm">
+                                <input class="text-box single-line" id="tagText" type="text" value="" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">
+                                        @Html.AuthorizeActionLink("+", "AddGamerTag", "Tournament", new GamerTagModel() { TournamentID = Model.TournamentID, ActionRedir = "AddTeam" }, new { @class = "plusButton" })
+                                    </button>
+                                </span>
                             </div>
-                        }
+                        </div>
                     </li>
                 </ul>
             </div>
-		</div>
+        </div>
 	</div>
 }
 
 <div>
-	@Html.ActionLink("Back to List", "Index")
+	@Html.ActionLink("Back to List", "Details", new { id = Model.TournamentID })
 </div>
 
 @section scripts {
@@ -84,6 +81,13 @@
                 {
                     $('#tagId').val(gamerTagId);
                 }
+            })
+
+            $('.plusButton').click(function (event) {
+                var gamerTag = $('#tagText').val();
+                var url = $(this).attr('href');
+                url += '&Gamertag=' + gamerTag;
+                $(this).attr('href', url);
             })
 
             $('.dropdown-menu li a').click(function () {
