@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace LanAdeptData.Model
 {
-	public class Gamer
+	public class GamerTag
 	{
-		public int GamerID { get; set; }
+		public int GamerTagID { get; set; }
 
 		public string Gamertag { get; set; }
 

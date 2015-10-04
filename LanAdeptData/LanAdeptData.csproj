@@ -91,8 +91,9 @@
     <Compile Include="DAL\Places\PlaceRepository.cs" />
     <Compile Include="DAL\Places\PlaceSectionRepository.cs" />
     <Compile Include="DAL\Settings\SettingRepository.cs" />
+    <Compile Include="DAL\Tournaments\DemandeRepository.cs" />
     <Compile Include="DAL\Tournaments\GameRepository.cs" />
-    <Compile Include="DAL\Tournaments\GamerRepository.cs" />
+    <Compile Include="DAL\Tournaments\GamerTagRepository.cs" />
     <Compile Include="DAL\Tournaments\TeamRepository.cs" />
     <Compile Include="DAL\Tournaments\TournamentRepository.cs" />
     <Compile Include="DAL\Users\GuestRepository.cs" />
@@ -102,7 +103,7 @@
     <Compile Include="DAL\Users\UserRepository.cs" />
     <Compile Include="Model\Demande.cs" />
     <Compile Include="Model\Game.cs" />
-    <Compile Include="Model\Gamer.cs" />
+    <Compile Include="Model\GamerTag.cs" />
     <Compile Include="Model\Guest.cs" />
     <Compile Include="Model\LoginHistory.cs" />
     <Compile Include="Model\Map.cs" />

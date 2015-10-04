@@ -14,16 +14,16 @@ namespace LanAdept.Views.Tournament.ModelController
 		[DisplayFormat(DataFormatString = @"{0:HH\hmm}")]
 		public DateTime? StartTime { get; set; }
 
-		public int Id { get; set; }
+		public int TournamentID { get; set; }
 
 		public int GameID { get; set; }
 
-		#region Navigation properties
 		[Display(Name = "Jeu")]
-		public virtual Game Game { get; set; }
+		public Game Game { get; set; }
 
-		public virtual ICollection<Team> Teams { get; set; }
-		#endregion
+        public IEnumerable<Team> Teams { get; set; }
+
+        public IEnumerable<GamerTag> GamerTags { get; set; }
 
 		public TournamentModel()
 		{
@@ -36,7 +36,7 @@ namespace LanAdept.Views.Tournament.ModelController
 			Game = tournament.Game;
 			GameID = tournament.GameID;
 			Teams = tournament.Teams;
-			Id = tournament.TournamentID;
+			TournamentID = tournament.TournamentID;
 		}
 	}
 }

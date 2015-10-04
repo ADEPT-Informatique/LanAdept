@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace LanAdeptData.DAL.Tournaments
 {
-	public class GamerRepository : GenericRepository<Gamer>
-	{
-		public GamerRepository(LanAdeptDataContext context) : base(context) { }
-	}
+    public class DemandeRepository : GenericRepository<Demande>
+    {
+        public DemandeRepository(LanAdeptDataContext context) : base(context) { }
+    }
 }
-

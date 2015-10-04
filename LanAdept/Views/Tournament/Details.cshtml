@@ -1,19 +1,23 @@
 ﻿@model LanAdept.Views.Tournament.ModelController.TournamentModel
-
+@using LanAdept.Views.Tournament.ModelController;
 
 
 @{
-	ViewBag.Title = "Details";
+    bool isConnected = LanAdeptCore.Service.UserService.GetLoggedInUser() != null;
+    ViewBag.Title = "Details";
 }
 <div class="map-max-width">
-    <div class="page-header clearfix">
-        <h1 class="pull-left">@Html.DisplayFor(model => model.Game.Name)</h1>
-        <div class="btn-toolbar pull-right">
-            <div class="btn-group">
-                @Html.ActionLink("Ajouter une equipe", "AddTeam", new { id = Model.Id }, new { @class = "btn btn-default" })
+    @if (isConnected)
+    {
+        <div class="page-header clearfix">
+            <h1 class="pull-left">@Html.DisplayFor(model => model.Game.Name)</h1>
+            <div class="btn-toolbar pull-right">
+                <div class="btn-group">
+                    @Html.ActionLink("Ajouter une equipe", "AddTeam", new { id = Model.TournamentID }, new { @class = "btn btn-default" })
+                </div>
             </div>
         </div>
-    </div>
+    }
 
     <h4>Teams</h4>
     <table class="table">
@@ -21,7 +25,10 @@
             <th>@Html.DisplayNameFor(model => model.Teams.First().Name)</th>
             <th>@Html.DisplayNameFor(model => model.Teams.First().Tag)</th>
             <th>Nombre de joueur</th>
-            <th></th>
+            @if (isConnected)
+            {
+                <th></th>
+            }
         </tr>
 
         @foreach (Team team in Model.Teams)
@@ -39,25 +46,66 @@
                 <td>
                     @team.Users.Count.ToString()
                 </td>
-                <td>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-">@Html.AuthorizeActionLink("Rejoindre", "JoinTeam")</button>
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                        </ul>
-                    </div>
-                </td>
+                @if (isConnected)
+                {
+                    <td>
+                        <div class="btn-group">
+                            @Html.ActionLink("Rejoindre", "JoinTeam", "Tournament", new JoinTeamModel { TournamentID = Model.TournamentID, TeamID = team.TeamID }, new { id = "teamButton", @class = "btn btn-default" })
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                @foreach (var gamerTags in Model.GamerTags)
+                                {
+                                    <li><a href="#" data-tagid="@gamerTags.GamerTagID"><span></span>@gamerTags.Gamertag</a></li>
+                                }
+                                <li role="separator" class="divider"></li>
+                                <li>
+                                    @using(Html.BeginForm("AddGamerTag", "Tournament", new GamerTagModel() { TournamentID = Model.TournamentID }, FormMethod.Post))
+                                    {
+                                        <div class="col-lg-12">
+                                            <div class="input-group input-group-sm">
+                                                @Html.Editor("Gamertag")
+                                                @*<input type="text" class="form-control" placeholder="Search for...">*@
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="submit">+</button>
+                                                </span>
+                                            </div>
+                                        </div>   
+                                    }
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                }
             </tr>
         }
     </table>
 </div>
 
+@section scripts {
+    <script>
+        $(document).ready(function(){
+            
+            var gamerTagId = 0;
 
+            $('#teamButton').click(function (event) {
+                if (gamerTagId == 0) event.preventDefault();
+                else
+                {
+                    var url = $(this).attr('href');
+                    url += '&gamerTagId=' + gamerTagId;
+                    $(this).attr('href', url);
+                }
+            })
+
+            $('.dropdown-menu li a').click(function () {
+                gamerTagId = $(this).attr('data-tagid')
+                $('.selectedTag').removeClass('selectedTag glyphicon glyphicon-ok');
+                $(this).children('span').addClass('selectedTag glyphicon glyphicon-ok')
+            })
+
+        })
+    </script>
+}

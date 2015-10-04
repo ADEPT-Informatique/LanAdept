@@ -12,7 +12,7 @@ namespace LanAdeptData.Model
 
         #region Navigation properties
 
-        public virtual Gamer Gamer { get; set; }
+        public virtual GamerTag GamerTag { get; set; }
 
         public virtual Team Team { get; set; }
 

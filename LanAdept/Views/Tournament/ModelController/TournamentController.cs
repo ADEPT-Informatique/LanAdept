@@ -31,12 +31,23 @@ namespace LanAdept.Views.Tournament.ModelController
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
-			TournamentModel tournament = new TournamentModel(uow.TournamentRepository.GetByID(id));
-			if (tournament == null)
-			{
-				return HttpNotFound();
-			}
-			return View(tournament);
+
+            LanAdeptData.Model.Tournament tournament = uow.TournamentRepository.GetByID(id);
+
+            if (tournament == null)
+            {
+                return HttpNotFound();
+            }
+
+            TournamentModel tournamentModel = new TournamentModel(tournament);
+
+            User user = UserService.GetLoggedInUser();
+            if (user != null)
+            {
+                tournamentModel.GamerTags = uow.GamerTagRepository.GetGamerTagsByUser(user);
+            }
+
+            return View(tournamentModel);
 		}
 
 		[AllowAnonymous]
@@ -49,9 +60,6 @@ namespace LanAdept.Views.Tournament.ModelController
             team.UserID = team.TeamLeader.UserID;
 			return View(team);
 		}
-
-        //        @Html.HiddenFor(model => model.Tournament.TournamentID)
-        //@Html.HiddenFor(model => model.TeamLeader.UserID)
 
 		[AllowAnonymous]
 		[HttpPost]
@@ -96,13 +104,53 @@ namespace LanAdept.Views.Tournament.ModelController
 		}
 
         [Authorize]
-        public ActionResult JoinTeam(int? id)
+        public ActionResult AddGamerTag(GamerTagModel model)
         {
-            if(id == null)
+            User user = UserService.GetLoggedInUser();
+
+            if (!uow.GamerTagRepository.HasSameGamerTag(model.Gamertag))
             {
-                return View("Index");
+                GamerTag gamerTag = new GamerTag();
+                gamerTag.Gamertag = model.Gamertag;
+                gamerTag.User = user;
+
+                uow.GamerTagRepository.Insert(gamerTag);
+                uow.Save();   
             }
-            return View("Details", id);
+
+            return RedirectToAction("Details", new { id = model.TournamentID });
+        }
+
+        [Authorize]
+        public ActionResult JoinTeam(JoinTeamModel model)
+        {
+            if (model.GamerTagID == null || model.TournamentID == null || model.TeamID == null )
+            {
+                return HttpNotFound();
+            }
+
+            Demande demande = new Demande();
+            User user = UserService.GetLoggedInUser();
+
+            GamerTag gamerTag = uow.GamerTagRepository.GetGamerTagByUserAndGamerTagID(user, model.GamerTagID.Value);
+            if (gamerTag == null)
+            {
+                return HttpNotFound();
+            }
+
+            demande.GamerTag = gamerTag;
+
+            Team team = uow.TeamRepository.GetByID(model.TeamID);
+            if (team == null)
+            {
+                return HttpNotFound();
+            }
+            demande.Team = team;
+
+            uow.DemandeRepository.Insert(demande);
+            uow.Save();
+
+            return RedirectToAction("Details", new { id = model.TournamentID });
         }
 	}
 }

@@ -151,18 +151,31 @@ namespace LanAdeptData.DAL
 			}
 		}
 
-		private GamerRepository gamerRepository;
-		public GamerRepository GamerRepository
+		private GamerTagRepository gamerTagRepository;
+		public GamerTagRepository GamerTagRepository
 		{
 			get
 			{
-				if (gamerRepository == null)
+                if (gamerTagRepository == null)
 				{
-					gamerRepository = new GamerRepository(context);
+                    gamerTagRepository = new GamerTagRepository(context);
 				}
-				return gamerRepository;
+                return gamerTagRepository;
 			}
 		}
+
+        private DemandeRepository demandeRepository;
+        public DemandeRepository DemandeRepository
+        {
+            get
+            {
+                if (demandeRepository == null)
+                {
+                    demandeRepository = new DemandeRepository(context);
+                }
+                return demandeRepository;
+            }
+        }
 		#endregion
 
 		private SettingRepository settingRepository;

@@ -19,7 +19,7 @@
     </thead>
     <tbody>
         @foreach (var item in Model) {
-            <tr @("class=clickable-row data-row-url=" + Url.Action("Details", "Tournament", new { id = item.Id }))>
+            <tr @("class=clickable-row data-row-url=" + Url.Action("Details", "Tournament", new { id = item.TournamentID }))>
                 <td class="col-sm-11">
                     @Html.DisplayFor(modelItem => item.Game.Name)
                 </td>
