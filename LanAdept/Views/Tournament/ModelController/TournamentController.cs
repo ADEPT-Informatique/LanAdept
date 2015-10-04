@@ -50,62 +50,64 @@ namespace LanAdept.Views.Tournament.ModelController
             return View(tournamentModel);
 		}
 
-		[Authorize]
-		public ActionResult Addteam(int id)
-		{
-			AddTeamModel team = new AddTeamModel();
-			team.Tournament = uow.TournamentRepository.GetByID(id);
+        [Authorize]
+        public ActionResult Addteam(int id)
+        {
+            AddTeamModel team = new AddTeamModel();
+            team.Tournament = uow.TournamentRepository.GetByID(id);
             team.TournamentID = team.Tournament.TournamentID;
+            team.GamerTags = uow.GamerTagRepository.GetByUser(UserService.GetLoggedInUser());
+            //IEnumerable<GamerTag> gamerTags = uow.GamerTagRepository.GetByUser(UserService.GetLoggedInUser());
+            //team.LeaderTags = new SelectList(gamerTags, "GamerTagID", "Gamertag");
+            return View(team);
+        }
 
-            IEnumerable<GamerTag> gamerTags = uow.GamerTagRepository.GetByUser(UserService.GetLoggedInUser());
-            team.LeaderTags = new SelectList(gamerTags, "GamerTagID", "Gamertag");
-			return View(team);
-		}
-
-		[Authorize]
-		[HttpPost]
-		[ValidateAntiForgeryToken]
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Addteam(AddTeamModel teamModel)
-		{
-			if (ModelState.IsValid)
-			{
-				Team team = new Team();
-				team.Name = teamModel.Name;
-				team.Tag = teamModel.Tag;
+        {
+            if (ModelState.IsValid)
+            {
+                Team team = new Team();
+                team.Name = teamModel.Name;
+                team.Tag = teamModel.Tag;
                 User user = UserService.GetLoggedInUser();
-				team.TeamLeaderTag = uow.GamerTagRepository.GetByUserAndGamerTagID(user, teamModel.LeaderTagID);
+                team.TeamLeaderTag = uow.GamerTagRepository.GetByUserAndGamerTagID(user, teamModel.GamerTagId);
 
                 List<GamerTag> listGamerTags = new List<GamerTag>();
                 listGamerTags.Add(team.TeamLeaderTag);
                 team.GamerTags = listGamerTags;
-				team.Tournament = uow.TournamentRepository.GetByID(teamModel.TournamentID);
+                team.Tournament = uow.TournamentRepository.GetByID(teamModel.TournamentID);
 
-				uow.TeamRepository.Insert(team);
+                uow.TeamRepository.Insert(team);
 
-				LanAdeptData.Model.Tournament tournament = team.Tournament;
+                LanAdeptData.Model.Tournament tournament = team.Tournament;
 
-				if (tournament.Teams == null)
-				{
-					ICollection<Team> teamList;
-					teamList = new List<Team>();
-					teamList.Add(team);
-					tournament.Teams = teamList;
-				}
-				else
-				{
+                if (tournament.Teams == null)
+                {
+                    ICollection<Team> teamList;
+                    teamList = new List<Team>();
+                    teamList.Add(team);
+                    tournament.Teams = teamList;
+                }
+                else
+                {
                     tournament.Teams.Add(team);
-				}
+                }
 
-				uow.TournamentRepository.Update(tournament);
+                uow.TournamentRepository.Update(tournament);
 
-				uow.Save();
-				return RedirectToAction("Details", new { id = team.Tournament.TournamentID });
-			}
+                uow.Save();
+                return RedirectToAction("Details", new { id = team.Tournament.TournamentID });
+            }
 
-            IEnumerable<GamerTag> gamerTags = uow.GamerTagRepository.GetByUser(UserService.GetLoggedInUser());
-            teamModel.LeaderTags = new SelectList(gamerTags, "GamerTagID", "Gamertag");
-			return View(teamModel);
-		}
+            //IEnumerable<GamerTag> gamerTags = uow.GamerTagRepository.GetByUser(UserService.GetLoggedInUser());
+            //teamModel.LeaderTags = new SelectList(gamerTags, "GamerTagID", "Gamertag");
+
+            teamModel.GamerTags = uow.GamerTagRepository.GetByUser(UserService.GetLoggedInUser());
+            return View(teamModel);
+        }
 
         [Authorize]
         public ActionResult AddGamerTag(GamerTagModel model)

@@ -14,9 +14,10 @@ namespace LanAdept.Views.Tournament.ModelController
 
 		public GamerTag TeamLeaderTag { get; set; }
 
-        public int LeaderTagID { get; set; }
+        public int GamerTagId { get; set; }
 
-        public IEnumerable<SelectListItem> LeaderTags { get; set; }
+        public IEnumerable<GamerTag> GamerTags { get; set; }
+        //public IEnumerable<SelectListItem> LeaderTags { get; set; }
 
 		public LanAdeptData.Model.Tournament Tournament { get; set; }
 	}
