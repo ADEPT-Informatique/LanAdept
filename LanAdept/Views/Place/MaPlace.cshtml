@@ -1,4 +1,4 @@
-﻿@model LanAdept.Views.Place.ModelController.PDFModel
+﻿@model LanAdept.Views.Place.ModelController.MaPlaceModel
 
 @{
 	ViewBag.Title = "Ma place";
@@ -8,23 +8,43 @@
 
 <div class="container-sm">
     
-    @Html.Partial("DownloadFilePDFPartiel", Model)
+	<h2>Ma place - @Model.reservation.Place</h2>
+
+	<div>
+		<h4>Réservée le @Model.reservation.CreationDate.ToString("f")</h4>
+		<hr />
+		<div>
+			<dl class="dl-horizontal">
+
+				<dt>
+					Nom Complet
+				</dt>
+
+				<dd>
+					@Html.DisplayFor(model => model.reservation.User.CompleteName)
+				</dd>
+				<dt>Début du LAN</dt>
+
+				<dd>@Model.setting.StartDate.ToString("f")</dd>
+			</dl>
+
+			<img src="/Place/GetBarcode/@Model.reservation.User.Barcode" alt="@Model.reservation.User.Barcode" class="img-responsive center-block">
+		</div>
+		<hr />
+	</div>
 
     <p class="pull-right">
-        @Html.AuthorizeActionLink(" ", "Index", null, null, new { @class = "glyphicon glyphicon-arrow-left btn btn-default" })
+        @*@Html.AuthorizeActionLink(" ", "Index", null, null, new { @class = "glyphicon glyphicon-arrow-left btn btn-default" })*@
+		@Html.IconActionLink("glyphicon-arrow-left", "Index", null, null, new { @class = "btn btn-default" })
 
         @if (!Model.reservation.Place.IsOccupied)
         {
-            @Html.AuthorizeActionLink(" ", "CreateTicket", null, null, new { @class = "glyphicon glyphicon-print btn btn-primary" })
+            @Html.IconActionLink("glyphicon-print", "CreateTicket", null, null, new { @class = "btn btn-primary" })
             if (!Model.setting.IsLanOver)
             {
-                <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#ModalAnnulerReservation">Annuler ma réservation</a>
+                <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#ModalAnnulerReservation">Annuler</a>
             }
         }
     </p>
 	<div class="clearfix"></div>
 </div>
-
-@section Styles {
-    @Styles.Render("~/Content/PDF.css")
-}

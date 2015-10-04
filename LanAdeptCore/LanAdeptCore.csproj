@@ -80,6 +80,7 @@
     <Compile Include="Attribute\Authorization\AuthorizationRequiredAttribute.cs" />
     <Compile Include="Attribute\Authorization\AuthorizeGuestOnlyAttribute.cs" />
     <Compile Include="Attribute\Authorization\AuthorizePermissionAttribute.cs" />
+    <Compile Include="HtmlExtension\IconActionLinkExtension.cs" />
     <Compile Include="HtmlExtension\MarkdownHelper.cs" />
     <Compile Include="HtmlExtension\HasActionPermissionExtension.cs" />
     <Compile Include="HtmlExtension\ListItemCategoryExtension.cs" />

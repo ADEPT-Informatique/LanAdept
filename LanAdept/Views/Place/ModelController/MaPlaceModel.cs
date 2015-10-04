@@ -6,7 +6,7 @@ using System.Web;
 
 namespace LanAdept.Views.Place.ModelController
 {
-    public class PDFModel
+    public class MaPlaceModel
     {
         public Reservation reservation { get; set; }
         public Setting setting { get; set; } 

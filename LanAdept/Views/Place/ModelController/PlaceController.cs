@@ -84,7 +84,7 @@ namespace LanAdept.Controllers
 				TempData["Success"] = "La place <strong>" + placeAReserver + "</strong> a bien été réservée!";
 			}
 
-			return RedirectToAction("Liste");
+			return RedirectToAction("MaPlace");
 		}
 
 		[Authorize]
@@ -96,7 +96,7 @@ namespace LanAdept.Controllers
 				return RedirectToAction("Liste");
 			}
 
-			PDFModel model = new PDFModel();
+			MaPlaceModel model = new MaPlaceModel();
 			model.reservation = UserService.GetLoggedInUser().LastReservation;
 			model.setting = LanAdeptData.DAL.UnitOfWork.Current.SettingRepository.GetCurrentSettings();
 
@@ -133,7 +133,7 @@ namespace LanAdept.Controllers
 		[Authorize]
 		public ActionResult CreateTicket()
 		{
-			PDFModel model = new PDFModel();
+			MaPlaceModel model = new MaPlaceModel();
 			model.reservation = UserService.GetLoggedInUser().LastReservation;
 			model.setting = LanAdeptData.DAL.UnitOfWork.Current.SettingRepository.GetCurrentSettings();
 			//string html = RenderViewToString(ControllerContext, "~/Views/Place/DownloadFilePDFPartiel.cshtml", model, true);
@@ -181,7 +181,7 @@ namespace LanAdept.Controllers
 			return result;
 		}
 
-		private void CreatePDF(PDFModel model)
+		private void CreatePDF(MaPlaceModel model)
 		{
 			MemoryStream ms = new MemoryStream();
 			Document doc = new Document(iTextSharp.text.PageSize.A4, 30f, 30f, 30f, 30f);
