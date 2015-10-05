@@ -102,7 +102,7 @@
 		});
 
 		function timer() {
-			var jourSemaine = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
+			var jourSemaine = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
 			var mois = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
 
 			function setTimer() {
@@ -128,7 +128,7 @@
 			function dateToString(date) {
 				var strDate = "";
 
-				strDate += jourSemaine[date.getDay()];
+				strDate += jourSemaine[date.getDay() - 1];
 				strDate += " le " + date.getDate();
 				strDate += " " + mois[date.getMonth()];
 				strDate += " " + date.getFullYear();

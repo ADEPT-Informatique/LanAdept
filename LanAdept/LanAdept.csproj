@@ -169,6 +169,21 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Image\bg.jpg" />
+    <Content Include="Image\Carousel\0.jpg" />
+    <Content Include="Image\Carousel\1.jpg" />
+    <Content Include="Image\Carousel\10.jpg" />
+    <Content Include="Image\Carousel\11.jpg" />
+    <Content Include="Image\Carousel\12.jpg" />
+    <Content Include="Image\Carousel\13.jpg" />
+    <Content Include="Image\Carousel\14.jpg" />
+    <Content Include="Image\Carousel\2.jpg" />
+    <Content Include="Image\Carousel\3.jpg" />
+    <Content Include="Image\Carousel\4.jpg" />
+    <Content Include="Image\Carousel\5.jpg" />
+    <Content Include="Image\Carousel\6.jpg" />
+    <Content Include="Image\Carousel\7.jpg" />
+    <Content Include="Image\Carousel\8.jpg" />
+    <Content Include="Image\Carousel\9.jpg" />
     <Content Include="Image\Favicon\android-chrome-144x144.png" />
     <Content Include="Image\Favicon\android-chrome-192x192.png" />
     <Content Include="Image\Favicon\android-chrome-36x36.png" />
@@ -258,9 +273,7 @@
     <Content Include="Views\Emails\Confirmation.cshtml" />
     <Content Include="Views\Emails\Web.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Image\Carousel\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

@@ -73,12 +73,12 @@ namespace LanAdept.Controllers
 			{
 				User newUser = UserService.CreateUser(model.Email, model.Password, model.CompleteName);
 
+				ConfirmationEmail email = new ConfirmationEmail();
+				email.User = newUser;
+				email.Send();
+
 				UnitOfWork.Current.UserRepository.Insert(newUser);
 				UnitOfWork.Current.Save();
-
-				ConfirmationEmail email = new ConfirmationEmail();
-				email.User = UnitOfWork.Current.UserRepository.Get().FirstOrDefault();
-				email.Send();
 
 				MessageModel result = new MessageModel();
 				result.Title = "Vous êtes maintenant inscrit!";
