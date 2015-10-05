@@ -157,6 +157,7 @@
     <Compile Include="Views\Tournaments\ModelController\TeamModel.cs" />
     <Compile Include="Views\Tournaments\ModelController\TournamentModel.cs" />
     <Compile Include="Views\Tournaments\ModelController\TournamentController.cs" />
+    <Compile Include="Views\User\ModelController\UserController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-datetimepicker.css" />
@@ -282,6 +283,12 @@
     <Content Include="Views\General\Description.cshtml" />
     <Content Include="Views\Emails\_ViewStart.cshtml" />
     <Content Include="Views\General\RememberEmail.cshtml" />
+    <Content Include="Views\User\Create.cshtml" />
+    <Content Include="Views\User\Delete.cshtml" />
+    <Content Include="Views\User\Details.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Shared\_Sidebar_User.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Emails\ModelController\" />
