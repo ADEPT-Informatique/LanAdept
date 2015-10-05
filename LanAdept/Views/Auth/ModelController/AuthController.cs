@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using LanAdept.Emails;
 using LanAdept.Views.Auth.ModelController;
 using LanAdeptCore.Attribute.Authorization;
 using LanAdeptCore.Service;
@@ -74,6 +75,10 @@ namespace LanAdept.Controllers
 
 				UnitOfWork.Current.UserRepository.Insert(newUser);
 				UnitOfWork.Current.Save();
+
+				ConfirmationEmail email = new ConfirmationEmail();
+				email.User = UnitOfWork.Current.UserRepository.Get().FirstOrDefault();
+				email.Send();
 
 				MessageModel result = new MessageModel();
 				result.Title = "Vous êtes maintenant inscrit!";
