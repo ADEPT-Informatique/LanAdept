@@ -20,6 +20,10 @@
     }
 
     <h4>Teams</h4>
+@using (Html.BeginForm("JoinTeam", "Tournament", new JoinTeamModel() { TournamentID = Model.TournamentID }))
+{
+    @Html.Hidden("GamerTagID", 0, new { @class = "tagInput" })
+    @Html.Hidden("TeamID", 0, new { @class = "teamInput" })
     <table class="table">
         <tr>
             <th>@Html.DisplayNameFor(model => model.Teams.First().Name)</th>
@@ -36,16 +40,16 @@
         {
             <tr>
                 <td>
-                    @team.Name.ToString()
+                    @team.Name
                 </td>
                 <td>
                     @if (team.Tag != null)
                     {
-                        @team.Tag.ToString()
+                        @team.Tag
                     }
                 </td>
                 <td>
-                    @team.GamerTags.Count.ToString() / @team.Tournament.MaxPlayerPerTeam
+                    @team.GamerTags.Count / @team.Tournament.MaxPlayerPerTeam
                 </td>
                 <td>
                     @foreach (var tag in team.GamerTags)
@@ -59,7 +63,7 @@
                         <div class="form-group">
                             <div class="btn-group">
                                 <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" value="Ajouter une equipe" class="teamButton btn btn-default" />
+                                    <input type="submit" data-team-id="@team.TeamID" value="Rejoindre" class="teamButton btn btn-default" />
                                 </div>
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="caret"></span>
@@ -85,27 +89,28 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div>          
                     </td>
                 }
             </tr>
         }
     </table>
+}
 </div>
 
 @section scripts {
     <script>
-        $(document).ready(function(){
-            
-            var gamerTagId = 0;
+        $(document).ready(function () {
 
+            var gamerTagId = 0;
             $('.teamButton').click(function (event) {
                 if (gamerTagId == 0) event.preventDefault();
                 else
                 {
-                    var url = $(this).attr('href');
-                    url += '&GamerTagId=' + gamerTagId;
-                    $(this).attr('href', url);
+                    $('.tagInput').val(gamerTagId);
+                    
+                    var teamID = $(this).attr('data-team-id');
+                    $('.teamInput').val(teamID)
                 }
             })
 
