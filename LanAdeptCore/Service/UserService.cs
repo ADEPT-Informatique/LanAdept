@@ -54,7 +54,7 @@ namespace LanAdeptCore.Service
 			if (realUser.Password != hashedInputPassword)
 				return new TryLoginResult() { HasSucceeded = false, Reason = ERROR_MESSAGE_INVALID_LOGIN };
 
-			if(realUser.Role.IsDefaultRole)
+			if(realUser.Role.IsUnconfirmedRole)
 				return new TryLoginResult() { HasSucceeded = false, Reason = ERROR_MESSAGE_UNCONFIRMED_LOGIN };
 
 			// À partir de ce point, la connexion est réussie
