@@ -163,6 +163,7 @@
     <Content Include="Content\Home.css" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\Map.css" />
+    <Content Include="Content\MaPlacePrint.css" />
     <Content Include="Content\Tournois.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

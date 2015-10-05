@@ -1,0 +1,56 @@
+﻿@media print {
+    @page {
+        margin: 0;
+    }
+    
+    .btn {
+        display: none;
+    }
+
+    #desktop-view, footer {
+        display: none;
+    }
+
+    #print-view {
+        display: block;
+    }
+}
+
+@media screen {
+    #desktop-view {
+        display: block;
+    }
+
+    #print-view {
+        display: none;
+    }
+}
+
+#print-view {
+    padding: 25px 50px 25px 50px;
+}
+
+.print-image {
+    height: 100px;
+}
+
+.infos {
+    text-align: center;
+    margin-top: 5px;
+}
+
+.infos .date {
+    margin-bottom: 10px;
+}
+
+.infos .adress {
+    margin-bottom: 10px;
+}
+
+.place {
+    text-align: center;
+}
+
+.barcode img {
+    margin-bottom: 20px;
+}

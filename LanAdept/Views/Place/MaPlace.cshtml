@@ -6,45 +6,58 @@
 
 @Html.Partial("ModalAnnulerReservationPartial")
 
-<div class="container-sm">
-    
-	<h2>Ma place - @Model.reservation.Place</h2>
+<div class="container-sm" id="desktop-view">
+    <h2>Ma place - @Model.reservation.Place</h2>
 
-	<div>
-		<h4>Réservée le @Model.reservation.CreationDate.ToString("f")</h4>
-		<hr />
-		<div>
-			<dl class="dl-horizontal">
+    <div>
+        <h4>Réservée le @Model.reservation.CreationDate.ToString("f", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA"))</h4>
+        <hr />
+        <div>
+            <dl class="dl-horizontal">
+                <dt>Nom Complet</dt>
+                <dd>@Html.DisplayFor(model => model.reservation.User.CompleteName)</dd>
 
-				<dt>
-					Nom Complet
-				</dt>
-
-				<dd>
-					@Html.DisplayFor(model => model.reservation.User.CompleteName)
-				</dd>
-				<dt>Début du LAN</dt>
-
-				<dd>@Model.setting.StartDate.ToString("f")</dd>
-			</dl>
-
-			<img src="/Place/GetBarcode/@Model.reservation.User.Barcode" alt="@Model.reservation.User.Barcode" class="img-responsive center-block">
-		</div>
-		<hr />
-	</div>
+                <dt>Début du LAN</dt>
+                <dd>@Model.setting.StartDate.ToString("f", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA"))</dd>
+            </dl>
+            <img src="/Place/GetBarcode/@Model.reservation.User.Barcode" alt="@Model.reservation.User.Barcode" class="img-responsive center-block">
+        </div>
+        <hr />
+    </div>
 
     <p class="pull-right">
         @*@Html.AuthorizeActionLink(" ", "Index", null, null, new { @class = "glyphicon glyphicon-arrow-left btn btn-default" })*@
-		@Html.IconActionLink("glyphicon-arrow-left", "Index", null, null, new { @class = "btn btn-default" })
+        @Html.IconActionLink("glyphicon-arrow-left", "Index", null, null, new { @class = "btn btn-default" })
 
-        @if (!Model.reservation.Place.IsOccupied)
-        {
-            @Html.IconActionLink("glyphicon-print", "CreateTicket", null, null, new { @class = "btn btn-primary" })
-            if (!Model.setting.IsLanOver)
-            {
+        @if (!Model.reservation.Place.IsOccupied) {
+            //@Html.IconActionLink("glyphicon-print", "CreateTicket", null, null, new { @class = "btn btn-primary hidden-sm hidden-xs" })
+            <a href="#" onclick="window.print();" class="btn btn-primary hidden-sm hidden-xs"><span class="glyphicon glyphicon-print"></span></a>
+            if (!Model.setting.IsLanOver) {
                 <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#ModalAnnulerReservation">Annuler</a>
             }
         }
     </p>
-	<div class="clearfix"></div>
+    <div class="clearfix"></div>
 </div>
+
+<div id="print-view">
+    <div class="row">
+        <div class="col-xs-4">
+            <div class="col-xs-12">
+                <img class="print-image center-block" src="~/Image/LOGO_noir_Transparent.png" />
+            </div>
+        </div>
+        <div class="infos col-xs-4">
+            <div class="date col-xs-12">Le @Model.setting.StartDate.ToString("f", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA"))</div>
+            <div class="adress col-xs-12">945 Chemin de Chambly, Longueuil, QC<br />Caféteria orange</div>
+        </div>
+        <div class="barcode col-xs-4">
+            <img src="/Place/GetBarcode/@Model.reservation.User.Barcode" alt="@Model.reservation.User.Barcode" class="pull-right img-responsive center-block">
+            <div class="place">Place @Model.reservation.Place</div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/Content/MaPlacePrint.css")
+}
