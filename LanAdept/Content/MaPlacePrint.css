@@ -13,6 +13,45 @@
 
     #print-view {
         display: block;
+        padding: 25px 50px 35px 50px;
+
+        border-bottom: dashed #9a9a9a 1px;
+    }
+
+    hr {
+        display: none;
+    }
+
+    .print-image {
+        height: 100px;
+    }
+
+    .infos {
+        text-align: center;
+        margin-top: -5px;
+    }
+
+    .infos .date {
+        margin-bottom: 10px;
+    }
+
+    .infos .adress {
+        margin-bottom: 10px;
+    }
+
+    .place {
+        text-align: center;
+    }
+
+    .barcode img {
+        margin-bottom: 20px;
+    }
+
+    .scissors {
+        width: 20px;
+        position: fixed;
+        top: 205px;
+        left: 30px;
     }
 }
 
@@ -24,33 +63,9 @@
     #print-view {
         display: none;
     }
-}
 
-#print-view {
-    padding: 25px 50px 25px 50px;
-}
-
-.print-image {
-    height: 100px;
-}
-
-.infos {
-    text-align: center;
-    margin-top: 5px;
-}
-
-.infos .date {
-    margin-bottom: 10px;
-}
-
-.infos .adress {
-    margin-bottom: 10px;
-}
-
-.place {
-    text-align: center;
-}
-
-.barcode img {
-    margin-bottom: 20px;
+    #desktop-view .barcode {
+        padding-right: 0;
+        margin-right: 0;
+    }
 }
