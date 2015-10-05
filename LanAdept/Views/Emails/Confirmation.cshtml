@@ -1,0 +1,15 @@
+﻿@model LanAdept.Emails.ConfirmationEmail
+
+To: @Model.User.Email
+From: DoNotReply@lanadept.com
+Subject: Inscription au LAN de l'Adept
+
+
+Bonjour,
+
+Merci pour votre inscription au LAN, @Model.User.CompleteName
+
+Pour terminer votre inscription, vous devez confirmer votre compte en visitant le lien suivant:
+@Url.Action("Confirm", "Auth", new { id = @Model.User.Barcode }, "http")
+
+Bon LAN!

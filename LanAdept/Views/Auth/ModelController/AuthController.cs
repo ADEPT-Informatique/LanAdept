@@ -76,8 +76,8 @@ namespace LanAdept.Controllers
 				UnitOfWork.Current.Save();
 
 				MessageModel result = new MessageModel();
-				result.Titre = "Vous êtes maintenant inscrit!";
-				result.Contenu = "Vous devez maintenant <strong>confirmer votre email</strong>. Une fois que ce sera fait, vous pourrez réserver une place pour participer au LAN de l'Adept.";
+				result.Title = "Vous êtes maintenant inscrit!";
+				result.Content = "Vous devez maintenant <strong>confirmer votre email</strong>. Une fois que ce sera fait, vous pourrez réserver une place pour participer au LAN de l'Adept.";
 				result.Type = AuthMessageType.Success;
 
 				return View("Message", result);
@@ -89,6 +89,27 @@ namespace LanAdept.Controllers
 			return View(model);
 		}
 
+		[AuthorizeGuestOnly]
+		public ActionResult Confirm(string id)
+		{
+			User user = UnitOfWork.Current.UserRepository.GetUserByBarCode(id);
+
+			if (user == null)
+			{
+				return View("Message", new MessageModel() { Title = "Une erreur est survenue", Content = "Ce lien n'est pas valide. Si vous continuez de voir cette erreur, contactez un administrateur.", Type = AuthMessageType.Error });
+			}
+
+			if (user.RoleID != UnitOfWork.Current.RoleRepository.GetUnconfirmedRole().RoleID)
+			{
+				return View("Message", new MessageModel() { Title = "Votre compte est déjà actif", Content = "Vous pouvez maintenant vous connecter et réserver une place.", Type = AuthMessageType.Success});
+			}
+
+			user.RoleID = UnitOfWork.Current.RoleRepository.GetDefaultRole().RoleID;
+			UnitOfWork.Current.UserRepository.Update(user);
+			UnitOfWork.Current.Save();
+
+			return View("Message", new MessageModel() { Title = "Félicitation, " + user.CompleteName, Content = "Votre compte est maintenant activé! Vous pouvez maintenant vous connecter et réserver une place.", Type = AuthMessageType.Success });
+		}
 
 		private ActionResult RedirectToReturnUrl(string returnURL)
 		{

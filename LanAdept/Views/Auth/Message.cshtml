@@ -1,13 +1,13 @@
 ﻿@model LanAdept.Views.Auth.ModelController.MessageModel
 @{
-	ViewBag.Title = Model.Titre;
+	ViewBag.Title = Model.Title;
 }
 
 <div class="jumbotron">
-	@if (!String.IsNullOrWhiteSpace(Model.Titre))
+	@if (!String.IsNullOrWhiteSpace(Model.Title))
 	{
-		<h2 class="@Model.CssTitleClass">@Html.Raw(Model.Titre)</h2>
+		<h2 class="@Model.CssTitleClass">@Html.Raw(Model.Title)</h2>
 	}
 
-	<p>@Html.Raw(Model.Contenu)</p>
+	<p>@Html.Raw(Model.Content)</p>
 </div>

@@ -7,8 +7,8 @@ namespace LanAdept.Views.Auth.ModelController
 {
 	public class MessageModel
 	{
-		public string Titre { get; set; }
-		public string Contenu { get; set; }
+		public string Title { get; set; }
+		public string Content { get; set; }
 		public AuthMessageType Type { get; set; }
 
 		public string CssTitleClass
