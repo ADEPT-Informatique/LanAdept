@@ -1,0 +1,28 @@
+﻿@model IEnumerable<LanAdeptData.Model.GamerTag>
+<div class="modal fade" id="ModalChoisirGamerTag" tabindex="-1" role="dialog">
+    @Html.Hidden("GamerTagID", 0, new { id="GamerTagID" })
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Choisir ou Créer un GamerTag</h4>
+            </div>
+            <div class="modal-body">
+                @foreach (GamerTag tag in Model)
+                {
+                    <div class="tagItem" data-tag-id="@tag.GamerTagID">@tag.Gamertag</div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                <input class="btn btn-primary btnAjouter" type="submit" value="Ajouter">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+
+    </script>
+}

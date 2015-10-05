@@ -273,6 +273,7 @@
     <Content Include="Views\Emails\_ViewStart.cshtml" />
     <Content Include="Views\Emails\Confirmation.cshtml" />
     <Content Include="Views\Emails\Web.config" />
+    <Content Include="Views\Tournament\Partial\ModalChoisirGamerTag.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
