@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using LanAdeptData.DAL;
 using LanAdeptData.Model;
+using PagedList;
 
 namespace LanAdeptAdmin.Controllers
 {
@@ -16,10 +17,12 @@ namespace LanAdeptAdmin.Controllers
 		UnitOfWork uow = UnitOfWork.Current;
 
 		[Authorize]
-        public ActionResult Index()
+		public ActionResult Index(int? page)
         {
-			var users = uow.UserRepository.Get();
-            return View(users.ToList());
+			int currentPage = page ?? 1;
+
+			var users = uow.UserRepository.Get().ToList();
+			return View(users.ToPagedList(currentPage, 10));
         }
 
 		[Authorize]

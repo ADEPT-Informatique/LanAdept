@@ -1,57 +1,66 @@
-﻿@model IEnumerable<LanAdeptData.Model.User>
+﻿@model IPagedList<User>
+@using PagedList.Mvc;
+@using PagedList;
+
 
 @{
-    ViewBag.Title = "Index";
+	ViewBag.Title = "Liste des utilisateurs";
+	ViewBag.Sidebar = "_Sidebar_User";
 }
 
-<h2>Index</h2>
+<h2>Liste des utilisateurs</h2>
+<hr />
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Role.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Password)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Salt)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CompleteName)
-        </th>
-        <th></th>
-    </tr>
+	<thead>
+		<tr>
+			<th>
+				Nom complet
+			</th>
+			<th>
+				Email
+			</th>
+			<th>
+				Rôle
+			</th>
+			<th class="text-center">
+				Place
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var user in Model)
+		{
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Role.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Password)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Salt)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CompleteName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.UserID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.UserID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.UserID })
-        </td>
-    </tr>
-}
+			<tr data-row-url="@Url.Action("Details", new { id = user.UserID })" class="clickable-row">
+				<td>
+					@Html.DisplayFor(modelItem => user.CompleteName)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => user.Email)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => user.Role.Name)
+				</td>
+				<td class="text-center">
+					@if (LanAdeptCore.Service.ReservationService.HasUserPlace(user))
+					{
+						@user.LastReservation.Place
+					}
+					else
+					{
+						<text> -- </text>
+					}
+				</td>
+			</tr>
 
+		}
+	</tbody>
 </table>
+
+@if (Model.PageCount > 1)
+{
+	<br />
+	@Html.PagedListPager(Model, page => Url.Action("Index",
+				new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+}
