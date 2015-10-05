@@ -139,3 +139,7 @@
 .remove-padding {
 	padding: 0;
 }
+
+textarea {
+	max-width: 100%;
+}

@@ -77,29 +77,60 @@ namespace LanAdeptAdmin.Controllers
 			return View(model);
 		}
 
-        [Authorize]
-        public ActionResult Description() {
-            Setting settings = uow.SettingRepository.GetCurrentSettings();
-            DescriptionModel descriptionModel = new DescriptionModel();
-            descriptionModel.Description = settings.Description;
+		[Authorize]
+		public ActionResult Description()
+		{
+			Setting settings = uow.SettingRepository.GetCurrentSettings();
+			DescriptionModel descriptionModel = new DescriptionModel();
+			descriptionModel.Description = settings.Description;
 
-            return View(descriptionModel);
-        }
+			return View(descriptionModel);
+		}
 
-        [Authorize]
-        [HttpPost]
-        public ActionResult Description(DescriptionModel model) {
-            if (ModelState.IsValid) {
-                Setting settings = uow.SettingRepository.GetCurrentSettings();
-                settings.Description = model.Description;
+		[Authorize]
+		[HttpPost]
+		public ActionResult Description(DescriptionModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				Setting settings = uow.SettingRepository.GetCurrentSettings();
+				settings.Description = model.Description;
 
-                uow.SettingRepository.Update(settings);
-                uow.Save();
+				uow.SettingRepository.Update(settings);
+				uow.Save();
 
-                TempData["Success"] = "Les changements ont été enregistré";
-            }
+				TempData["Success"] = "Les changements ont été enregistré";
+			}
 
-            return View(model);
-        }
+			return View(model);
+		}
+
+		[Authorize]
+		public ActionResult RememberEmail()
+		{
+			Setting settings = uow.SettingRepository.GetCurrentSettings();
+			RememberEmailModel rememberMailModel = new RememberEmailModel();
+			rememberMailModel.RememberEmailContent = settings.RememberEmailContent;
+
+			return View(rememberMailModel);
+		}
+
+		[Authorize]
+		[HttpPost]
+		public ActionResult RememberEmail(RememberEmailModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				Setting settings = uow.SettingRepository.GetCurrentSettings();
+				settings.RememberEmailContent = model.RememberEmailContent;
+
+				uow.SettingRepository.Update(settings);
+				uow.Save();
+
+				TempData["Success"] = "Les changements ont été enregistré";
+			}
+
+			return View(model);
+		}
 	}
 }

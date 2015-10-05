@@ -32,7 +32,6 @@
 			markdown.SafeMode = false;
 
 			$("#Description").keyup(function () {
-				console.log("Change!");
 				$("#prev").html(markdown.Transform($("#Description").val()));
 			});
 		});

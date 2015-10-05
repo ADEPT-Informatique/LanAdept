@@ -142,6 +142,7 @@
     <Compile Include="Views\Game\ModelController\GameModel.cs" />
     <Compile Include="Views\General\ModelController\DescriptionModel.cs" />
     <Compile Include="Views\General\ModelController\GeneralController.cs" />
+    <Compile Include="Views\General\ModelController\RememberEmailModel.cs" />
     <Compile Include="Views\General\ModelController\RulesModel.cs" />
     <Compile Include="Views\General\ModelController\SettingsModel.cs" />
     <Compile Include="Views\Home\ModelController\HomeController.cs" />
@@ -280,6 +281,7 @@
     <Content Include="Views\Place\Partial\SingleMapPartial.cshtml" />
     <Content Include="Views\General\Description.cshtml" />
     <Content Include="Views\Emails\_ViewStart.cshtml" />
+    <Content Include="Views\General\RememberEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Emails\ModelController\" />
