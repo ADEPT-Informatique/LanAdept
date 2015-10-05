@@ -1,4 +1,4 @@
 ﻿
-<li class="active"><a href="#">Liste des jeux</a></li>
-<li><a href="~/Game/Create">Ajouter un jeu</a></li>
+@Html.ListItemAction("Liste des jeux", "Index", "Game")
+@Html.ListItemAction("Ajouter un jeu", "Create", "Game")
 

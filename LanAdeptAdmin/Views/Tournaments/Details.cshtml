@@ -1,83 +1,132 @@
 ﻿@model  LanAdeptAdmin.Views.Tournaments.ModelController.TournamentModel
 
-	@{
-		ViewBag.Title = "Details";
-		ViewBag.Sidebar = "_Sidebar_Tournoi";
-	}
+@{
+	ViewBag.Title = "Details";
+	ViewBag.Sidebar = "_Sidebar_Tournament";
+}
 
-	<h2>Details</h2>
+<h2>Details</h2>
 
+<div>
+	<h4>@Html.DisplayFor(model => model.Game.Name)</h4>
+	<hr />
+
+
+	<dl class="dl-horizontal">
+
+		<dt>
+			@Html.DisplayNameFor(model => model.StartTime)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.StartTime)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.IsStarted)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.IsStarted)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.IsOver)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.IsOver)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.MaxPlayerPerTeam)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.MaxPlayerPerTeam)
+		</dd>
+
+	</dl>
 	<div>
-		<h4>@Html.DisplayFor(model => model.Game.Name)</h4>
-		<hr />
-
-
-		<dl class="dl-horizontal">
-
-			<dt>
-				@Html.DisplayNameFor(model => model.StartTime)
-			</dt>
-
-			<dd>
-				@Html.DisplayFor(model => model.StartTime)
-			</dd>
-
-			<dt>
-				@Html.DisplayNameFor(model => model.IsStarted)
-			</dt>
-
-			<dd>
-				@Html.DisplayFor(model => model.IsStarted)
-			</dd>
-
-			<dt>
-				@Html.DisplayNameFor(model => model.IsOver)
-			</dt>
-
-			<dd>
-				@Html.DisplayFor(model => model.IsOver)
-			</dd>
-
-		</dl>
-		<div>
-			<h4>Informations et reglements</h4>
-			<p>
-				@Html.DisplayFor(model => model.Info)
-			</p>
-		</div>
-
-		<h4>Teams</h4>
-		<table class="table">
-			<tr>
-				<th>@Html.DisplayNameFor(model => model.Teams.First().Name)</th>
-				<th>@Html.DisplayNameFor(model => model.Teams.First().Tag)</th>
-				<th>Nombre de joueur</th>
-				<th></th>
-			</tr>
-
-			@foreach (Team team in Model.Teams)
-			{
-				<tr>
-					<td>
-						@team.Name.ToString()
-					</td>
-					<td>
-						@if (team.Tag != null)
-						{
-							@team.Tag.ToString()
-						}
-					</td>
-					<td>
-						@team.Users.Count.ToString()
-					</td>
-					<td>
-						@Html.ActionLink("Delete", "DeleteTeam", new { TeamId = team.TeamID }, new { @class = "btn btn-danger" })
-					</td>
-				</tr>
-			}
-		</table>
-
+		<h4>Informations et reglements</h4>
+		<p>
+			@Html.DisplayFor(model => model.Info)
+		</p>
 	</div>
-	<p>
-		@Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-default" })
-	</p>
+
+	<h4>Teams</h4>
+	<table class="table">
+		<tr>
+			<th>@Html.DisplayNameFor(model => model.Teams.First().Name)</th>
+			<th>@Html.DisplayNameFor(model => model.Teams.First().Tag)</th>
+			<th>Nombre de joueur</th>
+			<th></th>
+			<th></th>
+			<th></th>
+		</tr>
+
+		@foreach (Team team in Model.Teams)
+			{
+			<tr @("class=clickable-row data-row-url=" /*+ Url.Action("TeamDetails", new { id = item.Id })*/)>
+				<td>
+					@team.Name.ToString()
+				</td>
+				<td>
+					@if (team.Tag != null)
+					{
+						@team.Tag.ToString()
+					}
+				</td>
+				<td>
+					@if (team.GamerTags.Count >= team.Tournament.MaxPlayerPerTeam)
+					{
+						<a class="btn btn-success disabled">
+							Complete
+						</a>
+					}
+					else
+					{
+						<p>
+							@team.GamerTags.Count / @team.Tournament.MaxPlayerPerTeam
+						</p>
+					}
+				</td>
+				<td>
+					@if (team.IsConfirmed)
+					{
+						<a class="btn btn-success disabled">
+							Confirmed
+						</a>
+					}
+					else
+					{
+						<a class="btn btn-danger disabled">
+							Not Confirmed
+						</a>
+					}
+				</td>
+				<td>
+					@if (team.IsReady)
+					{
+						<a class="btn btn-success disabled">
+							Ready
+						</a>
+					}
+					else
+					{
+						<a class="btn btn-danger disabled">
+							Not Ready
+						</a>
+					}
+				</td>
+				<td>
+					@Html.ActionLink("Delete", "DeleteTeam", new { TeamId = team.TeamID }, new { @class = "btn btn-danger" })
+				</td>
+			</tr>
+			}
+	</table>
+
+</div>
+<p>
+	@Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-default" })
+</p>

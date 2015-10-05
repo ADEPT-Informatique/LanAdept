@@ -263,7 +263,7 @@
     <Content Include="Views\Shared\_Sidebar_Mobile.cshtml" />
     <Content Include="Views\Shared\_Sidebar_General.cshtml" />
     <Content Include="Views\Shared\_Sidebar_Place.cshtml" />
-    <Content Include="Views\Shared\_Sidebar_Tournoi.cshtml" />
+    <Content Include="Views\Shared\_Sidebar_Tournament.cshtml" />
     <Content Include="Views\Place\Liste.cshtml" />
     <Content Include="Views\Place\Partial\SinglePlacePartial.cshtml" />
     <Content Include="Views\Place\Partial\SingleSectionPartial.cshtml" />

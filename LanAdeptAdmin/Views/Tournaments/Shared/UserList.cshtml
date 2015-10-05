@@ -10,16 +10,16 @@
 <table class="table">
 	<tr>
 		<th>
-			@Html.DisplayNameFor(model => model.Users.First().CompleteName)
+			@Html.DisplayNameFor(model => model.TeamGamerTags.First().User.CompleteName)
 		</th>
 	</tr>
 
 
-	@foreach (User user in Model.Users)
+	@foreach (GamerTag gamerTag in Model.TeamGamerTags)
 	{
 		<tr>
 			<td>
-				@user.CompleteName.ToString()
+				@gamerTag.User.CompleteName.ToString()
 			</td>
 		</tr>
 	}

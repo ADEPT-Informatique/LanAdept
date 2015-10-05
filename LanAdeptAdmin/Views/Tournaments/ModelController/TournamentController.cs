@@ -167,8 +167,13 @@ namespace LanAdeptAdmin.Views
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteTeamConfirmed(int TeamId)
 		{
-			int tournamentID = uow.TeamRepository.GetByID(TeamId).TournamentID;
+			Team team = uow.TeamRepository.GetByID(TeamId);
+
+			int tournamentID = team.TournamentID;
+
+			team.GamerTags.Clear();
 			uow.TeamRepository.Delete(uow.TeamRepository.GetByID(TeamId));
+
 			uow.Save();
 			return RedirectToAction("Details", new { id = tournamentID });
 		}

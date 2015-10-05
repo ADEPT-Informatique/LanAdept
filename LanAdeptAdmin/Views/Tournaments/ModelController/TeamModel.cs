@@ -11,6 +11,12 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 
 		public string Tag { get; set; }
 
+		public bool IsComplete { get; set; }
+
+		public bool IsReady { get; set; }
+
+		public bool IsConfirmed { get; set; }
+
 		public int TournamentID { get; set; }
 
 		public GamerTag TeamLeaderTag { get; set; }
