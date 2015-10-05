@@ -259,7 +259,6 @@
     <Content Include="Views\Emails\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Image\Carousel\" />
   </ItemGroup>
   <ItemGroup>
