@@ -265,14 +265,5 @@ namespace LanAdeptAdmin.Views
 			}
 			return View(teamModel);
 		}
-
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing)
-			{
-				uow.Dispose();
-			}
-			base.Dispose(disposing);
-		}
 	}
 }
