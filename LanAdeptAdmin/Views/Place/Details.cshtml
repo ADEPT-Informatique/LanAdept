@@ -58,58 +58,67 @@
 }
 
 <h2>
-	Place @Model
+	<span class="label @classeEtat">@messageEtat</span> Place @Model
+</h2>
 
-	<div class="pull-right">
-		@if (Model.IsFree || !Model.LastReservation.HasArrived)
+<hr />
+<div class="row">
+	<div class="col-lg-6">
+		<h3>Réservation actuelle</h3>
+		@if (!Model.IsFree)
 		{
-			@Html.AuthorizeActionLink("Réserver", "Reserve", null, new { id = Model.PlaceID }, new { @class = "btn btn-default" })
+			<dl class="dl-horizontal">
+				<dt>
+					Nom complet
+				</dt>
+
+				<dd>
+					@Html.DisplayFor(model => model.LastReservation.UserCompleteName)
+				</dd>
+
+				<dt>
+					Email
+				</dt>
+
+				<dd>
+					@(Model.LastReservation.IsGuest ? " -- " : Model.LastReservation.User.Email)
+				</dd>
+
+				<dt>
+					Date de réservation
+				</dt>
+
+				<dd>
+					@Html.DisplayFor(model => model.LastReservation.CreationDate)
+				</dd>
+
+			</dl>
 		}
-		@if (!Model.IsFree && !Model.LastReservation.HasArrived)
+		else
 		{
-			@Html.AuthorizeActionLink("Confirmer la présence", "Arriving", null, new { id = Model.PlaceID }, new { @class = "btn btn-success" })
-			@Html.AuthorizeActionLink("Annuler la réservation", "Cancel", null, new { id = Model.PlaceID }, new { @class = "btn btn-danger" })
-		}
-		@if (!Model.IsFree && Model.LastReservation.HasArrived && !Model.LastReservation.HasLeft)
-		{
-			@Html.AuthorizeActionLink("Confirmer le départ", "Leaving", null, new { id = Model.PlaceID }, new { @class = "btn btn-danger" })
+			<em>Cette place est présentement libre</em>
 		}
 	</div>
-</h2>
-<h4><span class="label @classeEtat">@messageEtat</span></h4>
 
-@if (!Model.IsFree)
-{
-	<hr />
+	<div class="col-lg-6 text-right">
+		@{
+			if (Model.IsFree || !Model.LastReservation.HasArrived)
+			{
+				@Html.AuthorizeActionLink("Réserver", "Reserve", null, new { id = Model.PlaceID }, new { @class = "btn btn-default btn-mobile-full" })
+			}
+			if (!Model.IsFree && !Model.LastReservation.HasArrived)
+			{
+				@Html.AuthorizeActionLink("Confirmer la présence", "Arriving", null, new { id = Model.PlaceID }, new { @class = "btn btn-success btn-mobile-full" })
+				@Html.AuthorizeActionLink("Annuler la réservation", "Cancel", null, new { id = Model.PlaceID }, new { @class = "btn btn-danger btn-mobile-full" })
+			}
+			if (!Model.IsFree && Model.LastReservation.HasArrived && !Model.LastReservation.HasLeft)
+			{
+				@Html.AuthorizeActionLink("Confirmer le départ", "Leaving", null, new { id = Model.PlaceID }, new { @class = "btn btn-danger btn-mobile-full" })
+			}
+		}
+	</div>
 
-	<h3>Réservation actuelle</h3>
-	<dl class="dl-horizontal">
-		<dt>
-			Nom complet
-		</dt>
-
-		<dd>
-			@Html.DisplayFor(model => model.LastReservation.UserCompleteName)
-		</dd>
-
-		<dt>
-			Email
-		</dt>
-
-		<dd>
-			@(Model.LastReservation.IsGuest ? " -- " : Model.LastReservation.User.Email)
-		</dd>
-
-		<dt>
-			Date de réservation
-		</dt>
-
-		<dd>
-			@Html.DisplayFor(model => model.LastReservation.CreationDate)
-		</dd>
-
-	</dl>
-}
+</div>
 
 <hr />
 

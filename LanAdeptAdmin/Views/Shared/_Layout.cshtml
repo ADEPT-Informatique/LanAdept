@@ -31,7 +31,7 @@
 	<meta name="msapplication-TileColor" content="#b40e0e">
 	<meta name="msapplication-TileImage" content="/Images/Favicon/mstile-144x144.png">
 	<meta name="msapplication-config" content="/Images/Favicon/browserconfig.xml">
-	<meta name="theme-color" content="#ce0000">
+	<meta name="theme-color" content="#D91E18">
 
 	@Styles.Render("~/Content/css")
 	@RenderSection("Styles", false)
@@ -63,7 +63,6 @@
 				@Html.ListItemCategory("Tournois", "Index", "Tournaments")
 			</ul>
 			<ul class="nav navbar-nav navbar-right" style="margin-right:15px;">
-				<li><a href="http://lanadept.com/">Retour au site</a></li>
 				@Html.ListItemCategory("Connexion", "Login", "Auth")
 				@Html.ListItemCategory("Déconnexion", "Logout", "Auth")
 			</ul>
@@ -79,16 +78,12 @@
 		}
 	</div>
 
-	<div class="@(String.IsNullOrWhiteSpace(ViewBag.SideBar) ? "col-md-12" : "col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2") main">
-		<div class="row">
+	<div class="@(String.IsNullOrWhiteSpace(ViewBag.SideBar) ? "col-xs-12" : "col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2") main">
 			@RenderBody()
-		</div>
-		<div class="row">
 			<hr />
 			<footer>
-				<p class="small">&copy; @DateTime.Now.Year - Adept</p>
+				<p class="small text-center">&copy; @DateTime.Now.Year - Adept</p>
 			</footer>
-		</div>
 	</div>
 
 	@Scripts.Render("~/bundles/jquery")
