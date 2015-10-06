@@ -173,6 +173,17 @@ namespace LanAdeptAdmin.Views
 			int tournamentID = team.TournamentID;
 
 			team.GamerTags.Clear();
+
+			IEnumerable<Demande> demandes = uow.DemandeRepository.Get();
+
+			foreach (Demande demande in demandes)
+			{
+				if (demande.Team == team)
+				{
+					uow.DemandeRepository.Delete(demande.DemandeID);
+				}
+			}
+
 			uow.TeamRepository.Delete(uow.TeamRepository.GetByID(TeamId));
 
 			uow.Save();

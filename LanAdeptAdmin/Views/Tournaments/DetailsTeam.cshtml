@@ -9,9 +9,9 @@
 
 @if (TempData["ErrorMessage"] != null)
 {
-	<p class="alert-danger">
+	<div class="alert alert-danger" role="alert">
 		@TempData["ErrorMessage"]
-	</p>
+	</div>
 }
 
 <h2>@Model.Name</h2>
@@ -77,7 +77,6 @@ else
 				<th>Actions</th>
 			</tr>
 
-
 			@foreach (GamerTag gamerTag in Model.TeamGamerTags)
 			{
 				<tr>
@@ -95,7 +94,7 @@ else
 					</td>
 					<td>
 						<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#kickModal">Kick</button>
-
+						
 						<div class="modal fade" id="kickModal" role="dialog">
 							<div class="modal-dialog">
 								<!-- Modal content-->
@@ -124,3 +123,4 @@ else
 	@Html.ActionLink("Edit", "EditTeam", new { teamId = Model.TeamID }, new { @class = "btn btn-default" })
 	@Html.ActionLink("Back to List", "Details", new { id = Model.TournamentID }, new { @class = "btn btn-default" })
 </p>
+
