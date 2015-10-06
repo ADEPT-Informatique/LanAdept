@@ -6,9 +6,12 @@
 }
 
 #description {
-    margin: 30px auto;
 	text-align:center;
-	float:none;
+}
+
+#places-disponibles {
+    font-size: 200%;
+    text-align: center;
 }
 
 #map {

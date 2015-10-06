@@ -40,26 +40,13 @@
 		<h2>À propos du LAN</h2>
 		@Html.Markdown((string)ViewBag.Description)
 	</div>
-</div>
-
-<hr />
-
-<div class="row">
-    <div id="map">
-        <h2>Emplacement du LAN</h2>
-        <p>Le LAN de l'ADEPT se déroulera dans la caféteria orange du Collège Édouard-Montpetit.</p>
-        <div id="map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3323.538629585589!2d-73.4939839013939!3d45.535201598053156!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc91b5a9478504d%3A0x18f852b44040e119!2s945+Chemin+de+Chambly%2C+Longueuil%2C+QC+J4H!5e0!3m2!1sfr!2sca!4v1444148974514"
-                    width="1000"
-                    height="450"
-                    frameborder="0"
-                    style="border:0;"
-                    allowfullscreen></iframe>
-        </div>
+    <div id="places-disponibles" class="col-md-6">
+        <h2 class="row">Places disponibles</h2>
+        <h1 class="row">@ViewBag.PlacesLibres</h1>
     </div>
 </div>
 
-<hr />
+<hr class="hidden-xs" />
 
 <div id="carousel-container" class="hidden-xs">
 	<div id="carousel" class="carousel slide" data-ride="carousel">
@@ -108,6 +95,23 @@
 			<span class="sr-only">Suivant</span>
 		</a>
 	</div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div id="map">
+        <h2>Emplacement du LAN</h2>
+        <p>Le LAN de l'ADEPT se déroulera dans la caféteria orange du Collège Édouard-Montpetit.</p>
+        <div id="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3323.538629585589!2d-73.4939839013939!3d45.535201598053156!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc91b5a9478504d%3A0x18f852b44040e119!2s945+Chemin+de+Chambly%2C+Longueuil%2C+QC+J4H!5e0!3m2!1sfr!2sca!4v1444148974514"
+                    width="1000"
+                    height="450"
+                    frameborder="0"
+                    style="border:0;"
+                    allowfullscreen></iframe>
+        </div>
+    </div>
 </div>
 
 @section Styles {
