@@ -156,3 +156,13 @@
 .map-max-width {
 	width: 1200px;
 }
+
+.info {
+	font-size: 26px;
+	cursor: pointer;
+	color: #2780E3;
+}
+
+.info:hover {
+	color: #222;
+}

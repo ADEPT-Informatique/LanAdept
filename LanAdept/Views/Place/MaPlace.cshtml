@@ -8,10 +8,25 @@
 
 <div class="container-sm" id="desktop-view">
 	<h2>Ma place</h2>
+	<hr />
 
-	<div>
-		<hr />
-		<div class="col-md-6">
+	@if (!string.IsNullOrWhiteSpace(TempData["Error"] as string))
+	{
+		<div class="alert alert-danger" role="alert">
+			@Html.Raw(TempData["Error"])
+		</div>
+	}
+	@if (!string.IsNullOrWhiteSpace(TempData["Success"] as string))
+	{
+		<div class="alert alert-success" role="alert">
+			@Html.Raw(TempData["Success"])
+		</div>
+	}
+	<div class="alert alert-info" role="alert">
+		<strong>Important: </strong>Vous devez avoir ce billet en votre possession lorsque vous arriverez au LAN
+	</div>
+	<div class="row">
+		<div class="col-sm-6">
 			<dl class="dl-horizontal">
 				<dt>Numéro de place</dt>
 				<dd>@Model.reservation.Place</dd>
@@ -23,25 +38,23 @@
 				<dd>@Model.reservation.CreationDate.ToString("f", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA"))</dd>
 			</dl>
 		</div>
-		<div class="barcode col-md-6">
-			<img src="/Place/GetBarcode/@Model.reservation.User.Barcode" alt="@Model.reservation.User.Barcode" class="pull-right">
+		<div class="barcode col-sm-6">
+			<img src="/Place/GetBarcode/@Model.reservation.User.Barcode" alt="@Model.reservation.User.Barcode" class="pull-right img-responsive">
 		</div>
 	</div>
 
-	<p class="pull-right">
-		@*@Html.AuthorizeActionLink(" ", "Index", null, null, new { @class = "glyphicon glyphicon-arrow-left btn btn-default" })*@
+	<div class="pull-right btn-place">
 		@Html.IconActionLink("glyphicon-arrow-left", "Index", null, null, new { @class = "btn btn-default" })
 
 		@if (!Model.reservation.Place.IsOccupied)
 		{
-			//@Html.IconActionLink("glyphicon-print", "CreateTicket", null, null, new { @class = "btn btn-primary hidden-sm hidden-xs" })
-			<a href="#" onclick="window.print();" class="btn btn-primary hidden-sm hidden-xs"><span class="glyphicon glyphicon-print"></span></a>
+			<a href="#" onclick="window.print();" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span></a>
 			if (!Model.setting.IsLanOver)
 			{
 				<a href="#" class="btn btn-danger" data-toggle="modal" data-target="#ModalAnnulerReservation">Annuler</a>
 			}
 		}
-	</p>
+	</div>
 	<div class="clearfix"></div>
 </div>
 

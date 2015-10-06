@@ -2,6 +2,7 @@
 
 @{
 	ViewBag.Title = "Liste des places";
+	User loggedInUser = LanAdeptCore.Service.UserService.GetLoggedInUser();
 }
 
 @if (LanAdeptCore.Service.ReservationService.HasUserPlace())
@@ -12,83 +13,99 @@ else
 {
 	@Html.Partial("ModalReserverPlacePartial")
 }
-	<div class="page-header clearfix">
-		<h1 class="pull-left">Liste des places</h1>
-
-		@if (LanAdeptCore.Service.ReservationService.HasUserPlace())
+<div class="page-header clearfix">
+	<h1 class="pull-left">
+		Liste des places
+		@if (loggedInUser != null && !LanAdeptCore.Service.ReservationService.HasUserPlace())
 		{
-			<div class="btn-toolbar pull-right">
-				<div class="btn-group">
-					@Html.AuthorizeActionLink("Ma place", "MaPlace", null, null, new { @class = "btn btn-success btn-header" })
-				</div>
-			</div>
+			<span class="glyphicon glyphicon-question-sign info" data-toggle="tooltip" data-placement="bottom" title="Pour réserver une place, cliquez sur la place qui vous intéresse dans le plan ci-dessous."></span>
 		}
+	</h1>
 
+	@if (LanAdeptCore.Service.ReservationService.HasUserPlace())
+	{
+		<div class="btn-toolbar pull-right">
+			<div class="btn-group">
+				@Html.AuthorizeActionLink("Ma place", "MaPlace", null, null, new { @class = "btn btn-success btn-header" })
+			</div>
+		</div>
+	}
+
+</div>
+
+@if (!string.IsNullOrWhiteSpace(TempData["Error"] as string))
+{
+	<div class="alert alert-danger" role="alert">
+		@Html.Raw(TempData["Error"])
 	</div>
+}
+@if (!string.IsNullOrWhiteSpace(TempData["Success"] as string))
+{
+	<div class="alert alert-success" role="alert">
+		@Html.Raw(TempData["Success"])
+	</div>
+}
 
-	@if (!string.IsNullOrWhiteSpace(TempData["Error"] as string))
+@if (ViewBag.Settings.IsLanOver)
+{
+	<div class="alert alert-warning" role="alert">
+		Le LAN est maintenant terminé. Il n'est donc plus possible de réserver une place.
+	</div>
+}
+else if (ViewBag.Settings.IsLanStarted)
+{
+	<div class="alert alert-warning" role="alert">
+		Le LAN a déjà débuté. Il n'est donc plus possible de réserver une place. Si vous désirez obtenir une place ou changer de place, veuillez vous rendre à l'accueil du LAN.
+	</div>
+}
+else
+{
+	if (loggedInUser == null)
 	{
-		<div class="alert alert-danger" role="alert">
-			@Html.Raw(TempData["Error"])
+		<div class="alert alert-info" role="alert">
+			Pour réserver une place, vous devez d'abord @Html.AuthorizeActionLink("vous connecter", "Login", "Auth", new { returnUrl = HttpContext.Current.Request.RawUrl }, new { @class = "alert-link" }).
+			Si vous n'avez pas encore de compte, vous pouvez en créer un en @Html.AuthorizeActionLink("cliquant ici", "Register", "Auth", null, new { @class = "alert-link" })
 		</div>
 	}
-	@if (!string.IsNullOrWhiteSpace(TempData["Success"] as string))
-	{
-		<div class="alert alert-success" role="alert">
-			@Html.Raw(TempData["Success"])
-		</div>
-	}
+}
 
-	@if (ViewBag.Settings.IsLanOver)
-	{
-		<div class="alert alert-warning" role="alert">
-			Le LAN est maintenant terminé. Il n'est donc plus possible de réserver une place.
-		</div>
-	}
-	else if (ViewBag.Settings.IsLanStarted)
-	{
-		<div class="alert alert-warning" role="alert">
-			Le LAN a déjà débuté. Il n'est donc plus possible de réserver une place. Si vous désirez obtenir une place ou changer de place, veuillez vous rendre à l'accueil du LAN.
-		</div>
-	}
-
-	@foreach (Map map in Model.Maps)
-	{
-		@Html.Partial("SingleMapPartial", map)
-	}
+@foreach (Map map in Model.Maps)
+{
+	@Html.Partial("SingleMapPartial", map)
+}
 
 <div id="legende-container">
-    <div id="legende">
-        <div class="row">
+	<div id="legende">
+		<div class="row">
 			<h4>Légende</h4>
-            <div class="legende-col">
-                <div class="place">A00</div>
-            </div>
-            <div class="legende-col">
-                <div class="place place-reserve">A00</div>
-            </div>
-            <div class="legende-col">
-                <div class="place place-actuelle">A00</div>
-            </div>
-            <div class="legende-col">
-                <div class="place place-occupe">A00</div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="legende-col">
-                <div class="legende-label">Libre</div>
-            </div>
-            <div class="legende-col">
-                <div class="legende-label">Réservée</div>
-            </div>
-            <div class="legende-col">
-                <div class="legende-label">Ma place</div>
-            </div>
-            <div class="legende-col">
-                <div class="legende-label">Occupée</div>
-            </div>
-        </div>
-    </div>
+			<div class="legende-col">
+				<div class="place">A00</div>
+			</div>
+			<div class="legende-col">
+				<div class="place place-reserve">A00</div>
+			</div>
+			<div class="legende-col">
+				<div class="place place-actuelle">A00</div>
+			</div>
+			<div class="legende-col">
+				<div class="place place-occupe">A00</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="legende-col">
+				<div class="legende-label">Libre</div>
+			</div>
+			<div class="legende-col">
+				<div class="legende-label">Réservée</div>
+			</div>
+			<div class="legende-col">
+				<div class="legende-label">Ma place</div>
+			</div>
+			<div class="legende-col">
+				<div class="legende-label">Occupée</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 @section scripts {
@@ -101,7 +118,11 @@ else
 			var modal = $(this);
 			modal.find('.modal-place-text').text(text);
 			modal.find('.btnReserver').attr("href", "@Url.Action("Reserver")/" + placeID)
-		})
+		});
+
+		$(function () {
+			$('[data-toggle="tooltip"]').tooltip()
+		});
 	</script>
 }
 

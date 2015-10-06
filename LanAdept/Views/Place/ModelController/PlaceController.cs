@@ -78,7 +78,7 @@ namespace LanAdept.Controllers
 			}
 			else
 			{
-				TempData["Success"] = "La place <strong>" + placeAReserver + "</strong> a bien été réservée!";
+				TempData["Success"] = "La place <strong>" + placeAReserver + "</strong> a bien été réservée.";
 			}
 
 			return RedirectToAction("MaPlace");

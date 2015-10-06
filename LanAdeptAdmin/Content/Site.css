@@ -144,7 +144,7 @@ textarea {
 	max-width: 100%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
 
 	.btn-mobile-full {
 		display:block;

@@ -68,4 +68,16 @@
         padding-right: 0;
         margin-right: 0;
     }
+
+	.btn-place {
+		margin-top: 20px;
+	}
+
+	@media (max-width: 767px) {
+
+	.pull-right.img-responsive {
+		float: none !important;
+		margin: auto;
+	}
+}
 }
