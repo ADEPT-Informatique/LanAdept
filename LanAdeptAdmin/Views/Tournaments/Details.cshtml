@@ -5,13 +5,29 @@
 	ViewBag.Sidebar = "_Sidebar_Tournament";
 }
 
-<h2>Details</h2>
+<h2>@Html.DisplayFor(model => model.Game.Name)</h2>
+@if (Model.IsOver)
+{
+	<a class="btn btn-danger disabled">
+		Over
+	</a>
+}
+else if (Model.IsStarted)
+{
+	<a class="btn btn-success disabled">
+		Started
+	</a>
+}
+else if (!Model.IsStarted)
+{
+	<a class="btn btn-default disabled">
+		Not Started
+	</a>
+}
+
+<hr />
 
 <div>
-	<h4>@Html.DisplayFor(model => model.Game.Name)</h4>
-	<hr />
-
-
 	<dl class="dl-horizontal">
 
 		<dt>
@@ -20,22 +36,6 @@
 
 		<dd>
 			@Html.DisplayFor(model => model.StartTime)
-		</dd>
-
-		<dt>
-			@Html.DisplayNameFor(model => model.IsStarted)
-		</dt>
-
-		<dd>
-			@Html.DisplayFor(model => model.IsStarted)
-		</dd>
-
-		<dt>
-			@Html.DisplayNameFor(model => model.IsOver)
-		</dt>
-
-		<dd>
-			@Html.DisplayFor(model => model.IsOver)
 		</dd>
 
 		<dt>
@@ -67,7 +67,7 @@
 
 		@foreach (Team team in Model.Teams)
 			{
-			<tr @("class=clickable-row data-row-url=" /*+ Url.Action("TeamDetails", new { id = item.Id })*/)>
+			<tr @("class=clickable-row data-row-url=" + Url.Action("DetailsTeam", new { id = team.TeamID }))>
 				<td>
 					@team.Name.ToString()
 				</td>
@@ -129,4 +129,31 @@
 </div>
 <p>
 	@Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-default" })
+	<button type="button" class="btn btn-default" data-toggle="modal" data-target="#teamList">
+		Team List
+	</button>
 </p>
+
+
+<!-- Modal -->
+<div class="modal fade" id="teamList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Team List</h4>
+			</div>
+			<div class="modal-body">
+				@foreach (Team team in Model.Teams)
+				{
+					<p>
+						@team.Name
+					</p>
+				}
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>

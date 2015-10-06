@@ -1,0 +1,124 @@
+﻿@model LanAdeptAdmin.Views.Tournaments.ModelController.TeamModel
+
+@{
+	ViewBag.Title = Model.Name;
+	ViewBag.Sidebar = "_Sidebar_Tournament";
+}
+
+
+
+@if (TempData["ErrorMessage"] != null)
+{
+	<p class="alert-danger">
+		@TempData["ErrorMessage"]
+	</p>
+}
+
+<h2>@Model.Name</h2>
+<h4>@Model.Tag</h4>
+
+@if (Model.IsConfirmed)
+{
+	<a class="btn btn-success disabled">
+		Confirmed
+	</a>
+}
+else
+{
+	<a class="btn btn-danger disabled">
+		Not Confirmed
+	</a>
+}
+
+@if (Model.IsReady)
+{
+	<a class="btn btn-success disabled">
+		Ready
+	</a>
+}
+else
+{
+	<a class="btn btn-danger disabled">
+		Not Ready
+	</a>
+}
+
+<hr />
+
+
+
+
+
+<div>
+	<h4>Team Members</h4>
+
+	@if (Model.TeamGamerTags.Count >= Model.Tournament.MaxPlayerPerTeam)
+	{
+		<a class="btn btn-success disabled">
+			Complete
+		</a>
+	}
+	else
+	{
+		<p>
+			@Model.TeamGamerTags.Count / @Model.Tournament.MaxPlayerPerTeam
+		</p>
+	}
+
+	<table class="table table-responsive">
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.TeamGamerTags.First().User.CompleteName)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.TeamGamerTags.First().Gamertag)
+			</th>
+			<th>Actions</th>
+		</tr>
+
+
+		@foreach (GamerTag gamerTag in Model.TeamGamerTags)
+		{
+			<tr>
+				<td>
+					@gamerTag.User.CompleteName.ToString()
+					@if (Model.TeamLeaderTag == gamerTag)
+					{
+						<a class="btn btn-default disabled btn-xs">
+							Team Leader
+						</a>
+					}
+				</td>
+				<td>
+					@gamerTag.Gamertag
+				</td>
+				<td>
+					<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#kickModal">Kick</button>
+
+					<div class="modal fade" id="kickModal" role="dialog">
+						<div class="modal-dialog">
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h4 class="modal-title">Kick player</h4>
+								</div>
+								<div class="modal-body">
+									<p>Voulez-vous vraiment kick @gamerTag.Gamertag</p>
+								</div>
+								<div class="modal-footer">
+									@Html.ActionLink("Oui", "KickPlayer", new { gamerTagId = gamerTag.GamerTagID, teamId = Model.TeamID }, new { @class = "btn btn-success" })
+									<button type="button" class="btn btn-danger" data-dismiss="modal">Non</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</td>
+			</tr>
+		}
+	</table>
+</div>
+<p>
+	@Html.ActionLink("Edit", "EditTeam", new { teamId = Model.TeamID }, new { @class = "btn btn-default" })
+	@Html.ActionLink("Back to List", "Details", new { id = Model.TournamentID }, new { @class = "btn btn-default" })
+</p>

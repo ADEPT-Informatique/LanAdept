@@ -154,6 +154,7 @@
     <Compile Include="Views\Place\ModelController\PlaceController.cs" />
     <Compile Include="Views\Place\ModelController\ReserveModel.cs" />
     <Compile Include="Views\Place\ModelController\SearchModel.cs" />
+    <Compile Include="Views\Tournaments\ModelController\EmailModel.cs" />
     <Compile Include="Views\Tournaments\ModelController\TeamModel.cs" />
     <Compile Include="Views\Tournaments\ModelController\TournamentModel.cs" />
     <Compile Include="Views\Tournaments\ModelController\TournamentController.cs" />
@@ -289,6 +290,8 @@
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Shared\_Sidebar_User.cshtml" />
+    <Content Include="Views\Tournaments\DetailsTeam.cshtml" />
+    <Content Include="Views\Tournaments\EditTeam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Emails\ModelController\" />
