@@ -23,6 +23,9 @@
 			<th>
 				Rôle
 			</th>
+			<th>
+				Code barre
+			</th>
 			<th class="text-center">
 				Place
 			</th>
@@ -37,10 +40,13 @@
 					@Html.DisplayFor(modelItem => user.CompleteName)
 				</td>
 				<td>
-					@Html.DisplayFor(modelItem => user.Email)
+					@user.Email
 				</td>
 				<td>
 					@Html.DisplayFor(modelItem => user.Role.Name)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => user.Barcode)
 				</td>
 				<td class="text-center">
 					@if (LanAdeptCore.Service.ReservationService.HasUserPlace(user))
