@@ -19,11 +19,14 @@
         </div>
     }
 
-    <h4>Teams</h4>
+<h4>Teams</h4>
+
 @using (Html.BeginForm("JoinTeam", "Tournament", new JoinTeamModel() { TournamentID = Model.TournamentID }))
 {
-    @Html.Hidden("GamerTagID", 0, new { @class = "tagInput" })
-    @Html.Hidden("TeamID", 0, new { @class = "teamInput" })
+    @Html.Hidden("GamerTagID", 0, new { id = "tagInput" })
+    @Html.Hidden("TeamID", 0, new { id = "teamInput" })
+    
+    @Html.Partial("ModalRejoindreGamerTag", Model.GamerTags)
     <table class="table">
         <tr>
             <th>@Html.DisplayNameFor(model => model.Teams.First().Name)</th>
@@ -59,38 +62,11 @@
                 </td>
                 @if (isConnected)
                 {
-                    <td>
-                        <div class="form-group">
-                            <div class="btn-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" data-team-id="@team.TeamID" value="Rejoindre" class="teamButton btn btn-default" />
-                                </div>
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="caret"></span>
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    @foreach (var gamerTags in Model.GamerTags)
-                                    {
-                                        <li><a href="#" data-tagid="@gamerTags.GamerTagID"><span></span>@gamerTags.Gamertag</a></li>
-                                    }
-                                    <li role="separator" class="divider"></li>
-                                    <li>
-                                        <div class="col-lg-12">
-                                            <div class="input-group input-group-sm">
-                                                <input class="text-box single-line" id="tagText" type="text" value="" />
-                                                <span class="input-group-btn">
-                                                    <button class="btn btn-default" type="button">
-                                                        @Html.AuthorizeActionLink("+", "AddGamerTag", "Tournament", new GamerTagModel() { TournamentID = Model.TournamentID, ActionRedir = "Details" }, new { @class = "plusButton" })
-                                                    </button>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>          
-                    </td>
+                <td>
+                    <div class="col-md-6 pull-right">
+                        <button class="teamButton hover btn btn-default" type="button" data-toggle="modal" data-team-id="@team.TeamID" data-target="#ModalChoisirGamerTag">Rejoindre</button>
+                    </div>
+                </td>
                 }
             </tr>
         }
@@ -100,34 +76,40 @@
 
 @section scripts {
     <script>
-        $(document).ready(function () {
+    $(document).ready(function () {
 
-            var gamerTagId = 0;
-            $('.teamButton').click(function (event) {
-                if (gamerTagId == 0) event.preventDefault();
-                else
-                {
-                    $('.tagInput').val(gamerTagId);
-                    
-                    var teamID = $(this).attr('data-team-id');
-                    $('.teamInput').val(teamID)
-                }
+        $('.teamButton').click(function () {
+            $('.teamActive').removeClass('teamActive');
+            $(this).addClass('teamActive');
+        })
+
+        $('.btnAjouter').click(function () {
+            $('#teamInput').val($('.teamActive').attr('data-team-id'));
+            $('#tagInput').val($('.active').attr('data-tag-id'));
+        })
+
+        $('.tagItem').click(function (event) {
+            $('#GamerTagID').val($(this).attr('data-tag-id'));
+            $('.active').removeClass('active');
+            $(this).addClass('active')
+        })
+
+        $('.addGamertag').click(function (event) {
+            $.ajax({
+                method: "POST",
+                url: "@Url.Action("AddGamerTag")",
+                    data: { gamertag: $('#gamerTagText').val() }
+                }).done(function (data) {
+                    console.log(data);
+                    $('.tagItem:last').after('<a href="#" class="tagItem list-group-item" data-tag-id="' + data.GamerTagID + '">' + data.Gamertag + '</a>')
+                })
             })
 
-            $('.plusButton').click(function (event) {
-                var gamerTag = $('#tagText').val();
-                var url = $(this).attr('href');
-                url += '&Gamertag=' + gamerTag;
-                $(this).attr('href', url);
+            $('#ModalChoisirGamerTag').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var modal = $(this);
             })
-
-            $('.dropdown-menu li a').click(function () {
-                gamerTagId = $(this).attr('data-tagid')
-                $('.selectedTag').removeClass('selectedTag glyphicon glyphicon-ok');
-                var attr = 'ul li a[data-tagid=' + gamerTagId + ']';
-                $(attr).children('span').addClass('selectedTag glyphicon glyphicon-ok')
-            })
-
         })
     </script>
 }
+

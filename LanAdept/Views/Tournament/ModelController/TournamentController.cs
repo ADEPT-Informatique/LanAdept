@@ -110,21 +110,23 @@ namespace LanAdept.Views.Tournament.ModelController
         }
 
         [Authorize]
-        public ActionResult AddGamerTag(GamerTagModel model)
+        public ActionResult AddGamerTag(string gamertag)
         {
             User user = UserService.GetLoggedInUser();
 
-            if (!uow.GamerTagRepository.HasSameGamerTag(user, model.Gamertag))
+            if (!uow.GamerTagRepository.HasSameGamerTag(user, gamertag))
             {
                 GamerTag gamerTag = new GamerTag();
-                gamerTag.Gamertag = model.Gamertag;
+                gamerTag.Gamertag = gamertag;
                 gamerTag.User = user;
 
                 uow.GamerTagRepository.Insert(gamerTag);
-                uow.Save();   
+                uow.Save();
+
+                return Json(new GamerTagResponse() { HasError = false, ErrorMessage = "", GamerTagID = gamerTag.GamerTagID, Gamertag = gamerTag.Gamertag }, JsonRequestBehavior.AllowGet);
             }
 
-            return RedirectToAction(model.ActionRedir, new { id = model.TournamentID });
+            return Json(new GamerTagResponse() { HasError = true, ErrorMessage = "Vous avez déja un GamerTag avec ce nom", GamerTagID = 0, Gamertag = gamertag }, JsonRequestBehavior.AllowGet); ;
         }
 
         [Authorize]

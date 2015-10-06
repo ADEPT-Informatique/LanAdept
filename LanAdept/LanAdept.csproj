@@ -48,14 +48,6 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="itextsharp, Version=5.5.7.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <HintPath>..\packages\iTextSharp.5.5.7\lib\itextsharp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="itextsharp.xmlworker, Version=5.5.7.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <HintPath>..\packages\itextsharp.xmlworker.5.5.7\lib\itextsharp.xmlworker.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Postal, Version=1.0.0.0, Culture=neutral, PublicKeyToken=45719375b8b4d528, processorArchitecture=MSIL">
       <HintPath>..\packages\Postal.Mvc5.1.2.0\lib\net45\Postal.dll</HintPath>
@@ -149,7 +141,7 @@
     <Compile Include="Views\Place\ModelController\ListeModel.cs" />
     <Compile Include="Views\Place\ModelController\MaPlaceModel.cs" />
     <Compile Include="Views\Place\ModelController\PlaceController.cs" />
-    <Compile Include="Views\Tournament\ModelController\GamerTagModel.cs" />
+    <Compile Include="Views\Tournament\ModelController\GamerTagResponse.cs" />
     <Compile Include="Views\Tournament\ModelController\JoinTeamModel.cs" />
     <Compile Include="Views\Tournament\ModelController\AddTeamModel.cs" />
     <Compile Include="Views\Tournament\ModelController\TournamentController.cs" />
@@ -231,6 +223,7 @@
     <None Include="Properties\PublishProfiles\LanAdept Test.pubxml" />
     <None Include="Properties\PublishProfiles\LanAdept.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\gamertag-modal.js" />
     <Content Include="Scripts\general.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -274,6 +267,7 @@
     <Content Include="Views\Emails\Confirmation.cshtml" />
     <Content Include="Views\Emails\Web.config" />
     <Content Include="Views\Tournament\Partial\ModalChoisirGamerTag.cshtml" />
+    <Content Include="Views\Tournament\Partial\ModalRejoindreGamerTag.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
