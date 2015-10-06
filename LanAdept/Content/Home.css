@@ -1,8 +1,4 @@
-﻿#carousel {
-    
-}
-
-#carousel-container {
+﻿#carousel-container {
 width: 89%;
 margin:auto;
 }
@@ -13,9 +9,16 @@ margin:auto;
 	float:none;
 }
 
+#date {
+    font-size: 150%;
+    margin-top: 30px;
+}
+
 .home-image {
     width: 50%;
 }
+
+/* Easter egg de Marco */
 
 @keyframes spin {
 	from { transform: rotate(0deg); }

@@ -23,5 +23,9 @@ namespace LanAdept.Controllers
 			ViewBag.dateLan = dateLanMs;
 			return View();
 		}
+
+        public ActionResult About() {
+            return View();
+        }
 	}
 }
