@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -18,9 +19,11 @@ namespace LanAdeptAdmin.Views.Users.ModelController
 		public string Email { get; set; }
 
 		[Required]
+		[DisplayName("Nom complet")]
 		public string CompleteName { get; set; }
 
 		[Required]
+		[DisplayName("Rôle")]
 		public int RoleID { get; set; }
 
 		public SelectList RoleList { get; set; }
@@ -28,6 +31,7 @@ namespace LanAdeptAdmin.Views.Users.ModelController
 		public EditModel() { }
 		public EditModel(User user)
 		{
+			UserID = user.UserID;
 			Email = user.Email;
 			CompleteName = user.CompleteName;
 			RoleID = user.RoleID;

@@ -15,6 +15,8 @@ namespace LanAdeptAdmin.Controllers
 {
     public class UserController : Controller
     {
+		private const string ERROR_INVALID_ID = "Désolé, une erreur est survenue. Merci de réessayer dans quelques instants";
+
 		UnitOfWork uow = UnitOfWork.Current;
 
 		[Authorize]
@@ -63,18 +65,38 @@ namespace LanAdeptAdmin.Controllers
         [HttpPost]
 		[Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserID,Email,Password,Salt,CompleteName,RoleID")] User user)
+		public ActionResult Edit([Bind(Include = "UserID,CompleteName,RoleID")] EditModel model)
         {
+			User user = uow.UserRepository.GetByID(model.UserID);
+			if (user == null)
+			{
+				TempData["Error"] = ERROR_INVALID_ID;
+				return RedirectToAction("Index");
+			}
+			Role role = uow.RoleRepository.GetByID(model.RoleID);
+			if (role == null)
+			{
+				TempData["Error"] = ERROR_INVALID_ID;
+				return RedirectToAction("Details", new { id = user.UserID });
+			}
+
             if (ModelState.IsValid)
             {
+				user.CompleteName = model.CompleteName;
+				user.Role = role;
+
 				uow.UserRepository.Update(user);
 				uow.Save();
-                return RedirectToAction("Index");
+
+				TempData["Success"] = "Les changements ont bien été enregistré";
+				return RedirectToAction("Details", new { id = user.UserID });
             }
-			ViewBag.RoleID = new SelectList(uow.RoleRepository.Get(), "RoleID", "Name", user.RoleID);
+
+			ViewBag.RoleID = new SelectList(uow.RoleRepository.Get(), "RoleID", "Name", model.RoleID);
             return View(user);
         }
 
+#if DEBUG
 		[Authorize]
         public ActionResult Delete(int? id)
         {
@@ -101,5 +123,6 @@ namespace LanAdeptAdmin.Controllers
 
             return RedirectToAction("Index");
         }
+#endif
     }
 }

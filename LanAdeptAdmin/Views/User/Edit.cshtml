@@ -1,11 +1,11 @@
 ﻿@model LanAdeptAdmin.Views.Users.ModelController.EditModel
 
 @{
-    ViewBag.Title = "Edit";
+	ViewBag.Title = "Modifier un utilisateur";
 	ViewBag.Sidebar = "_Sidebar_User";
 }
 
-<h2>Edit</h2>
+<h2>Modifier un utilisateur</h2>
 
 @using (Html.BeginForm())
 {
@@ -20,8 +20,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-6">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @readonly="readonly" } })
             </div>
         </div>
 
