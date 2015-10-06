@@ -7,17 +7,21 @@
 	ViewBag.Title = "Details";
 }
 <div class="map-max-width">
-	@if (isConnected)
-	{
-		<div class="page-header clearfix">
-			<h1 class="pull-left">@Html.DisplayFor(model => model.Game.Name)</h1>
+
+	<div class="page-header clearfix">
+		<h1 class="pull-left">@Html.DisplayFor(model => model.Game.Name)</h1>
+		@if (isConnected)
+		{
+			<br />
 			<div class="btn-toolbar pull-right">
 				<div class="btn-group">
+
 					@Html.ActionLink("Ajouter une equipe", "AddTeam", new { id = Model.TournamentID }, new { @class = "btn btn-default" })
 				</div>
 			</div>
-		</div>
-	}
+		}
+	</div>
+
 
 	<h4>Teams</h4>
 
@@ -25,13 +29,13 @@
 	{
 		@Html.Hidden("GamerTagID", 0, new { id = "tagInput" })
 		@Html.Hidden("TeamID", 0, new { id = "teamInput" })
-		
+
 		if (isConnected)
 		{
 			@Html.Partial("ModalRejoindreGamerTag", Model.GamerTags)
 		}
-		
-		<table class="table">
+
+		<table class="table table-hover">
 			<tr>
 				<th>@Html.DisplayNameFor(model => model.Teams.First().Name)</th>
 				<th>@Html.DisplayNameFor(model => model.Teams.First().Tag)</th>
@@ -45,7 +49,7 @@
 
 			@foreach (Team team in Model.Teams)
 			{
-				<tr>
+				<tr  @("class=clickable-row data-row-url=" + Url.Action("DetailsTeam", new { teamId = team.TeamID }))>
 					<td>
 						@team.Name
 					</td>
@@ -77,6 +81,7 @@
 		</table>
 	}
 </div>
+
 
 @section scripts {
 	<script>
@@ -115,5 +120,11 @@
 			})
 		})
 	</script>
+
+	@Scripts.Render("~/Scripts/general.js")
+}
+
+@section Styles {
+	@Styles.Render("~/Content/Tournois.css")
 }
 

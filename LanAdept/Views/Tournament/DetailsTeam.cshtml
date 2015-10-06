@@ -1,0 +1,23 @@
+﻿@model LanAdept.Views.Tournament.ModelController.DetailsTeamModel
+
+@{
+	bool IsTeamLeader = LanAdeptCore.Service.UserService.GetLoggedInUser().UserID == Model.TeamLeaderTag.UserID;
+    ViewBag.Title = "DetailsTeam";
+}
+
+<h2>DetailsTeam</h2>
+
+<table class="table">
+	<tr>
+		<th>Gamertag</th>
+	</tr>
+	@foreach (GamerTag gamertag in Model.GamerTags)
+	{
+		<tr>
+			<td>
+				@gamertag.Gamertag
+			</td>
+		</tr>
+	}
+
+</table>

@@ -141,6 +141,7 @@
     <Compile Include="Views\Place\ModelController\ListeModel.cs" />
     <Compile Include="Views\Place\ModelController\MaPlaceModel.cs" />
     <Compile Include="Views\Place\ModelController\PlaceController.cs" />
+    <Compile Include="Views\Tournament\ModelController\DetailsTeamModel.cs" />
     <Compile Include="Views\Tournament\ModelController\GamerTagResponse.cs" />
     <Compile Include="Views\Tournament\ModelController\JoinTeamModel.cs" />
     <Compile Include="Views\Tournament\ModelController\AddTeamModel.cs" />
@@ -263,6 +264,7 @@
     <Content Include="Views\Emails\Web.config" />
     <Content Include="Views\Tournament\Partial\ModalChoisirGamerTag.cshtml" />
     <Content Include="Views\Tournament\Partial\ModalRejoindreGamerTag.cshtml" />
+    <Content Include="Views\Tournament\DetailsTeam.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

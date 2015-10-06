@@ -163,5 +163,23 @@ namespace LanAdept.Views.Tournament.ModelController
 
             return RedirectToAction("Details", new { id = model.TournamentID });
         }
+
+		[Authorize]
+		public ActionResult DetailsTeam(int? teamId)
+		{
+			if (teamId == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+
+			DetailsTeamModel team = new DetailsTeamModel(uow.TeamRepository.GetByID(teamId));
+
+			if (team == null)
+			{
+				return HttpNotFound();
+			}
+
+			return View(team);
+		}
 	}
 }
