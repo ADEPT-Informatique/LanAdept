@@ -224,6 +224,7 @@
     <None Include="Properties\PublishProfiles\LanAdept Test.pubxml" />
     <None Include="Properties\PublishProfiles\LanAdept.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Image\scissors.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\general.js" />
