@@ -2,79 +2,82 @@
 @using LanAdept.Views.Tournament.ModelController;
 
 @{
-    ViewBag.Title = "AddTeam";
+	ViewBag.Title = "AddTeam";
 }
 
 <h2>AddTeam</h2>
 
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
-    @Html.Partial("ModalChoisirGamerTag", Model.GamerTags);
+	@Html.AntiForgeryToken()
+	@Html.Partial("ModalChoisirGamerTag", Model.GamerTags);
 
-    <div class="form-horizontal">
-        <h4>TeamModel</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+	<div class="form-horizontal">
+		<h4>TeamModel</h4>
+		<hr />
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        @Html.HiddenFor(model => model.TournamentID, new { id = "tournamentId" })
-        @Html.HiddenFor(model => model.GamerTagId, new { id = "tagId" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Tag, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.Tag, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Tag, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-6 pull-right">
-                <button class="hover btn btn-default" type="button" data-toggle="modal" data-target="#ModalChoisirGamerTag">Ajouter une Équipe</button>
-            </div>
-        </div>
-    </div>
+		@Html.HiddenFor(model => model.TournamentID, new { id = "tournamentId" })
+		@Html.HiddenFor(model => model.GamerTagId, new { id = "tagId" })
+		<div class="form-group">
+			@Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-6">
+				@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(model => model.Tag, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-6">
+				@Html.EditorFor(model => model.Tag, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.Tag, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-6 pull-right">
+				<button class="hover btn btn-default" type="button" data-toggle="modal" data-target="#ModalChoisirGamerTag">Ajouter une Équipe</button>
+			</div>
+		</div>
+	</div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Details", new { id = Model.TournamentID })
+	@Html.ActionLink("Back to List", "Details", new { id = Model.TournamentID })
 </div>
 
 @section scripts {
-    <script>
-        $(document).ready(function () {
+	<script>
+		$(document).ready(function () {
 
-            $('.tagItem').click(selectGamerTag);
+			$('.tagItem').click(selectGamerTag);
 
-            $('.addGamertag').click(function (event) {
-                $.ajax({
-                    method: "POST",
-                    url: "@Url.Action("AddGamerTag")",
-                    data: { gamertag: $('#gamerTagText').val() }
-                }).done(function (data) {
-                    console.log(data);
-                    var element = $('<a href="#" class="tagItem list-group-item" data-tag-id="' + data.GamerTagID + '">' + data.Gamertag + '</a>')
-                    $('#addElement').before(element)
-                    element.click(selectGamerTag)
-                })
-            });
+			$('.addGamertag').click(function (event) {
+				$.ajax({
+					method: "POST",
+					url: "@Url.Action("AddGamerTag")",
+					data: { gamertag: $('#gamerTagText').val() }
+				}).done(function (data) {
+					console.log(data);
+					if (!data.HasError) {
+						var element = $('<a href="#" class="tagItem list-group-item" data-tag-id="' + data.GamerTagID + '">' + data.Gamertag + '</a>');
+						$('#listGamerTag').append(element);
+						element.click(selectGamerTag);
+						$('#gamerTagText').val("");
+					}
+				})
+			});
 
-            $('#ModalChoisirGamerTag').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget);
-                var modal = $(this);
-            });
+			$('#ModalChoisirGamerTag').on('show.bs.modal', function (event) {
+				var button = $(event.relatedTarget);
+				var modal = $(this);
+			});
 
-            function selectGamerTag() {
-                $('#GamerTagID').val($(this).attr('data-tag-id'));
-                $('.active').removeClass('active');
-                $(this).addClass('active')
-            }
-        })
-    </script>
+			function selectGamerTag() {
+				$('#GamerTagID').val($(this).attr('data-tag-id'));
+				$('.active').removeClass('active');
+				$(this).addClass('active');
+			}
+		})
+	</script>
 }
 

@@ -1,34 +1,38 @@
 ﻿@model IEnumerable<LanAdeptData.Model.GamerTag>
 <div class="modal fade" id="ModalChoisirGamerTag" tabindex="-1" role="dialog">
-    @Html.Hidden("GamerTagID", 0, new { id="GamerTagID" })
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header row">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Choisir ou Créer un GamerTag</h4>
-            </div>
-            <div class="modal-body row">
-                <div class="list-group">
-                    @foreach (GamerTag tag in Model)
-                    {
-                        <a href="#" class="tagItem list-group-item" data-tag-id="@tag.GamerTagID">@tag.Gamertag</a>
-                    }
-                    <div id="addElement"></div>
-                </div>
-                <hr />
-                <div class="col-sm-12">
-                    <div class="input-group">
-                        <input id="gamerTagText" type="text" class="form-control" placeholder="GamerTag">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default addGamertag" type="button">+</button>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer row">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                <input class="btn btn-primary btnAjouter" type="submit" value="Ajouter">
-            </div>
-        </div>
-    </div>
+
+	@Html.Hidden("GamerTagID", 0, new { id = "GamerTagID" })
+
+	<div class="modal-dialog modal-sm" role="dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="exampleModalLabel">Rejoindre l'équipe en tant que...</h4>
+			</div>
+			<div class="modal-body">
+				<div class="list-group" id="listGamerTag">
+					@foreach (GamerTag tag in Model)
+					{
+						<a href="#" class="tagItem list-group-item" data-tag-id="@tag.GamerTagID">@tag.Gamertag</a>
+					}
+					<div id="addElement"></div>
+				</div>
+				<div class="clearfix">
+					<div class="input-group input-group-sm">
+						<input id="gamerTagText" type="text" class="form-control" placeholder="Ajouter un Gamertag">
+						<span class="input-group-btn">
+							<button class="btn btn-primary addGamertag" type="button">+</button>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+				<input class="btn btn-primary btnAjouter" type="submit" value="Ajouter">
+			</div>
+		</div>
+	</div>
+
+
+
 </div>
