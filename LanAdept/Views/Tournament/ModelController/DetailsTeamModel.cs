@@ -14,9 +14,15 @@ namespace LanAdept.Views.Tournament.ModelController
 
 		public int TournamentID { get; set; }
 
+		public LanAdeptData.Model.Tournament Tournament { get; set; }
+
+		public int TeamID { get; set; }
+
 		public GamerTag TeamLeaderTag { get; set; }
 
 		public IEnumerable<GamerTag> GamerTags { get; set; }
+
+		public bool IsReady { get; set; }
 
 
 		public DetailsTeamModel()
@@ -28,8 +34,11 @@ namespace LanAdept.Views.Tournament.ModelController
 			Name = team.Name;
 			Tag = team.Tag;
 			TournamentID = team.TournamentID;
+			TeamID = team.TeamID;
 			TeamLeaderTag = team.TeamLeaderTag;
 			GamerTags = team.GamerTags;
+			IsReady = team.IsReady;
+			Tournament = team.Tournament;
 		}
 	}
 }

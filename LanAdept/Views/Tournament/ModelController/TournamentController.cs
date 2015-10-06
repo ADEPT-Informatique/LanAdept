@@ -164,6 +164,7 @@ namespace LanAdept.Views.Tournament.ModelController
             return RedirectToAction("Details", new { id = model.TournamentID });
         }
 
+		#region Team Management
 		[Authorize]
 		public ActionResult DetailsTeam(int? teamId)
 		{
@@ -181,5 +182,29 @@ namespace LanAdept.Views.Tournament.ModelController
 
 			return View(team);
 		}
+
+		[Authorize]
+		public ActionResult KickPlayer(int? gamerTagId, int? teamId)
+		{
+			GamerTag gamerTag = uow.GamerTagRepository.GetByID(gamerTagId);
+			Team team = uow.TeamRepository.GetByID(teamId);
+
+			if (team.TeamLeaderTag == gamerTag || team.GamerTags.Count == 1)
+			{
+				TempData["ErrorMessage"] = "Vous ne pouvez pas kicker le team leader.";
+				return RedirectToAction("DetailsTeam", new { id = teamId });
+			}
+			else
+			{
+				team.GamerTags.Remove(gamerTag);
+
+				uow.TeamRepository.Update(team);
+				uow.GamerTagRepository.Update(gamerTag);
+				uow.Save();
+			}
+
+			return RedirectToAction("DetailsTeam", new { id = teamId });
+		}
+		#endregion
 	}
 }

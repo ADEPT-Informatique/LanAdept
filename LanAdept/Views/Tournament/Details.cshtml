@@ -4,13 +4,21 @@
 
 @{
 	bool isConnected = LanAdeptCore.Service.UserService.GetLoggedInUser() != null;
+	bool IsTeamLeader = false;
+	foreach (Team team in Model.Teams)
+	{
+		if (team.TeamLeaderTag.User == LanAdeptCore.Service.UserService.GetLoggedInUser())
+		{
+			IsTeamLeader = true;
+		}
+	}
 	ViewBag.Title = "Details";
 }
 <div class="map-max-width">
 
 	<div class="page-header clearfix">
 		<h1 class="pull-left">@Html.DisplayFor(model => model.Game.Name)</h1>
-		@if (isConnected)
+		@if (isConnected && !IsTeamLeader)
 		{
 			<br />
 			<div class="btn-toolbar pull-right">
@@ -41,7 +49,7 @@
 				<th>@Html.DisplayNameFor(model => model.Teams.First().Tag)</th>
 				<th>Nombre de joueur</th>
 				<th>Membre de l'équipe</th>
-				@if (isConnected)
+				@if (isConnected && !IsTeamLeader)
 				{
 					<th></th>
 				}
@@ -68,7 +76,7 @@
 							<div class="col-xs-12">@tag.Gamertag</div>
 						}
 					</td>
-					@if (isConnected)
+					@if (isConnected && !IsTeamLeader)
 					{
 						<td>
 							<div class="col-md-6 pull-right">
