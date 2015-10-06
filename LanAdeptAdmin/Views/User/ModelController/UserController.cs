@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using LanAdeptAdmin.Views.Users.ModelController;
 using LanAdeptData.DAL;
 using LanAdeptData.Model;
 using PagedList;
@@ -52,8 +53,11 @@ namespace LanAdeptAdmin.Controllers
             {
                 return HttpNotFound();
             }
-			ViewBag.RoleID = new SelectList(uow.RoleRepository.Get(), "RoleID", "Name", user.RoleID);
-            return View(user);
+
+			EditModel model = new EditModel(user);
+			model.RoleList = new SelectList(uow.RoleRepository.Get(), "RoleID", "Name", user.RoleID);
+
+			return View(model);
         }
 
         [HttpPost]
