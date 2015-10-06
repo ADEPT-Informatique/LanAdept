@@ -48,14 +48,6 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="itextsharp, Version=5.5.7.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <HintPath>..\packages\iTextSharp.5.5.7\lib\itextsharp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="itextsharp.xmlworker, Version=5.5.7.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <HintPath>..\packages\itextsharp.xmlworker.5.5.7\lib\itextsharp.xmlworker.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Postal, Version=1.0.0.0, Culture=neutral, PublicKeyToken=45719375b8b4d528, processorArchitecture=MSIL">
       <HintPath>..\packages\Postal.Mvc5.1.2.0\lib\net45\Postal.dll</HintPath>
@@ -149,17 +141,15 @@
     <Compile Include="Views\Place\ModelController\ListeModel.cs" />
     <Compile Include="Views\Place\ModelController\MaPlaceModel.cs" />
     <Compile Include="Views\Place\ModelController\PlaceController.cs" />
-    <Compile Include="Views\Tournament\ModelController\GamerTagModel.cs" />
+    <Compile Include="Views\Tournament\ModelController\DetailsTeamModel.cs" />
+    <Compile Include="Views\Tournament\ModelController\GamerTagResponse.cs" />
     <Compile Include="Views\Tournament\ModelController\JoinTeamModel.cs" />
     <Compile Include="Views\Tournament\ModelController\AddTeamModel.cs" />
     <Compile Include="Views\Tournament\ModelController\TournamentController.cs" />
     <Compile Include="Views\Tournament\ModelController\TournamentModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap-lan.css" />
     <Content Include="Content\Home.css" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\Map.css" />
@@ -218,19 +208,18 @@
     <Content Include="Image\LOGO_noir_transparent_v2.png" />
     <Content Include="Image\LOGO_noir_transparent_v3.png" />
     <Content Include="Image\LOGO_noir_transparent_v4.png" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="fonts\code39.ttf" />
+    <Content Include="Image\Favicon\manifest.json" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="fonts\code39.ttf" />
-    <Content Include="Image\Favicon\manifest.json" />
     <None Include="Properties\PublishProfiles\LanAdept Test.pubxml" />
     <None Include="Properties\PublishProfiles\LanAdept.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Image\scissors.png" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\general.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -275,6 +264,8 @@
     <Content Include="Views\Emails\Web.config" />
     <Content Include="Views\Tournament\Partial\ModalChoisirGamerTag.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Tournament\Partial\ModalRejoindreGamerTag.cshtml" />
+    <Content Include="Views\Tournament\DetailsTeam.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -1,0 +1,126 @@
+﻿@model LanAdept.Views.Tournament.ModelController.DetailsTeamModel
+
+@{
+	bool isConnected = LanAdeptCore.Service.UserService.GetLoggedInUser() != null;
+	bool IsTeamLeader = LanAdeptCore.Service.UserService.GetLoggedInUser().UserID == Model.TeamLeaderTag.UserID;
+	ViewBag.Title = "DetailsTeam";
+}
+
+<div class="page-header clearfix">
+	<h1 class="pull-left">@Model.Name</h1>
+	@if (isConnected && !IsTeamLeader)
+	{
+		if (Model.GamerTags.Count() < Model.Tournament.MaxPlayerPerTeam)
+		{
+			using (Html.BeginForm("JoinTeam", "Tournament", new LanAdept.Views.Tournament.ModelController.JoinTeamModel() { TournamentID = Model.TournamentID }))
+			{
+				@Html.Hidden("GamerTagID", 0, new { id = "tagInput" })
+				@Html.Hidden("TeamID", 0, new { id = "teamInput" })
+
+				if (isConnected)
+				{
+					@Html.Partial("ModalRejoindreGamerTag", Model.GamerTags)
+				}
+				<br />
+				<div class="btn-toolbar pull-right">
+					<div class="btn-group">
+						<div class="col-md-6 pull-right">
+							<button class="teamButton hover btn btn-default" type="button" data-toggle="modal" data-team-id="@Model.TeamID" data-target="#ModalChoisirGamerTag">Rejoindre</button>
+						</div>
+					</div>
+				</div>
+			}
+		}
+	}
+</div>
+
+<table class="table">
+	<tr>
+		<th>Gamertag</th>
+		@if (IsTeamLeader)
+		{
+			<th></th>
+		}
+	</tr>
+	@foreach (GamerTag gamerTag in Model.GamerTags)
+	{
+		<tr>
+			<td>
+				@gamerTag.Gamertag
+				@if (Model.TeamLeaderTag == gamerTag)
+				{
+					<a class="btn btn-default disabled btn-xs">
+						Team Leader
+					</a>
+				}
+			</td>
+			@if (IsTeamLeader)
+				{
+				<td>
+					@if (gamerTag != Model.TeamLeaderTag)
+					{
+						<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#kickModal">Kick</button>
+
+						<div class="modal fade" id="kickModal" role="dialog">
+							<div class="modal-dialog">
+								<!-- Modal content-->
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title">Kick player</h4>
+									</div>
+									<div class="modal-body">
+										<p>Voulez-vous vraiment kick @gamerTag.Gamertag</p>
+									</div>
+									<div class="modal-footer">
+										@Html.ActionLink("Oui", "KickPlayer", new { gamerTagId = gamerTag.GamerTagID, teamId = Model.TeamID }, new { @class = "btn btn-success disabled" })
+										<button type="button" class="btn btn-danger" data-dismiss="modal">Non</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					}
+				</td>
+				}
+		</tr>
+	}
+</table>
+
+@section scripts {
+	<script>
+		$(document).ready(function () {
+
+			$('.teamButton').click(function () {
+				$('.teamActive').removeClass('teamActive');
+				$(this).addClass('teamActive');
+			})
+
+			$('.btnAjouter').click(function () {
+				$('#teamInput').val($('.teamActive').attr('data-team-id'));
+				$('#tagInput').val($('.active').attr('data-tag-id'));
+			})
+
+			$('.tagItem').click(function (event) {
+				$('#GamerTagID').val($(this).attr('data-tag-id'));
+				$('.active').removeClass('active');
+				$(this).addClass('active')
+			})
+
+			$('.addGamertag').click(function (event) {
+				$.ajax({
+					method: "POST",
+					url: "@Url.Action("AddGamerTag")",
+					data: { gamertag: $('#gamerTagText').val() }
+				}).done(function (data) {
+					console.log(data);
+					$('.tagItem:last').after('<a href="#" class="tagItem list-group-item" data-tag-id="' + data.GamerTagID + '">' + data.Gamertag + '</a>')
+				})
+			})
+
+			$('#ModalChoisirGamerTag').on('show.bs.modal', function (event) {
+				var button = $(event.relatedTarget);
+				var modal = $(this);
+			})
+		})
+	</script>
+}

@@ -53,14 +53,15 @@ namespace LanAdeptAdmin.Views
 		[Authorize]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create([Bind(Include = "GameID, StartTime")] TournamentModel tournamentModel)
+		public ActionResult Create([Bind(Include = "GameID, StartTime,MaxPlayerPerTeam")] TournamentModel tournamentModel)
 		{
 			if (ModelState.IsValid)
 			{
 				Tournament tournament = new Tournament();
 
-				tournament.StartTime = tournamentModel.StartTime;
 				tournament.GameID = tournamentModel.GameID;
+				tournament.StartTime = tournamentModel.StartTime;
+				tournament.MaxPlayerPerTeam = tournamentModel.MaxPlayerPerTeam;
 
 				tournament.CreationDate = DateTime.Now;
 
@@ -107,7 +108,7 @@ namespace LanAdeptAdmin.Views
 
 				uow.TournamentRepository.Update(tournament);
 				uow.Save();
-				return RedirectToAction("Index");
+				return RedirectToAction("Details", new { id = tournament.TournamentID});
 			}
 			ViewBag.GameID = new SelectList(uow.GameRepository.Get(), "GameID", "Name", tournamentModel.Game.GameID);
 			return View(tournamentModel);
@@ -176,6 +177,82 @@ namespace LanAdeptAdmin.Views
 
 			uow.Save();
 			return RedirectToAction("Details", new { id = tournamentID });
+		}
+
+		[Authorize]
+		public ActionResult DetailsTeam(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			TeamModel team = new TeamModel(uow.TeamRepository.GetByID(id));
+			if (team == null)
+			{
+				return HttpNotFound();
+			}
+			return View(team);
+		}
+
+		[Authorize]
+		public ActionResult KickPlayer(int? gamerTagId, int? teamId)
+		{
+			GamerTag gamerTag = uow.GamerTagRepository.GetByID(gamerTagId);
+			Team team = uow.TeamRepository.GetByID(teamId);
+
+			if (team.TeamLeaderTag == gamerTag || team.GamerTags.Count == 1)
+			{
+				TempData["ErrorMessage"] = "Vous ne pouvez pas kicker le team leader.";
+                return RedirectToAction("DetailsTeam", new { id = teamId });
+			}
+			else
+			{
+				team.GamerTags.Remove(gamerTag);
+
+				uow.TeamRepository.Update(team);
+				uow.GamerTagRepository.Update(gamerTag);
+				uow.Save();
+			}
+
+			return RedirectToAction("DetailsTeam", new { id = teamId });
+		}
+
+		[Authorize]
+		public ActionResult EditTeam(int? teamId)
+		{
+			if (teamId == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			TeamModel team = new TeamModel(uow.TeamRepository.GetByID(teamId));
+			if (team == null)
+			{
+				return HttpNotFound();
+			}
+			return View(team);
+		}
+
+		[Authorize]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult EditTeam([Bind(Include = "TeamId,Name,Tag,StartTime,IsComplete,IsReady,IsConfirmed")] TeamModel teamModel)
+		{
+			if (ModelState.IsValid)
+			{
+				Team team = (uow.TeamRepository.GetByID(teamModel.TeamID));
+
+				team.Name = teamModel.Name;
+				team.Tag = teamModel.Tag;
+				team.IsComplete = teamModel.IsComplete;
+				team.IsReady = teamModel.IsReady;
+				team.IsConfirmed = teamModel.IsConfirmed;
+
+				uow.TeamRepository.Update(team);
+				uow.Save();
+
+				return RedirectToAction("DetailsTeam", new { id = teamModel.TeamID });
+			}
+			return View(teamModel);
 		}
 
 		protected override void Dispose(bool disposing)

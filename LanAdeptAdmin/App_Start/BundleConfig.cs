@@ -33,7 +33,7 @@ namespace LanAdeptAdmin
 					  "~/Scripts/scanner.js"));
 
 			bundles.Add(new StyleBundle("~/Content/css").Include(
-					  "~/Content/bootstrap.css",
+					  "~/Content/bootstrap-lan.css",
 					  "~/Content/jasny-bootstrap.css",
 					  "~/Content/bootstrap-datetimepicker.css",
 					  "~/Content/site.css"));

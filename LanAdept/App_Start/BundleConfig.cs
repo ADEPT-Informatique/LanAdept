@@ -24,7 +24,7 @@ namespace LanAdept
 					  "~/Scripts/respond.js"));
 
 			bundles.Add(new StyleBundle("~/Content/css").Include(
-					  "~/Content/bootstrap.css",
+					  "~/Content/bootstrap-lan.css",
 					  "~/Content/site.css"));
 		}
 	}

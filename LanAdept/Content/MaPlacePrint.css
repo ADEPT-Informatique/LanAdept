@@ -13,8 +13,8 @@
 
     #print-view {
         display: block;
-        padding: 25px 50px 35px 50px;
-
+        padding: 25px 30px;
+		position:relative;
         border-bottom: dashed #9a9a9a 1px;
     }
 
@@ -44,14 +44,14 @@
     }
 
     .barcode img {
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
 
     .scissors {
         width: 20px;
-        position: fixed;
-        top: 205px;
-        left: 30px;
+        position: absolute;
+        bottom:-6px;
+        left: -5px;
     }
 }
 

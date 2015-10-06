@@ -154,18 +154,17 @@
     <Compile Include="Views\Place\ModelController\PlaceController.cs" />
     <Compile Include="Views\Place\ModelController\ReserveModel.cs" />
     <Compile Include="Views\Place\ModelController\SearchModel.cs" />
+    <Compile Include="Views\Tournaments\ModelController\EmailModel.cs" />
     <Compile Include="Views\Tournaments\ModelController\TeamModel.cs" />
     <Compile Include="Views\Tournaments\ModelController\TournamentModel.cs" />
     <Compile Include="Views\Tournaments\ModelController\TournamentController.cs" />
+    <Compile Include="Views\User\ModelController\EditModel.cs" />
     <Compile Include="Views\User\ModelController\UserController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap-lan.css" />
     <Content Include="Content\jasny-bootstrap.css" />
     <Content Include="Content\login.css" />
     <Content Include="Content\Map.css" />
@@ -178,8 +177,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
     <Content Include="Images\Favicon\manifest.json" />
     <None Include="Properties\PublishProfiles\LanAdeptAdmin.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -288,6 +285,8 @@
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Shared\_Sidebar_User.cshtml" />
+    <Content Include="Views\Tournaments\DetailsTeam.cshtml" />
+    <Content Include="Views\Tournaments\EditTeam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Emails\ModelController\" />

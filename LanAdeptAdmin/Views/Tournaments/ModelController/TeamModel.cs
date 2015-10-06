@@ -39,6 +39,9 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 			TournamentID = team.TournamentID;
 			Tournament = team.Tournament;
 			TeamGamerTags = team.GamerTags;
+			IsComplete = team.IsComplete;
+			IsConfirmed = team.IsConfirmed;
+			IsReady = team.IsReady;
 		}
 	}
 }

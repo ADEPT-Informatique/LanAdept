@@ -1,22 +1,26 @@
 ﻿@model IEnumerable<LanAdeptData.Model.GamerTag>
 <div class="modal fade" id="ModalChoisirGamerTag" tabindex="-1" role="dialog">
-    @Html.Hidden("GamerTagID", 0, new { id="GamerTagID" })
+    @Html.Hidden("GamerTagID", 0, new { id = "GamerTagID" })
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
-            <div class="modal-header row">
+            <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Choisir ou Créer un GamerTag</h4>
+                <h4 class="modal-title" id="exampleModalLabel">Rejoindre une Team</h4>
+				<p>
+					Vous devez choisir votre nom in-game.<br />
+					Si il n'est pas dans la liste rajoutez-le.
+				</p>
             </div>
-            <div class="modal-body row">
+            <div class="modal-body">
                 <div class="list-group">
                     @foreach (GamerTag tag in Model)
                     {
                         <a href="#" class="tagItem list-group-item" data-tag-id="@tag.GamerTagID">@tag.Gamertag</a>
                     }
-                    <div id="addElement" ></div>
+                    <div id="addElement"></div>
                 </div>
                 <hr />
-                <div class="col-sm-12">
+                <div>
                     <div class="input-group">
                         <input id="gamerTagText" type="text" class="form-control" placeholder="GamerTag">
                         <span class="input-group-btn">
@@ -25,9 +29,9 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer row">
+            <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                <input class="btn btn-primary btnAjouter" type="submit" value="Ajouter">
+                <input class="btn btn-primary btnAjouter" type="submit" value="Rejoindre">
             </div>
         </div>
     </div>

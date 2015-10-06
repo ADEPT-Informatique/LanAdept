@@ -110,21 +110,23 @@ namespace LanAdept.Views.Tournament.ModelController
         }
 
         [Authorize]
-        public ActionResult AddGamerTag(GamerTagModel model)
+        public ActionResult AddGamerTag(string gamertag)
         {
             User user = UserService.GetLoggedInUser();
 
-            if (!uow.GamerTagRepository.HasSameGamerTag(user, model.Gamertag))
+            if (!uow.GamerTagRepository.HasSameGamerTag(user, gamertag))
             {
                 GamerTag gamerTag = new GamerTag();
-                gamerTag.Gamertag = model.Gamertag;
+                gamerTag.Gamertag = gamertag;
                 gamerTag.User = user;
 
                 uow.GamerTagRepository.Insert(gamerTag);
-                uow.Save();   
+                uow.Save();
+
+                return Json(new GamerTagResponse() { HasError = false, ErrorMessage = "", GamerTagID = gamerTag.GamerTagID, Gamertag = gamerTag.Gamertag }, JsonRequestBehavior.AllowGet);
             }
 
-            return RedirectToAction(model.ActionRedir, new { id = model.TournamentID });
+            return Json(new GamerTagResponse() { HasError = true, ErrorMessage = "Vous avez déja un GamerTag avec ce nom", GamerTagID = 0, Gamertag = gamertag }, JsonRequestBehavior.AllowGet); ;
         }
 
         [Authorize]
@@ -161,5 +163,48 @@ namespace LanAdept.Views.Tournament.ModelController
 
             return RedirectToAction("Details", new { id = model.TournamentID });
         }
+
+		#region Team Management
+		[Authorize]
+		public ActionResult DetailsTeam(int? teamId)
+		{
+			if (teamId == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+
+			DetailsTeamModel team = new DetailsTeamModel(uow.TeamRepository.GetByID(teamId));
+
+			if (team == null)
+			{
+				return HttpNotFound();
+			}
+
+			return View(team);
+		}
+
+		[Authorize]
+		public ActionResult KickPlayer(int? gamerTagId, int? teamId)
+		{
+			GamerTag gamerTag = uow.GamerTagRepository.GetByID(gamerTagId);
+			Team team = uow.TeamRepository.GetByID(teamId);
+
+			if (team.TeamLeaderTag == gamerTag || team.GamerTags.Count == 1)
+			{
+				TempData["ErrorMessage"] = "Vous ne pouvez pas kicker le team leader.";
+				return RedirectToAction("DetailsTeam", new { id = teamId });
+			}
+			else
+			{
+				team.GamerTags.Remove(gamerTag);
+
+				uow.TeamRepository.Update(team);
+				uow.GamerTagRepository.Update(gamerTag);
+				uow.Save();
+			}
+
+			return RedirectToAction("DetailsTeam", new { id = teamId });
+		}
+		#endregion
 	}
 }

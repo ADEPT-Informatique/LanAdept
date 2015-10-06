@@ -11,9 +11,6 @@ using LanAdeptData.Model;
 using System.IO;
 using System.Web.UI;
 using System.Text;
-using iTextSharp;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
@@ -133,13 +130,6 @@ namespace LanAdept.Controllers
 		[Authorize]
 		public ActionResult CreateTicket()
 		{
-			MaPlaceModel model = new MaPlaceModel();
-			model.reservation = UserService.GetLoggedInUser().LastReservation;
-			model.setting = LanAdeptData.DAL.UnitOfWork.Current.SettingRepository.GetCurrentSettings();
-			//string html = RenderViewToString(ControllerContext, "~/Views/Place/DownloadFilePDFPartiel.cshtml", model, true);
-			//string css = System.IO.File.ReadAllText(Server.MapPath("~/Content/PDF.css"));
-			//CreateFilePDF(html, css);
-			CreatePDF(model);
 			return View("MaPlace");
 		}
 
@@ -181,41 +171,41 @@ namespace LanAdept.Controllers
 			return result;
 		}
 
-		private void CreatePDF(MaPlaceModel model)
-		{
-			MemoryStream ms = new MemoryStream();
-			Document doc = new Document(iTextSharp.text.PageSize.A4, 30f, 30f, 30f, 30f);
-			PdfWriter writer = PdfWriter.GetInstance(doc, ms);
+        //private void CreatePDF(MaPlaceModel model)
+        //{
+        //    MemoryStream ms = new MemoryStream();
+        //    Document doc = new Document(iTextSharp.text.PageSize.A4, 30f, 30f, 30f, 30f);
+        //    PdfWriter writer = PdfWriter.GetInstance(doc, ms);
 
-			doc.AddTitle("Ticket PDF");
-			doc.AddSubject("Ticket for the lan");
-			doc.AddKeywords("Ticket, Billet, Lan, Adept");
-			doc.AddCreator("LanAdept Website");
-			doc.AddAuthor("LanAdept");
-			doc.AddHeader("Nothing", "No Header");
+        //    doc.AddTitle("Ticket PDF");
+        //    doc.AddSubject("Ticket for the lan");
+        //    doc.AddKeywords("Ticket, Billet, Lan, Adept");
+        //    doc.AddCreator("LanAdept Website");
+        //    doc.AddAuthor("LanAdept");
+        //    doc.AddHeader("Nothing", "No Header");
 
-			string fontpath = Server.MapPath("../fonts/code128.ttf");
-			BaseFont customfont = BaseFont.CreateFont(fontpath, BaseFont.CP1252, BaseFont.EMBEDDED);
-			iTextSharp.text.Font code128 = new iTextSharp.text.Font(customfont, 36);
+        //    string fontpath = Server.MapPath("../fonts/code128.ttf");
+        //    BaseFont customfont = BaseFont.CreateFont(fontpath, BaseFont.CP1252, BaseFont.EMBEDDED);
+        //    iTextSharp.text.Font code128 = new iTextSharp.text.Font(customfont, 36);
 
-			doc.Open();
+        //    doc.Open();
 
-			Paragraph nameInfo = new Paragraph("Votre nom: " + model.reservation.User.CompleteName);
-			nameInfo.IndentationLeft = 100.0f;
-			doc.Add(nameInfo);
+        //    Paragraph nameInfo = new Paragraph("Votre nom: " + model.reservation.User.CompleteName);
+        //    nameInfo.IndentationLeft = 100.0f;
+        //    doc.Add(nameInfo);
 
-			Paragraph barcode = new Paragraph(model.reservation.User.Barcode, code128);
-			barcode.Alignment = Element.ALIGN_CENTER;
-			doc.Add(barcode);
+        //    Paragraph barcode = new Paragraph(model.reservation.User.Barcode, code128);
+        //    barcode.Alignment = Element.ALIGN_CENTER;
+        //    doc.Add(barcode);
 
-			Paragraph barcodeNumber = new Paragraph(model.reservation.User.Barcode);
-			barcodeNumber.Alignment = Element.ALIGN_CENTER;
-			doc.Add(barcodeNumber);
+        //    Paragraph barcodeNumber = new Paragraph(model.reservation.User.Barcode);
+        //    barcodeNumber.Alignment = Element.ALIGN_CENTER;
+        //    doc.Add(barcodeNumber);
 
-			doc.Close();
+        //    doc.Close();
 
-			SendPdf(ms.ToArray());
-		}
+        //    SendPdf(ms.ToArray());
+        //}
 
 		//private void CreateFilePDF(string html, string css)
 		//{

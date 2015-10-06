@@ -5,11 +5,13 @@ From: DoNotReply@lanadept.com
 Subject: Inscription au LAN de l'Adept
 
 
-Bonjour,
+Bonjour, @Html.Raw(Model.User.CompleteName)
 
-Merci pour votre inscription au LAN, @Model.User.CompleteName
+Merci pour votre inscription au LAN!
 
 Pour terminer votre inscription, vous devez confirmer votre compte en visitant le lien suivant:
 @Url.Action("Confirm", "Auth", new { id = @Model.User.Barcode }, "http")
+
+Par la suite, vous pourrez réserver une place en cliquant sur celle-ci dans la liste des places.
 
 Bon LAN!
