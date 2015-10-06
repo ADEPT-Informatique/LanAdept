@@ -44,7 +44,9 @@ namespace LanAdept.Views.Tournament.ModelController
             User user = UserService.GetLoggedInUser();
             if (user != null)
             {
+                tournamentModel.IsConnected = true;
                 tournamentModel.GamerTags = uow.GamerTagRepository.GetByUser(user);
+                tournamentModel.UserTeam = uow.TeamRepository.UserTeamInTournament(user, tournament);
             }
 
             return View(tournamentModel);
@@ -57,8 +59,6 @@ namespace LanAdept.Views.Tournament.ModelController
             team.Tournament = uow.TournamentRepository.GetByID(id);
             team.TournamentID = team.Tournament.TournamentID;
             team.GamerTags = uow.GamerTagRepository.GetByUser(UserService.GetLoggedInUser());
-            //IEnumerable<GamerTag> gamerTags = uow.GamerTagRepository.GetByUser(UserService.GetLoggedInUser());
-            //team.LeaderTags = new SelectList(gamerTags, "GamerTagID", "Gamertag");
             return View(team);
         }
 

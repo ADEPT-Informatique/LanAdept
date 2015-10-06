@@ -25,6 +25,10 @@ namespace LanAdept.Views.Tournament.ModelController
 
         public IEnumerable<GamerTag> GamerTags { get; set; }
 
+        public bool IsConnected { get; set; }
+
+        public Team UserTeam { get; set; }
+
 		public TournamentModel()
 		{
 
