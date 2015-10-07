@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Reservation>
+
+<h4>Résultats</h4>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Nom complet</th>
+			<th>Email</th>
+		</tr>
+	</thead>
+	<tbody>
+
+		@foreach (Reservation reservation in Model)
+		{
+			<tr class="vertical-align clickable-row" data-row-url="@Url.Action("Details", new { id = reservation.Place.PlaceID })">
+				<td>@reservation.UserCompleteName</td>
+				<td>@(reservation.IsGuest ? "--" : reservation.User.Email)</td>
+			</tr>
+		}
+	</tbody>
+</table>

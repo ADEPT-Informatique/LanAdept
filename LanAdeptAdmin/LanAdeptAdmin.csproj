@@ -271,7 +271,7 @@
     <Content Include="Views\Place\Search.cshtml" />
     <Content Include="Views\General\Rules.cshtml" />
     <Content Include="Views\Emails\Web.config" />
-    <Content Include="Views\Place\Partial\ListUserFoundPartial.cshtml" />
+    <Content Include="Views\Place\Partial\ListReservationFoundPartial.cshtml" />
     <Content Include="Views\Place\Reserve.cshtml" />
     <Content Include="Views\Tournaments\DeleteTeam.cshtml" />
     <Content Include="Views\Tournaments\Shared\UserList.cshtml" />

@@ -29,7 +29,7 @@
 
 <div>
 	<div class="form-horizontal">
-		@using (Html.BeginForm())
+		@using (Html.BeginForm("Search", "Place", FormMethod.Get))
 		{
 			<div class="form-group">
 				<div class="col-md-6">
@@ -56,10 +56,10 @@
 		</a>
 	</div>
 
-	@if (Model.FoundUsers)
+	@if (Model.FoundReservation)
 	{
 		<hr />
-		@Html.Partial("ListUserFoundPartial", Model.UsersFound)
+		@Html.Partial("ListReservationFoundPartial", Model.ReservationsFound)
 	}
 </div>
 

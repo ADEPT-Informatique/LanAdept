@@ -28,8 +28,9 @@ namespace LanAdeptData.DAL.Users
 		}
 
 		public User GetUserByBarCode(string barcode)
-        {
+		{
 			return Get().Where(model => model.Barcode == barcode).FirstOrDefault();
-        }
+		}
+
 	}
 }

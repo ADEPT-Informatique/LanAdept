@@ -12,16 +12,16 @@ namespace LanAdeptAdmin.Views.Places.ModelController
 		[StringLength(int.MaxValue, MinimumLength=1)]
 		public string Query { get; set; }
 
-		public IEnumerable<User> UsersFound { get; set; }
+		public IEnumerable<Reservation> ReservationsFound { get; set; }
 
-		public bool FoundUsers
+		public bool FoundReservation
 		{
-			get { return UsersFound != null && UsersFound.Count() > 0; }
+			get { return ReservationsFound != null && ReservationsFound.Count() > 0; }
 		}
 
 		public SearchModel()
 		{
-			UsersFound = new List<User>();
+			ReservationsFound = new List<Reservation>();
 		}
 	}
 }
