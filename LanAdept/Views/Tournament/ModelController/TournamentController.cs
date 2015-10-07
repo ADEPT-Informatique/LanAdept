@@ -11,6 +11,7 @@ namespace LanAdept.Views.Tournament.ModelController
 {
 	public class TournamentController : Controller
 	{
+#if DEBUG
 		UnitOfWork uow = UnitOfWork.Current;
 
 		[AllowAnonymous]
@@ -207,5 +208,20 @@ namespace LanAdept.Views.Tournament.ModelController
 			return RedirectToAction("DetailsTeam", new { id = teamId });
 		}
 		#endregion
+
+#endif
+#if RELEASE
+		[AllowAnonymous]
+		public ActionResult Index()
+		{
+			List<TournamentModel> tournamentModels = new List<TournamentModel>();
+			IEnumerable<LanAdeptData.Model.Tournament> tournaments = uow.TournamentRepository.Get();
+			foreach (LanAdeptData.Model.Tournament tournament in tournaments)
+			{
+				tournamentModels.Add(new TournamentModel(tournament));
+			}
+			return View(tournamentModels);
+		}
+#endif
 	}
 }
