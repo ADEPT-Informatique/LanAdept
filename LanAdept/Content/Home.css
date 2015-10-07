@@ -98,3 +98,7 @@
 	animation-iteration-count: infinite; 
 	animation-timing-function: linear;
 }
+
+.countdown {
+	margin-bottom: 25px;
+}
