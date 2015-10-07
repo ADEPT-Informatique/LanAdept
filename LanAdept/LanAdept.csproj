@@ -216,6 +216,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Properties\PublishProfiles\LanAdept Test.pubxml" />
     <None Include="Properties\PublishProfiles\LanAdept.pubxml" />
+    <None Include="Properties\PublishProfiles\LanAdeptPRODPROD.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Image\scissors.png" />
     <Content Include="Scripts\bootstrap.js" />

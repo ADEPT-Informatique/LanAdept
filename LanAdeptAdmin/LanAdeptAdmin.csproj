@@ -169,7 +169,6 @@
     <Content Include="Content\login.css" />
     <Content Include="Content\Map.css" />
     <Content Include="Content\PagedList.css" />
-    <Content Include="Content\Place.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -178,6 +177,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Images\Favicon\manifest.json" />
+    <None Include="Properties\PublishProfiles\LanAdeptAdmin ProdProd.pubxml" />
     <None Include="Properties\PublishProfiles\LanAdeptAdmin.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Images\Favicon\android-chrome-144x144.png" />

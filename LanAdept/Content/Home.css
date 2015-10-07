@@ -52,7 +52,11 @@
 }
 
 .home-image {
-    width: 50%;
+    width: 65%;
+}
+
+.jumbotron {
+	margin-bottom: 0;
 }
 
 /* Easter egg de Marco */

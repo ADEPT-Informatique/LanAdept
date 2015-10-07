@@ -76,6 +76,17 @@
     margin: 2px;
 }
 
+.place a {
+	display: block;
+	color: #000;
+}
+.place a:hover {
+	text-decoration: none;
+}
+.place a:focus {
+	text-decoration: none;
+	outline: 0;
+}
 .row:nth-child(1) {
     padding-bottom: 25px;
 }

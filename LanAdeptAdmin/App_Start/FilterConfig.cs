@@ -9,6 +9,7 @@ namespace LanAdeptAdmin
 		public static void RegisterGlobalFilters(GlobalFilterCollection filters)
 		{
 			filters.Add(new HandleErrorAttribute());
+			filters.Add(new AuthenticationVerificationAttribute());
 
 			#if DEBUG
 				filters.Add(new AuthorizationRequiredAttribute());

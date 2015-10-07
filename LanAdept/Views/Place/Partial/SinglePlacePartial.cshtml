@@ -22,13 +22,13 @@
 	bool userHaveAPlace = LanAdeptCore.Service.ReservationService.HasUserPlace();
 }
 
-<div class="@classFirstDiv" data-toggle=" popover" data-trigger="focus" title="Dismissible popover" data-content="And here's some amazing content. It's very engaging. Right?">
+<div class="@classFirstDiv">
 	@if (Html.HasActionPermission("Reserver")
 		&& Model.IsFree
 		&& !userHaveAPlace
 		&& !ViewBag.Settings.IsLanStarted)
 	{
-		<div class="hover" data-toggle="modal" data-target="#ModalReserverPlace" data-place-text="@Model" data-place-id="@Model.PlaceID">
+		<div class="hover" data-toggle="modal" data-target="#ModalReserverPlace" data-trigger="focus" data-place-text="@Model" data-place-id="@Model.PlaceID">
 			@Model
 		</div>
 	}
@@ -49,8 +49,17 @@
 	}
 	else
 	{
-		<div>
-			@Model
-		</div>
+		if (!Model.IsFree)
+		{
+			<a data-toggle="popover" data-content="@Model.LastReservation.UserCompleteName" href="#" data-trigger="focus">
+				@Model
+			</a>
+		}
+		else
+		{
+			<div>
+				@Model
+			</div>
+		}
 	}
 </div>

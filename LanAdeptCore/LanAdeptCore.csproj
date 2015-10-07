@@ -77,6 +77,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attribute\Authorization\AuthenticationVerificationAttribute.cs" />
     <Compile Include="Attribute\Authorization\AuthorizationRequiredAttribute.cs" />
     <Compile Include="Attribute\Authorization\AuthorizeGuestOnlyAttribute.cs" />
     <Compile Include="Attribute\Authorization\AuthorizePermissionAttribute.cs" />
