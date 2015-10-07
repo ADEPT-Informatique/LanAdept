@@ -6155,7 +6155,8 @@ button.close {
   left: 0;
   z-index: 1060;
   display: none;
-  max-width: 576px;
+  max-width: 300px;
+  min-width: 125px;
   padding: 1px;
   font-family: "Source Sans Pro", Calibri, Candara, Arial, sans-serif;
   font-style: normal;
