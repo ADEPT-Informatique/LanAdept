@@ -14,6 +14,7 @@ using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
+using LanAdeptCore.Attribute.Authorization;
 
 namespace LanAdept.Controllers
 {
@@ -45,7 +46,7 @@ namespace LanAdept.Controllers
 			return View(listeModel);
 		}
 
-		[Authorize]
+		[AuthorizePermission("user.place.reserver")]
 		public ActionResult Reserver(int? id)
 		{
 			if (id == null || id < 1)
@@ -84,7 +85,7 @@ namespace LanAdept.Controllers
 			return RedirectToAction("MaPlace");
 		}
 
-		[Authorize]
+		[AuthorizePermission("user.place.maPlace")]
 		public ActionResult MaPlace()
 		{
 			if (!ReservationService.HasUserPlace())
@@ -100,7 +101,7 @@ namespace LanAdept.Controllers
 			return View(model);
 		}
 
-		[Authorize]
+		[AuthorizePermission("user.place.cancel")]
 		public ActionResult Annuler()
 		{
 			if (!ReservationService.HasUserPlace())
@@ -127,13 +128,7 @@ namespace LanAdept.Controllers
 			return RedirectToAction("Liste");
 		}
 
-		//[Authorize]
-		//public ActionResult CreateTicket()
-		//{
-		//	return View("MaPlace");
-		//}
-
-		[AllowAnonymous]
+		[AuthorizePermission("user.place.getBarcode")]
 		public ActionResult GetBarcode(string id)
 		{
 			id = "(" + id + ")";

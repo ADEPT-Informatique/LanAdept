@@ -9,7 +9,7 @@
 			@using (Html.BeginForm("Register", "Auth", FormMethod.Post))
 			{
 				<div class="col-sm-5 col-md-6">
-
+					@Html.AntiForgeryToken()
 					<h3>Inscription</h3>
 
 					<div id="subLeftCol" class="clearfix">

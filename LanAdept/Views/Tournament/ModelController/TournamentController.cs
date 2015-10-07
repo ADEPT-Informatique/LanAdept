@@ -5,6 +5,7 @@ using System.Net;
 using LanAdeptData.Model;
 using LanAdeptCore.Service;
 using System.Data;
+using LanAdeptCore.Attribute.Authorization;
 
 namespace LanAdept.Views.Tournament.ModelController
 {
@@ -52,7 +53,7 @@ namespace LanAdept.Views.Tournament.ModelController
             return View(tournamentModel);
 		}
 
-        [Authorize]
+		[AuthorizePermission("user.tournament.team.add")]
         public ActionResult Addteam(int id)
         {
             AddTeamModel team = new AddTeamModel();
@@ -62,7 +63,7 @@ namespace LanAdept.Views.Tournament.ModelController
             return View(team);
         }
 
-        [Authorize]
+		[AuthorizePermission("user.tournament.team.add")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Addteam(AddTeamModel teamModel)
@@ -109,7 +110,7 @@ namespace LanAdept.Views.Tournament.ModelController
             return View(teamModel);
         }
 
-        [Authorize]
+		[AuthorizePermission("user.tournament.gamertag.add")]
         public ActionResult AddGamerTag(string gamertag)
         {
             User user = UserService.GetLoggedInUser();
@@ -129,7 +130,7 @@ namespace LanAdept.Views.Tournament.ModelController
             return Json(new GamerTagResponse() { HasError = true, ErrorMessage = "Vous avez déja un GamerTag avec ce nom", GamerTagID = 0, Gamertag = gamertag }, JsonRequestBehavior.AllowGet); ;
         }
 
-        [Authorize]
+		[AuthorizePermission("user.tournament.team.join")]
         public ActionResult JoinTeam(JoinTeamModel model)
         {
             if (model.GamerTagID == null || model.TournamentID == null || model.TeamID == null )
@@ -165,7 +166,7 @@ namespace LanAdept.Views.Tournament.ModelController
         }
 
 		#region Team Management
-		[Authorize]
+		[AuthorizePermission("user.tournament.team.details")]
 		public ActionResult DetailsTeam(int? teamId)
 		{
 			if (teamId == null)
@@ -183,7 +184,7 @@ namespace LanAdept.Views.Tournament.ModelController
 			return View(team);
 		}
 
-		[Authorize]
+		[AuthorizePermission("user.tournament.team.kick")]
 		public ActionResult KickPlayer(int? gamerTagId, int? teamId)
 		{
 			GamerTag gamerTag = uow.GamerTagRepository.GetByID(gamerTagId);

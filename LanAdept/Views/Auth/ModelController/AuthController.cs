@@ -31,6 +31,7 @@ namespace LanAdept.Controllers
 
 		[HttpPost]
 		[AuthorizeGuestOnly]
+		[ValidateAntiForgeryToken]
 		public async Task<ActionResult> Login(LoginModel loginInfo)
 		{
 			if (ModelState.IsValid)
@@ -67,6 +68,7 @@ namespace LanAdept.Controllers
 
 		[HttpPost]
 		[AuthorizeGuestOnly]
+		[ValidateAntiForgeryToken]
 		public ActionResult Register(RegisterModel model)
 		{
 			if (ModelState.IsValid)

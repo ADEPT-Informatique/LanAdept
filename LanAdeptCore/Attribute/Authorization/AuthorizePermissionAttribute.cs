@@ -40,8 +40,6 @@ namespace LanAdeptCore.Attribute.Authorization
 				if (permissionToCheck.MinimumRoleLevel > 0)
 				{ 
 					// If is a guest and is not permitted
-					UrlHelper url = new UrlHelper(filterContext.RequestContext);
-					string signInUrl = url.Action("Login", "Auth", new { ReturnUrl = filterContext.HttpContext.Request.UrlReferrer });
 					filterContext.Result = new RedirectResult(FormsAuthentication.LoginUrl);
 				}
 				return;
@@ -51,7 +49,7 @@ namespace LanAdeptCore.Attribute.Authorization
 			if (user == null || permissionToCheck.MinimumRoleLevel > user.Role.PermissionLevel)
 			{ 
 				// If user is not found or user does not have permission
-				filterContext.Result = new HttpStatusCodeResult(HttpStatusCode.Forbidden, "You do not have access to this page!");
+				filterContext.Result = new HttpStatusCodeResult(HttpStatusCode.Forbidden, "Vous n'avez pas accès à cette page.");
 			}
 		}
 	}
