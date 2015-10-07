@@ -58,17 +58,27 @@ namespace LanAdeptCore.Service
 				return new TryLoginResult() { HasSucceeded = false, Reason = ERROR_MESSAGE_UNCONFIRMED_LOGIN };
 
 			// À partir de ce point, la connexion est réussie
-			realUser.LoginHistories.Add(UnitOfWork.Current.LoginHistoryRepository.CreateHistoryFor(realUser));
-			UnitOfWork.Current.UserRepository.Update(realUser);
-			UnitOfWork.Current.Save();
+			DoLogin(realUser, rememberUser);
 
-			// Set le cookie de connexion avec un long timeout si le user veux rester connecté
-			int timeout = rememberUser ? 525600 : 30; //525600 = 1 an
-			var ticket = new FormsAuthenticationTicket(realUser.Email, rememberUser, timeout);
-			string encrypted = FormsAuthentication.Encrypt(ticket);
-			var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encrypted);
-			cookie.Expires = System.DateTime.Now.AddMinutes(timeout);//My Line
-			HttpContext.Current.Response.Cookies.Add(cookie);			
+			return new TryLoginResult() { HasSucceeded = true, User = realUser };
+		}
+
+		public static TryLoginResult TryLoginAdmin(string email, string password)
+		{
+			User realUser = UnitOfWork.Current.UserRepository.GetUserByEmail(email);
+			if (realUser == null)
+				return new TryLoginResult() { HasSucceeded = false, Reason = ERROR_MESSAGE_INVALID_LOGIN };
+
+			string hashedInputPassword = HashPassword(password, realUser.Salt);
+
+			if (realUser.Password != hashedInputPassword)
+				return new TryLoginResult() { HasSucceeded = false, Reason = ERROR_MESSAGE_INVALID_LOGIN };
+
+			if (realUser.Role.PermissionLevel < UnitOfWork.Current.PermissionRepository.GetPermissionByName("admin.login").MinimumRoleLevel)
+				return new TryLoginResult() { HasSucceeded = false, Reason = ERROR_MESSAGE_INVALID_LOGIN };
+
+			// À partir de ce point, la connexion est réussie
+			DoLogin(realUser, false);
 
 			return new TryLoginResult() { HasSucceeded = true, User = realUser };
 		}
@@ -127,6 +137,21 @@ namespace LanAdeptCore.Service
 			csprng.GetBytes(salt);
 
 			return Convert.ToBase64String(salt);
+		}
+
+		private static void DoLogin(User user, bool remember)
+		{
+			user.LoginHistories.Add(UnitOfWork.Current.LoginHistoryRepository.CreateHistoryFor(user));
+			UnitOfWork.Current.UserRepository.Update(user);
+			UnitOfWork.Current.Save();
+
+			// Set le cookie de connexion avec un long timeout si le user veux rester connecté
+			int timeout = remember ? 525600 : 30; //525600 = 1 an
+			var ticket = new FormsAuthenticationTicket(user.Email, remember, timeout);
+			string encrypted = FormsAuthentication.Encrypt(ticket);
+			var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encrypted);
+			cookie.Expires = System.DateTime.Now.AddMinutes(timeout);//My Line
+			HttpContext.Current.Response.Cookies.Add(cookie);
 		}
 	}
 }

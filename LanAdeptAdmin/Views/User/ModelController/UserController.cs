@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using LanAdeptAdmin.Views.Users.ModelController;
+using LanAdeptCore.Attribute.Authorization;
 using LanAdeptData.DAL;
 using LanAdeptData.Model;
 using PagedList;
@@ -19,7 +20,7 @@ namespace LanAdeptAdmin.Controllers
 
 		UnitOfWork uow = UnitOfWork.Current;
 
-		[Authorize]
+		[AuthorizePermission("admin.user.index")]
 		public ActionResult Index(int? page)
         {
 			int currentPage = page ?? 1;
@@ -28,7 +29,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(users.ToPagedList(currentPage, 10));
         }
 
-		[Authorize]
+		[AuthorizePermission("admin.user.details")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -43,7 +44,7 @@ namespace LanAdeptAdmin.Controllers
             return View(user);
         }
 
-		[Authorize]
+		[AuthorizePermission("admin.user.edit")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -63,7 +64,7 @@ namespace LanAdeptAdmin.Controllers
         }
 
         [HttpPost]
-		[Authorize]
+		[AuthorizePermission("admin.user.edit")]
         [ValidateAntiForgeryToken]
 		public ActionResult Edit([Bind(Include = "UserID,CompleteName,RoleID")] EditModel model)
         {
@@ -97,7 +98,7 @@ namespace LanAdeptAdmin.Controllers
         }
 
 #if DEBUG
-		[Authorize]
+		[AuthorizePermission("admin.user.delete")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -114,7 +115,7 @@ namespace LanAdeptAdmin.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-		[Authorize]
+		[AuthorizePermission("admin.user.delete")]
         public ActionResult DeleteConfirmed(int id)
         {
 			User user = uow.UserRepository.GetByID(id);

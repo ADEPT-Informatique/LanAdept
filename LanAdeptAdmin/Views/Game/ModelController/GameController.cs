@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using LanAdeptCore.Attribute.Authorization;
 
 namespace LanAdeptAdmin.Views.Games.ModelController
 {
@@ -14,7 +15,7 @@ namespace LanAdeptAdmin.Views.Games.ModelController
 	{
 		UnitOfWork uow = UnitOfWork.Current;
 
-		[Authorize]
+		[AuthorizePermission("admin.game.index")]
 		public ActionResult Index()
 		{
 			List<GameModel> gameModels = new List<GameModel>();
@@ -26,7 +27,7 @@ namespace LanAdeptAdmin.Views.Games.ModelController
 			return View(gameModels);
 		}
 
-		[Authorize]
+		[AuthorizePermission("admin.game.details")]
 		public ActionResult Details(int? id)
 		{
 			if (id == null)
@@ -41,13 +42,13 @@ namespace LanAdeptAdmin.Views.Games.ModelController
 			return View(game);
 		}
 
-		[Authorize]
+		[AuthorizePermission("admin.game.create")]
 		public ActionResult Create()
 		{
 			return View();
 		}
 
-		[Authorize]
+		[AuthorizePermission("admin.game.create")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create([Bind(Include = "GameID, Name, Description")] GameModel gameModel)
@@ -68,7 +69,7 @@ namespace LanAdeptAdmin.Views.Games.ModelController
 			return View(gameModel);
 		}
 
-		[Authorize]
+		[AuthorizePermission("admin.game.edit")]
 		public ActionResult Edit(int? id)
 		{
 			if (id == null)
@@ -85,7 +86,7 @@ namespace LanAdeptAdmin.Views.Games.ModelController
 			return View(game);
 		}
 
-		[Authorize]
+		[AuthorizePermission("admin.game.edit")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit([Bind(Include = "GameID, Name, Description")] GameModel gameModel)
@@ -105,7 +106,7 @@ namespace LanAdeptAdmin.Views.Games.ModelController
 			return View(gameModel);
 		}
 
-		[Authorize]
+		[AuthorizePermission("admin.game.delete")]
 		public ActionResult Delete(int? id)
 		{
 			if (id == null)
@@ -120,7 +121,7 @@ namespace LanAdeptAdmin.Views.Games.ModelController
 			return View(game);
 		}
 
-		[Authorize]
+		[AuthorizePermission("admin.game.delete")]
 		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteConfirmed(int id)

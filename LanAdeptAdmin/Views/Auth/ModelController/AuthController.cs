@@ -30,11 +30,12 @@ namespace LanAdept.Controllers
 
 		[HttpPost]
 		[AuthorizeGuestOnly]
+		[ValidateAntiForgeryToken]
 		public async Task<ActionResult> Login(LoginModel loginInfo)
 		{
 			if (ModelState.IsValid)
 			{
-				TryLoginResult realUser = UserService.TryLogin(loginInfo.Email, loginInfo.Password, false);
+				TryLoginResult realUser = UserService.TryLoginAdmin(loginInfo.Email, loginInfo.Password);
 
 				if (realUser.HasSucceeded) {
 					return RedirectToReturnUrl(loginInfo.ReturnURL);

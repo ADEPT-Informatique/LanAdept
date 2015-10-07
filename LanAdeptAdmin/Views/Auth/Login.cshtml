@@ -6,6 +6,8 @@
 @using (Html.BeginForm("Login", "Auth", FormMethod.Post, new { @class = "form-login" }))
 {
 	<h2 class="form-login-heading">Connexion</h2>
+	@Html.AntiForgeryToken()
+	
 	@Html.ValidationSummary("", new { @class = "text-danger" })
 
 	@Html.LabelFor(model => model.Email, new { @class = "sr-only" })

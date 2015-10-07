@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using LanAdeptAdmin.Views.Places.ModelController;
+using LanAdeptCore.Attribute.Authorization;
 using LanAdeptCore.Service;
 using LanAdeptCore.Service.ServiceResult;
 using LanAdeptData.DAL;
@@ -20,13 +21,13 @@ namespace LanAdeptAdmin.Controllers
 
 		private UnitOfWork uow = UnitOfWork.Current;
 
-		[Authorize]
+		[AuthorizePermission("admin.place.list")]
 		public ActionResult Index()
 		{
 			return RedirectToAction("Liste");
 		}
 
-		[Authorize]
+		[AuthorizePermission("admin.place.list")]
 		public ActionResult Liste()
 		{
 			ListeModel listeModel = new ListeModel();
@@ -36,7 +37,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(listeModel);
 		}
 
-		[Authorize]
+		[AuthorizePermission("admin.place.details")]
 		public ActionResult Details(int? id, string sortOrder, string searchString, string currentFilter, int? page)
 		{
 			if (id == null || id < 1)
@@ -97,7 +98,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(place);
 		}
 
-		[Authorize]
+		[AuthorizePermission("admin.place.search")]
 		public ActionResult Search(SearchModel model)
 		{
 			if (ModelState.IsValid && model.Query != null)
@@ -145,7 +146,7 @@ namespace LanAdeptAdmin.Controllers
 		}
 
 
-		[Authorize]
+		[AuthorizePermission("admin.place.reserve")]
 		public ActionResult Reserve(int? id)
 		{
 			if (id == null || id < 1)
@@ -192,7 +193,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(model);
 		}
 
-		[Authorize]
+		[AuthorizePermission("admin.place.reserve")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]	//Le code de cette action est affreux
 		public ActionResult Reserve([Bind(Include = "PlaceID,UserID,IsGuest,Place,FullNameNoAccount")] ReserveModel model)
@@ -276,7 +277,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(model);
 		}
 
-		[Authorize]
+		[AuthorizePermission("admin.place.cancel")]
 		public ActionResult Cancel(int? id)
 		{
 			if (id == null || id < 1)
@@ -310,7 +311,7 @@ namespace LanAdeptAdmin.Controllers
 		}
 
 
-		[Authorize]
+		[AuthorizePermission("admin.place.arriving")]
 		public ActionResult Arriving(int? id)
 		{
 			if (id == null || id < 1)
@@ -345,7 +346,7 @@ namespace LanAdeptAdmin.Controllers
 			return RedirectToAction("Details", new { id = currentPlace.PlaceID });
 		}
 
-		[Authorize]
+		[AuthorizePermission("admin.place.leaving")]
 		public ActionResult Leaving(int? id)
 		{
 			if (id == null || id < 1)

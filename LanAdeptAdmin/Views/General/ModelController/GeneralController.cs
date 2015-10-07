@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using LanAdeptAdmin.Views.General.ModelController;
+using LanAdeptCore.Attribute.Authorization;
 using LanAdeptData.DAL;
 using LanAdeptData.Model;
 
@@ -13,13 +14,13 @@ namespace LanAdeptAdmin.Controllers
 	{
 		UnitOfWork uow = UnitOfWork.Current;
 
-		[Authorize]
+		[AuthorizePermission("admin.general.settings")]
 		public ActionResult Index()
 		{
 			return RedirectToAction("Settings");
 		}
 
-		[Authorize]
+		[AuthorizePermission("admin.general.settings")]
 		public ActionResult Settings()
 		{
 			Setting settings = uow.SettingRepository.GetCurrentSettings();
@@ -28,7 +29,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(settingsModel);
 		}
 
-		[Authorize]
+		[AuthorizePermission("admin.general.settings")]
 		[HttpPost]
 		public ActionResult Settings(SettingsModel model)
 		{
@@ -49,7 +50,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(model);
 		}
 
-		[Authorize]
+		[AuthorizePermission("admin.general.rules")]
 		public ActionResult Rules()
 		{
 			Setting settings = uow.SettingRepository.GetCurrentSettings();
@@ -59,7 +60,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(rulesModel);
 		}
 
-		[Authorize]
+		[AuthorizePermission("admin.general.rules")]
 		[HttpPost]
 		public ActionResult Rules(RulesModel model)
 		{
@@ -77,7 +78,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(model);
 		}
 
-		[Authorize]
+		[AuthorizePermission("admin.general.description")]
 		public ActionResult Description()
 		{
 			Setting settings = uow.SettingRepository.GetCurrentSettings();
@@ -87,7 +88,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(descriptionModel);
 		}
 
-		[Authorize]
+		[AuthorizePermission("admin.general.description")]
 		[HttpPost]
 		public ActionResult Description(DescriptionModel model)
 		{
@@ -105,7 +106,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(model);
 		}
 
-		[Authorize]
+		[AuthorizePermission("admin.general.rememberEmail")]
 		public ActionResult RememberEmail()
 		{
 			Setting settings = uow.SettingRepository.GetCurrentSettings();
@@ -115,7 +116,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(rememberMailModel);
 		}
 
-		[Authorize]
+		[AuthorizePermission("admin.general.rememberEmail")]
 		[HttpPost]
 		public ActionResult RememberEmail(RememberEmailModel model)
 		{

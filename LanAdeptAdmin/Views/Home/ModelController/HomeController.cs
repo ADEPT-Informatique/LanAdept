@@ -1,10 +1,11 @@
 ﻿using System.Web.Mvc;
+using LanAdeptCore.Attribute.Authorization;
 
 namespace LanAdeptAdmin.Controllers
 {
 	public class HomeController : Controller
 	{
-		[Authorize]
+		[AuthorizePermission("admin.home.index")]
 		public ActionResult Index()
 		{
 			return View();

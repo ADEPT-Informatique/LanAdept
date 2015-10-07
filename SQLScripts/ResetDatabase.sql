@@ -62,7 +62,7 @@ INSERT INTO [dbo].[Permissions] (Name, Description, MinimumRoleLevel, IsReadOnly
 			,('user.tournament.team.kick', 'Exclure un membre d''une équipe', @User, 0)
 
 			/* Section des permissions pour le site admin side */
-			,('admin.login', 'Afficher la liste des jeux', @AdminTourn, 0)
+			,('admin.login', 'Connexion au panneau d''admin', @AdminTourn, 0)
 
 			,('admin.game.index', 'Afficher la liste des jeux', @AdminTourn, 0)
 			,('admin.game.details', 'Afficher les détails d''un jeu', @AdminTourn, 0)
@@ -98,7 +98,7 @@ INSERT INTO [dbo].[Permissions] (Name, Description, MinimumRoleLevel, IsReadOnly
 			,('admin.user.index', 'Liste des utilisateurs', @AdminTourn, 0)
 			,('admin.user.details', 'Détails d''un utilisateur', @AdminTourn, 0)
 			,('admin.user.edit', 'Modifier un utilisateur', @AdminPlace, 0)
-			,('admin.user.edit', 'Supprimer un utilisateur', @AdminPlace, 0)
+			,('admin.user.delete', 'Supprimer un utilisateur', @AdminPlace, 0)
 
 /* ============================================== *
  *			Insertion des paramètres			  *
