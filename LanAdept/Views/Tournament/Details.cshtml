@@ -20,7 +20,6 @@
 		}
 	</div>
 
-
 	<h4>Teams</h4>
 
 	@using (Html.BeginForm("JoinTeam", "Tournament", new JoinTeamModel() { TournamentID = Model.TournamentID }))
@@ -95,12 +94,17 @@
 				$(this).addClass('teamActive');
 			})
 
-			$('.btnAjouter').click(function () {
-				$('#teamInput').val($('.teamActive').attr('data-team-id'));
-				$('#tagInput').val($('.active').attr('data-tag-id'));
-			})
-
 			$('.tagItem').click(selectGamerTag);
+
+			$('#actionButton').click(function (event) {
+			    if (!$('.tagItem').hasClass('active'))
+			        event.preventDefault();
+			    else {
+			        $(this).button('loading');
+			        $('#teamInput').val($('.teamActive').attr('data-team-id'));
+			        $('#tagInput').val($('.active').attr('data-tag-id'));
+			    }
+			})
 
 			$('.addGamertag').click(function (event) {
 				$.ajax({
@@ -126,7 +130,9 @@
 			function selectGamerTag() {
 				$('#GamerTagID').val($(this).attr('data-tag-id'));
 				$('.active').removeClass('active');
-				$(this).addClass('active')
+				$(this).addClass('active');
+				if ($('#actionButton').hasClass('disabled'))
+				    $('#actionButton').removeClass('disabled');
 			}
 		})
 	</script>
