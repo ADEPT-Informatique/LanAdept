@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using LanAdeptData.DAL;
 using LanAdeptData.Model;
@@ -13,10 +14,7 @@ namespace LanAdept.Controllers
 
 		public ActionResult Index()
 		{
-            int placesReservees = ((List<Reservation>)uow.ReservationRepository.Get(filter: r => r.CancellationDate == null)).Count;
-            int placesTotales = ((List<Place>)uow.PlaceRepository.Get()).Count;
-
-            ViewBag.PlacesLibres = placesTotales - placesReservees;
+			ViewBag.PlacesReservee = uow.PlaceRepository.Get().Count(x => !x.IsFree);
 
 			Setting settings = uow.SettingRepository.GetCurrentSettings();
 			DateTime dateLan = TimeZoneInfo.ConvertTimeToUtc(settings.StartDate);
