@@ -1,20 +1,30 @@
 USE LanAdept;
 GO
 
+
+
 /* "Nettoie" la base de donnée */
 
-EXEC sp_MSForEachTable 'DISABLE TRIGGER ALL ON ?'
+EXEC sp_MSForEachTable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__MigrationHistory]''),0))
+						ALTER TABLE ? NOCHECK CONSTRAINT ALL'
 GO
-EXEC sp_MSForEachTable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL'
+EXEC sp_MSForEachTable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__MigrationHistory]''),0))
+						DELETE FROM ?'
 GO
-EXEC sp_MSForEachTable 'DELETE FROM ?'
+EXEC sp_MSForEachTable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__MigrationHistory]''),0))
+						DBCC CHECKIDENT(''?'', RESEED, 0)'
 GO
-EXEC sp_MSForEachTable 'DBCC CHECKIDENT(''?'', RESEED, 0)'
+EXEC sp_MSForEachTable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__MigrationHistory]''),0))
+						ALTER TABLE ? CHECK CONSTRAINT ALL'
 GO
-EXEC sp_MSForEachTable 'ALTER TABLE ? CHECK CONSTRAINT ALL'
+
+IF EXISTS (SELECT name FROM sys.indexes WHERE name = N'IX_Permissions_Name') 
+    DROP INDEX IX_Permissions_Name ON [dbo].[Permissions]; 
 GO
-EXEC sp_MSForEachTable 'ENABLE TRIGGER ALL ON ?'
+CREATE NONCLUSTERED INDEX IX_Permissions_Name
+    ON [dbo].[Permissions] (Name); 
 GO
+
 
 /* ============================================== *
  *				Insertion des rôles				  *
