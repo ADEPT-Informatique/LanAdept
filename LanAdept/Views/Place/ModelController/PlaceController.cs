@@ -76,13 +76,13 @@ namespace LanAdept.Controllers
 			if (result.HasError)
 			{
 				TempData["Error"] = result.Message;
+				return RedirectToAction("Liste");
 			}
 			else
 			{
 				TempData["Success"] = "La place <strong>" + placeAReserver + "</strong> a bien été réservée.";
+				return RedirectToAction("MaPlace");
 			}
-
-			return RedirectToAction("MaPlace");
 		}
 
 		[AuthorizePermission("user.place.maPlace")]
