@@ -210,17 +210,11 @@ namespace LanAdept.Views.Tournament.ModelController
 		#endregion
 
 #endif
-#if RELEASE
+#if (!DEBUG)
 		[AllowAnonymous]
 		public ActionResult Index()
 		{
-			List<TournamentModel> tournamentModels = new List<TournamentModel>();
-			IEnumerable<LanAdeptData.Model.Tournament> tournaments = uow.TournamentRepository.Get();
-			foreach (LanAdeptData.Model.Tournament tournament in tournaments)
-			{
-				tournamentModels.Add(new TournamentModel(tournament));
-			}
-			return View(tournamentModels);
+			return View("TournamentComing");
 		}
 #endif
 	}

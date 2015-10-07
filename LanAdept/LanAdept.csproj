@@ -266,6 +266,7 @@
     <Content Include="Views\Tournament\Partial\ModalChoisirGamerTag.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Tournament\DetailsTeam.cshtml" />
+    <Content Include="Views\Tournament\TournamentComing.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
