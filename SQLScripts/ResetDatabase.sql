@@ -12,7 +12,7 @@ EXEC sp_MSForEachTable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__
 						DELETE FROM ?'
 GO
 EXEC sp_MSForEachTable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__MigrationHistory]''),0))
-						DBCC CHECKIDENT(''?'', RESEED, 0)'
+						DBCC CHECKIDENT(''?'', RESEED, 1)'
 GO
 EXEC sp_MSForEachTable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__MigrationHistory]''),0))
 						ALTER TABLE ? CHECK CONSTRAINT ALL'
