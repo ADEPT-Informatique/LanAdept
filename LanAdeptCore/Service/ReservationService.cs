@@ -51,7 +51,9 @@ namespace LanAdeptCore.Service
 		/// <returns>True if the place is the user's place, else false</returns>
 		public static bool IsUserPlace(Place place, User user)
 		{
-			return !place.IsFree && place.LastReservation.User == UserService.GetLoggedInUser();
+			return !place.IsFree
+				&& place.LastReservation.User != null
+				&& place.LastReservation.User == UserService.GetLoggedInUser();
 		}
 
 		/// <summary>

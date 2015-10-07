@@ -112,6 +112,11 @@ namespace LanAdeptCore.Service
 			return UnitOfWork.Current.UserRepository.GetUserByEmail(HttpContext.Current.User.Identity.Name);
 		}
 
+		public static bool IsUserLoggedIn()
+		{
+			return HttpContext.Current.User.Identity.IsAuthenticated;
+		}
+
 		/* =============== PRIVÉ =============== */
 
 		private static string HashPassword(string password, string salt)
