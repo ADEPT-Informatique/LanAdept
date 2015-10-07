@@ -1,24 +1,25 @@
 ﻿@model LanAdept.Views.Auth.ModelController.LoginModel
 @{
 	ViewBag.Title = "Se connecter";
+	ViewBag.HideMenu = true;
 }
 
 @using (Html.BeginForm("Login", "Auth", FormMethod.Post, new { @class = "form-login" }))
 {
 	<h2 class="form-login-heading">Connexion</h2>
 	@Html.AntiForgeryToken()
-	
+
 	@Html.ValidationSummary("", new { @class = "text-danger" })
 
 	@Html.LabelFor(model => model.Email, new { @class = "sr-only" })
-	@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", autofocus = true, placeholder = Html.NameFor(m2 => m2.Email)} })
+	@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", autofocus = true, placeholder = Html.NameFor(m2 => m2.Email) } })
 
 	@Html.LabelFor(model => model.Password, new { @class = "sr-only" })
 	@Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = Html.NameFor(m2 => m2.Password) } })
-	
+
 	@Html.HiddenFor(model => model.ReturnURL)
 
-	<button type="submit" class="btn btn-lg btn-primary btn-block">Se connecter</button>
+	<button type="submit" class="btn btn-primary btn-block">Se connecter</button>
 
 }
 

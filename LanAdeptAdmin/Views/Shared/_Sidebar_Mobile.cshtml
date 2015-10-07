@@ -1,14 +1,14 @@
 ﻿@Html.ActionLink("Admin Options", "Index", "Home", new { @class = "navmenu-brand" })
 
 <ul class="nav navmenu-nav">
-	<li class="dropdown open">
+	<li class="dropdown">
 		<a href="#" class="dropdown-toggle" data-toggle="dropdown">Général <b class="caret"></b></a>
 		<ul class="dropdown-menu navmenu-nav">
 			@Html.Partial("_Sidebar_General")
 		</ul>
 	</li>
 
-	<li class="dropdown open">
+	<li class="dropdown">
 		<a href="#" class="dropdown-toggle" data-toggle="dropdown">Utilisteurs <b class="caret"></b></a>
 		<ul class="dropdown-menu navmenu-nav">
 			@Html.Partial("_Sidebar_User")
@@ -36,7 +36,7 @@
 
 	<li role="separator" class="nav-divider divider"></li>
 
-	@Html.ListItemAction("Connexion", "Login", "Auth")
+	@Html.ListItemCategory("Connexion", "Login", "Auth")
 	@Html.ListItemCategory("Déconnexion", "Logout", "Auth")
 
 </ul>
