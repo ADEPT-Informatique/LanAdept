@@ -127,11 +127,11 @@ namespace LanAdept.Controllers
 			return RedirectToAction("Liste");
 		}
 
-		[Authorize]
-		public ActionResult CreateTicket()
-		{
-			return View("MaPlace");
-		}
+		//[Authorize]
+		//public ActionResult CreateTicket()
+		//{
+		//	return View("MaPlace");
+		//}
 
 		[AllowAnonymous]
 		public ActionResult GetBarcode(string id)
@@ -170,112 +170,5 @@ namespace LanAdept.Controllers
 
 			return result;
 		}
-
-        //private void CreatePDF(MaPlaceModel model)
-        //{
-        //    MemoryStream ms = new MemoryStream();
-        //    Document doc = new Document(iTextSharp.text.PageSize.A4, 30f, 30f, 30f, 30f);
-        //    PdfWriter writer = PdfWriter.GetInstance(doc, ms);
-
-        //    doc.AddTitle("Ticket PDF");
-        //    doc.AddSubject("Ticket for the lan");
-        //    doc.AddKeywords("Ticket, Billet, Lan, Adept");
-        //    doc.AddCreator("LanAdept Website");
-        //    doc.AddAuthor("LanAdept");
-        //    doc.AddHeader("Nothing", "No Header");
-
-        //    string fontpath = Server.MapPath("../fonts/code128.ttf");
-        //    BaseFont customfont = BaseFont.CreateFont(fontpath, BaseFont.CP1252, BaseFont.EMBEDDED);
-        //    iTextSharp.text.Font code128 = new iTextSharp.text.Font(customfont, 36);
-
-        //    doc.Open();
-
-        //    Paragraph nameInfo = new Paragraph("Votre nom: " + model.reservation.User.CompleteName);
-        //    nameInfo.IndentationLeft = 100.0f;
-        //    doc.Add(nameInfo);
-
-        //    Paragraph barcode = new Paragraph(model.reservation.User.Barcode, code128);
-        //    barcode.Alignment = Element.ALIGN_CENTER;
-        //    doc.Add(barcode);
-
-        //    Paragraph barcodeNumber = new Paragraph(model.reservation.User.Barcode);
-        //    barcodeNumber.Alignment = Element.ALIGN_CENTER;
-        //    doc.Add(barcodeNumber);
-
-        //    doc.Close();
-
-        //    SendPdf(ms.ToArray());
-        //}
-
-		//private void CreateFilePDF(string html, string css)
-		//{
-		//    Byte[] bytes;
-		//    using (var ms = new MemoryStream())
-		//    {
-		//        using (var doc = new Document())
-		//        {
-		//            using (var writer = PdfWriter.GetInstance(doc, ms))
-		//            {
-		//                doc.Open();
-		//                using (var msCss = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(css)))
-		//                {
-		//                    using (var msHtml = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(html)))
-		//                    {
-		//                        iTextSharp.tool.xml.XMLWorkerHelper.GetInstance().ParseXHtml(writer, doc, msHtml, msCss);
-		//                    }
-		//                }
-		//                doc.Close();
-		//            }
-		//        }
-		//        bytes = ms.ToArray();
-		//    }
-		//    SendPdf(bytes);
-		//}
-
-		private void SendPdf(byte[] bytes)
-		{
-			Response.Clear();
-			Response.ClearHeaders();
-			Response.ClearContent();
-			Response.AddHeader("Content-Disposition", "attachment; filename=Ticket.pdf");
-			Response.ContentType = "application/pdf";
-			Response.Flush();
-			Response.BinaryWrite(bytes);
-			Response.End();
-		}
-
-		//static string RenderViewToString(ControllerContext context,
-		//                            string viewPath,
-		//                            object model = null,
-		//                            bool partial = false)
-		//{
-		//    // first find the ViewEngine for this view
-		//    ViewEngineResult viewEngineResult = null;
-		//    if (partial)
-		//        viewEngineResult = ViewEngines.Engines.FindPartialView(context, viewPath);
-		//    else
-		//        viewEngineResult = ViewEngines.Engines.FindView(context, viewPath, null);
-
-		//    if (viewEngineResult == null)
-		//        throw new FileNotFoundException("View cannot be found.");
-
-		//    // get the view and attach the model to view data
-		//    var view = viewEngineResult.View;
-		//    context.Controller.ViewData.Model = model;
-
-		//    string result = null;
-
-		//    using (var sw = new StringWriter())
-		//    {
-		//        var ctx = new ViewContext(context, view,
-		//                                    context.Controller.ViewData,
-		//                                    context.Controller.TempData,
-		//                                    sw);
-		//        view.Render(ctx, sw);
-		//        result = sw.ToString();
-		//    }
-
-		//    return result;
-		//}
 	}
 }
