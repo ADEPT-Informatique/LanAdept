@@ -133,6 +133,7 @@
     <Compile Include="Views\Auth\ModelController\MessageModel.cs" />
     <Compile Include="Views\Auth\ModelController\RegisterModel.cs" />
     <Compile Include="Views\Emails\ModelController\ConfirmationEmail.cs" />
+    <Compile Include="Views\Error\ModelController\ErrorController.cs" />
     <Compile Include="Views\Home\ModelController\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -215,7 +216,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Properties\PublishProfiles\LanAdept Test.pubxml" />
-    <None Include="Properties\PublishProfiles\LanAdept.pubxml" />
+    <None Include="Properties\PublishProfiles\LanAdept LOCAL.pubxml" />
     <None Include="Properties\PublishProfiles\LanAdeptPRODPROD.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Image\scissors.png" />
@@ -267,6 +268,9 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Tournament\DetailsTeam.cshtml" />
     <Content Include="Views\Tournament\TournamentComing.cshtml" />
+    <Content Include="Views\Error\PageNotFound.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Error\Forbidden.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

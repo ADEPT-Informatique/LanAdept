@@ -138,6 +138,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Views\Auth\ModelController\AuthController.cs" />
     <Compile Include="Views\Auth\ModelController\LoginModel.cs" />
+    <Compile Include="Views\Error\ModelController\ErrorController.cs" />
     <Compile Include="Views\Game\ModelController\GameController.cs" />
     <Compile Include="Views\Game\ModelController\GameModel.cs" />
     <Compile Include="Views\General\ModelController\DescriptionModel.cs" />
@@ -290,6 +291,9 @@
     <Content Include="Views\Tournaments\DetailsTeam.cshtml" />
     <Content Include="Views\Tournaments\EditTeam.cshtml" />
     <Content Include="Views\User\Search.cshtml" />
+    <Content Include="Views\Error\Forbidden.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Error\PageNotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Emails\ModelController\" />
