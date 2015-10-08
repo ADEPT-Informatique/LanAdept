@@ -21,13 +21,13 @@ namespace LanAdept.Views.Tournament.ModelController
 		[Display(Name = "Jeu")]
 		public Game Game { get; set; }
 
-        public IEnumerable<Team> Teams { get; set; }
+        public IEnumerable<LanAdeptData.Model.Team> Teams { get; set; }
 
         public IEnumerable<GamerTag> GamerTags { get; set; }
 
         public bool IsConnected { get; set; }
 
-        public Team UserTeam { get; set; }
+        public LanAdeptData.Model.Team UserTeam { get; set; }
 
 		public TournamentModel()
 		{

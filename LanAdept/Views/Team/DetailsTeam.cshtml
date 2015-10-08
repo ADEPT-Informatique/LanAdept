@@ -1,0 +1,113 @@
+﻿@model LanAdept.Views.Tournament.ModelController.DetailsTeamModel
+
+@{
+	bool isConnected = LanAdeptCore.Service.UserService.IsUserLoggedIn();
+	bool IsTeamLeader = LanAdeptCore.Service.UserService.IsTeamLeader();
+	ViewBag.Title = "DetailsTeam";
+}
+
+<div class="page-header clearfix">
+	<h1>@Model.Name </h1>
+	<h2>[@Model.Tag]</h2>
+</div>
+
+<h4>
+	Joueurs
+</h4>
+
+<div class="table-responsive">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Gamertag</th>
+				<th></th>
+			</tr>
+		</thead>
+
+		@foreach (GamerTag gamerTag in Model.GamerTags)
+		{
+			<tr>
+				<td>
+					@gamerTag.Gamertag
+					@if (Model.TeamLeaderTag == gamerTag)
+					{
+						<a class="btn btn-default disabled btn-xs">
+							Team Leader
+						</a>
+					}
+				</td>
+				<td>
+					@if (gamerTag != Model.TeamLeaderTag)
+					{
+						<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#kickModal">Kick</button>
+
+						<div class="modal fade" id="kickModal" role="dialog">
+							<div class="modal-dialog">
+								<!-- Modal content-->
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title">Kick player</h4>
+									</div>
+									<div class="modal-body">
+										<p>Voulez-vous vraiment kick @gamerTag.Gamertag</p>
+									</div>
+									<div class="modal-footer">
+										@Html.ActionLink("Oui", "KickPlayer", new { gamerTagId = gamerTag.GamerTagID, teamId = Model.TeamID }, new { @class = "btn btn-success disabled" })
+										<button type="button" class="btn btn-danger" data-dismiss="modal">Non</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					}
+				</td>
+			</tr>
+		}
+	</table>
+</div>
+
+<h4>
+	Demandes
+</h4>
+
+@if (Model.Demandes.Count() >= 1)
+{
+	<div class="table-responsive table-hover">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>
+						Nom
+					</th>
+					<th>
+						GamerTag
+					</th>
+					<th></th>
+				</tr>
+			</thead>
+
+			@foreach (Demande demande in Model.Demandes)
+			{
+				<tr>
+					<td>
+						@demande.GamerTag.User.CompleteName
+					</td>
+					<td>
+						@demande.GamerTag.Gamertag
+					</td>
+
+					<td class="pull-right">
+						@Html.ActionLink("Accepter", "AcceptTeamMember", new { gamerTagId = demande.GamerTag.GamerTagID, teamId = Model.TeamID }, new { @class = "btn btn-success" })
+						@Html.ActionLink("Refuser", "RefuseTeamMember", new { gamerTagId = demande.GamerTag.GamerTagID, teamId = Model.TeamID }, new { @class = "btn btn-danger" })
+					</td>
+				</tr>
+			}
+		</table>
+	</div>
+}
+else
+{
+	<div class="alert alert-info">
+		Aucune demande
+	</div>
+}

@@ -60,6 +60,10 @@
 					@Html.ListItemAction("Connexion", "Login", "Auth")
 					@Html.ListItemAction("Inscription", "Register", "Auth")
 
+					@if(LanAdeptCore.Service.UserService.IsUserLoggedIn() && LanAdeptCore.Service.UserService.IsTeamLeader())
+					{
+						@Html.ListItemAction("Mon équipe", "Index", "Team")
+					}
 
 					@if (LanAdeptCore.Service.ReservationService.HasUserPlace())
 					{

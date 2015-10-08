@@ -34,180 +34,139 @@ namespace LanAdept.Views.Tournament.ModelController
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
 
-            LanAdeptData.Model.Tournament tournament = uow.TournamentRepository.GetByID(id);
+			LanAdeptData.Model.Tournament tournament = uow.TournamentRepository.GetByID(id);
 
-            if (tournament == null)
-            {
-                return HttpNotFound();
-            }
-
-            TournamentModel tournamentModel = new TournamentModel(tournament);
-
-            User user = UserService.GetLoggedInUser();
-            if (user != null)
-            {
-                tournamentModel.IsConnected = true;
-                tournamentModel.GamerTags = uow.GamerTagRepository.GetByUser(user);
-                tournamentModel.UserTeam = uow.TeamRepository.UserTeamInTournament(user, tournament);
-            }
-
-            return View(tournamentModel);
-		}
-
-		[AuthorizePermission("user.tournament.team.add")]
-        public ActionResult Addteam(int id)
-        {
-            AddTeamModel team = new AddTeamModel();
-            team.Tournament = uow.TournamentRepository.GetByID(id);
-            team.TournamentID = team.Tournament.TournamentID;
-            team.GamerTags = uow.GamerTagRepository.GetByUser(UserService.GetLoggedInUser());
-            return View(team);
-        }
-
-		[AuthorizePermission("user.tournament.team.add")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Addteam(AddTeamModel teamModel)
-        {
-            if (ModelState.IsValid)
-            {
-                Team team = new Team();
-                team.Name = teamModel.Name;
-                team.Tag = teamModel.Tag;
-                User user = UserService.GetLoggedInUser();
-                team.TeamLeaderTag = uow.GamerTagRepository.GetByUserAndGamerTagID(user, teamModel.GamerTagId);
-
-                List<GamerTag> listGamerTags = new List<GamerTag>();
-                listGamerTags.Add(team.TeamLeaderTag);
-                team.GamerTags = listGamerTags;
-                team.Tournament = uow.TournamentRepository.GetByID(teamModel.TournamentID);
-
-                uow.TeamRepository.Insert(team);
-
-                LanAdeptData.Model.Tournament tournament = team.Tournament;
-
-                if (tournament.Teams == null)
-                {
-                    ICollection<Team> teamList;
-                    teamList = new List<Team>();
-                    teamList.Add(team);
-                    tournament.Teams = teamList;
-                }
-                else
-                {
-                    tournament.Teams.Add(team);
-                }
-
-                uow.TournamentRepository.Update(tournament);
-
-                uow.Save();
-                return RedirectToAction("Details", new { id = team.Tournament.TournamentID });
-            }
-
-            //IEnumerable<GamerTag> gamerTags = uow.GamerTagRepository.GetByUser(UserService.GetLoggedInUser());
-            //teamModel.LeaderTags = new SelectList(gamerTags, "GamerTagID", "Gamertag");
-
-            teamModel.GamerTags = uow.GamerTagRepository.GetByUser(UserService.GetLoggedInUser());
-            return View(teamModel);
-        }
-
-		[AuthorizePermission("user.tournament.gamertag.add")]
-        public ActionResult AddGamerTag(string gamertag)
-        {
-            User user = UserService.GetLoggedInUser();
-
-            if (!uow.GamerTagRepository.HasSameGamerTag(user, gamertag))
-            {
-                GamerTag gamerTag = new GamerTag();
-                gamerTag.Gamertag = gamertag;
-                gamerTag.User = user;
-
-                uow.GamerTagRepository.Insert(gamerTag);
-                uow.Save();
-
-                return Json(new GamerTagResponse() { HasError = false, ErrorMessage = "", GamerTagID = gamerTag.GamerTagID, Gamertag = gamerTag.Gamertag }, JsonRequestBehavior.AllowGet);
-            }
-
-            return Json(new GamerTagResponse() { HasError = true, ErrorMessage = "Vous avez déja un GamerTag avec ce nom", GamerTagID = 0, Gamertag = gamertag }, JsonRequestBehavior.AllowGet); ;
-        }
-
-		[AuthorizePermission("user.tournament.team.join")]
-        public ActionResult JoinTeam(JoinTeamModel model)
-        {
-            if (model.GamerTagID == null || model.TournamentID == null || model.TeamID == null )
-            {
-                //TODO : Add client error
-                return HttpNotFound();
-            }
-
-            Demande demande = new Demande();
-            User user = UserService.GetLoggedInUser();
-
-            GamerTag gamerTag = uow.GamerTagRepository.GetByUserAndGamerTagID(user, model.GamerTagID.Value);
-            if (gamerTag == null)
-            {
-                //TODO : Add client error
-                return HttpNotFound();
-            }
-
-            demande.GamerTag = gamerTag;
-
-            Team team = uow.TeamRepository.GetByID(model.TeamID);
-            if (team == null)
-            {
-                //TODO : Add client error
-                return HttpNotFound();
-            }
-            demande.Team = team;
-
-            uow.DemandeRepository.Insert(demande);
-            uow.Save();
-
-            return RedirectToAction("Details", new { id = model.TournamentID });
-        }
-
-		#region Team Management
-		[AuthorizePermission("user.tournament.team.details")]
-		public ActionResult DetailsTeam(int? teamId)
-		{
-			if (teamId == null)
-			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
-
-			DetailsTeamModel team = new DetailsTeamModel(uow.TeamRepository.GetByID(teamId));
-
-			if (team == null)
+			if (tournament == null)
 			{
 				return HttpNotFound();
 			}
 
+			TournamentModel tournamentModel = new TournamentModel(tournament);
+
+			User user = UserService.GetLoggedInUser();
+			if (user != null)
+			{
+				tournamentModel.IsConnected = true;
+				tournamentModel.GamerTags = uow.GamerTagRepository.GetByUser(user);
+				tournamentModel.UserTeam = uow.TeamRepository.UserTeamInTournament(user, tournament);
+			}
+
+			return View(tournamentModel);
+		}
+
+		[AuthorizePermission("user.tournament.team.add")]
+		public ActionResult Addteam(int id)
+		{
+			AddTeamModel team = new AddTeamModel();
+			team.Tournament = uow.TournamentRepository.GetByID(id);
+			team.TournamentID = team.Tournament.TournamentID;
+			team.GamerTags = uow.GamerTagRepository.GetByUser(UserService.GetLoggedInUser());
 			return View(team);
 		}
 
-		[AuthorizePermission("user.tournament.team.kick")]
-		public ActionResult KickPlayer(int? gamerTagId, int? teamId)
+		[AuthorizePermission("user.tournament.team.add")]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Addteam(AddTeamModel teamModel)
 		{
-			GamerTag gamerTag = uow.GamerTagRepository.GetByID(gamerTagId);
-			Team team = uow.TeamRepository.GetByID(teamId);
-
-			if (team.TeamLeaderTag == gamerTag || team.GamerTags.Count == 1)
+			if (ModelState.IsValid)
 			{
-				TempData["ErrorMessage"] = "Vous ne pouvez pas kicker le team leader.";
-				return RedirectToAction("DetailsTeam", new { id = teamId });
-			}
-			else
-			{
-				team.GamerTags.Remove(gamerTag);
+				LanAdeptData.Model.Team team = new LanAdeptData.Model.Team();
+				team.Name = teamModel.Name;
+				team.Tag = teamModel.Tag;
+				User user = UserService.GetLoggedInUser();
+				team.TeamLeaderTag = uow.GamerTagRepository.GetByUserAndGamerTagID(user, teamModel.GamerTagId);
 
-				uow.TeamRepository.Update(team);
-				uow.GamerTagRepository.Update(gamerTag);
+				List<GamerTag> listGamerTags = new List<GamerTag>();
+				listGamerTags.Add(team.TeamLeaderTag);
+				team.GamerTags = listGamerTags;
+				team.Tournament = uow.TournamentRepository.GetByID(teamModel.TournamentID);
+
+				uow.TeamRepository.Insert(team);
+
+				LanAdeptData.Model.Tournament tournament = team.Tournament;
+
+				if (tournament.Teams == null)
+				{
+					ICollection<LanAdeptData.Model.Team> teamList;
+					teamList = new List<LanAdeptData.Model.Team>();
+					teamList.Add(team);
+					tournament.Teams = teamList;
+				}
+				else
+				{
+					tournament.Teams.Add(team);
+				}
+
+				uow.TournamentRepository.Update(tournament);
+
 				uow.Save();
+				return RedirectToAction("Details", new { id = team.Tournament.TournamentID });
 			}
 
-			return RedirectToAction("DetailsTeam", new { id = teamId });
+			//IEnumerable<GamerTag> gamerTags = uow.GamerTagRepository.GetByUser(UserService.GetLoggedInUser());
+			//teamModel.LeaderTags = new SelectList(gamerTags, "GamerTagID", "Gamertag");
+
+			teamModel.GamerTags = uow.GamerTagRepository.GetByUser(UserService.GetLoggedInUser());
+			return View(teamModel);
 		}
-		#endregion
+
+		[AuthorizePermission("user.tournament.gamertag.add")]
+		public ActionResult AddGamerTag(string gamertag)
+		{
+			User user = UserService.GetLoggedInUser();
+
+			if (!uow.GamerTagRepository.HasSameGamerTag(user, gamertag))
+			{
+				GamerTag gamerTag = new GamerTag();
+				gamerTag.Gamertag = gamertag;
+				gamerTag.User = user;
+
+				uow.GamerTagRepository.Insert(gamerTag);
+				uow.Save();
+
+				return Json(new GamerTagResponse() { HasError = false, ErrorMessage = "", GamerTagID = gamerTag.GamerTagID, Gamertag = gamerTag.Gamertag }, JsonRequestBehavior.AllowGet);
+			}
+
+			return Json(new GamerTagResponse() { HasError = true, ErrorMessage = "Vous avez déja un GamerTag avec ce nom", GamerTagID = 0, Gamertag = gamertag }, JsonRequestBehavior.AllowGet); ;
+		}
+
+		[AuthorizePermission("user.tournament.team.join")]
+		public ActionResult JoinTeam(JoinTeamModel model)
+		{
+			if (model.GamerTagID == null || model.TournamentID == null || model.TeamID == null)
+			{
+				//TODO : Add client error
+				return HttpNotFound();
+			}
+
+			Demande demande = new Demande();
+			User user = UserService.GetLoggedInUser();
+
+			GamerTag gamerTag = uow.GamerTagRepository.GetByUserAndGamerTagID(user, model.GamerTagID.Value);
+			if (gamerTag == null)
+			{
+				//TODO : Add client error
+				return HttpNotFound();
+			}
+
+			demande.GamerTag = gamerTag;
+
+			LanAdeptData.Model.Team team = uow.TeamRepository.GetByID(model.TeamID);
+			if (team == null)
+			{
+				//TODO : Add client error
+				return HttpNotFound();
+			}
+			demande.Team = team;
+
+			uow.DemandeRepository.Insert(demande);
+			uow.Save();
+
+			return RedirectToAction("Details", new { id = model.TournamentID });
+		}
+
+
 
 #endif
 #if (!DEBUG)

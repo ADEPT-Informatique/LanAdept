@@ -1,0 +1,89 @@
+﻿@using LanAdept.Views.Team.ModelController
+
+	@{
+		ViewBag.Title = "Index";
+	}
+
+	<h2>Mes equipes</h2>
+
+	<div>
+		<table class="table table-hover table-responsive">
+			
+			<thead>
+				<tr>
+					<th>
+						Nom
+					</th>
+					<th>
+						Nombre de joueurs inscrits
+					</th>
+					<th>
+						Nombre de demandes
+					</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+
+			@foreach (TeamDemandeModel team in Model.Teams)
+			{
+				<tr  @("class=clickable-row data-row-url=" + Url.Action("DetailsTeam", "Team", new { teamId = team.Team.TeamID }))>
+					<td>
+						@team.Team.Name
+					</td>
+					<td>
+						@team.Team.GamerTags.Count / @team.Team.Tournament.MaxPlayerPerTeam
+					</td>
+					<td>
+						@if (team.Demandes == null)
+						{
+							<div>
+								0
+							</div>
+						}
+						else
+						{
+							@team.Demandes.Count
+                        }
+
+					</td>
+					<td>
+						@if (team.Team.IsReady)
+						{
+							<div class="btn btn-success disabled">
+								Prête
+							</div>
+						}
+						else
+						{
+							<div class="btn btn-danger disabled">
+								Pas prête
+							</div>
+						}
+					</td>
+					<td>
+						@if (team.Team.IsConfirmed)
+						{
+							<div class="btn btn-success disabled">
+								Confirmé
+							</div>
+						}
+						else
+						{
+							<div class="btn btn-danger disabled">
+								Non Confirmé
+							</div>
+						}
+					</td>
+				</tr>
+			}
+		</table>
+	</div>
+
+@section Scripts {
+	@Scripts.Render("~/Scripts/general.js")
+}
+
+@section Styles {
+	@Styles.Render("~/Content/Tournois.css")
+}

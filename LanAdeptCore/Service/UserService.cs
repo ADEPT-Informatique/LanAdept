@@ -117,6 +117,18 @@ namespace LanAdeptCore.Service
 			return HttpContext.Current.User.Identity.IsAuthenticated;
 		}
 
+		public static bool IsTeamLeader()
+		{
+			bool IsTeamLeader = false;
+
+			if (UnitOfWork.Current.TeamRepository.GetByTeamLeaderID(GetLoggedInUser().UserID).Count() >= 1)
+			{
+				IsTeamLeader = true;
+			}
+
+			return IsTeamLeader;
+		}
+
 		/* =============== PRIVÉ =============== */
 
 		private static string HashPassword(string password, string salt)

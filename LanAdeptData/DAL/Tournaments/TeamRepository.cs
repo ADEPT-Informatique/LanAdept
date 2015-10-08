@@ -33,5 +33,19 @@ namespace LanAdeptData.DAL.Tournaments
             return Get().Where(x => x.GamerTags.Where(y => y.UserID == user.UserID).FirstOrDefault() != null 
                 && x.TournamentID == tournament.TournamentID).FirstOrDefault();
         }
+
+		public IEnumerable<Team> GetByTeamLeaderID(int? TeamLeaderID)
+		{
+			List<Team> teams = new List<Team>();
+			foreach (Team team in Get())
+			{
+				if(team.TeamLeaderTag.UserID == TeamLeaderID)
+				{
+					teams.Add(team);
+				}
+			}
+
+			return teams;
+		}
     }
 }

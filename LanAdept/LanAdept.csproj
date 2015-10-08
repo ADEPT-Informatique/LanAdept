@@ -142,7 +142,10 @@
     <Compile Include="Views\Place\ModelController\ListeModel.cs" />
     <Compile Include="Views\Place\ModelController\MaPlaceModel.cs" />
     <Compile Include="Views\Place\ModelController\PlaceController.cs" />
-    <Compile Include="Views\Tournament\ModelController\DetailsTeamModel.cs" />
+    <Compile Include="Views\Team\ModelController\IndexTeamModel.cs" />
+    <Compile Include="Views\Team\ModelController\TeamController.cs" />
+    <Compile Include="Views\Team\ModelController\DetailsTeamModel.cs" />
+    <Compile Include="Views\Team\ModelController\TeamDemandeModel.cs" />
     <Compile Include="Views\Tournament\ModelController\GamerTagResponse.cs" />
     <Compile Include="Views\Tournament\ModelController\JoinTeamModel.cs" />
     <Compile Include="Views\Tournament\ModelController\AddTeamModel.cs" />
@@ -271,6 +274,8 @@
     <Content Include="Views\Error\PageNotFound.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Error\Forbidden.cshtml" />
+    <Content Include="Views\Team\DetailsTeam.cshtml" />
+    <Content Include="Views\Team\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
