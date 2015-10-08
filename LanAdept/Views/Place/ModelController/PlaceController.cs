@@ -38,10 +38,15 @@ namespace LanAdept.Controllers
 		public ActionResult Liste()
 		{
 			ListeModel listeModel = new ListeModel();
-			ViewBag.Settings = LanAdeptData.DAL.UnitOfWork.Current.SettingRepository.GetCurrentSettings();
+			listeModel.Settings = LanAdeptData.DAL.UnitOfWork.Current.SettingRepository.GetCurrentSettings();
 
 			listeModel.Maps = uow.MapRepository.Get();
 			listeModel.Sections = uow.PlaceSectionRepository.Get();
+
+			if (!listeModel.Settings.IsLanStarted)
+			{
+				listeModel.NbPlacesLibres = uow.PlaceRepository.Get().Count(x => x.IsFree);
+			}
 
 			return View(listeModel);
 		}
