@@ -21,11 +21,50 @@ namespace LanAdeptAdmin.Controllers
 		UnitOfWork uow = UnitOfWork.Current;
 
 		[AuthorizePermission("admin.user.index")]
-		public ActionResult Index(int? page)
+		public ActionResult Index(string sortOrder, int? page)
         {
 			int currentPage = page ?? 1;
 
-			var users = uow.UserRepository.Get().ToList();
+			ViewBag.CurrentSort = sortOrder;
+			ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+			ViewBag.EmailSortParm = sortOrder == "email" ? "email_desc" : "email";
+			ViewBag.RoleSortParm = sortOrder == "role" ? "role_desc" : "role";
+			ViewBag.PlaceSortParm = sortOrder == "place" ? "place_desc" : "place";
+
+			var users = uow.UserRepository.Get();
+
+			switch (sortOrder)
+			{
+				case "name_desc":
+					users = users.OrderByDescending(u => u.CompleteName);
+					break;
+				case "email":
+					users = users.OrderBy(u => u.Email);
+					break;
+				case "email_desc":
+					users = users.OrderByDescending(u => u.Email);
+					break;
+				case "role":
+					users = users.OrderBy(u => u.Role.Name)
+						.ThenBy(u => u.CompleteName);
+					break;
+				case "role_desc":
+					users = users.OrderByDescending(u => u.Role.Name)
+						.ThenBy(u => u.CompleteName);
+					break;
+				case "place":
+					users = users.OrderBy(u => (u.LastReservation == null || u.LastReservation.Place.IsFree ? "zz" : u.LastReservation.Place.ToString()))
+						.ThenBy(u => u.CompleteName);
+					break;
+				case "place_desc":
+					users = users.OrderByDescending(u => (u.LastReservation == null || u.LastReservation.Place.IsFree ? "zz" : u.LastReservation.Place.ToString()))
+						.ThenBy(u => u.CompleteName);
+					break;
+				default:  // Name ascending 
+					users = users.OrderBy(u => u.CompleteName);
+					break;
+			}
+
 			return View(users.ToPagedList(currentPage, 10));
         }
 
@@ -43,6 +82,32 @@ namespace LanAdeptAdmin.Controllers
             }
             return View(user);
         }
+
+		[AuthorizePermission("admin.user.index")]
+		public ActionResult Search(SearchModel model)
+		{
+			if (ModelState.IsValid && model.Query != null)
+			{
+				model.UsersFound = uow.UserRepository.SearchUsersByNameAndEmail(model.Query);
+
+				if (model.UsersFound.Count() == 0)
+				{
+					TempData["Error"] = "Aucun utilisateur n'as été trouvé pour \"" + model.Query + "\"";
+				}
+				else if (model.UsersFound.Count() == 1)
+				{
+					User userFound = model.UsersFound.First();
+
+					return RedirectToAction("Details", new { id = userFound.UserID });
+				}
+				else
+				{
+					model.UsersFound = model.UsersFound.OrderBy(y => y.CompleteName);
+				}
+			}
+
+			return View(model);
+		}
 
 		[AuthorizePermission("admin.user.edit")]
         public ActionResult Edit(int? id)

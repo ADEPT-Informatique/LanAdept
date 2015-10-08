@@ -119,7 +119,7 @@ namespace LanAdeptAdmin.Controllers
 
 				if (model.ReservationsFound.Count() == 0)
 				{
-					TempData["Error"] = "Aucun utilisateur n'as été trouvé";
+					TempData["Error"] = "Aucune réservation n'as été trouvé pour \"" + model.Query + "\"";
 				}
 				else if (model.ReservationsFound.Count() == 1)
 				{

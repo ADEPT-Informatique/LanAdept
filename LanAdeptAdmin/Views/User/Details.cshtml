@@ -9,7 +9,6 @@
 	Détails - @Model.CompleteName
 	<div class="pull-right">
 		@Html.ActionLink("Modifier", "Edit", new { id = Model.UserID }, new { @class = "btn btn-primary" })
-		@Html.ActionLink("Retour", "Index", null, new { @class = "btn btn-default" })
 	</div>
 
 </h2>
@@ -44,7 +43,7 @@
 		</dt>
 
 		<dd>
-			@Html.DisplayFor(model => model.Email)
+			@Model.Email
 		</dd>
 
 		<dt>

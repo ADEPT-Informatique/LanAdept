@@ -233,6 +233,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\scanner.js" />
     <Content Include="Scripts\_references.js" />
+    <Compile Include="Views\User\ModelController\SearchModel.cs" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -287,6 +288,7 @@
     <Content Include="Views\Shared\_Sidebar_User.cshtml" />
     <Content Include="Views\Tournaments\DetailsTeam.cshtml" />
     <Content Include="Views\Tournaments\EditTeam.cshtml" />
+    <Content Include="Views\User\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Emails\ModelController\" />

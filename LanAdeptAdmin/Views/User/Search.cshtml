@@ -1,21 +1,14 @@
-﻿@model IPagedList<User>
+﻿@model LanAdeptAdmin.Views.Users.ModelController.SearchModel
 @using PagedList.Mvc;
 @using PagedList;
 
 
 @{
-	ViewBag.Title = "Liste des utilisateurs";
+	ViewBag.Title = "Rechercher un utilisateur";
 	ViewBag.Sidebar = "_Sidebar_User";
-	
-	int from = (Model.PageNumber - 1) * Model.PageSize;
-	int to = from + Model.Count;
-	
-	PagedListRenderOptions renderOptions = PagedListRenderOptions.OnlyShowFivePagesAtATime;
-	renderOptions.DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded;
-	renderOptions.DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded;
 }
 
-<h2>Liste des utilisateurs</h2>
+<h2>Rechercher un utilisateur</h2>
 <hr />
 
 @if (!string.IsNullOrWhiteSpace(TempData["Error"] as string))
@@ -31,28 +24,51 @@
 	</div>
 }
 
-<div class="table-responsive">
+<div class="form-horizontal">
+	@using (Html.BeginForm("Search", "User", FormMethod.Get))
+	{
+		<div class="form-group">
+			<div class="col-md-6">
+				<div class="input-group">
+					@Html.EditorFor(model => model.Query, new { htmlAttributes = new { @class = "form-control", placeholder = "Email ou nom complet", autofocus = "true" } })
+					<span class="input-group-btn">
+						<button class="btn btn-primary" type="submit">
+							<span class="glyphicon glyphicon-search"></span>
+							Chercher
+						</button>
+					</span>
+				</div>
+			</div>
+		</div>
+	}
+</div>
+
+@if (Model.FoundUsers)
+{
+	<hr />
+	
+	<h4>Résultats</h4>
 	<table class="table">
 		<thead>
 			<tr>
 				<th>
-					@Html.ActionLink("Nom complet", "Index", new { sortOrder = ViewBag.NameSortParm })
+					Nom complet
 				</th>
 				<th>
-					@Html.ActionLink("Email", "Index", new { sortOrder = ViewBag.EmailSortParm })
+					Email
 				</th>
 				<th>
-					@Html.ActionLink("Rôle", "Index", new { sortOrder = ViewBag.RoleSortParm })
+					Rôle
 				</th>
 				<th class="text-center">
-					@Html.ActionLink("Place", "Index", new { sortOrder = ViewBag.PlaceSortParm })
+					Place
 				</th>
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (var user in Model)
-			{
 
+			@foreach (User user in Model.UsersFound)
+			{
 				<tr data-row-url="@Url.Action("Details", new { id = user.UserID })" class="clickable-row">
 					<td>
 						@Html.DisplayFor(modelItem => user.CompleteName)
@@ -74,17 +90,7 @@
 						}
 					</td>
 				</tr>
-
 			}
 		</tbody>
 	</table>
-</div>
-
-De @from à @to sur @Model.TotalItemCount
-
-@if (Model.PageCount > 1)
-{
-	<br />	
-	
-	@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), renderOptions)
 }

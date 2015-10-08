@@ -21,7 +21,7 @@ namespace LanAdeptData.Validation
 
 			if (userFromEmail != null && (currentUser == null || currentUser.UserID != userFromEmail.UserID))
 			{
-				return new ValidationResult("This " + validationContext.DisplayName + " is already taken");
+				return new ValidationResult("Cette adresse email est déjà prise");
 			}
 
 			return ValidationResult.Success;

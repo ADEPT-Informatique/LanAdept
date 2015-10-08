@@ -73,7 +73,14 @@
 				</dt>
 
 				<dd>
-					@Html.DisplayFor(model => model.LastReservation.UserCompleteName)
+					@if (Model.LastReservation.IsGuest)
+					{
+						@Html.DisplayFor(model => model.LastReservation.UserCompleteName)
+					}
+					else
+					{
+						@Html.AuthorizeActionLink(Model.LastReservation.User.CompleteName, "Details", "User", new { id = Model.LastReservation.User.UserID }, true)
+					}
 				</dd>
 
 				<dt>
