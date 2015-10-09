@@ -82,11 +82,17 @@ namespace LanAdept.Views.Tournament.ModelController
 		public ActionResult Addteam(AddTeamModel teamModel)
 		{
 			LanAdeptData.Model.Tournament tournament = uow.TournamentRepository.GetByID(teamModel.TournamentID);
+
+			if (tournament.IsStarted || tournament.IsOver)
+			{
+				return RedirectToAction("Details", new { id = tournament.TournamentID });
+			}
+
 			foreach (LanAdeptData.Model.Team team in tournament.Teams)
 			{
 				if (team.TeamLeaderTag.User == UserService.GetLoggedInUser())
 				{
-					return RedirectToAction("Details", new { id = team.Tournament.TournamentID });
+					return RedirectToAction("Details", new { id = tournament.TournamentID });
 				}
 			}
 
@@ -155,6 +161,13 @@ namespace LanAdept.Views.Tournament.ModelController
 				//TODO : Add client error
 				return HttpNotFound();
 			}
+
+			LanAdeptData.Model.Tournament tournament = uow.TournamentRepository.GetByID(model.TournamentID);
+			if (tournament.IsStarted || tournament.IsOver)
+			{
+				return RedirectToAction("Details", new { id = tournament.TournamentID });
+			}
+
 
 			Demande demande = new Demande();
 			User user = UserService.GetLoggedInUser();

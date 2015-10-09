@@ -59,7 +59,7 @@ namespace LanAdept.Views.Team.ModelController
 
 			LanAdeptData.Model.Team team = uow.TeamRepository.GetByID(teamId);
 
-			if (team.TeamLeaderTag.User == UserService.GetLoggedInUser())
+			if (team.TeamLeaderTag.User != UserService.GetLoggedInUser())
 			{
 				return RedirectToAction("Index","Home");
 			}

@@ -11,7 +11,7 @@
 		<h1 class="pull-left">@Html.DisplayFor(model => model.Game.Name)</h1>
 
 
-		@if (Model.IsConnected && Model.UserTeam == null)
+		@if (Model.IsConnected && Model.UserTeam == null && !Model.IsStarted && !Model.IsOver)
 		{
 			<br />
 			<div class="btn-toolbar pull-right">
@@ -68,7 +68,18 @@
 							}
 						</td>
 						<td>
-							@team.GamerTags.Count / @Model.MaxPlayerPerTeam
+							@if (team.GamerTags.Count == Model.MaxPlayerPerTeam)
+							{
+								<div class="alert alert-success">
+									Complète
+								</div>
+							}
+							else
+							{
+								<div>
+									@team.GamerTags.Count / @Model.MaxPlayerPerTeam
+								</div>
+                            }
 						</td>
 						<td>
 							@foreach (GamerTag gamerTag in team.GamerTags)
@@ -79,7 +90,7 @@
 						@if (Model.IsConnected)
 						{
 							<td>
-								@if (Model.UserTeam == null)
+								@if (Model.UserTeam == null && (team.GamerTags.Count < Model.MaxPlayerPerTeam))
 								{
 									<div class="col-md-6 pull-right">
 										<button class="teamButton hover btn btn-default" type="button" data-toggle="modal" data-team-id="@team.TeamID" data-target="#ModalChoisirGamerTag">Rejoindre</button>
