@@ -15,7 +15,6 @@ namespace LanAdept.Views.Team.ModelController
 	{
 		UnitOfWork uow = UnitOfWork.Current;
 
-
 		[Authorize]
 		public ActionResult Index()
 		{

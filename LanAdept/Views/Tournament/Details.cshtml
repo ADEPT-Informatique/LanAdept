@@ -76,17 +76,17 @@
 								<div class="col-xs-12">@tag.Gamertag</div>
 							}
 						</td>
-						@if (Model.IsConnected)
-						{
-							if (Model.UserTeam == null)
+							@if (Model.IsConnected)
 							{
-								<td>
-									<div class="col-md-6 pull-right">
-										<button class="teamButton hover btn btn-default" type="button" data-toggle="modal" data-team-id="@team.TeamID" data-target="#ModalChoisirGamerTag">Rejoindre</button>
-									</div>
-								</td>
+								if (Model.UserTeam == null)
+								{
+									<td>
+										<div class="col-md-6 pull-right">
+											<button class="teamButton hover btn btn-default" type="button" data-toggle="modal" data-team-id="@team.TeamID" data-target="#ModalChoisirGamerTag">Rejoindre</button>
+										</div>
+									</td>
+								}
 							}
-						}
 					</tr>
 				}
 			</table>

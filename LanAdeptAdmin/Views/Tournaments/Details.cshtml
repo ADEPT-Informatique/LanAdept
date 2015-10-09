@@ -69,12 +69,12 @@ else if (!Model.IsStarted)
 			{
 			<tr @("class=clickable-row data-row-url=" + Url.Action("DetailsTeam", new { id = team.TeamID }))>
 				<td>
-					@team.Name.ToString()
+					@team.Name
 				</td>
 				<td>
 					@if (team.Tag != null)
 					{
-						@team.Tag.ToString()
+						@team.Tag
 					}
 				</td>
 				<td>
