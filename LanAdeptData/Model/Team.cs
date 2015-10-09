@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -11,8 +12,11 @@ namespace LanAdeptData.Model
 	{
 		public int TeamID { get; set; }
 
+		[Required]
+		[StringLength(64)]
 		public string Name { get; set; }
 
+		[StringLength(4)]
 		public string Tag { get; set; }
 
 		public bool IsComplete { get; set; }

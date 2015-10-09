@@ -1,5 +1,6 @@
 ﻿using LanAdept.Views.Tournament.ModelController;
 using LanAdeptCore.Attribute.Authorization;
+using LanAdeptCore.Service;
 using LanAdeptData.DAL;
 using LanAdeptData.Model;
 using System;
@@ -54,37 +55,42 @@ namespace LanAdept.Views.Team.ModelController
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
 
-			DetailsTeamModel team = new DetailsTeamModel();
+			DetailsTeamModel teamModel = new DetailsTeamModel();
 
-			LanAdeptData.Model.Team teamToAdd = uow.TeamRepository.GetByID(teamId);
+			LanAdeptData.Model.Team team = uow.TeamRepository.GetByID(teamId);
 
-			team.GamerTags = teamToAdd.GamerTags;
-			team.TeamID = teamToAdd.TeamID;
-			team.TournamentID = teamToAdd.TournamentID;
-			team.MaxPlayerPerTeam = teamToAdd.Tournament.MaxPlayerPerTeam;
-			team.Name = teamToAdd.Name;
-			team.Tag = teamToAdd.Tag;
-			team.TeamLeaderTag = teamToAdd.TeamLeaderTag;
+			if (team.TeamLeaderTag.User == UserService.GetLoggedInUser())
+			{
+				return RedirectToAction("Index","Home");
+			}
+
+			teamModel.GamerTags = team.GamerTags;
+			teamModel.TeamID = team.TeamID;
+			teamModel.TournamentID = team.TournamentID;
+			teamModel.MaxPlayerPerTeam = team.Tournament.MaxPlayerPerTeam;
+			teamModel.Name = team.Name;
+			teamModel.Tag = team.Tag;
+			teamModel.TeamLeaderTag = team.TeamLeaderTag;
 
 			List<Demande> demandes = new List<Demande>();
 
 			foreach (Demande demande in uow.DemandeRepository.Get())
 			{
-				if (demande.Team.TeamID == teamToAdd.TeamID)
+				if (demande.Team.TeamID == team.TeamID)
 				{
 					demandes.Add(demande);
 				}
 			}
 
-			team.Demandes = demandes;
+			teamModel.Demandes = demandes;
 
 
-			if (team == null)
+			if (teamModel == null)
 			{
 				return HttpNotFound();
 			}
 
-			return View(team);
+			return View(teamModel);
 		}
 
 		[AuthorizePermission("user.tournament.team.kick")]
@@ -156,6 +162,36 @@ namespace LanAdept.Views.Team.ModelController
 			uow.Save();
 
 			return RedirectToAction("DetailsTeam", new { teamId = teamId });
+		}
+
+		//TODO: LeaveTeam
+		[Authorize]
+		public ActionResult LeaveTeam(int teamId)
+		{
+			LanAdeptData.Model.Team team = uow.TeamRepository.GetByID(teamId);
+
+
+			return RedirectToAction("Details","Tournament", new { id = team.Tournament.TournamentID });
+		}
+
+		//TODO: CancelDemande
+		[Authorize]
+		public ActionResult CancelDemande(int teamId)
+		{
+			LanAdeptData.Model.Team team = uow.TeamRepository.GetByID(teamId);
+
+
+			return RedirectToAction("Details", "Tournament", new { id = team.Tournament.TournamentID });
+		}
+
+		//TODO: DeleteTeam
+		[Authorize]
+		public ActionResult DeleteTeam(int teamId)
+		{
+			LanAdeptData.Model.Team team = uow.TeamRepository.GetByID(teamId);
+
+
+			return RedirectToAction("Index", "Home");
 		}
 	}
 }

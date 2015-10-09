@@ -59,11 +59,21 @@ namespace LanAdept.Views.Tournament.ModelController
 		[AuthorizePermission("user.tournament.team.add")]
 		public ActionResult Addteam(int id)
 		{
-			AddTeamModel team = new AddTeamModel();
-			team.Tournament = uow.TournamentRepository.GetByID(id);
-			team.TournamentID = team.Tournament.TournamentID;
-			team.GamerTags = uow.GamerTagRepository.GetByUser(UserService.GetLoggedInUser());
-			return View(team);
+			LanAdeptData.Model.Tournament tournament = uow.TournamentRepository.GetByID(id);
+			foreach (LanAdeptData.Model.Team team in tournament.Teams)
+			{
+				if (team.TeamLeaderTag.User == UserService.GetLoggedInUser())
+				{
+					return RedirectToAction("Details", new { id = team.Tournament.TournamentID });
+				}
+			}
+
+
+			AddTeamModel model = new AddTeamModel();
+			model.Tournament = tournament;
+			model.TournamentID = model.Tournament.TournamentID;
+			model.GamerTags = uow.GamerTagRepository.GetByUser(UserService.GetLoggedInUser());
+			return View(model);
 		}
 
 		[AuthorizePermission("user.tournament.team.add")]
@@ -71,6 +81,15 @@ namespace LanAdept.Views.Tournament.ModelController
 		[ValidateAntiForgeryToken]
 		public ActionResult Addteam(AddTeamModel teamModel)
 		{
+			LanAdeptData.Model.Tournament tournament = uow.TournamentRepository.GetByID(teamModel.TournamentID);
+			foreach (LanAdeptData.Model.Team team in tournament.Teams)
+			{
+				if (team.TeamLeaderTag.User == UserService.GetLoggedInUser())
+				{
+					return RedirectToAction("Details", new { id = team.Tournament.TournamentID });
+				}
+			}
+
 			if (ModelState.IsValid)
 			{
 				LanAdeptData.Model.Team team = new LanAdeptData.Model.Team();
@@ -86,28 +105,23 @@ namespace LanAdept.Views.Tournament.ModelController
 
 				uow.TeamRepository.Insert(team);
 
-				LanAdeptData.Model.Tournament tournament = team.Tournament;
-
-				if (tournament.Teams == null)
+				if (team.Tournament.Teams == null)
 				{
 					ICollection<LanAdeptData.Model.Team> teamList;
 					teamList = new List<LanAdeptData.Model.Team>();
 					teamList.Add(team);
-					tournament.Teams = teamList;
+					team.Tournament.Teams = teamList;
 				}
 				else
 				{
-					tournament.Teams.Add(team);
+					team.Tournament.Teams.Add(team);
 				}
 
-				uow.TournamentRepository.Update(tournament);
+				uow.TournamentRepository.Update(team.Tournament);
 
 				uow.Save();
 				return RedirectToAction("Details", new { id = team.Tournament.TournamentID });
 			}
-
-			//IEnumerable<GamerTag> gamerTags = uow.GamerTagRepository.GetByUser(UserService.GetLoggedInUser());
-			//teamModel.LeaderTags = new SelectList(gamerTags, "GamerTagID", "Gamertag");
 
 			teamModel.GamerTags = uow.GamerTagRepository.GetByUser(UserService.GetLoggedInUser());
 			return View(teamModel);

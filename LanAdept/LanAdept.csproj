@@ -149,6 +149,7 @@
     <Compile Include="Views\Tournament\ModelController\GamerTagResponse.cs" />
     <Compile Include="Views\Tournament\ModelController\JoinTeamModel.cs" />
     <Compile Include="Views\Tournament\ModelController\AddTeamModel.cs" />
+    <Compile Include="Views\Tournament\ModelController\TeamModel.cs" />
     <Compile Include="Views\Tournament\ModelController\TournamentController.cs" />
     <Compile Include="Views\Tournament\ModelController\TournamentModel.cs" />
   </ItemGroup>

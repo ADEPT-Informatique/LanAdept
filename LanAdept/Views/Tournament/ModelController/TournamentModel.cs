@@ -35,6 +35,8 @@ namespace LanAdept.Views.Tournament.ModelController
 
 		public string Info { get; set; }
 
+		public int MaxPlayerPerTeam { get; set; }
+
 		public TournamentModel()
 		{
 
@@ -50,6 +52,7 @@ namespace LanAdept.Views.Tournament.ModelController
 			Info = tournament.Info;
 			IsStarted = tournament.IsStarted;
 			IsOver = tournament.IsOver;
+			MaxPlayerPerTeam = tournament.MaxPlayerPerTeam;
 		}
 	}
 }

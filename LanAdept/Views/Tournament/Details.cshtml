@@ -68,32 +68,35 @@
 							}
 						</td>
 						<td>
-							@team.GamerTags.Count / @team.Tournament.MaxPlayerPerTeam
+							@team.GamerTags.Count / @Model.MaxPlayerPerTeam
 						</td>
 						<td>
-							@foreach (var tag in team.GamerTags)
+							@foreach (GamerTag gamerTag in team.GamerTags)
 							{
-								<div class="col-xs-12">@tag.Gamertag</div>
+								<div class="col-xs-12">@gamerTag.Gamertag</div>
 							}
 						</td>
-							@if (Model.IsConnected)
-							{
-								if (Model.UserTeam == null)
+						@if (Model.IsConnected)
+						{
+							<td>
+								@if (Model.UserTeam == null)
 								{
-									<td>
-										<div class="col-md-6 pull-right">
-											<button class="teamButton hover btn btn-default" type="button" data-toggle="modal" data-team-id="@team.TeamID" data-target="#ModalChoisirGamerTag">Rejoindre</button>
-										</div>
-									</td>
+									<div class="col-md-6 pull-right">
+										<button class="teamButton hover btn btn-default" type="button" data-toggle="modal" data-team-id="@team.TeamID" data-target="#ModalChoisirGamerTag">Rejoindre</button>
+									</div>
 								}
-							}
+								else
+								{
+									@Html.ActionLink("Mon équipe", "DetailsTeam", "Team", new { teamId = team.TeamID}, new { @class = "btn btn-primary" })
+								}
+							</td>
+						}
 					</tr>
 				}
 			</table>
 		</div>
 	}
 </div>
-
 
 @section scripts {
 	<script>

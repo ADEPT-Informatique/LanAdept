@@ -33,7 +33,7 @@
 					@if (Model.TeamLeaderTag == gamerTag)
 					{
 						<a class="btn btn-default disabled btn-xs">
-							Team Leader
+							Leader
 						</a>
 					}
 				</td>
@@ -43,7 +43,7 @@
 				<td>
 					@if (gamerTag != Model.TeamLeaderTag)
 					{
-						<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#kickModal">Kick</button>
+						<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#kickModal">Retirer</button>
 
 						<div class="modal fade" id="kickModal" role="dialog">
 							<div class="modal-dialog">
@@ -51,10 +51,10 @@
 								<div class="modal-content">
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal">&times;</button>
-										<h4 class="modal-title">Kick player</h4>
+										<h4 class="modal-title">Retirer joueur</h4>
 									</div>
 									<div class="modal-body">
-										<p>Voulez-vous vraiment kick @gamerTag.Gamertag</p>
+										<p>Voulez-vous vraiment retirer @gamerTag.Gamertag</p>
 									</div>
 									<div class="modal-footer">
 										@Html.ActionLink("Oui", "KickPlayer", new { gamerTagId = gamerTag.GamerTagID, teamId = Model.TeamID }, new { @class = "btn btn-success" })
