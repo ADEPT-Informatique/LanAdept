@@ -21,6 +21,7 @@ namespace LanAdept.Views.Tournament.ModelController
 		[Display(Name = "Jeu")]
 		public Game Game { get; set; }
 
+		//TODO: Implementer TeamModel a la place de Team
         public IEnumerable<LanAdeptData.Model.Team> Teams { get; set; }
 
         public IEnumerable<GamerTag> GamerTags { get; set; }
@@ -42,6 +43,7 @@ namespace LanAdept.Views.Tournament.ModelController
 
 		}
 
+		//TODO: Enlever le constructeur et toujours construire le model a la mitaine
 		public TournamentModel(LanAdeptData.Model.Tournament tournament)
 		{
 			StartTime = tournament.StartTime;
