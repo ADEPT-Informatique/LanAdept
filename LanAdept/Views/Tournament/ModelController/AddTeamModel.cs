@@ -8,7 +8,7 @@ namespace LanAdept.Views.Tournament.ModelController
 	public class AddTeamModel
 	{
 		[Required]
-		[StringLength(64, MinimumLength = 1)]
+		[StringLength(30, MinimumLength = 1)]
 		public string Name { get; set; }
 
 		[StringLength(4, MinimumLength = 1)]
