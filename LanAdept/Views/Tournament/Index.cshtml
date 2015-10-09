@@ -22,26 +22,26 @@
 		</tr>
 	</thead>
 	<tbody>
-		@foreach (var item in Model)
+		@foreach (LanAdept.Views.Tournament.ModelController.TournamentModel tournamentModel in Model)
 		{
-			<tr @("class=clickable-row data-row-url=" + Url.Action("Details", "Tournament", new { id = item.TournamentID }))>
+			<tr @("class=clickable-row data-row-url=" + Url.Action("Details", "Tournament", new { id = tournamentModel.TournamentID }))>
 				<td>
-					@Html.DisplayFor(modelItem => item.Game.Name)
+					@Html.DisplayFor(modelItem => tournamentModel.Game.Name)
 				</td>
 				<td>
-					@item.Teams.Count()
+					@tournamentModel.Teams.Count()
 				</td>
 				<td>
-					@Html.DisplayFor(modelItem => item.StartTime)
+					@Html.DisplayFor(modelItem => tournamentModel.StartTime)
 				</td>
 				<td>
-					@if (item.IsOver)
+					@if (tournamentModel.IsOver)
 					{
 						<div class="btn btn-danger disabled">
 							Terminé
 						</div>
 					}
-					else if (item.IsStarted)
+					else if (tournamentModel.IsStarted)
 					{
 						<div class="btn btn-success disabled">
 							Commencé

@@ -5,32 +5,47 @@
 @{
 	ViewBag.Title = "Details";
 }
+<h1>
+	@ViewBag.test
+</h1>
+
+
 <div class="map-max-width">
+
+	@if (Model.IsOver)
+	{
+	<div class="alert alert-danger">Le tournois est terminer</div>
+	}
+	else if (Model.IsStarted)
+	{
+		<div class="alert alert-success">Le tournois est commencer</div>
+	}
+
 
 	<div class="page-header clearfix">
 		<h1 class="pull-left">@Html.DisplayFor(model => model.Game.Name)</h1>
 
 
-		@if (Model.IsConnected && Model.UserTeam == null && !Model.IsStarted && !Model.IsOver)
+		@if (Model.IsConnected && !Model.IsStarted && !Model.IsOver && Model.CanAddTeam)
 		{
 			<br />
 			<div class="btn-toolbar pull-right">
 				<div class="btn-group">
-					@Html.ActionLink("Ajouter une equipe", "AddTeam", new { id = Model.TournamentID }, new { @class = "btn btn-default" })
+					@Html.ActionLink("Ajouter une équipe", "AddTeam", new { id = Model.TournamentID }, new { @class = "btn btn-default" })
 				</div>
 			</div>
 		}
 	</div>
 	@if (Model.Info != null)
 	{
-		<h3>Informations et reglements</h3>
+		<h3>Informations et règlements</h3>
 		<div>
 			@Html.Markdown(Model.Info)
 		</div>
 		<hr />
 	}
 
-	<h4>Teams</h4>
+	<h4>Équipes</h4>
 
 	@using (Html.BeginForm("JoinTeam", "Tournament", new JoinTeamModel() { TournamentID = Model.TournamentID }))
 	{
@@ -40,6 +55,7 @@
 		if (Model.IsConnected)
 		{
 			@Html.Partial("ModalChoisirGamerTag", Model.GamerTags)
+			@Html.Partial("ModalChoisirGamerTagFooterRejoindre")
 		}
 
 		<div class="table-responsive">
@@ -55,7 +71,7 @@
 					}
 				</tr>
 
-				@foreach (Team team in Model.Teams)
+				@foreach (TeamModel team in Model.Teams)
 				{
 					<tr>
 						<td>
@@ -68,7 +84,7 @@
 							}
 						</td>
 						<td>
-							@if (team.GamerTags.Count == Model.MaxPlayerPerTeam)
+							@if (team.Gamertags.Count() == Model.MaxPlayerPerTeam)
 							{
 								<div class="alert alert-success">
 									Complète
@@ -77,29 +93,44 @@
 							else
 							{
 								<div>
-									@team.GamerTags.Count / @Model.MaxPlayerPerTeam
+									@team.Gamertags.Count() / @Model.MaxPlayerPerTeam
 								</div>
-                            }
+							}
 						</td>
 						<td>
-							@foreach (GamerTag gamerTag in team.GamerTags)
+							@foreach (GamerTag gamerTag in team.Gamertags)
 							{
-								<div class="col-xs-12">@gamerTag.Gamertag</div>
+								if (gamerTag == team.TeamLeaderTag)
+								{
+									<div class="col-xs-12">@gamerTag.Gamertag (Leader)</div>
+								}
+								else
+								{
+									<div class="col-xs-12">@gamerTag.Gamertag</div>
+								}
 							}
 						</td>
 						@if (Model.IsConnected)
 						{
 							<td>
-								@if (Model.UserTeam == null && (team.GamerTags.Count < Model.MaxPlayerPerTeam))
-								{
-									<div class="col-md-6 pull-right">
+								<div class="col-md-6 pull-right">
+									@if (team.IsMyTeamForTeamLeader)
+									{
+										@Html.ActionLink("Mon équipe", "DetailsTeam", "Team", new { teamId = team.TeamID }, new { @class = "btn btn-primary" })
+									}
+									else if (team.IsMyTeam)
+									{
+										@Html.ActionLink("Quitter", "LeaveTeam", "Team", new { teamId = team.TeamID }, new { @class = "btn btn-danger" })
+									}
+									else if (team.IsTeamDemande)
+									{
+										@Html.ActionLink("Annuler ma demande", "CancelDemande", "Team", new { teamId = team.TeamID }, new { @class = "btn btn-danger" })
+									}
+									else if (team.Gamertags.Count() < Model.MaxPlayerPerTeam && !Model.IsTeamLeader && !Model.IsStarted && !Model.IsOver)
+									{
 										<button class="teamButton hover btn btn-default" type="button" data-toggle="modal" data-team-id="@team.TeamID" data-target="#ModalChoisirGamerTag">Rejoindre</button>
-									</div>
-								}
-								else
-								{
-									@Html.ActionLink("Mon équipe", "DetailsTeam", "Team", new { teamId = team.TeamID}, new { @class = "btn btn-primary" })
-								}
+									}
+								</div>
 							</td>
 						}
 					</tr>

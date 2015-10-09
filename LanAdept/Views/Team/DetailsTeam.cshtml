@@ -7,13 +7,23 @@
 }
 
 <div class="page-header clearfix">
-	<h1>@Model.Name </h1>
-	<h2>[@Model.Tag]</h2>
+	<h1 class="col-md-10">@Model.Name </h1>
+
+	<br />
+	<div class="btn-toolbar pull-right">
+		<div class="btn-group">
+			@Html.ActionLink("Supprimer l'équipe", "DeleteTeam", new { teamId = Model.TeamID }, new { @class = "btn btn-danger" })
+		</div>
+	</div>
+
+	<br />
+	<h2 class="col-sm-12">[@Model.Tag]</h2>
+
 </div>
 
-<h4>
+<h3>
 	Joueurs
-</h4>
+</h3>
 
 <div class="table-responsive">
 	<table class="table">

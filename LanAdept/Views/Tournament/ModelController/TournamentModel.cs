@@ -21,8 +21,7 @@ namespace LanAdept.Views.Tournament.ModelController
 		[Display(Name = "Jeu")]
 		public Game Game { get; set; }
 
-		//TODO: Implementer TeamModel a la place de Team
-        public IEnumerable<LanAdeptData.Model.Team> Teams { get; set; }
+        public IEnumerable<TeamModel> Teams { get; set; }
 
         public IEnumerable<GamerTag> GamerTags { get; set; }
 
@@ -32,24 +31,19 @@ namespace LanAdept.Views.Tournament.ModelController
 
 		public bool IsOver { get; set; }
 
-        public LanAdeptData.Model.Team UserTeam { get; set; }
+		public bool IsTeamLeader { get; set; }
 
 		public string Info { get; set; }
 
 		public int MaxPlayerPerTeam { get; set; }
 
-		public TournamentModel()
-		{
+		public bool CanAddTeam { get; set; }
 
-		}
-
-		//TODO: Enlever le constructeur et toujours construire le model a la mitaine
 		public TournamentModel(LanAdeptData.Model.Tournament tournament)
 		{
 			StartTime = tournament.StartTime;
 			Game = tournament.Game;
 			GameID = tournament.GameID;
-			Teams = tournament.Teams;
 			TournamentID = tournament.TournamentID;
 			Info = tournament.Info;
 			IsStarted = tournament.IsStarted;

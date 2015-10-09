@@ -276,6 +276,8 @@
     <Content Include="Views\Error\Forbidden.cshtml" />
     <Content Include="Views\Team\DetailsTeam.cshtml" />
     <Content Include="Views\Team\Index.cshtml" />
+    <Content Include="Views\Tournament\Partial\ModalChoisirGamerTagFooterRejoindre.cshtml" />
+    <Content Include="Views\Tournament\Partial\ModalChoisirGamerTagFooterAjouter.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

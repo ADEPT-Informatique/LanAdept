@@ -12,7 +12,6 @@ namespace LanAdept.Views.Tournament.ModelController
 {
 	public class TournamentController : Controller
 	{
-#if DEBUG
 		UnitOfWork uow = UnitOfWork.Current;
 
 		[AllowAnonymous]
@@ -22,9 +21,16 @@ namespace LanAdept.Views.Tournament.ModelController
 			IEnumerable<LanAdeptData.Model.Tournament> tournaments = uow.TournamentRepository.Get();
 			foreach (LanAdeptData.Model.Tournament tournament in tournaments)
 			{
-				tournamentModels.Add(new TournamentModel(tournament));
+				TournamentModel tournamentModel = new TournamentModel(tournament);
+				List<TeamModel> teamModels = new List<TeamModel>();
+				foreach (LanAdeptData.Model.Team team in tournament.Teams)
+				{
+					TeamModel teamModel = new TeamModel(team);
+					teamModels.Add(teamModel);
+				}
+				tournamentModel.Teams = teamModels;
+				tournamentModels.Add(tournamentModel);
 			}
-
 			return View(tournamentModels);
 		}
 
@@ -44,13 +50,67 @@ namespace LanAdept.Views.Tournament.ModelController
 			}
 
 			TournamentModel tournamentModel = new TournamentModel(tournament);
+			if (UserService.IsUserLoggedIn())
+			{
+				tournamentModel.CanAddTeam = true;
+				tournamentModel.IsTeamLeader = UserService.IsTeamLeader();
+			}
+
+
+			List<TeamModel> teamModels = new List<TeamModel>();
+			foreach (LanAdeptData.Model.Team team in tournament.Teams)
+			{
+				TeamModel teamModel = new TeamModel(team);
+
+				if (UserService.IsUserLoggedIn())
+				{
+					if (team.TeamLeaderTag.UserID == UserService.GetLoggedInUser().UserID)
+					{
+						tournamentModel.IsTeamLeader = true;
+						tournamentModel.CanAddTeam = false;
+						teamModel.IsMyTeamForTeamLeader = true;
+						teamModel.IsTeamDemande = false;
+						teamModel.IsMyTeam = false;
+					}
+					else
+					{
+						foreach (GamerTag gamer in team.GamerTags)
+						{
+							if (gamer.User.UserID == UserService.GetLoggedInUser().UserID)
+							{
+								tournamentModel.CanAddTeam = false;
+								teamModel.IsMyTeamForTeamLeader = false;
+								teamModel.IsTeamDemande = false;
+								teamModel.IsMyTeam = true;
+							}
+						}
+
+						if (!teamModel.IsMyTeam)
+						{
+							List<Demande> demandes = uow.DemandeRepository.GetByTeamId(team.TeamID);
+							foreach (Demande demande in demandes)
+							{
+								if (demande.Team.TeamID == team.TeamID)
+								{
+									tournamentModel.CanAddTeam = false;
+									teamModel.IsMyTeamForTeamLeader = false;
+									teamModel.IsTeamDemande = true;
+									teamModel.IsMyTeam = false;
+								}
+							}
+						}
+					}
+				}
+				teamModels.Add(teamModel);
+			}
+
+			tournamentModel.Teams = teamModels;
 
 			User user = UserService.GetLoggedInUser();
 			if (user != null)
 			{
 				tournamentModel.IsConnected = true;
 				tournamentModel.GamerTags = uow.GamerTagRepository.GetByUser(user);
-				tournamentModel.UserTeam = uow.TeamRepository.UserTeamInTournament(user, tournament);
 			}
 
 			return View(tournamentModel);
@@ -67,7 +127,13 @@ namespace LanAdept.Views.Tournament.ModelController
 					return RedirectToAction("Details", new { id = team.Tournament.TournamentID });
 				}
 			}
-
+			foreach (Demande demande in uow.DemandeRepository.Get())
+			{
+				if (demande.Team.TournamentID == tournament.TournamentID)
+				{
+					return RedirectToAction("Details", new { id = tournament.TournamentID });
+				}
+			}
 
 			AddTeamModel model = new AddTeamModel();
 			model.Tournament = tournament;
@@ -168,6 +234,13 @@ namespace LanAdept.Views.Tournament.ModelController
 				return RedirectToAction("Details", new { id = tournament.TournamentID });
 			}
 
+			foreach (Demande item in uow.DemandeRepository.GetByTeamId(model.TeamID))
+			{
+				if (item.GamerTag.GamerTagID == model.GamerTagID)
+				{
+					return RedirectToAction("Details", new { id = tournament.TournamentID });
+				}
+			}
 
 			Demande demande = new Demande();
 			User user = UserService.GetLoggedInUser();
@@ -194,16 +267,5 @@ namespace LanAdept.Views.Tournament.ModelController
 
 			return RedirectToAction("Details", new { id = model.TournamentID });
 		}
-
-
-
-#endif
-#if (!DEBUG)
-		[AllowAnonymous]
-		public ActionResult Index()
-		{
-			return View("TournamentComing");
-		}
-#endif
 	}
 }

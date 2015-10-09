@@ -170,6 +170,17 @@ namespace LanAdept.Views.Team.ModelController
 		{
 			LanAdeptData.Model.Team team = uow.TeamRepository.GetByID(teamId);
 
+			foreach (GamerTag gamer in team.GamerTags)
+			{
+				if (gamer.UserID == UserService.GetLoggedInUser().UserID)
+				{
+					team.GamerTags.Remove(gamer);
+
+					uow.TeamRepository.Update(team);
+					uow.GamerTagRepository.Update(gamer);
+					uow.Save();
+				}
+			}
 
 			return RedirectToAction("Details","Tournament", new { id = team.Tournament.TournamentID });
 		}
@@ -179,6 +190,17 @@ namespace LanAdept.Views.Team.ModelController
 		public ActionResult CancelDemande(int teamId)
 		{
 			LanAdeptData.Model.Team team = uow.TeamRepository.GetByID(teamId);
+
+			List<Demande> demandes = uow.DemandeRepository.GetByTeamId(teamId);
+            foreach (Demande demande in demandes)
+			{
+				if (demande.GamerTag.UserID == UserService.GetLoggedInUser().UserID)
+				{
+					uow.DemandeRepository.Delete(demande);
+				}
+			}
+
+			uow.Save();
 
 
 			return RedirectToAction("Details", "Tournament", new { id = team.Tournament.TournamentID });
@@ -190,6 +212,15 @@ namespace LanAdept.Views.Team.ModelController
 		{
 			LanAdeptData.Model.Team team = uow.TeamRepository.GetByID(teamId);
 
+			List<Demande> demandes = uow.DemandeRepository.GetByTeamId(teamId);
+			foreach (Demande demande in demandes)
+			{
+				uow.DemandeRepository.Delete(demande);
+			}
+
+			uow.TeamRepository.Delete(team);
+
+			uow.Save();
 
 			return RedirectToAction("Index", "Home");
 		}
