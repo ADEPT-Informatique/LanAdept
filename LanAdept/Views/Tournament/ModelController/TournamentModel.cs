@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace LanAdept.Views.Tournament.ModelController
+namespace LanAdept.Views.Tournaments.ModelController
 {
 	public class TournamentModel
 	{

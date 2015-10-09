@@ -1,93 +1,109 @@
-﻿@model LanAdept.Views.Tournament.ModelController.AddTeamModel
-@using LanAdept.Views.Tournament.ModelController;
+﻿@model LanAdept.Views.Tournaments.ModelController.AddTeamModel
 
 @{
-    ViewBag.Title = "AddTeam";
+	ViewBag.Title = "AddTeam";
 }
 
 <h2>Ajouter une équipe</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("AddTeam", "Tournament", null, FormMethod.Post, new { id = "AddTeamForm" }))
 {
-    @Html.AntiForgeryToken()
-    @Html.Partial("ModalChoisirGamerTag", Model.GamerTags);
+	@Html.AntiForgeryToken()
+	@Html.Partial("ModalChoisirGamerTag", Model.GamerTags);
 	@Html.Partial("ModalChoisirGamerTagFooterAjouter")
 
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+	<div class="form-horizontal">
+		<hr />
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        @Html.HiddenFor(model => model.TournamentID, new { id = "tournamentId" })
-        @Html.HiddenFor(model => model.GamerTagId, new { id = "tagId" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Tag, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.Tag, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Tag, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-6 pull-right">
-                <button class="hover btn btn-primary" type="button" data-toggle="modal" data-target="#ModalChoisirGamerTag">Ajouter une Équipe</button>
-            </div>
-        </div>
-    </div>
+		@Html.HiddenFor(model => model.TournamentID, new { id = "tournamentId" })
+		@Html.HiddenFor(model => model.GamerTagId, new { id = "tagId" })
+		<div class="form-group">
+			@Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-6">
+				@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(model => model.Tag, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-6">
+				@Html.EditorFor(model => model.Tag, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.Tag, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-6 col-md-offset-2 text-right">
+				@Html.IconActionLink("glyphicon-arrow-left", "Details", null, new { id = Model.TournamentID }, new { @class = "btn btn-default" })
+				<button class="hover btn btn-primary" type="submit">Ajouter une Équipe</button> @* #ModalChoisirGamerTag *@
+			</div>
+		</div>
+	</div>
 }
 
-<div>
-	@Html.IconActionLink("glyphicon-arrow-left", "Details", null, new { id = Model.TournamentID }, new { @class = "btn btn-default" })
-</div>
-
 @section scripts {
-    <script>
-        $(document).ready(function () {
 
-            $('.tagItem').click(selectGamerTag);
+	@Scripts.Render("~/bundles/jqueryval")
 
-            $('#actionButton').click(function (event) {
-                if (!$('.tagItem').hasClass('active'))
-                    event.preventDefault();
-                else {
-                    $(this).button('loading');
-                }
-            })
+	<script>
+		$(document).ready(function () {
+			var submitForm = false;
 
-            $('.addGamertag').click(function (event) {
-                $.ajax({
-                    method: "POST",
-                    url: "@Url.Action("AddGamerTag")",
-                    data: { gamertag: $('#gamerTagText').val() }
-                }).done(function (data) {
-                    console.log(data);
-                    if (!data.HasError) {
-                        var element = $('<a href="#" class="tagItem list-group-item" data-tag-id="' + data.GamerTagID + '">' + data.Gamertag + '</a>')
-                        $('#listGamerTag').append(element);
-                        element.click(selectGamerTag);
-                        $('#gamerTagText').val("");
-                    }
-                })
-            });
+			$("#AddTeamForm").submit(function (e) {
+				if (!submitForm) {
+					
+					e.preventDefault();
+					if ($("#AddTeamForm").valid()) {
+						$('#ModalChoisirGamerTag').modal('show');
+						submitForm = true;
+					}
+					return false;
+				}
+			});
 
-            $('#ModalChoisirGamerTag').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget);
-                var modal = $(this);
-            });
+			$('.tagItem').click(selectGamerTag);
 
-            function selectGamerTag() {
-                $('#GamerTagID').val($(this).attr('data-tag-id'));
-                $('.active').removeClass('active');
-                $(this).addClass('active');
-                if ($('#actionButton').hasClass('disabled'))
-                    $('#actionButton').removeClass('disabled');
-            }
-        })
-    </script>
+			$('#actionButton').click(function (event) {
+				if (!$('.tagItem').hasClass('active'))
+					event.preventDefault();
+				else {
+					$(this).button('loading');
+				}
+			})
+
+			$('.addGamertag').click(function (event) {
+				$.ajax({
+					method: "POST",
+					url: "@Url.Action("AddGamerTag")",
+					data: { gamertag: $('#gamerTagText').val() }
+				}).done(function (data) {
+					console.log(data);
+					if (!data.HasError) {
+						var element = $('<a href="#" class="tagItem list-group-item" data-tag-id="' + data.GamerTagID + '">' + data.Gamertag + '</a>')
+						$('#listGamerTag').append(element);
+						element.click(selectGamerTag);
+						$('#gamerTagText').val("");
+					}
+				})
+			});
+
+			//$('#ModalChoisirGamerTag').on('show.bs.modal', function (event) {
+			//    var button = $(event.relatedTarget);
+			//    var modal = $(this);
+			//});
+
+			$('#ModalChoisirGamerTag').on('hide.bs.modal', function (event) {
+				submitForm = false;
+			});
+
+			function selectGamerTag() {
+				$('#GamerTagID').val($(this).attr('data-tag-id'));
+				$('.active').removeClass('active');
+				$(this).addClass('active');
+				if ($('#actionButton').hasClass('disabled'))
+					$('#actionButton').removeClass('disabled');
+			}
+		})
+	</script>
 }
 

@@ -1,6 +1,4 @@
-﻿@model LanAdept.Views.Tournament.ModelController.TournamentModel
-@using LanAdept.Views.Tournament.ModelController;
-
+﻿@model LanAdept.Views.Tournaments.ModelController.TournamentModel
 
 @{
 	ViewBag.Title = "Details";
@@ -49,7 +47,7 @@
 	{
 		<h4>Équipes</h4>
 
-		using (Html.BeginForm("JoinTeam", "Tournament", new JoinTeamModel() { TournamentID = Model.TournamentID }))
+		using (Html.BeginForm("JoinTeam", "Tournament", new LanAdept.Views.Tournaments.ModelController.JoinTeamModel() { TournamentID = Model.TournamentID }))
 		{
 			@Html.Hidden("GamerTagID", 0, new { id = "tagInput" })
 			@Html.Hidden("TeamID", 0, new { id = "teamInput" })
@@ -74,17 +72,14 @@
 							}
 						</tr>
 					</thead>
-					@foreach (TeamModel team in Model.Teams)
+					@foreach (LanAdept.Views.Tournaments.ModelController.TeamModel team in Model.Teams)
 					{
 						<tr>
 							<td>
 								@team.Name
 							</td>
 							<td>
-								@if (team.Tag != null)
-								{
-									@team.Tag
-								}
+								@(team.Tag ?? "");
 							</td>
 							<td>
 								@if (team.Gamertags.Count() == Model.MaxPlayerPerTeam)
@@ -105,7 +100,7 @@
 								{
 									if (gamerTag == team.TeamLeaderTag)
 									{
-										<div class="col-xs-12">@gamerTag.Gamertag <span class="glyphicon glyphicon-star-empty"></span></div>
+										<div class="col-xs-12">@gamerTag.Gamertag <span class="glyphicon glyphicon-star"></span></div>
 									}
 									else
 									{
@@ -119,15 +114,15 @@
 									<div class="col-md-6 pull-right">
 										@if (team.IsMyTeamForTeamLeader)
 										{
-											@Html.ActionLink("Mon équipe", "DetailsTeam", "Team", new { teamId = team.TeamID }, new { @class = "btn btn-primary" })
+											@Html.ActionLink("Mon équipe", "Details", "Team", new { id = team.TeamID }, new { @class = "btn btn-primary" })
 										}
 										else if (team.IsMyTeam)
 										{
-											@Html.ActionLink("Quitter", "LeaveTeam", "Team", new { teamId = team.TeamID }, new { @class = "btn btn-danger" })
+											@Html.ActionLink("Quitter", "LeaveTeam", "Team", new { id = team.TeamID }, new { @class = "btn btn-danger" })
 										}
 										else if (team.IsTeamDemande)
 										{
-											@Html.ActionLink("Annuler ma demande", "CancelDemande", "Team", new { teamId = team.TeamID }, new { @class = "btn btn-danger" })
+											@Html.ActionLink("Annuler ma demande", "CancelDemande", "Team", new { id = team.TeamID }, new { @class = "btn btn-danger" })
 										}
 										else if (team.Gamertags.Count() < Model.MaxPlayerPerTeam && !Model.IsTeamLeader && !Model.IsStarted && !Model.IsOver)
 										{

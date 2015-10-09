@@ -54,7 +54,7 @@ namespace LanAdeptCore.Service
 			if (realUser.Password != hashedInputPassword)
 				return new TryLoginResult() { HasSucceeded = false, Reason = ERROR_MESSAGE_INVALID_LOGIN };
 
-			if(realUser.Role.IsUnconfirmedRole)
+			if (realUser.Role.IsUnconfirmedRole)
 				return new TryLoginResult() { HasSucceeded = false, Reason = ERROR_MESSAGE_UNCONFIRMED_LOGIN };
 
 			// À partir de ce point, la connexion est réussie
@@ -86,7 +86,8 @@ namespace LanAdeptCore.Service
 		/// <summary>
 		/// Disconnect the user from the website
 		/// </summary>
-		public static void Logout() {
+		public static void Logout()
+		{
 			FormsAuthentication.SignOut();
 		}
 
@@ -119,14 +120,10 @@ namespace LanAdeptCore.Service
 
 		public static bool IsTeamLeader()
 		{
-			bool IsTeamLeader = false;
+			if (IsUserLoggedIn())
+				return UnitOfWork.Current.TeamRepository.GetByTeamLeaderID(GetLoggedInUser().UserID).Count() >= 1;
 
-			if (UnitOfWork.Current.TeamRepository.GetByTeamLeaderID(GetLoggedInUser().UserID).Count() >= 1)
-			{
-				IsTeamLeader = true;
-			}
-
-			return IsTeamLeader;
+			return false;
 		}
 
 		/* =============== PRIVÉ =============== */

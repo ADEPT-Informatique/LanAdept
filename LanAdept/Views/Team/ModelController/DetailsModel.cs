@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace LanAdept.Views.Tournament.ModelController
+namespace LanAdept.Views.Teams.ModelController
 {
-	public class DetailsTeamModel
+	public class DetailsModel
 	{
 		public string Name { get; set; }
 

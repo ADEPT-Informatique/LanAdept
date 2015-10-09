@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
-namespace LanAdept.Views.Tournament.ModelController
+namespace LanAdept.Views.Tournaments.ModelController
 {
 	public class AddTeamModel
 	{

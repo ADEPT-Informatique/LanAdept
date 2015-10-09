@@ -7,11 +7,15 @@ using LanAdeptCore.Service;
 using System.Data;
 using LanAdeptCore.Attribute.Authorization;
 using System.Linq;
+using LanAdept.Views.Tournaments.ModelController;
 
-namespace LanAdept.Views.Tournament.ModelController
+namespace LanAdept.Controllers
 {
 	public class TournamentController : Controller
 	{
+		private const string ERROR_INVALID_ID = "Désolé, une erreur est survenue. Merci de réessayer dans quelques instants";
+
+
 		UnitOfWork uow = UnitOfWork.Current;
 
 		[AllowAnonymous]
@@ -39,26 +43,25 @@ namespace LanAdept.Views.Tournament.ModelController
 		{
 			if (id == null)
 			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+				TempData["Error"] = ERROR_INVALID_ID;
+				return RedirectToAction("Index");
 			}
 
 			LanAdeptData.Model.Tournament tournament = uow.TournamentRepository.GetByID(id);
 
 			if (tournament == null)
 			{
-				return HttpNotFound();
+				TempData["Error"] = ERROR_INVALID_ID;
+				return RedirectToAction("Index");
 			}
 
 			TournamentModel tournamentModel = new TournamentModel(tournament);
-			if (UserService.IsUserLoggedIn())
-			{
-				tournamentModel.CanAddTeam = true;
-				tournamentModel.IsTeamLeader = UserService.IsTeamLeader();
-			}
 
+			tournamentModel.CanAddTeam = UserService.IsUserLoggedIn();
+			tournamentModel.IsTeamLeader = UserService.IsTeamLeader();
 
 			List<TeamModel> teamModels = new List<TeamModel>();
-			foreach (LanAdeptData.Model.Team team in tournament.Teams)
+			foreach (Team team in tournament.Teams)
 			{
 				TeamModel teamModel = new TeamModel(team);
 

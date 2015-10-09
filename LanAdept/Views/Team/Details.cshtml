@@ -1,9 +1,9 @@
-﻿@model LanAdept.Views.Tournament.ModelController.DetailsTeamModel
+﻿@model LanAdept.Views.Teams.ModelController.DetailsModel
 
 @{
 	bool isConnected = LanAdeptCore.Service.UserService.IsUserLoggedIn();
 	bool IsTeamLeader = LanAdeptCore.Service.UserService.IsTeamLeader();
-	ViewBag.Title = "DetailsTeam";
+	ViewBag.Title = "Équipe " + Model.Name;
 }
 
 <div class="page-header clearfix">
@@ -12,7 +12,7 @@
 	<br />
 	<div class="btn-toolbar pull-right">
 		<div class="btn-group">
-			@Html.ActionLink("Supprimer l'équipe", "DeleteTeam", new { teamId = Model.TeamID }, new { @class = "btn btn-danger" })
+			@Html.ActionLink("Supprimer l'équipe", "Delete", new { id = Model.TeamID }, new { @class = "btn btn-danger" })
 		</div>
 	</div>
 
@@ -65,7 +65,7 @@
 										<p>Voulez-vous vraiment retirer @gamerTag.Gamertag</p>
 									</div>
 									<div class="modal-footer">
-										@Html.ActionLink("Oui", "KickPlayer", new { gamerTagId = gamerTag.GamerTagID, teamId = Model.TeamID }, new { @class = "btn btn-success" })
+										@Html.ActionLink("Oui", "KickPlayer", new { gamerTagId = gamerTag.GamerTagID, id = Model.TeamID }, new { @class = "btn btn-success" })
 										<button type="button" class="btn btn-danger" data-dismiss="modal">Non</button>
 									</div>
 								</div>
@@ -108,8 +108,8 @@
 						@demande.GamerTag.Gamertag
 					</td>
 					<td class="col-md-3">
-						@Html.ActionLink("Accepter", "AcceptTeamMember", new { gamerTagId = demande.GamerTag.GamerTagID, teamId = Model.TeamID }, new { @class = "btn btn-success" })
-						@Html.ActionLink("Refuser", "RefuseTeamMember", new { gamerTagId = demande.GamerTag.GamerTagID, teamId = Model.TeamID }, new { @class = "btn btn-danger" })
+						@Html.ActionLink("Accepter", "AcceptTeamMember", new { gamerTagId = demande.GamerTag.GamerTagID, id = Model.TeamID }, new { @class = "btn btn-success" })
+						@Html.ActionLink("Refuser", "RefuseTeamMember", new { gamerTagId = demande.GamerTag.GamerTagID, id = Model.TeamID }, new { @class = "btn btn-danger" })
 					</td>
 				</tr>
 			}

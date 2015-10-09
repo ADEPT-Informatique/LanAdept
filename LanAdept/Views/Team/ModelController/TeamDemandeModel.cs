@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace LanAdept.Views.Team.ModelController
+namespace LanAdept.Views.Teams.ModelController
 {
 	public class TeamDemandeModel
 	{

@@ -1,10 +1,10 @@
-﻿@using LanAdept.Views.Team.ModelController
+﻿@using LanAdept.Views.Teams.ModelController
 
 	@{
-		ViewBag.Title = "Index";
+		ViewBag.Title = "Mes équipes";
 	}
 
-	<h2>Mes equipes</h2>
+	<h2>Mes équipes</h2>
 
 	<div>
 		<table class="table table-hover table-responsive">
@@ -27,7 +27,7 @@
 
 			@foreach (TeamDemandeModel team in Model.Teams)
 			{
-				<tr  @("class=clickable-row data-row-url=" + Url.Action("DetailsTeam", "Team", new { teamId = team.Team.TeamID }))>
+				<tr  @("class=clickable-row data-row-url=" + Url.Action("Details", "Team", new { id = team.Team.TeamID }))>
 					<td>
 						@team.Team.Name
 					</td>
