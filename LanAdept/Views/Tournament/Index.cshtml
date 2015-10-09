@@ -1,36 +1,64 @@
 ﻿@model IEnumerable<LanAdept.Views.Tournament.ModelController.TournamentModel>
 
 @{
-    ViewBag.Title = "Liste des tournois";
+	ViewBag.Title = "Liste des tournois";
 }
 
 <h2>Liste des tournois</h2>
 
 <table class="table table-striped">
-    <thead>
-        <tr>
-            <th class="col-sm-11">
-                @Html.DisplayNameFor(model => model.Game)
-            </th>
-            <th class="col-sm-1">
-                @Html.DisplayNameFor(model => model.StartTime)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model) {
-            <tr @("class=clickable-row data-row-url=" + Url.Action("Details", "Tournament", new { id = item.TournamentID }))>
-                <td class="col-sm-11">
-                    @Html.DisplayFor(modelItem => item.Game.Name)
-                </td>
-                <td class="col-sm-1">
-                    @Html.DisplayFor(modelItem => item.StartTime)
-                </td>
-            </tr>
-        }
-    </tbody>
+	<thead>
+		<tr>
+			<th class="col-sm-7">
+				@Html.DisplayNameFor(model => model.Game)
+			</th>
+			<th class="col-sm-2">
+				Nombre d'équipes
+			</th>
+			<th class="col-sm-1">
+				@Html.DisplayNameFor(model => model.StartTime)
+			</th>
+			<th class="col-sm-2"></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr @("class=clickable-row data-row-url=" + Url.Action("Details", "Tournament", new { id = item.TournamentID }))>
+				<td>
+					@Html.DisplayFor(modelItem => item.Game.Name)
+				</td>
+				<td>
+					@item.Teams.Count()
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.StartTime)
+				</td>
+				<td>
+					@if (item.IsOver)
+					{
+						<div class="btn btn-danger disabled">
+							Terminé
+						</div>
+					}
+					else if (item.IsStarted)
+					{
+						<div class="btn btn-success disabled">
+							Commencé
+						</div>
+					}
+					else
+					{
+						<div class="btn btn-info disabled">
+							Pas Commencé
+						</div>
+					}
+				</td>
+			</tr>
+		}
+	</tbody>
 </table>
 
 @section Styles {
-    @Styles.Render("~/Content/Tournois.css")
+	@Styles.Render("~/Content/Tournois.css")
 }

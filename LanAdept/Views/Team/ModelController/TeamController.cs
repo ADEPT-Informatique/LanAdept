@@ -20,7 +20,7 @@ namespace LanAdept.Views.Team.ModelController
 		public ActionResult Index()
 		{
 			int TeamLeaderID = LanAdeptCore.Service.UserService.GetLoggedInUser().UserID;
-            IEnumerable<LanAdeptData.Model.Team> teams = uow.TeamRepository.GetByTeamLeaderID(TeamLeaderID);
+			IEnumerable<LanAdeptData.Model.Team> teams = uow.TeamRepository.GetByTeamLeaderID(TeamLeaderID);
 
 			IndexTeamModel model = new IndexTeamModel();
 			model.Teams = new List<TeamDemandeModel>();
@@ -35,7 +35,8 @@ namespace LanAdept.Views.Team.ModelController
 
 				foreach (Demande demande in uow.DemandeRepository.Get())
 				{
-					if (demande.Team.TeamID == team.TeamID) {
+					if (demande.Team.TeamID == team.TeamID)
+					{
 						tdm.Demandes.Add(demande);
 					}
 				}
@@ -113,21 +114,49 @@ namespace LanAdept.Views.Team.ModelController
 		[Authorize]
 		public ActionResult AcceptTeamMember(int gamerTagId, int teamId)
 		{
+			LanAdeptData.Model.Team team = uow.TeamRepository.GetByID(teamId);
+			if (team.GamerTags.Count < team.Tournament.MaxPlayerPerTeam)
+			{
+				GamerTag gamer = uow.GamerTagRepository.GetByID(gamerTagId);
 
+				team.GamerTags.Add(gamer);
 
+				uow.TeamRepository.Update(team);
 
+				List<Demande> demandes = uow.DemandeRepository.GetByGamerTagId(gamerTagId);
 
+				foreach (Demande demande in demandes)
+				{
+					if (demande.Team.Tournament.TournamentID == team.Tournament.TournamentID)
+					{
+						uow.DemandeRepository.Delete(demande);
+					}
+				}
+
+				uow.Save();
+			}
 			return RedirectToAction("DetailsTeam", new { teamId = teamId });
 		}
 
 		[Authorize]
 		public ActionResult RefuseTeamMember(int gamerTagId, int teamId)
 		{
+			GamerTag gamer = uow.GamerTagRepository.GetByID(gamerTagId);
+			LanAdeptData.Model.Team team = uow.TeamRepository.GetByID(teamId);
 
+			List<Demande> demandes = uow.DemandeRepository.GetByGamerTagId(gamerTagId);
 
+			foreach (Demande demande in demandes)
+			{
+				if (demande.Team.TeamID == teamId)
+				{
+					uow.DemandeRepository.Delete(demande);
+				}
+			}
 
+			uow.Save();
 
 			return RedirectToAction("DetailsTeam", new { teamId = teamId });
 		}
-    }
+	}
 }

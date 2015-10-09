@@ -6,6 +6,7 @@ using LanAdeptData.Model;
 using LanAdeptCore.Service;
 using System.Data;
 using LanAdeptCore.Attribute.Authorization;
+using System.Linq;
 
 namespace LanAdept.Views.Tournament.ModelController
 {
@@ -23,6 +24,7 @@ namespace LanAdept.Views.Tournament.ModelController
 			{
 				tournamentModels.Add(new TournamentModel(tournament));
 			}
+
 			return View(tournamentModels);
 		}
 

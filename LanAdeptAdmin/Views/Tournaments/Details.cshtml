@@ -50,7 +50,7 @@ else if (!Model.IsStarted)
 	<div>
 		<h4>Informations et reglements</h4>
 		<p>
-			@Html.DisplayFor(model => model.Info)
+			@Html.Markdown(Model.Info)
 		</p>
 	</div>
 

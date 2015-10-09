@@ -27,7 +27,13 @@ namespace LanAdept.Views.Tournament.ModelController
 
         public bool IsConnected { get; set; }
 
+		public bool IsStarted { get; set; }
+
+		public bool IsOver { get; set; }
+
         public LanAdeptData.Model.Team UserTeam { get; set; }
+
+		public string Info { get; set; }
 
 		public TournamentModel()
 		{
@@ -41,6 +47,9 @@ namespace LanAdept.Views.Tournament.ModelController
 			GameID = tournament.GameID;
 			Teams = tournament.Teams;
 			TournamentID = tournament.TournamentID;
+			Info = tournament.Info;
+			IsStarted = tournament.IsStarted;
+			IsOver = tournament.IsOver;
 		}
 	}
 }

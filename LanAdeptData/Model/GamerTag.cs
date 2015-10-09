@@ -18,6 +18,8 @@ namespace LanAdeptData.Model
 		#region Navigation properties
 		[ForeignKey("UserID")]
 		public virtual User User { get; set; }
+
+		public virtual ICollection<Team> Teams { get; set; }
 		#endregion
 
         public override string ToString()

@@ -9,6 +9,8 @@
 
 	<div class="page-header clearfix">
 		<h1 class="pull-left">@Html.DisplayFor(model => model.Game.Name)</h1>
+
+
 		@if (Model.IsConnected && Model.UserTeam == null)
 		{
 			<br />
@@ -19,6 +21,14 @@
 			</div>
 		}
 	</div>
+	@if (Model.Info != null)
+	{
+		<h3>Informations et reglements</h3>
+		<div>
+			@Html.Markdown(Model.Info)
+		</div>
+		<hr />
+	}
 
 	<h4>Teams</h4>
 
@@ -97,13 +107,13 @@
 			$('.tagItem').click(selectGamerTag);
 
 			$('#actionButton').click(function (event) {
-			    if (!$('.tagItem').hasClass('active'))
-			        event.preventDefault();
-			    else {
-			        $(this).button('loading');
-			        $('#teamInput').val($('.teamActive').attr('data-team-id'));
-			        $('#tagInput').val($('.active').attr('data-tag-id'));
-			    }
+				if (!$('.tagItem').hasClass('active'))
+					event.preventDefault();
+				else {
+					$(this).button('loading');
+					$('#teamInput').val($('.teamActive').attr('data-team-id'));
+					$('#tagInput').val($('.active').attr('data-tag-id'));
+				}
 			})
 
 			$('.addGamertag').click(function (event) {
@@ -132,7 +142,7 @@
 				$('.active').removeClass('active');
 				$(this).addClass('active');
 				if ($('#actionButton').hasClass('disabled'))
-				    $('#actionButton').removeClass('disabled');
+					$('#actionButton').removeClass('disabled');
 			}
 		})
 	</script>

@@ -11,7 +11,7 @@ namespace LanAdeptData.DAL
 {
 	public class LanAdeptDataContext : DbContext
 	{
-		public LanAdeptDataContext() : base("name=LanAdeptDataContext") 
+		public LanAdeptDataContext() : base("name=LanAdeptDataContext")
 		{ }
 
 		public DbSet<User> Users { get; set; }
@@ -22,18 +22,28 @@ namespace LanAdeptData.DAL
 		public DbSet<Place> Places { get; set; }
 		public DbSet<PlaceSection> PlaceSections { get; set; }
 		public DbSet<Reservation> Reservations { get; set; }
-        public DbSet<Tournament> Tournaments { get; set; }
-        public DbSet<Team> Teams { get; set; }
+		public DbSet<Tournament> Tournaments { get; set; }
+		public DbSet<Team> Teams { get; set; }
 		public DbSet<Game> Games { get; set; }
-		public DbSet<GamerTag> Gamers { get; set; }
+		public DbSet<GamerTag> Gamertags { get; set; }
 		public DbSet<Setting> Settings { get; set; }
-        public DbSet<Map> Maps { get; set; }
-        public DbSet<Tile> Tiles { get; set; }
-        public DbSet<Demande> Demandes { get; set; }
+		public DbSet<Map> Maps { get; set; }
+		public DbSet<Tile> Tiles { get; set; }
+		public DbSet<Demande> Demandes { get; set; }
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
 			modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+
+			modelBuilder.Entity<GamerTag>()
+				.HasMany<Team>(g => g.Teams)
+				.WithMany(t => t.GamerTags)
+				.Map(tg =>
+						{
+							tg.MapLeftKey("GamerTagID");
+							tg.MapRightKey("TeamID");
+							tg.ToTable("GamertagTeam");
+						});
 		}
 	}
 }

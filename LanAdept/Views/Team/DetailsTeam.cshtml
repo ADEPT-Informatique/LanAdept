@@ -20,6 +20,7 @@
 		<thead>
 			<tr>
 				<th>Gamertag</th>
+				<th>Nom complet</th>
 				<th></th>
 			</tr>
 		</thead>
@@ -35,6 +36,9 @@
 							Team Leader
 						</a>
 					}
+				</td>
+				<td>
+					@gamerTag.User.CompleteName
 				</td>
 				<td>
 					@if (gamerTag != Model.TeamLeaderTag)
@@ -95,8 +99,7 @@
 					<td>
 						@demande.GamerTag.Gamertag
 					</td>
-
-					<td class="pull-right">
+					<td class="col-md-3">
 						@Html.ActionLink("Accepter", "AcceptTeamMember", new { gamerTagId = demande.GamerTag.GamerTagID, teamId = Model.TeamID }, new { @class = "btn btn-success" })
 						@Html.ActionLink("Refuser", "RefuseTeamMember", new { gamerTagId = demande.GamerTag.GamerTagID, teamId = Model.TeamID }, new { @class = "btn btn-danger" })
 					</td>
