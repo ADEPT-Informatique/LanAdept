@@ -1,5 +1,6 @@
 ﻿using LanAdeptData.Model;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
@@ -9,6 +10,7 @@ namespace LanAdept.Views.Tournament.ModelController
 	{
 		[Required]
 		[StringLength(30, MinimumLength = 1)]
+		[DisplayName("Nom de l'équipe")]
 		public string Name { get; set; }
 
 		[StringLength(4, MinimumLength = 1)]
