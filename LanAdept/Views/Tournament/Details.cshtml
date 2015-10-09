@@ -61,18 +61,19 @@
 			}
 
 			<div class="table-responsive">
-				<table class="table">
-					<tr>
-						<th>@Html.DisplayNameFor(model => model.Teams.First().Name)</th>
-						<th>@Html.DisplayNameFor(model => model.Teams.First().Tag)</th>
-						<th>Nombre de joueur</th>
-						<th>Membre de l'équipe</th>
-						@if (Model.IsConnected)
-						{
-							<th></th>
-						}
-					</tr>
-
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>@Html.DisplayNameFor(model => model.Teams.First().Name)</th>
+							<th>@Html.DisplayNameFor(model => model.Teams.First().Tag)</th>
+							<th>Nombre de joueur</th>
+							<th>Membre de l'équipe</th>
+							@if (Model.IsConnected)
+							{
+								<th></th>
+							}
+						</tr>
+					</thead>
 					@foreach (TeamModel team in Model.Teams)
 					{
 						<tr>
