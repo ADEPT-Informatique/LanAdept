@@ -103,42 +103,33 @@ namespace LanAdeptAdmin.Controllers
 		{
 			if (ModelState.IsValid && model.Query != null)
 			{
-				User byBarcode = uow.UserRepository.GetUserByBarCode(model.Query);
+				Reservation byBarcode = uow.ReservationRepository.GetByBarCode(model.Query);
 				if (byBarcode != null)
 				{
-					List<User> users = new List<User>();
-					users.Add(byBarcode);
+					List<Reservation> reservations = new List<Reservation>();
+					reservations.Add(byBarcode);
 
-					model.UsersFound = users;
+					model.ReservationsFound = reservations;
 				}
 				else
 				{
-					model.UsersFound = uow.UserRepository.SearchUsersByNameAndEmail(model.Query);
+					model.ReservationsFound = uow.ReservationRepository.SearchByNameAndEmail(model.Query);
 				}
 
 
-				if (model.UsersFound.Count() == 0)
+				if (model.ReservationsFound.Count() == 0)
 				{
-					TempData["Error"] = "Aucun utilisateur n'as été trouvé";
+					TempData["Error"] = "Aucune réservation n'as été trouvé pour \"" + model.Query + "\"";
 				}
-				else if (model.UsersFound.Count() == 1)
+				else if (model.ReservationsFound.Count() == 1)
 				{
-					User userFound = model.UsersFound.First();
+					Reservation reservationFound = model.ReservationsFound.First();
 
-					if (!ReservationService.HasUserPlace(userFound))
-					{
-						TempData["Warning"] = "L'utilisateur n'a pas de réservation";
-					}
-					else
-					{
-						return RedirectToAction("Details", new { id = userFound.LastReservation.Place.PlaceID });
-					}
+					return RedirectToAction("Details", new { id = reservationFound.Place.PlaceID });
 				}
 				else
 				{
-					model.UsersFound = model.UsersFound.OrderByDescending(x => ReservationService.HasUserPlace(x))
-						.ThenBy(y => y.CompleteName)
-						.ThenBy(y => y.Email);
+					model.ReservationsFound = model.ReservationsFound.OrderBy(y => y.UserCompleteName);
 				}
 			}
 

@@ -149,49 +149,49 @@ namespace LanAdeptAdmin.Views
 			return RedirectToAction("Index");
 		}
 
-		[AuthorizePermission("admin.tournament.team.delete")]
-		public ActionResult DeleteTeam(int? TeamId)
-		{
-			if (TeamId == null)
-			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
-			TeamModel team = new TeamModel(uow.TeamRepository.GetByID(TeamId));
-			if (team == null)
-			{
-				return HttpNotFound();
-			}
-			return View(team);
-		}
+		//[AuthorizePermission("admin.tournament.team.delete")]
+		//public ActionResult DeleteTeam(int? TeamId)
+		//{
+		//	if (TeamId == null)
+		//	{
+		//		return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+		//	}
+		//	TeamModel team = new TeamModel(uow.TeamRepository.GetByID(TeamId));
+		//	if (team == null)
+		//	{
+		//		return HttpNotFound();
+		//	}
+		//	return View(team);
+		//}
 
-		[AuthorizePermission("admin.tournament.team.delete")]
-		[HttpPost, ActionName("DeleteTeam")]
-		[ValidateAntiForgeryToken]
-		public ActionResult DeleteTeamConfirmed(int TeamId)
-		{
-			Team team = uow.TeamRepository.GetByID(TeamId);
+		//[AuthorizePermission("admin.tournament.team.delete")]
+		//[HttpPost, ActionName("DeleteTeam")]
+		//[ValidateAntiForgeryToken]
+		//public ActionResult DeleteTeamConfirmed(int TeamId)
+		//{
+		//	Team team = uow.TeamRepository.GetByID(TeamId);
 
-			int tournamentID = team.TournamentID;
+		//	int tournamentID = team.TournamentID;
 
-			team.GamerTags.Clear();
+		//	team.GamerTags.Clear();
 
-			IEnumerable<Demande> demandes = uow.DemandeRepository.Get();
+		//	IEnumerable<Demande> demandes = uow.DemandeRepository.Get();
 
-			foreach (Demande demande in demandes)
-			{
-				if (demande.Team == team)
-				{
-					uow.DemandeRepository.Delete(demande.DemandeID);
-				}
-			}
+		//	foreach (Demande demande in demandes)
+		//	{
+		//		if (demande.Team == team)
+		//		{
+		//			uow.DemandeRepository.Delete(demande.DemandeID);
+		//		}
+		//	}
 
-			uow.TeamRepository.Delete(uow.TeamRepository.GetByID(TeamId));
+		//	uow.TeamRepository.Delete(uow.TeamRepository.GetByID(TeamId));
 
-			uow.Save();
-			return RedirectToAction("Details", new { id = tournamentID });
-		}
+		//	uow.Save();
+		//	return RedirectToAction("Details", new { id = tournamentID });
+		//}
 
-		[AuthorizePermission("admin.tournament.team.details")]
+		/*[AuthorizePermission("admin.tournament.team.details")]
 		public ActionResult DetailsTeam(int? id)
 		{
 			if (id == null)
@@ -204,7 +204,7 @@ namespace LanAdeptAdmin.Views
 				return HttpNotFound();
 			}
 			return View(team);
-		}
+		}*/
 
 		[AuthorizePermission("admin.tournament.team.kick")]
 		public ActionResult KickPlayer(int? gamerTagId, int? teamId)

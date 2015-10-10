@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,8 @@ namespace LanAdeptData.Model
 	{
 		public int GamerTagID { get; set; }
 
+		[Required]
+		[StringLength(32)]
 		public string Gamertag { get; set; }
 
 		public virtual int UserID { get; set; }
@@ -18,6 +21,8 @@ namespace LanAdeptData.Model
 		#region Navigation properties
 		[ForeignKey("UserID")]
 		public virtual User User { get; set; }
+
+		public virtual ICollection<Team> Teams { get; set; }
 		#endregion
 
         public override string ToString()

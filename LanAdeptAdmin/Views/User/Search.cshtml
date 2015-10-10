@@ -1,0 +1,96 @@
+﻿@model LanAdeptAdmin.Views.Users.ModelController.SearchModel
+@using PagedList.Mvc;
+@using PagedList;
+
+
+@{
+	ViewBag.Title = "Rechercher un utilisateur";
+	ViewBag.Sidebar = "_Sidebar_User";
+}
+
+<h2>Rechercher un utilisateur</h2>
+<hr />
+
+@if (!string.IsNullOrWhiteSpace(TempData["Error"] as string))
+{
+	<div class="alert alert-danger" role="alert">
+		@Html.Raw(TempData["Error"])
+	</div>
+}
+@if (!string.IsNullOrWhiteSpace(TempData["Success"] as string))
+{
+	<div class="alert alert-success" role="alert">
+		@Html.Raw(TempData["Success"])
+	</div>
+}
+
+<div class="form-horizontal">
+	@using (Html.BeginForm("Search", "User", FormMethod.Get))
+	{
+		<div class="form-group">
+			<div class="col-md-6">
+				<div class="input-group">
+					@Html.EditorFor(model => model.Query, new { htmlAttributes = new { @class = "form-control", placeholder = "Email ou nom complet", autofocus = "true" } })
+					<span class="input-group-btn">
+						<button class="btn btn-primary" type="submit">
+							<span class="glyphicon glyphicon-search"></span>
+							Chercher
+						</button>
+					</span>
+				</div>
+			</div>
+		</div>
+	}
+</div>
+
+@if (Model.FoundUsers)
+{
+	<hr />
+	
+	<h4>Résultats</h4>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					Nom complet
+				</th>
+				<th>
+					Email
+				</th>
+				<th>
+					Rôle
+				</th>
+				<th class="text-center">
+					Place
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			@foreach (User user in Model.UsersFound)
+			{
+				<tr data-row-url="@Url.Action("Details", new { id = user.UserID })" class="clickable-row">
+					<td>
+						@Html.DisplayFor(modelItem => user.CompleteName)
+					</td>
+					<td>
+						@user.Email
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => user.Role.Name)
+					</td>
+					<td class="text-center">
+						@if (LanAdeptCore.Service.ReservationService.HasUserPlace(user))
+						{
+							@user.LastReservation.Place
+						}
+						else
+						{
+							<text> -- </text>
+						}
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}

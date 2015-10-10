@@ -38,10 +38,15 @@ namespace LanAdept.Controllers
 		public ActionResult Liste()
 		{
 			ListeModel listeModel = new ListeModel();
-			ViewBag.Settings = LanAdeptData.DAL.UnitOfWork.Current.SettingRepository.GetCurrentSettings();
+			listeModel.Settings = LanAdeptData.DAL.UnitOfWork.Current.SettingRepository.GetCurrentSettings();
 
 			listeModel.Maps = uow.MapRepository.Get();
 			listeModel.Sections = uow.PlaceSectionRepository.Get();
+
+			if (!listeModel.Settings.IsLanStarted)
+			{
+				listeModel.NbPlacesLibres = uow.PlaceRepository.Get().Count(x => x.IsFree);
+			}
 
 			return View(listeModel);
 		}
@@ -76,13 +81,13 @@ namespace LanAdept.Controllers
 			if (result.HasError)
 			{
 				TempData["Error"] = result.Message;
+				return RedirectToAction("Liste");
 			}
 			else
 			{
 				TempData["Success"] = "La place <strong>" + placeAReserver + "</strong> a bien été réservée.";
+				return RedirectToAction("MaPlace");
 			}
-
-			return RedirectToAction("MaPlace");
 		}
 
 		[AuthorizePermission("user.place.maPlace")]

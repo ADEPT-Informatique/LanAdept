@@ -84,7 +84,7 @@ namespace LanAdept.Controllers
 
 				MessageModel result = new MessageModel();
 				result.Title = "Vous êtes maintenant inscrit!";
-				result.Content = "Vous devez maintenant <strong>confirmer votre email</strong>. Une fois que ce sera fait, vous pourrez réserver une place pour participer au LAN de l'Adept.";
+				result.Content = "Vous devez maintenant <strong>confirmer votre email</strong>. Une fois que ce sera fait, vous pourrez réserver une place pour participer au LAN de l'ADEPT.";
 				result.Type = AuthMessageType.Success;
 
 				return View("Message", result);

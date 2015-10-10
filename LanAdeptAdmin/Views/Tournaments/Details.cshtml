@@ -50,7 +50,7 @@ else if (!Model.IsStarted)
 	<div>
 		<h4>Informations et reglements</h4>
 		<p>
-			@Html.DisplayFor(model => model.Info)
+			@Html.Markdown(Model.Info)
 		</p>
 	</div>
 
@@ -67,14 +67,14 @@ else if (!Model.IsStarted)
 
 		@foreach (Team team in Model.Teams)
 			{
-			<tr @("class=clickable-row data-row-url=" + Url.Action("DetailsTeam", new { id = team.TeamID }))>
+			<tr @("class=clickable-row data-row-url=" + Url.Action("Details", new { id = team.TeamID }))>
 				<td>
-					@team.Name.ToString()
+					@team.Name
 				</td>
 				<td>
 					@if (team.Tag != null)
 					{
-						@team.Tag.ToString()
+						@team.Tag
 					}
 				</td>
 				<td>
@@ -120,7 +120,7 @@ else if (!Model.IsStarted)
 					}
 				</td>
 				<td>
-					@Html.ActionLink("Delete", "DeleteTeam", new { TeamId = team.TeamID }, new { @class = "btn btn-danger" })
+					@Html.ActionLink("Delete", "Delete", new { TeamId = team.TeamID }, new { @class = "btn btn-danger" })
 				</td>
 			</tr>
 			}

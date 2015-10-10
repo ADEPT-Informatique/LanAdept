@@ -6,6 +6,13 @@
 @{
 	ViewBag.Title = "Liste des utilisateurs";
 	ViewBag.Sidebar = "_Sidebar_User";
+	
+	int from = (Model.PageNumber - 1) * Model.PageSize;
+	int to = from + Model.Count;
+	
+	PagedListRenderOptions renderOptions = PagedListRenderOptions.OnlyShowFivePagesAtATime;
+	renderOptions.DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded;
+	renderOptions.DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded;
 }
 
 <h2>Liste des utilisateurs</h2>
@@ -24,62 +31,60 @@
 	</div>
 }
 
-<table class="table">
-	<thead>
-		<tr>
-			<th>
-				Nom complet
-			</th>
-			<th>
-				Email
-			</th>
-			<th>
-				Rôle
-			</th>
-			<th>
-				Code barre
-			</th>
-			<th class="text-center">
-				Place
-			</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var user in Model)
-		{
-
-			<tr data-row-url="@Url.Action("Details", new { id = user.UserID })" class="clickable-row">
-				<td>
-					@Html.DisplayFor(modelItem => user.CompleteName)
-				</td>
-				<td>
-					@user.Email
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => user.Role.Name)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => user.Barcode)
-				</td>
-				<td class="text-center">
-					@if (LanAdeptCore.Service.ReservationService.HasUserPlace(user))
-					{
-						@user.LastReservation.Place
-					}
-					else
-					{
-						<text> -- </text>
-					}
-				</td>
+<div class="table-responsive">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					@Html.ActionLink("Nom complet", "Index", new { sortOrder = ViewBag.NameSortParm })
+				</th>
+				<th>
+					@Html.ActionLink("Email", "Index", new { sortOrder = ViewBag.EmailSortParm })
+				</th>
+				<th>
+					@Html.ActionLink("Rôle", "Index", new { sortOrder = ViewBag.RoleSortParm })
+				</th>
+				<th class="text-center">
+					@Html.ActionLink("Place", "Index", new { sortOrder = ViewBag.PlaceSortParm })
+				</th>
 			</tr>
+		</thead>
+		<tbody>
+			@foreach (var user in Model)
+			{
 
-		}
-	</tbody>
-</table>
+				<tr data-row-url="@Url.Action("Details", new { id = user.UserID })" class="clickable-row">
+					<td>
+						@Html.DisplayFor(modelItem => user.CompleteName)
+					</td>
+					<td>
+						@user.Email
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => user.Role.Name)
+					</td>
+					<td class="text-center">
+						@if (LanAdeptCore.Service.ReservationService.HasUserPlace(user))
+						{
+							@user.LastReservation.Place
+						}
+						else
+						{
+							<text> -- </text>
+						}
+					</td>
+				</tr>
+
+			}
+		</tbody>
+	</table>
+</div>
+
+De @from à @to sur @Model.TotalItemCount
 
 @if (Model.PageCount > 1)
 {
-	<br />
-	@Html.PagedListPager(Model, page => Url.Action("Index",
-				new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+	<br />	
+	
+	@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), renderOptions)
 }

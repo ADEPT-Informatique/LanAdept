@@ -138,6 +138,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Views\Auth\ModelController\AuthController.cs" />
     <Compile Include="Views\Auth\ModelController\LoginModel.cs" />
+    <Compile Include="Views\Error\ModelController\ErrorController.cs" />
     <Compile Include="Views\Game\ModelController\GameController.cs" />
     <Compile Include="Views\Game\ModelController\GameModel.cs" />
     <Compile Include="Views\General\ModelController\DescriptionModel.cs" />
@@ -208,6 +209,7 @@
     <Content Include="Images\Favicon\mstile-310x310.png" />
     <Content Include="Images\Favicon\mstile-70x70.png" />
     <Content Include="Images\LOGO_noir_Transparent.png" />
+    <Content Include="robots.txt" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -233,6 +235,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\scanner.js" />
     <Content Include="Scripts\_references.js" />
+    <Compile Include="Views\User\ModelController\SearchModel.cs" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -271,7 +274,7 @@
     <Content Include="Views\Place\Search.cshtml" />
     <Content Include="Views\General\Rules.cshtml" />
     <Content Include="Views\Emails\Web.config" />
-    <Content Include="Views\Place\Partial\ListUserFoundPartial.cshtml" />
+    <Content Include="Views\Place\Partial\ListReservationFoundPartial.cshtml" />
     <Content Include="Views\Place\Reserve.cshtml" />
     <Content Include="Views\Tournaments\DeleteTeam.cshtml" />
     <Content Include="Views\Tournaments\Shared\UserList.cshtml" />
@@ -287,6 +290,10 @@
     <Content Include="Views\Shared\_Sidebar_User.cshtml" />
     <Content Include="Views\Tournaments\DetailsTeam.cshtml" />
     <Content Include="Views\Tournaments\EditTeam.cshtml" />
+    <Content Include="Views\User\Search.cshtml" />
+    <Content Include="Views\Error\Forbidden.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Error\PageNotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Emails\ModelController\" />

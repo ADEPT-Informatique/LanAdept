@@ -10,6 +10,8 @@ namespace LanAdept.Views.Place.ModelController
 	{
         public IEnumerable<Map> Maps { get; set; }
 		public IEnumerable<PlaceSection> Sections { get; set; }
+		public int NbPlacesLibres { get; set; }
+		public Setting Settings { get; set; }
 
 	}
 }

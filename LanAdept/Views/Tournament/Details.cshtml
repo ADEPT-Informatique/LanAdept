@@ -1,89 +1,147 @@
-﻿@model LanAdept.Views.Tournament.ModelController.TournamentModel
-@using LanAdept.Views.Tournament.ModelController;
-
+﻿@model LanAdept.Views.Tournaments.ModelController.TournamentModel
 
 @{
 	ViewBag.Title = "Details";
 }
+<h1>
+	@ViewBag.test
+</h1>
+
+
 <div class="map-max-width">
+
+	@if (Model.IsOver)
+	{
+		<div class="alert alert-danger">Le tournois est terminer</div>
+	}
+	else if (Model.IsStarted)
+	{
+		<div class="alert alert-success">Le tournois est commencer</div>
+	}
+
 
 	<div class="page-header clearfix">
 		<h1 class="pull-left">@Html.DisplayFor(model => model.Game.Name)</h1>
-		@if (Model.IsConnected && Model.UserTeam == null)
+
+
+		@if (Model.IsConnected && !Model.IsStarted && !Model.IsOver && Model.CanAddTeam)
 		{
 			<br />
 			<div class="btn-toolbar pull-right">
 				<div class="btn-group">
-					@Html.ActionLink("Ajouter une equipe", "AddTeam", new { id = Model.TournamentID }, new { @class = "btn btn-default" })
+					@Html.ActionLink("Ajouter une équipe", "AddTeam", new { id = Model.TournamentID }, new { @class = "btn btn-default" })
 				</div>
 			</div>
 		}
 	</div>
-
-	<h4>Teams</h4>
-
-	@using (Html.BeginForm("JoinTeam", "Tournament", new JoinTeamModel() { TournamentID = Model.TournamentID }))
+	@if (Model.Info != null)
 	{
-		@Html.Hidden("GamerTagID", 0, new { id = "tagInput" })
-		@Html.Hidden("TeamID", 0, new { id = "teamInput" })
+		<h3>Informations et règlements</h3>
+		<div>
+			@Html.Markdown(Model.Info)
+		</div>
+		<hr />
+	}
 
-		if (Model.IsConnected)
+	@if (Model.Teams.Count() > 0)
+	{
+		<h4>Équipes</h4>
+
+		using (Html.BeginForm("JoinTeam", "Tournament", new LanAdept.Views.Tournaments.ModelController.JoinTeamModel() { TournamentID = Model.TournamentID }))
 		{
-			@Html.Partial("ModalChoisirGamerTag", Model.GamerTags)
-		}
+			@Html.Hidden("GamerTagID", 0, new { id = "tagInput" })
+			@Html.Hidden("TeamID", 0, new { id = "teamInput" })
 
-		<div class="table-responsive">
-			<table class="table">
-				<tr>
-					<th>@Html.DisplayNameFor(model => model.Teams.First().Name)</th>
-					<th>@Html.DisplayNameFor(model => model.Teams.First().Tag)</th>
-					<th>Nombre de joueur</th>
-					<th>Membre de l'équipe</th>
-					@if (Model.IsConnected)
+			if (Model.IsConnected)
+			{
+				@Html.Partial("ModalChoisirGamerTag", Model.GamerTags)
+				@Html.Partial("ModalChoisirGamerTagFooterRejoindre")
+			}
+
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>@Html.DisplayNameFor(model => model.Teams.First().Name)</th>
+							<th>@Html.DisplayNameFor(model => model.Teams.First().Tag)</th>
+							<th>Nombre de joueur</th>
+							<th>Membre de l'équipe</th>
+							@if (Model.IsConnected)
+							{
+								<th></th>
+							}
+						</tr>
+					</thead>
+					@foreach (LanAdept.Views.Tournaments.ModelController.TeamModel team in Model.Teams)
 					{
-						<th></th>
-					}
-				</tr>
-
-				@foreach (Team team in Model.Teams)
-				{
-					<tr>
-						<td>
-							@team.Name
-						</td>
-						<td>
-							@if (team.Tag != null)
-							{
-								@team.Tag
-							}
-						</td>
-						<td>
-							@team.GamerTags.Count / @team.Tournament.MaxPlayerPerTeam
-						</td>
-						<td>
-							@foreach (var tag in team.GamerTags)
-							{
-								<div class="col-xs-12">@tag.Gamertag</div>
-							}
-						</td>
-						@if (Model.IsConnected)
-						{
-							if (Model.UserTeam == null)
+						<tr>
+							<td>
+								@team.Name
+							</td>
+							<td>
+								@(team.Tag ?? "");
+							</td>
+							<td>
+								@if (team.Gamertags.Count() == Model.MaxPlayerPerTeam)
+								{
+									<div class="alert alert-success">
+										Complète
+									</div>
+								}
+								else
+								{
+									<div>
+										@team.Gamertags.Count() / @Model.MaxPlayerPerTeam
+									</div>
+								}
+							</td>
+							<td>
+								@foreach (GamerTag gamerTag in team.Gamertags)
+								{
+									if (gamerTag == team.TeamLeaderTag)
+									{
+										<div class="col-xs-12">@gamerTag.Gamertag <span class="glyphicon glyphicon-star"></span></div>
+									}
+									else
+									{
+										<div class="col-xs-12">@gamerTag.Gamertag</div>
+									}
+								}
+							</td>
+							@if (Model.IsConnected)
 							{
 								<td>
 									<div class="col-md-6 pull-right">
-										<button class="teamButton hover btn btn-default" type="button" data-toggle="modal" data-team-id="@team.TeamID" data-target="#ModalChoisirGamerTag">Rejoindre</button>
+										@if (team.IsMyTeamForTeamLeader)
+										{
+											@Html.ActionLink("Mon équipe", "Details", "Team", new { id = team.TeamID }, new { @class = "btn btn-primary" })
+										}
+										else if (team.IsMyTeam)
+										{
+											@Html.ActionLink("Quitter", "LeaveTeam", "Team", new { id = team.TeamID }, new { @class = "btn btn-danger" })
+										}
+										else if (team.IsTeamDemande)
+										{
+											@Html.ActionLink("Annuler ma demande", "CancelDemande", "Team", new { id = team.TeamID }, new { @class = "btn btn-danger" })
+										}
+										else if (team.Gamertags.Count() < Model.MaxPlayerPerTeam && !Model.IsTeamLeader && !Model.IsStarted && !Model.IsOver)
+										{
+											<button class="teamButton hover btn btn-default" type="button" data-toggle="modal" data-team-id="@team.TeamID" data-target="#ModalChoisirGamerTag">Rejoindre</button>
+										}
 									</div>
 								</td>
 							}
-						}
-					</tr>
-				}
-			</table>
-		</div>
+						</tr>
+					}
+				</table>
+			</div>
+		}
+	}
+	else
+	{
+		<div class="alert alert-warning">Il n'y a présentement aucune équipes inscrites à ce tournoi</div>
 	}
 </div>
-
 
 @section scripts {
 	<script>
@@ -97,13 +155,13 @@
 			$('.tagItem').click(selectGamerTag);
 
 			$('#actionButton').click(function (event) {
-			    if (!$('.tagItem').hasClass('active'))
-			        event.preventDefault();
-			    else {
-			        $(this).button('loading');
-			        $('#teamInput').val($('.teamActive').attr('data-team-id'));
-			        $('#tagInput').val($('.active').attr('data-tag-id'));
-			    }
+				if (!$('.tagItem').hasClass('active'))
+					event.preventDefault();
+				else {
+					$(this).button('loading');
+					$('#teamInput').val($('.teamActive').attr('data-team-id'));
+					$('#tagInput').val($('.active').attr('data-tag-id'));
+				}
 			})
 
 			$('.addGamertag').click(function (event) {
@@ -133,11 +191,10 @@
 				$('.active').removeClass('active');
 				$(this).addClass('active');
 				if ($('#actionButton').hasClass('disabled'))
-				    $('#actionButton').removeClass('disabled');
+					$('#actionButton').removeClass('disabled');
 			}
 		})
 	</script>
-	@Scripts.Render("~/Scripts/general.js")
 }
 
 @section Styles {

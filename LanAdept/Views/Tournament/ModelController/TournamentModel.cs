@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace LanAdept.Views.Tournament.ModelController
+namespace LanAdept.Views.Tournaments.ModelController
 {
 	public class TournamentModel
 	{
@@ -21,26 +21,34 @@ namespace LanAdept.Views.Tournament.ModelController
 		[Display(Name = "Jeu")]
 		public Game Game { get; set; }
 
-        public IEnumerable<Team> Teams { get; set; }
+        public IEnumerable<TeamModel> Teams { get; set; }
 
         public IEnumerable<GamerTag> GamerTags { get; set; }
 
         public bool IsConnected { get; set; }
 
-        public Team UserTeam { get; set; }
+		public bool IsStarted { get; set; }
 
-		public TournamentModel()
-		{
+		public bool IsOver { get; set; }
 
-		}
+		public bool IsTeamLeader { get; set; }
+
+		public string Info { get; set; }
+
+		public int MaxPlayerPerTeam { get; set; }
+
+		public bool CanAddTeam { get; set; }
 
 		public TournamentModel(LanAdeptData.Model.Tournament tournament)
 		{
 			StartTime = tournament.StartTime;
 			Game = tournament.Game;
 			GameID = tournament.GameID;
-			Teams = tournament.Teams;
 			TournamentID = tournament.TournamentID;
+			Info = tournament.Info;
+			IsStarted = tournament.IsStarted;
+			IsOver = tournament.IsOver;
+			MaxPlayerPerTeam = tournament.MaxPlayerPerTeam;
 		}
 	}
 }
