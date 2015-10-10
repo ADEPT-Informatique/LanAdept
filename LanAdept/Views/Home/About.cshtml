@@ -57,8 +57,9 @@
     <script>
         $(document).ready(function () {
             cheet('↑ ↑ ↓ ↓ ← → ← → b a', function () {
-                if (window.innerWidth >= 1150)
+                if (window.innerWidth >= 1150 && window.innerHeight >= 610)
                 {
+                    $("#raysLogo").css('top', window.innerHeight);
                     $("#raysDemoHolder").fadeIn("slow", function () {
                         $("#raysLogo").animate({
                             top: "-=500px"
