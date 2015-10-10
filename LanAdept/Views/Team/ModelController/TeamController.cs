@@ -170,19 +170,11 @@ namespace LanAdept.Controllers
 		public ActionResult LeaveTeam(int id)
 		{
 			Team team = uow.TeamRepository.GetByID(id);
+			User user = UserService.GetLoggedInUser();
 
-			ICollection<GamerTag> gamerTags = team.GamerTags;
-            foreach (GamerTag gamer in team.GamerTags)
-			{
-				if (gamer.UserID == UserService.GetLoggedInUser().UserID)
-				{
-					team.GamerTags.Remove(gamer);
-
-					uow.TeamRepository.Update(team);
-					uow.GamerTagRepository.Update(gamer);
-					uow.Save();
-				}
-			}
+			GamerTag tag = team.GamerTags.First(g => g.UserID == user.UserID);
+			uow.GamerTagRepository.Delete(tag);
+			uow.Save();
 
 			return RedirectToAction("Details","Tournament", new { id = team.Tournament.TournamentID });
 		}
