@@ -169,9 +169,10 @@ namespace LanAdept.Controllers
 		[Authorize]
 		public ActionResult LeaveTeam(int id)
 		{
-			LanAdeptData.Model.Team team = uow.TeamRepository.GetByID(id);
+			Team team = uow.TeamRepository.GetByID(id);
 
-			foreach (GamerTag gamer in team.GamerTags)
+			ICollection<GamerTag> gamerTags = team.GamerTags;
+            foreach (GamerTag gamer in team.GamerTags)
 			{
 				if (gamer.UserID == UserService.GetLoggedInUser().UserID)
 				{
