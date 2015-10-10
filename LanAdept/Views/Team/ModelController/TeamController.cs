@@ -58,7 +58,7 @@ namespace LanAdept.Controllers
 
 			DetailsModel teamModel = new DetailsModel();
 
-			LanAdeptData.Model.Team team = uow.TeamRepository.GetByID(id);
+			Team team = uow.TeamRepository.GetByID(id);
 
 			if (team.TeamLeaderTag.User != UserService.GetLoggedInUser())
 			{
@@ -68,6 +68,7 @@ namespace LanAdept.Controllers
 			teamModel.GamerTags = team.GamerTags;
 			teamModel.TeamID = team.TeamID;
 			teamModel.TournamentID = team.TournamentID;
+			teamModel.Tournament = team.Tournament;
 			teamModel.MaxPlayerPerTeam = team.Tournament.MaxPlayerPerTeam;
 			teamModel.Name = team.Name;
 			teamModel.Tag = team.Tag;
@@ -98,7 +99,7 @@ namespace LanAdept.Controllers
 		public ActionResult KickPlayer(int? id, int? gamerTagId)
 		{
 			GamerTag gamerTag = uow.GamerTagRepository.GetByID(gamerTagId);
-			LanAdeptData.Model.Team team = uow.TeamRepository.GetByID(id);
+			Team team = uow.TeamRepository.GetByID(id);
 
 			if (team.TeamLeaderTag == gamerTag || team.GamerTags.Count == 1)
 			{
@@ -120,7 +121,7 @@ namespace LanAdept.Controllers
 		[Authorize]
 		public ActionResult AcceptTeamMember(int id, int gamerTagId)
 		{
-			LanAdeptData.Model.Team team = uow.TeamRepository.GetByID(id);
+			Team team = uow.TeamRepository.GetByID(id);
 			if (team.GamerTags.Count < team.Tournament.MaxPlayerPerTeam)
 			{
 				GamerTag gamer = uow.GamerTagRepository.GetByID(gamerTagId);
@@ -183,7 +184,7 @@ namespace LanAdept.Controllers
 		[Authorize]
 		public ActionResult CancelDemande(int id)
 		{
-			LanAdeptData.Model.Team team = uow.TeamRepository.GetByID(id);
+			Team team = uow.TeamRepository.GetByID(id);
 
 			List<Demande> demandes = uow.DemandeRepository.GetByTeamId(id);
             foreach (Demande demande in demandes)

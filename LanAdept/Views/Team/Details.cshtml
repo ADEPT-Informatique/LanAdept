@@ -46,7 +46,7 @@
 					@gamerTag.User.CompleteName
 				</td>
 				<td>
-					@if (gamerTag != Model.TeamLeaderTag)
+					@if (gamerTag != Model.TeamLeaderTag && !Model.Tournament.IsOver && !Model.Tournament.IsStarted)
 					{
 						<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#kickModal">Retirer</button>
 

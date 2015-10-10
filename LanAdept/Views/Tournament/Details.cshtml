@@ -112,22 +112,26 @@
 							{
 								<td>
 									<div class="pull-right">
-										@if (team.IsMyTeamForTeamLeader)
+										@if (!Model.IsOver && !Model.IsStarted)
 										{
-											@Html.ActionLink("Gérer", "Details", "Team", new { id = team.TeamID }, new { @class = "btn btn-primary" })
+											if (team.IsMyTeamForTeamLeader)
+											{
+												@Html.ActionLink("Gérer", "Details", "Team", new { id = team.TeamID }, new { @class = "btn btn-primary" })
+											}
+											else if (team.IsMyTeam)
+											{
+												@Html.ActionLink("Quitter", "LeaveTeam", "Team", new { id = team.TeamID }, new { @class = "btn btn-danger" })
+											}
+											else if (team.IsTeamDemande)
+											{
+												@Html.ActionLink("Annuler ma demande", "CancelDemande", "Team", new { id = team.TeamID }, new { @class = "btn btn-danger" })
+											}
+											else if (team.Gamertags.Count() < Model.MaxPlayerPerTeam && !Model.IsTeamLeader && Model.UserTeam == null)
+											{
+												<button class="teamButton hover btn btn-default" type="button" data-toggle="modal" data-team-id="@team.TeamID" data-target="#ModalChoisirGamerTag">Rejoindre</button>
+											}
 										}
-										else if (team.IsMyTeam)
-										{
-											@Html.ActionLink("Quitter", "LeaveTeam", "Team", new { id = team.TeamID }, new { @class = "btn btn-danger" })
-										}
-										else if (team.IsTeamDemande)
-										{
-											@Html.ActionLink("Annuler ma demande", "CancelDemande", "Team", new { id = team.TeamID }, new { @class = "btn btn-danger" })
-										}
-										else if (team.Gamertags.Count() < Model.MaxPlayerPerTeam && !Model.IsTeamLeader && !Model.IsStarted && !Model.IsOver && Model.UserTeam == null)
-										{
-											<button class="teamButton hover btn btn-default" type="button" data-toggle="modal" data-team-id="@team.TeamID" data-target="#ModalChoisirGamerTag">Rejoindre</button>
-										}
+
 									</div>
 								</td>
 							}

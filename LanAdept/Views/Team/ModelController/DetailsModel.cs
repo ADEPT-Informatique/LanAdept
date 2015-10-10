@@ -18,6 +18,8 @@ namespace LanAdept.Views.Teams.ModelController
 
 		public int TournamentID { get; set; }
 
+		public Tournament Tournament { get; set; }
+
 		public GamerTag TeamLeaderTag { get; set; }
 
 		public IEnumerable<GamerTag> GamerTags { get; set; }
