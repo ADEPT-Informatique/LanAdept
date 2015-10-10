@@ -43,6 +43,8 @@ namespace LanAdeptData.Model
 
 		public virtual ICollection<Reservation> Reservations { get; set; }
 
+		public virtual ICollection<Team> Teams { get; set; }
+
 		#endregion
 
 		#region Calculated properties

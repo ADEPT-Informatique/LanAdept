@@ -13,16 +13,19 @@ namespace LanAdeptData.Model
 		public int GamerTagID { get; set; }
 
 		[Required]
-		[StringLength(32)]
+		[StringLength(30)]
+		[MaxLength(30)]
 		public string Gamertag { get; set; }
 
 		public virtual int UserID { get; set; }
 
 		#region Navigation properties
+
 		[ForeignKey("UserID")]
 		public virtual User User { get; set; }
 
 		public virtual ICollection<Team> Teams { get; set; }
+
 		#endregion
 
         public override string ToString()

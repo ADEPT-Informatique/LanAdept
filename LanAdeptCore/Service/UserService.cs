@@ -126,6 +126,22 @@ namespace LanAdeptCore.Service
 			return false;
 		}
 
+		public static int GetNbTeamDemand()
+		{
+			if (!IsTeamLeader())
+				return 0;
+
+			int nbDemands = 0;
+			IEnumerable<Team> teams = UnitOfWork.Current.TeamRepository.GetByTeamLeaderID(GetLoggedInUser().UserID);
+
+			foreach (Team team in teams)
+			{
+				nbDemands += team.Demandes.Count;
+			}
+
+			return nbDemands;
+		}
+
 		/* =============== PRIVÉ =============== */
 
 		private static string HashPassword(string password, string salt)

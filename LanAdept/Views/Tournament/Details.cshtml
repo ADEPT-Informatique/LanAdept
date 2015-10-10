@@ -111,10 +111,10 @@
 							@if (Model.IsConnected)
 							{
 								<td>
-									<div class="col-md-6 pull-right">
+									<div class="pull-right">
 										@if (team.IsMyTeamForTeamLeader)
 										{
-											@Html.ActionLink("Mon équipe", "Details", "Team", new { id = team.TeamID }, new { @class = "btn btn-primary" })
+											@Html.ActionLink("Gérer", "Details", "Team", new { id = team.TeamID }, new { @class = "btn btn-primary" })
 										}
 										else if (team.IsMyTeam)
 										{

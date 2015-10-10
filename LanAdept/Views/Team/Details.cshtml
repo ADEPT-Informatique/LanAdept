@@ -7,17 +7,14 @@
 }
 
 <div class="page-header clearfix">
-	<h1 class="col-md-10">@Model.Name </h1>
+	<h1>
+		@(String.IsNullOrWhiteSpace(Model.Tag) ? "" : "[" + Model.Tag + "]")
+		@Model.Name
 
-	<br />
-	<div class="btn-toolbar pull-right">
-		<div class="btn-group">
+		<div class="pull-right">
 			@Html.ActionLink("Supprimer l'équipe", "Delete", new { id = Model.TeamID }, new { @class = "btn btn-danger" })
 		</div>
-	</div>
-
-	<br />
-	<h2 class="col-sm-12">[@Model.Tag]</h2>
+	</h1>
 
 </div>
 
@@ -26,7 +23,7 @@
 </h3>
 
 <div class="table-responsive">
-	<table class="table">
+	<table class="table table-striped" style="max-width: 700px;">
 		<thead>
 			<tr>
 				<th>Gamertag</th>
@@ -42,7 +39,7 @@
 					@gamerTag.Gamertag
 					@if (Model.TeamLeaderTag == gamerTag)
 					{
-						<span class="glyphicon glyphicon-star-empty"></span>
+						<span class="glyphicon glyphicon-star"></span>
 					}
 				</td>
 				<td>
@@ -88,12 +85,8 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th>
-						Nom
-					</th>
-					<th>
-						GamerTag
-					</th>
+					<th>Nom</th>
+					<th>GamerTag</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -118,7 +111,7 @@
 }
 else
 {
-	<div class="alert alert-info">
-		Aucune demande
-	</div>
+	<em class="small">
+		Il n'y a aucune demande pour rejoindre votre équipe pour le moment
+	</em>
 }

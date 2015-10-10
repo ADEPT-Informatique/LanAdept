@@ -1,84 +1,82 @@
 ﻿@using LanAdept.Views.Teams.ModelController
 
-	@{
-		ViewBag.Title = "Mes équipes";
-	}
+@{
+	ViewBag.Title = "Mes équipes";
+}
 
-	<h2>Mes équipes</h2>
+<h2>Mes équipes</h2>
 
-	<div>
-		<table class="table table-hover table-responsive">
-			
-			<thead>
-				<tr>
-					<th>
-						Nom
-					</th>
-					<th>
-						Nombre de joueurs inscrits
-					</th>
-					<th>
-						Nombre de demandes
-					</th>
-					<th></th>
-					<th></th>
-				</tr>
-			</thead>
+<div>
+	<table class="table table-hover table-responsive">
 
-			@foreach (TeamDemandeModel team in Model.Teams)
-			{
-				<tr  @("class=clickable-row data-row-url=" + Url.Action("Details", "Team", new { id = team.Team.TeamID }))>
-					<td>
-						@team.Team.Name
-					</td>
-					<td>
-						@team.Team.GamerTags.Count / @team.Team.Tournament.MaxPlayerPerTeam
-					</td>
-					<td>
-						@if (team.Demandes == null)
-						{
-							<div>
-								0
-							</div>
-						}
-						else
-						{
-							@team.Demandes.Count
-                        }
+		<thead>
+			<tr>
+				<th>
+					Nom
+				</th>
+				<th>
+					Nombre de joueurs inscrits
+				</th>
+				<th>
+					Nombre de demandes
+				</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
 
-					</td>
-					<td>
-						@if (team.Team.IsReady)
-						{
-							<div class="btn btn-success disabled">
-								Prête
-							</div>
-						}
-						else
-						{
-							<div class="btn btn-danger disabled">
-								Pas prête
-							</div>
-						}
-					</td>
-					<td>
-						@if (team.Team.IsConfirmed)
-						{
-							<div class="btn btn-success disabled">
-								Confirmé
-							</div>
-						}
-						else
-						{
-							<div class="btn btn-danger disabled">
-								Non Confirmé
-							</div>
-						}
-					</td>
-				</tr>
-			}
-		</table>
-	</div>
+		@foreach (TeamDemandeModel team in Model.Teams)
+		{
+			<tr @("class=clickable-row data-row-url=" + Url.Action("Details", "Team", new { id = team.Team.TeamID }))>
+				<td>
+					@team.Team.Name
+				</td>
+				<td>
+					@team.Team.GamerTags.Count / @team.Team.Tournament.MaxPlayerPerTeam
+				</td>
+				<td>
+					@if (team.Demandes == null)
+					{
+						<text>0</text>
+					}
+					else
+					{
+						@team.Demandes.Count
+					}
+
+				</td>
+				<td>
+					@if (team.Team.IsReady)
+					{
+						<div class="label label-success">
+							Prête
+						</div>
+					}
+					else
+					{
+						<div class="label label-danger">
+							Pas prête
+						</div>
+					}
+				</td>
+				<td>
+					@if (team.Team.IsConfirmed)
+					{
+						<span class="label label-success">
+							Confirmé
+						</span>
+					}
+					else
+					{
+						<span class="label label-danger">
+							Non Confirmé
+						</span>
+					}
+				</td>
+			</tr>
+		}
+	</table>
+</div>
 
 @section Scripts {
 	@Scripts.Render("~/Scripts/general.js")

@@ -51,18 +51,28 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					@Html.ListItemAction("Accueil", "Index", "Home")
 					@Html.ListItemAction("Liste des places", "Liste", "Place")
 					@Html.ListItemCategory("Tournois", "Index", "Tournament")
-                    @Html.ListItemAction("À propos", "About", "Home")
+					@Html.ListItemAction("À propos", "About", "Home")
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					@Html.ListItemAction("Connexion", "Login", "Auth")
 					@Html.ListItemAction("Inscription", "Register", "Auth")
 
-					@if(LanAdeptCore.Service.UserService.IsUserLoggedIn() && LanAdeptCore.Service.UserService.IsTeamLeader())
+					@if (LanAdeptCore.Service.UserService.IsTeamLeader())
 					{
-						@Html.ListItemAction("Mon équipe", "Index", "Team")
+						int nbDemandes = @LanAdeptCore.Service.UserService.GetNbTeamDemand();
+
+						<li>
+							<a href="@Url.Action("Index", "Team")" class="hidden-sm">
+								Mes équipes
+								@if (nbDemandes > 0)
+								{
+									<span class="label label-danger">@nbDemandes</span>
+								}
+							</a>
+						</li>
+						@*@Html.ListItemAction("Mes équipes", "Index", "Team", null, new { @class = "hidden-sm" })*@
 					}
 
 					@if (LanAdeptCore.Service.ReservationService.HasUserPlace())

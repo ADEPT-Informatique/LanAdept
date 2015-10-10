@@ -35,6 +35,9 @@ namespace LanAdeptData.Model
 		public virtual Tournament Tournament { get; set; }
 
 		public virtual ICollection<GamerTag> GamerTags { get; set; }
+
+		public virtual ICollection<Demande> Demandes { get; set; }
+
 		#endregion
 	}
 }
