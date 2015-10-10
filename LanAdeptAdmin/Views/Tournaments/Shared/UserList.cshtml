@@ -1,29 +1,26 @@
 ﻿@model LanAdeptAdmin.Views.Tournaments.ModelController.TeamModel
 
+<h4>Liste des joueurs de l'équipe</h4>
 
-@{
-    ViewBag.Title = "UserList";
-}
-
-<h4>Gamers</h4>
-
-<table class="table">
-	<tr>
-		<th>
-			@Html.DisplayNameFor(model => model.TeamGamerTags.First().User.CompleteName)
-		</th>
-	</tr>
-
-
-	@foreach (GamerTag gamerTag in Model.TeamGamerTags)
-	{
-		<tr>
-			<td>
-				@gamerTag.User.CompleteName.ToString()
-			</td>
-		</tr>
-	}
-</table>
-
-
+<div class="table-responsive">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					Nom complet
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (GamerTag gamerTag in Model.TeamGamerTags)
+			{
+				<tr>
+					<td>
+						@gamerTag.User.CompleteName.ToString()
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
 

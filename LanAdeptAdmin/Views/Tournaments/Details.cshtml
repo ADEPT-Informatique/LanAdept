@@ -100,8 +100,8 @@
 						</p>
 					}
 				</td>
-				<td>
-					@Html.IconActionLink("glyphicon-trash", "Delete", null, new { TeamId = team.TeamID }, new { @class = "btn btn-danger btn-sm" })
+				<td class="text-right">
+					@Html.IconActionLink("glyphicon-trash", "DeleteTeam", null, new { id = team.TeamID }, new { @class = "btn btn-danger btn-sm" })
 				</td>
 			</tr>
 		}

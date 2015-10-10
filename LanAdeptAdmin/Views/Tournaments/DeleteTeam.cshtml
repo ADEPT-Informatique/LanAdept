@@ -5,52 +5,20 @@
 	ViewBag.Sidebar = "_Sidebar_Tournament";
 }
 
-<h3>Are you sure you want to delete this team?</h3>
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.TeamLeaderTag.User.CompleteName)
-        </dt>
+<h3>Voulez-vous vraiment supprimer l'équipe "@Model.Name"?</h3>
+<hr />
 
-        <dd>
-            @Html.DisplayFor(model => model.TeamLeaderTag.User.CompleteName)
-        </dd>
+<div class="row">
+	<div class="col-xs-12 col-md-7">
+		@Html.Partial("../Shared/UserList")
+	</div>
+	<div class="col-xs-12 col-lg-7 text-right">
+		@using (Html.BeginForm())
+		{
+			@Html.AntiForgeryToken()
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Tournament.Game.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Tournament.Game.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Tag)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Tag)
-        </dd>
-
-    </dl>
-
-	@Html.Partial("../Shared/UserList")
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to Tournament", "Details", new { id = Model.TournamentID })
-        </div>
-    }
+			@Html.ActionLink("Non", "Index", null, new { @class = "btn btn-default" })
+			<input type="submit" value="Supprimer" class="btn btn-danger" />
+		}
+	</div>
 </div>

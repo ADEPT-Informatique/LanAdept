@@ -1,24 +1,24 @@
 ﻿@model  LanAdeptAdmin.Views.Tournaments.ModelController.TournamentModel
 
 @{
-	ViewBag.Title = "Delete";
+	ViewBag.Title = "Supprimer un tournoi";
 	ViewBag.Sidebar = "_Sidebar_Tournament";
 }
 
-<h2>Delete</h2>
+<h2>@ViewBag.Title</h2>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Tournament</h4>
-    <hr />
-    <dl class="dl-horizontal">
-    </dl>
 
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
+<div class="row">
+	<h4>Voulez-vous vraiment supprimer le tournoi de "@Html.DisplayFor(model => model.Game.Name)" ?</h4>
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" />
-        </div>
-    }
+
+	<div class="col-lg-7 text-right">
+		@using (Html.BeginForm())
+		{
+			@Html.AntiForgeryToken()
+
+			@Html.ActionLink("Non", "Index", null, new { @class = "btn btn-default" })
+			<input type="submit" value="Supprimer" class="btn btn-danger" />
+		}
+	</div>
 </div>

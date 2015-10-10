@@ -150,13 +150,13 @@ namespace LanAdeptAdmin.Views
 		}
 
 		[AuthorizePermission("admin.tournament.team.delete")]
-		public ActionResult DeleteTeam(int? TeamId)
+		public ActionResult DeleteTeam(int? id)
 		{
-			if (TeamId == null)
+			if (id == null)
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
-			TeamModel team = new TeamModel(uow.TeamRepository.GetByID(TeamId));
+			TeamModel team = new TeamModel(uow.TeamRepository.GetByID(id));
 			if (team == null)
 			{
 				return HttpNotFound();
@@ -167,9 +167,9 @@ namespace LanAdeptAdmin.Views
 		[AuthorizePermission("admin.tournament.team.delete")]
 		[HttpPost, ActionName("DeleteTeam")]
 		[ValidateAntiForgeryToken]
-		public ActionResult DeleteTeamConfirmed(int TeamId)
+		public ActionResult DeleteTeamConfirmed(int id)
 		{
-			Team team = uow.TeamRepository.GetByID(TeamId);
+			Team team = uow.TeamRepository.GetByID(id);
 
 			int tournamentID = team.TournamentID;
 
@@ -185,7 +185,7 @@ namespace LanAdeptAdmin.Views
 				}
 			}
 
-			uow.TeamRepository.Delete(uow.TeamRepository.GetByID(TeamId));
+			uow.TeamRepository.Delete(uow.TeamRepository.GetByID(id));
 
 			uow.Save();
 			return RedirectToAction("Details", new { id = tournamentID });
