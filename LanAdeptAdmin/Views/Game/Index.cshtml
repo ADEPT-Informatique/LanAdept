@@ -3,31 +3,42 @@
 @model IEnumerable<GameModel>
 
 @{
-    ViewBag.Title = "Index";
+	ViewBag.Title = "Liste des jeux";
 	ViewBag.Sidebar = "_Sidebar_Game";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
+<hr />
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th></th>
-    </tr>
+@if (Model.Count() > 0)
+{
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					@Html.DisplayNameFor(model => model.Name)
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.Name)
+					</td>
+					<td class="text-right">
+						@Html.IconActionLink("glyphicon-pencil", "Edit", null, new { id = item.GameID }, new { @class = "btn btn-default btn-sm" })
+						@Html.IconActionLink("glyphicon-trash", "Delete", null, new { id = item.GameID }, new { @class = "btn btn-danger btn-sm" })
+					</td>
+				</tr>
+			}
+		</tbody>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.GameID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.GameID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.GameID })
-        </td>
-    </tr>
+	</table>
 }
-
-</table>
+else
+{
+	<em>Il n'y a pas de jeu pour le moment.</em>
+}

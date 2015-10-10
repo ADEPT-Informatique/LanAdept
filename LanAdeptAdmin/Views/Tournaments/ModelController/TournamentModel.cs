@@ -3,14 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using System.ComponentModel;
 
 namespace LanAdeptAdmin.Views.Tournaments.ModelController
 {
 	public class TournamentModel
 	{
-		[DataType(DataType.DateTime)]
-		[Display(Name = "Heure")]
+		[DataType(DataType.Time)]
+		[DisplayName("Heure de début")]
 		[DisplayFormat(DataFormatString = @"{0:HH\hmm}")]
+		[Required(ErrorMessage="L'heure de début du tournoi est requise")]
 		public DateTime? StartTime { get; set; }
 
 		public bool IsStarted { get; set; }
@@ -20,6 +22,7 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 		[DataType(DataType.MultilineText)]
 		public string Info { get; set; }
 
+		[DisplayName("Nb. de joueurs par équipe")]
 		public int MaxPlayerPerTeam { get; set; }
 
 		public int Id { get; set; }

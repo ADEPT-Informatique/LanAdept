@@ -1,14 +1,13 @@
 ﻿
+using System.ComponentModel;
 namespace LanAdeptAdmin.Views.Game.ModelController
 {
 	public class GameModel
 	{
 		public int GameID { get; set; }
 
+		[DisplayName("Nom")]
 		public string Name { get; set; }
-
-		public string Description { get; set; }
-
 
 		public GameModel() {
 
@@ -17,7 +16,6 @@ namespace LanAdeptAdmin.Views.Game.ModelController
 		public GameModel(LanAdeptData.Model.Game game) {
 			GameID = game.GameID;
 			Name = game.Name;
-			Description = game.Description;
 		}
 
 	}

@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using LanAdeptCore.Attribute.Authorization;
 
-namespace LanAdeptAdmin.Views.Games.ModelController
+namespace LanAdeptAdmin.Controllers
 {
 	public class GameController : Controller
 	{
@@ -25,21 +25,6 @@ namespace LanAdeptAdmin.Views.Games.ModelController
 				gameModels.Add(new GameModel(game));
 			}
 			return View(gameModels);
-		}
-
-		[AuthorizePermission("admin.game.details")]
-		public ActionResult Details(int? id)
-		{
-			if (id == null)
-			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
-			GameModel game = new GameModel(uow.GameRepository.GetByID(id));
-			if (game == null)
-			{
-				return HttpNotFound();
-			}
-			return View(game);
 		}
 
 		[AuthorizePermission("admin.game.create")]
@@ -59,7 +44,6 @@ namespace LanAdeptAdmin.Views.Games.ModelController
 
 				game.GameID = gameModel.GameID;
 				game.Name = gameModel.Name;
-				game.Description = gameModel.Description;
 
 				uow.GameRepository.Insert(game);
 				uow.Save();
@@ -97,7 +81,6 @@ namespace LanAdeptAdmin.Views.Games.ModelController
 
 				game.GameID = gameModel.GameID;
 				game.Name = gameModel.Name;
-				game.Description = gameModel.Description;
 
 				uow.GameRepository.Update(game);
 				uow.Save();
@@ -126,7 +109,24 @@ namespace LanAdeptAdmin.Views.Games.ModelController
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteConfirmed(int id)
 		{
-			uow.GameRepository.Delete(uow.GameRepository.GetByID(id));
+			Game game = uow.GameRepository.GetByID(id);
+
+			while (game.Tournaments.Count != 0)
+			{
+				Tournament tournament = game.Tournaments.First();
+
+				while (tournament.Teams.Count != 0)
+				{
+					Team team = tournament.Teams.First();
+					team.GamerTags.Clear();
+					uow.TeamRepository.Delete(team);
+				}
+
+				uow.TournamentRepository.Delete(tournament);
+			}
+
+			uow.GameRepository.Delete(game);
+
 			uow.Save();
 			return RedirectToAction("Index");
 		}
