@@ -62,12 +62,6 @@ namespace LanAdept.Controllers
 				return RedirectToAction("Index");
 			}
 
-			User user = UserService.GetLoggedInUser();
-
-			if (uow.TeamRepository.UserTeamInTournament(user, tournament) != null)
-			{
-				return RedirectToAction("Details", new { id = tournament.TournamentID });
-			}
 
 			TournamentModel tournamentModel = new TournamentModel(tournament);
 
@@ -123,7 +117,7 @@ namespace LanAdept.Controllers
 
 			tournamentModel.Teams = teamModels;
 
-
+			User user = UserService.GetLoggedInUser();
 			if (user != null)
 			{
 				tournamentModel.IsConnected = true;
@@ -246,11 +240,19 @@ namespace LanAdept.Controllers
 				return HttpNotFound();
 			}
 
-			LanAdeptData.Model.Tournament tournament = uow.TournamentRepository.GetByID(model.TournamentID);
+			Tournament tournament = uow.TournamentRepository.GetByID(model.TournamentID);
 			if (tournament.IsStarted || tournament.IsOver)
 			{
 				return RedirectToAction("Details", new { id = tournament.TournamentID });
 			}
+
+
+			User user = UserService.GetLoggedInUser();
+			if (uow.TeamRepository.UserTeamInTournament(user, tournament) != null)
+			{
+				return RedirectToAction("Details", new { id = tournament.TournamentID });
+			}
+
 
 			foreach (Demande item in uow.DemandeRepository.GetByTeamId(model.TeamID))
 			{
@@ -261,7 +263,6 @@ namespace LanAdept.Controllers
 			}
 
 			Demande demande = new Demande();
-			User user = UserService.GetLoggedInUser();
 
 			GamerTag gamerTag = uow.GamerTagRepository.GetByUserAndGamerTagID(user, model.GamerTagID.Value);
 			if (gamerTag == null)
