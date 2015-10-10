@@ -93,6 +93,7 @@ namespace LanAdept.Controllers
 								teamModel.IsMyTeamForTeamLeader = false;
 								teamModel.IsTeamDemande = false;
 								teamModel.IsMyTeam = true;
+								break;
 							}
 						}
 
@@ -101,12 +102,13 @@ namespace LanAdept.Controllers
 							List<Demande> demandes = uow.DemandeRepository.GetByTeamId(team.TeamID);
 							foreach (Demande demande in demandes)
 							{
-								if (demande.Team.TeamID == team.TeamID)
+								if (demande.GamerTag.UserID == UserService.GetLoggedInUser().UserID)
 								{
 									tournamentModel.CanAddTeam = false;
 									teamModel.IsMyTeamForTeamLeader = false;
 									teamModel.IsTeamDemande = true;
 									teamModel.IsMyTeam = false;
+									break;
 								}
 							}
 						}
