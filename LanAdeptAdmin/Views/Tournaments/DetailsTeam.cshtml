@@ -14,34 +14,18 @@
 	</div>
 }
 
-<h2>@Model.Name</h2>
-<h4>@Model.Tag</h4>
+<h2>
+	@if (Model.IsConfirmed)
+	{
+		<span class="label label-success"><span class="glyphicon glyphicon-ok"></span></span>
+	}
+	else
+	{
+		<span class="label label-danger"><span class="glyphicon glyphicon-hourglass"></span></span>
+	}
 
-@if (Model.IsConfirmed)
-{
-	<a class="btn btn-success disabled">
-		Confirmed
-	</a>
-}
-else
-{
-	<a class="btn btn-danger disabled">
-		Not Confirmed
-	</a>
-}
-
-@if (Model.IsReady)
-{
-	<a class="btn btn-success disabled">
-		Ready
-	</a>
-}
-else
-{
-	<a class="btn btn-danger disabled">
-		Not Ready
-	</a>
-}
+	@Model.Name
+</h2>
 
 <hr />
 
