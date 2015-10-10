@@ -1,0 +1,67 @@
+﻿/* Easter egg de Marco */
+
+@keyframes spin {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(360deg); }
+}
+
+/* basic structure for the rays setup */
+#raysDemoHolder	{ 
+	position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    /* give it dimensions */
+    overflow:hidden; 
+}
+#raysLogo { 
+    top: 900px;
+	text-indent: -3000px; 
+	display: block; 
+	position: relative;  
+	z-index: 10; 
+    background: url(../Image/JesusLouis.png) 0 0 no-repeat;
+    background-size:800px;
+    left: 300px;
+    width:1000px;
+    height:1000px;
+}
+
+#textLogo { 
+    position: absolute;
+    left: 600px;
+    width: 300px;
+}
+
+#rays	{ /* with animation properties */
+	background: url(../Image/sun-rays.png) 0 0 no-repeat;
+	position: absolute;
+    width: 2772px; 
+	height: 2772px;
+	top:-100%;
+    left:-10%;
+	/* microsoft ie */
+	animation-name: spin; 
+	animation-duration: 40000ms; /* 40 seconds */
+	animation-iteration-count: infinite; 
+	animation-timing-function: linear;
+}
+
+.countdown {
+	margin-bottom: 25px;
+}
+
+#my-video {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 15;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}

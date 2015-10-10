@@ -159,6 +159,7 @@
     <Content Include="Content\Login.css" />
     <Content Include="Content\Map.css" />
     <Content Include="Content\MaPlacePrint.css" />
+    <Content Include="Content\Propos.css" />
     <Content Include="Content\Tournois.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -208,6 +209,7 @@
     <Content Include="Image\Favicon\mstile-310x150.png" />
     <Content Include="Image\Favicon\mstile-310x310.png" />
     <Content Include="Image\Favicon\mstile-70x70.png" />
+    <Content Include="Image\JesusLouis.png" />
     <Content Include="Image\LOGO_couleurs_Transparent.png" />
     <Content Include="Image\LOGO_noir_Transparent.png" />
     <Content Include="Image\LOGO_noir_transparent_v2.png" />
@@ -224,6 +226,7 @@
     <None Include="Properties\PublishProfiles\LanAdeptPRODPROD.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Image\scissors.png" />
+    <Content Include="Image\sun-rays.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\general.js" />

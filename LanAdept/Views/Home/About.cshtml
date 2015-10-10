@@ -2,6 +2,24 @@
 	ViewBag.Title = "À propos";
 }
 
+<div style="display:none" id="raysDemoHolder">
+    <video id="my-video" style="display:none" muted loop>
+        <source src="https://johncena.me/static/media/cena.mp4" type="video/mp4">
+    </video>
+    <div id="raysLogo">
+        <img style="display:none" id="textLogo" src="~/Image/ready.png" />
+    </div>
+    <div id="rays"></div>
+    <audio class="sound">
+        <source src="~/Sounds/sound.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio class="sound">
+        <source src="~/Sounds/loopMusic.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+</div>
+
 <h2>Remerciements</h2>
 <p>Merci à tous les bénévoles qui ont contribué à la réalisation de ce LAN</p>
 
@@ -28,3 +46,37 @@
 	</div>
 </div>
 
+@section Styles {
+    @Styles.Render("~/Content/Propos.css")
+}
+
+@section Scripts{
+
+    <script src="//cdn.rawgit.com/namuol/cheet.js/master/cheet.min.js"
+        type="text/javascript"></script>
+    <script>
+        $(document).ready(function () {
+            cheet('↑ ↑ ↓ ↓ ← → ← → b a', function () {
+                $('#raysDemoHolder').css('display', 'block')
+
+                $("#raysLogo").animate({
+                    top: "-=500px"
+                }, 2000, function () {
+                    // Animation complete.
+                    $("#textLogo").fadeIn("slow", function () {
+
+                        setTimeout(function () {
+                            $('.sound').get(0).play();
+                            $('.sound').get(1).play();
+                            $('#my-video').css('display', 'block')
+                            var videoElement = $('#my-video').get(0);
+                            videoElement.currentTime = 1;
+                            videoElement.play();
+                        }, 1000);
+                    });
+                });
+            });
+        });
+    </script>    
+
+}
