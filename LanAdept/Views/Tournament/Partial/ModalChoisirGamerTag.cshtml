@@ -9,7 +9,7 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title" id="exampleModalLabel">Rejoindre l'équipe en tant que...</h4>
 			</div>
-			<div class="modal-body">
+			<div class="modal-body" style="max-height: 300px; overflow-y: scroll;">
 				<div class="list-group" id="listGamerTag">
 					@foreach (GamerTag tag in Model)
 					{
@@ -17,7 +17,7 @@
 					}
 					<div id="addElement"></div>
 				</div>
-				<div class="clearfix">
+				<div class="clearfix" style="margin-bottom: 25px;">
 					<div class="input-group input-group-sm">
 						<input id="gamerTagText" type="text" class="form-control" placeholder="Ajouter un Gamertag">
 						<span class="input-group-btn">

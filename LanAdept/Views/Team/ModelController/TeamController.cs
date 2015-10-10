@@ -166,7 +166,6 @@ namespace LanAdept.Controllers
 			return RedirectToAction("Details", new { id = id });
 		}
 
-		//TODO: LeaveTeam
 		[Authorize]
 		public ActionResult LeaveTeam(int id)
 		{
@@ -174,13 +173,14 @@ namespace LanAdept.Controllers
 			User user = UserService.GetLoggedInUser();
 
 			GamerTag tag = team.GamerTags.First(g => g.UserID == user.UserID);
-			uow.GamerTagRepository.Delete(tag);
+
+			team.GamerTags.Remove(tag);
+			uow.TeamRepository.Update(team);
 			uow.Save();
 
 			return RedirectToAction("Details","Tournament", new { id = team.Tournament.TournamentID });
 		}
 
-		//TODO: CancelDemande
 		[Authorize]
 		public ActionResult CancelDemande(int id)
 		{
