@@ -120,6 +120,7 @@ namespace LanAdept.Controllers
 			{
 				tournamentModel.IsConnected = true;
 				tournamentModel.GamerTags = uow.GamerTagRepository.GetByUser(user);
+				tournamentModel.UserTeam = uow.TeamRepository.UserTeamInTournament(user, tournament);
 			}
 
 			return View(tournamentModel);

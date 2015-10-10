@@ -39,7 +39,9 @@ namespace LanAdept.Views.Tournaments.ModelController
 
 		public bool CanAddTeam { get; set; }
 
-		public TournamentModel(LanAdeptData.Model.Tournament tournament)
+		public Team UserTeam { get; set; }
+
+		public TournamentModel(Tournament tournament)
 		{
 			StartTime = tournament.StartTime;
 			Game = tournament.Game;
