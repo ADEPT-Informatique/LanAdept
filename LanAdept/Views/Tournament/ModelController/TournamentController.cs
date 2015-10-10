@@ -23,6 +23,12 @@ namespace LanAdept.Controllers
 		{
 			List<TournamentModel> tournamentModels = new List<TournamentModel>();
 			IEnumerable<LanAdeptData.Model.Tournament> tournaments = uow.TournamentRepository.Get();
+
+			if(tournaments.Count() == 0)
+			{
+				return View("TournamentComing");
+			}
+
 			foreach (LanAdeptData.Model.Tournament tournament in tournaments)
 			{
 				TournamentModel tournamentModel = new TournamentModel(tournament);
