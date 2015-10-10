@@ -23,7 +23,7 @@
 	z-index: 10; 
     background: url(../Image/JesusLouis.png) 0 0 no-repeat;
     background-size:800px;
-    left: 300px;
+    left: 10%;
     width:1000px;
     height:1000px;
 }
@@ -40,7 +40,7 @@
     width: 2772px; 
 	height: 2772px;
 	top:-100%;
-    left:-10%;
+    left:-35%;
 	/* microsoft ie */
 	animation-name: spin; 
 	animation-duration: 40000ms; /* 40 seconds */
