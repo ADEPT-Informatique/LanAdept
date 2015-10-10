@@ -22,18 +22,18 @@ namespace LanAdept.Controllers
 		public ActionResult Index()
 		{
 			List<TournamentModel> tournamentModels = new List<TournamentModel>();
-			IEnumerable<LanAdeptData.Model.Tournament> tournaments = uow.TournamentRepository.Get();
+			IEnumerable<Tournament> tournaments = uow.TournamentRepository.Get();
 
 			if(tournaments.Count() == 0)
 			{
 				return View("TournamentComing");
 			}
 
-			foreach (LanAdeptData.Model.Tournament tournament in tournaments)
+			foreach (Tournament tournament in tournaments)
 			{
 				TournamentModel tournamentModel = new TournamentModel(tournament);
 				List<TeamModel> teamModels = new List<TeamModel>();
-				foreach (LanAdeptData.Model.Team team in tournament.Teams)
+				foreach (Team team in tournament.Teams)
 				{
 					TeamModel teamModel = new TeamModel(team);
 					teamModels.Add(teamModel);
@@ -53,12 +53,20 @@ namespace LanAdept.Controllers
 				return RedirectToAction("Index");
 			}
 
-			LanAdeptData.Model.Tournament tournament = uow.TournamentRepository.GetByID(id);
+			Tournament tournament = uow.TournamentRepository.GetByID(id);
+			
 
 			if (tournament == null)
 			{
 				TempData["Error"] = ERROR_INVALID_ID;
 				return RedirectToAction("Index");
+			}
+
+			User user = UserService.GetLoggedInUser();
+
+			if (uow.TeamRepository.UserTeamInTournament(user, tournament) != null)
+			{
+				return RedirectToAction("Details", new { id = tournament.TournamentID });
 			}
 
 			TournamentModel tournamentModel = new TournamentModel(tournament);
@@ -115,7 +123,7 @@ namespace LanAdept.Controllers
 
 			tournamentModel.Teams = teamModels;
 
-			User user = UserService.GetLoggedInUser();
+
 			if (user != null)
 			{
 				tournamentModel.IsConnected = true;
