@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace LanAdeptAdmin.Views.Tournaments.ModelController
 {
@@ -25,12 +26,39 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 
 		public int GameID { get; set; }
 
+		public MvcHtmlString GetStatus()
+		{
+			string classeEtat = "";
+			string messageEtat = "";
+
+			if (!IsStarted)
+			{
+				classeEtat = "label-warning";
+				messageEtat = "Préparation";
+			}
+			else if (!IsOver)
+			{
+				classeEtat = "label-danger";
+				messageEtat = "En cours";
+			}
+			else
+			{
+				classeEtat = "label-default";
+				messageEtat = "Terminé";
+			}
+
+			return new MvcHtmlString("<div class=\"label " + classeEtat + " pull-right\">" + messageEtat + "</div>");
+		}
+
+
 		#region Navigation properties
 		[Display(Name = "Jeu")]
 		public virtual LanAdeptData.Model.Game Game { get; set; }
 
 		public virtual ICollection<Team> Teams { get; set; }
 		#endregion
+
+		#region Constructors
 
 		public TournamentModel() {
 
@@ -47,5 +75,7 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 			IsStarted = tournament.IsStarted;
 			Info = tournament.Info;
 		}
+
+		#endregion
 	}
 }

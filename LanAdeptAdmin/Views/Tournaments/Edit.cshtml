@@ -18,31 +18,31 @@
 		@Html.HiddenFor(model => model.Id)
 
 		<div class="form-group">
-			@Html.LabelFor(model => model.Game, htmlAttributes: new { @class = "control-label col-md-2" })
-			<div class="col-md-5">
+			@Html.LabelFor(model => model.Game, htmlAttributes: new { @class = "control-label col-md-3" })
+			<div class="col-md-6">
 				@Html.DropDownList("GameID", null, htmlAttributes: new { @class = "form-control" })
 				@Html.ValidationMessageFor(model => model.Game.GameID, "", new { @class = "text-danger" })
 			</div>
 		</div>
 
 		<div class="form-group">
-			@Html.LabelFor(model => model.MaxPlayerPerTeam, htmlAttributes: new { @class = "control-label col-md-2" })
-			<div class="col-md-5">
+			@Html.LabelFor(model => model.MaxPlayerPerTeam, htmlAttributes: new { @class = "control-label col-md-3" })
+			<div class="col-md-6">
 				@Html.EditorFor(model => model.MaxPlayerPerTeam, new { htmlAttributes = new { @class = "form-control" } })
 				@Html.ValidationMessageFor(model => model.MaxPlayerPerTeam, "", new { @class = "text-danger" })
 			</div>
 		</div>
 
 		<div class="form-group">
-			@Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
-			<div class="col-md-5">
+			@Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-3" })
+			<div class="col-md-6">
 				@Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control" } })
 				@Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
 			</div>
 		</div>
 
 		<div class="form-group">
-			<div class="col-md-5 col-lg-push-3">
+			<div class="col-md-6 col-md-offset-3">
 				<div class="checkbox">
 					@Html.EditorFor(model => model.IsStarted, new { htmlAttributes = new { style = "margin-left:0;" } })
 					@Html.LabelFor(model => model.IsStarted)
@@ -52,7 +52,7 @@
 		</div>
 
 		<div class="form-group">
-			<div class="col-md-5 col-lg-push-3">
+			<div class="col-md-6 col-md-offset-3">
 				<div class="checkbox">
 					@Html.EditorFor(model => model.IsOver, new { htmlAttributes = new { style = "margin-left:0;" } })
 					@Html.LabelFor(model => model.IsOver)
@@ -62,8 +62,8 @@
 		</div>
 
 		<div class="form-group">
-			@Html.LabelFor(model => model.Info, htmlAttributes: new { @class = "control-label col-md-2" })
-			<div class="col-md-5">
+			@Html.LabelFor(model => model.Info, htmlAttributes: new { @class = "control-label col-md-3" })
+			<div class="col-md-6">
 				@Html.EditorFor(model => model.Info, new { htmlAttributes = new { @class = "form-control", style = "height:400px;" } })
 				@Html.ValidationMessageFor(model => model.Info, "", new { @class = "text-danger" })
 				<br />
@@ -76,7 +76,7 @@
 		</div>
 
 		<div class="form-group">
-			<div class="col-md-offset-2 col-md-10">
+			<div class="col-md-offset-3 col-md-10">
 				<input type="submit" value="Save" class="btn btn-default" />
 			</div>
 		</div>

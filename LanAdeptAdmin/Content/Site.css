@@ -57,6 +57,7 @@
 		left: 0;
 		z-index: 1000;
 		display: block;
+		min-width: 225px;
 		padding: 20px;
 		overflow-x: hidden;
 		overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
@@ -133,7 +134,7 @@
 }
 
 .vertical-align td {
-	vertical-align: central;
+	vertical-align: central !important;
 }
 
 .remove-padding {
@@ -148,6 +149,7 @@ textarea {
 
 	.btn-mobile-full {
 		display:block;
+		width: 100%;
 		margin: 5px 0;
 	}
 }

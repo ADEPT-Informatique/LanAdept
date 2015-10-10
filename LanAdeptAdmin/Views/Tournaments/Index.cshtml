@@ -5,54 +5,37 @@
 	ViewBag.Sidebar = "_Sidebar_Tournament";
 }
 
-<h2>Index</h2>
+<h2>Liste des tournois</h2>
+<hr />
 
 <div class="table-responsive">
-	<table class="table table-hover">
-		<tr>
-			<th>@Html.DisplayNameFor(model => model.Game)</th>
-			<th>@Html.DisplayNameFor(model => model.StartTime)</th>
-			<th></th>
-			<th></th>
-		</tr>
-
-		@{foreach (var item in Model)
-		{
-			<tr @("class=clickable-row data-row-url=" + Url.Action("Details", new { id = item.Id }))>
-				<td>
-					@Html.DisplayFor(modelItem => item.Game.Name)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.StartTime)
-				</td>
-				<td>
-					@{
-			if (item.IsOver)
-			{
-				<a class="btn btn-danger disabled">
-					IsOver
-				</a>
-			}
-			else if (item.IsStarted)
-			{
-				<a class="btn btn-success disabled">
-					IsStarted
-				</a>
-			}
-			else
-			{
-				<a class="btn btn-info disabled">
-					not started
-				</a>
-			}
-
-					}
-				</td>
-				<td class="text-right">
-					@Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
-				</td>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>@Html.DisplayNameFor(model => model.Game)</th>
+				<th>@Html.DisplayNameFor(model => model.StartTime)</th>
+				<th>État</th>
+				<th></th>
 			</tr>
-		}
-		}
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr class="clickable-row vertical-align" data-row-url="@Url.Action("Details", new { id = item.Id })">
+					<td>
+						@Html.DisplayFor(modelItem => item.Game.Name)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.StartTime)
+					</td>
+					<td>
+						@item.GetStatus()
+					</td>
+					<td class="text-right">
+						@Html.IconActionLink("glyphicon-trash", "Delete", null, new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })
+					</td>
+				</tr>
+			}
+		</tbody>
 	</table>
 </div>

@@ -178,6 +178,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Images\Favicon\manifest.json" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Properties\PublishProfiles\LanAdeptAdmin ProdProd.pubxml" />
     <None Include="Properties\PublishProfiles\LanAdeptAdmin.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

@@ -3,60 +3,60 @@
 @{
 	ViewBag.Title = "Details";
 	ViewBag.Sidebar = "_Sidebar_Tournament";
-
-	string classeEtat = "";
-	string messageEtat = "";
-
-	if (!Model.IsStarted)
-	{
-		classeEtat = "label-warning";
-		messageEtat = "Préparation";
-	}
-	else if (!Model.IsOver)
-	{
-		classeEtat = "label-danger";
-		messageEtat = "En cours";
-	}
-	else
-	{
-		classeEtat = "label-default";
-		messageEtat = "Terminé";
-	}
 }
 
 <h2>
-	<span class="label @classeEtat">@messageEtat</span> @Html.DisplayFor(model => model.Game.Name)	
+	@Html.DisplayFor(model => model.Game.Name)
+	@Model.GetStatus()
 </h2>
 <hr />
 
-<div>
-	<dl class="dl-horizontal">
+<div class="row">
+	<div class="col-md-3">
+		<dl class=" dl-horizontal">
+			<dt>
+				@Html.DisplayNameFor(model => model.StartTime)
+			</dt>
 
-		<dt>
-			@Html.DisplayNameFor(model => model.StartTime)
-		</dt>
+			<dd>
+				@Html.DisplayFor(model => model.StartTime)
+			</dd>
 
-		<dd>
-			@Html.DisplayFor(model => model.StartTime)
-		</dd>
+			<dt>
+				@Html.DisplayNameFor(model => model.MaxPlayerPerTeam)
+			</dt>
 
-		<dt>
-			@Html.DisplayNameFor(model => model.MaxPlayerPerTeam)
-		</dt>
+			<dd>
+				@Html.DisplayFor(model => model.MaxPlayerPerTeam)
+			</dd>
 
-		<dd>
-			@Html.DisplayFor(model => model.MaxPlayerPerTeam)
-		</dd>
-
-	</dl>
-	<div>
-		<h4>Informations et reglements</h4>
-		<p>
-			@Html.Markdown(Model.Info)
-		</p>
+		</dl>
 	</div>
+	<div class="col-md-9 text-right">
+		@Html.TextIconActionLink("Modifier", "glyphicon-pencil", "Edit", null, new { id = Model.Id }, new { @class = "btn btn-success btn-mobile-full" })
+		<button type="button" class="btn btn-default btn-mobile-full" data-toggle="modal" data-target="#teamList">
+			<span class="glyphicon glyphicon-copy"></span> liste copiable
+		</button>
+	</div>
+</div>
 
-	<h4>Teams</h4>
+<div>
+	<h3>Informations et reglements</h3>
+	<p>
+		@if (!string.IsNullOrWhiteSpace(Model.Info))
+		{
+			@Html.Markdown(Model.Info)
+		}
+		else
+		{
+			<em>Les règlements n'ont pas encore été définis</em>
+		}
+	</p>
+</div>
+
+<h3>Équipes inscrites</h3>
+@if (Model.Teams.Count > 0)
+{
 	<table class="table">
 		<tr>
 			<th>@Html.DisplayNameFor(model => model.Teams.First().Name)</th>
@@ -101,19 +101,16 @@
 					}
 				</td>
 				<td>
-					@Html.ActionLink("Delete", "Delete", new { TeamId = team.TeamID }, new { @class = "btn btn-danger" })
+					@Html.IconActionLink("glyphicon-trash", "Delete", null, new { TeamId = team.TeamID }, new { @class = "btn btn-danger btn-sm" })
 				</td>
 			</tr>
 		}
 	</table>
-
-</div>
-<p>
-	@Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-default" })
-	<button type="button" class="btn btn-default" data-toggle="modal" data-target="#teamList">
-		Team List
-	</button>
-</p>
+}
+else
+{
+	<em>Il n'y a pas encore d'équipe inscrite à ce tournoi</em>
+}
 
 
 <!-- Modal -->
@@ -122,7 +119,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Team List</h4>
+				<h4 class="modal-title" id="myModalLabel">Copier la liste d'équipes</h4>
 			</div>
 			<div class="modal-body">
 				@foreach (Team team in Model.Teams)
