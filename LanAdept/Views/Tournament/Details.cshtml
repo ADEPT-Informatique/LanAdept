@@ -117,7 +117,6 @@
 						var element = $('<a href="#" class="tagItem list-group-item" data-tag-id="' + data.GamerTagID + '">' + data.Gamertag + '</a>')
 						$('#listGamerTag').append(element);
 						element.click(selectGamerTag);
-						$('#gamerTagText').val("");
 					}
 				})
 			});
@@ -125,6 +124,8 @@
 			$('#ModalChoisirGamerTag').on('show.bs.modal', function (event) {
 				var button = $(event.relatedTarget);
 				var modal = $(this);
+
+				modal.find('#actionButton').text('Rejoindre');
 			});
 
 			function selectGamerTag() {
