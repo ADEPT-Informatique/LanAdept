@@ -123,6 +123,17 @@ else
 
 @section scripts {
 	<script>
+		$(function () {
+			$('[data-toggle="tooltip"]').tooltip();
+			$('[data-toggle="popover"]').popover();
+
+			var placesToHighlight = window.location.hash.replace("#", "").split(";");
+
+			console.log(placesToHighlight);
+			highlightPlaces(placesToHighlight);
+		});
+
+
 		$('#ModalReserverPlace, #ModalChangerPlace').on('show.bs.modal', function (event) {
 			var button = $(event.relatedTarget);
 			var placeID = button.data('placeId');
@@ -133,10 +144,12 @@ else
 			modal.find('.btnReserver').attr("href", "@Url.Action("Reserver")/" + placeID)
 		});
 
-		$(function () {
-			$('[data-toggle="tooltip"]').tooltip();
-			$('[data-toggle="popover"]').popover();
-		})
+		function highlightPlaces(placeArray) {
+			for (var i = 0; i < placeArray.length; i++) {
+				$("#" + placeArray[i]).addClass("place-highlight");
+			}
+		}
+
 	</script>
 }
 

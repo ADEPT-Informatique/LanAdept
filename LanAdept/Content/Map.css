@@ -162,7 +162,22 @@
     border: 1px solid #aed7ea;
 }
 
+@-webkit-keyframes yellow-fade {
+   0% {background: yellow;}
+   100% {}
+}
+@keyframes yellow-fade {
+   0% {background: yellow;}
+   100% {}
+}
 
+.place-highlight {
+	-webkit-animation: yellow-fade 1s ease-in-out 1;
+   animation: yellow-fade 1s ease-in-out 1;
+
+   box-shadow: 0px 0px 5px rgba(0,0,0,0.6);
+   border-color: #444;
+}
 
 .map-max-width {
 	width: 1200px;

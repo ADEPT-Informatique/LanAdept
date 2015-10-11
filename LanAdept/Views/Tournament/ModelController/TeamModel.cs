@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
+using LanAdeptCore.Service;
 
 namespace LanAdept.Views.Tournaments.ModelController
 {
@@ -31,6 +33,19 @@ namespace LanAdept.Views.Tournaments.ModelController
 			Tag = team.Tag;
 			TeamLeaderTag = team.TeamLeaderTag;
 			Gamertags = team.GamerTags;
+		}
+
+		public string GetSeeTeamOnMapHash()
+		{
+			string hash = "#";
+
+			foreach (GamerTag gamertag in Gamertags)
+			{
+				if (ReservationService.HasUserPlace(gamertag.User))
+					hash += gamertag.User.LastReservation.Place.PlaceID + ";";
+			}
+
+			return hash;
 		}
 	}
 }
