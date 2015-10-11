@@ -10,6 +10,19 @@
 
 <div>
 
+	@if (!string.IsNullOrWhiteSpace(TempData["Error"] as string))
+	{
+		<div class="alert alert-danger" role="alert">
+			@Html.Raw(TempData["Error"])
+		</div>
+	}
+	@if (!string.IsNullOrWhiteSpace(TempData["Success"] as string))
+	{
+		<div class="alert alert-success" role="alert">
+			@Html.Raw(TempData["Success"])
+		</div>
+	}
+
 	@if (Model.IsOver)
 	{
 		<div class="alert alert-danger">Le tournoi est présentement terminé</div>
@@ -29,7 +42,7 @@
 			<br />
 			<div class="btn-toolbar pull-right">
 				<div class="btn-group">
-					@Html.ActionLink("Ajouter une équipe", "AddTeam", new { id = Model.TournamentID }, new { @class = "btn btn-default" })
+					@Html.ActionLink("Créer mon équipe", "AddTeam", new { id = Model.TournamentID }, new { @class = "btn btn-success" })
 				</div>
 			</div>
 		}
@@ -84,14 +97,16 @@
 							<td>
 								@foreach (GamerTag gamerTag in team.Gamertags)
 								{
-									if (gamerTag == team.TeamLeaderTag)
-									{
-										<div class="col-xs-12">@gamerTag.Gamertag <span class="glyphicon glyphicon-star"></span></div>
-									}
-									else
-									{
-										<div class="col-xs-12">@gamerTag.Gamertag</div>
-									}
+									<div>
+										@if (gamerTag == team.TeamLeaderTag)
+										{
+											@gamerTag.Gamertag <span class="glyphicon glyphicon-star"></span>
+										}
+										else
+										{
+											@gamerTag.Gamertag
+										}
+									</div>
 								}
 							</td>
 							<td class="text-center">
@@ -144,6 +159,8 @@
 		<div class="alert alert-warning">Il n'y a présentement aucune équipes inscrites à ce tournoi</div>
 	}
 </div>
+
+@Html.TextIconActionLink("Retour", "glyphicon-arrow-left", "Index", null, null, new { @class = "btn btn-default" })
 
 @section scripts {
 	<script>
