@@ -165,7 +165,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Image\bg.jpg" />
     <Content Include="Image\Carousel\0.jpg" />
     <Content Include="Image\Carousel\1.jpg" />
     <Content Include="Image\Carousel\10.jpg" />
@@ -210,11 +209,7 @@
     <Content Include="Image\Favicon\mstile-310x310.png" />
     <Content Include="Image\Favicon\mstile-70x70.png" />
     <Content Include="Image\JesusLouis.png" />
-    <Content Include="Image\LOGO_couleurs_Transparent.png" />
     <Content Include="Image\LOGO_noir_Transparent.png" />
-    <Content Include="Image\LOGO_noir_transparent_v2.png" />
-    <Content Include="Image\LOGO_noir_transparent_v3.png" />
-    <Content Include="Image\LOGO_noir_transparent_v4.png" />
     <Content Include="fonts\code39.ttf" />
     <Content Include="Image\Favicon\manifest.json" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
