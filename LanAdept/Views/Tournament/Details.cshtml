@@ -122,12 +122,6 @@
 							</td>
 							<td>
 								<div class="pull-right">
-									@if (hash != "#")
-									{
-										<a href="@(Url.Action("Liste", "Place") + hash)" class="btn btn-success" title="Voir sur la carte">
-											<span class="glyphicon glyphicon-eye-open"></span>
-										</a>
-									}
 									@if (Model.IsConnected && !Model.IsOver && !Model.IsStarted)
 									{
 										if (team.IsMyTeamForTeamLeader)
@@ -146,6 +140,12 @@
 										{
 											<button class="teamButton hover btn btn-default" type="button" data-toggle="modal" data-team-id="@team.TeamID" data-target="#ModalChoisirGamerTag">Rejoindre</button>
 										}
+									}
+									@if (hash != "#")
+									{
+										<a href="@(Url.Action("Liste", "Place") + hash)" class="btn btn-success" title="Voir sur la carte">
+											<span class="glyphicon glyphicon-eye-open"></span>
+										</a>
 									}
 
 								</div>
