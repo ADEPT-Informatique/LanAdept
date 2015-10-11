@@ -199,6 +199,7 @@ namespace LanAdept.Controllers
 				if (gamer.UserID == user.UserID)
 				{
 					IsGamer = true;
+					break;
 				}
 			}
 
@@ -221,12 +222,12 @@ namespace LanAdept.Controllers
 
 			User user = UserService.GetLoggedInUser();
 
-			List<Demande> demandes = uow.DemandeRepository.GetByTeamId(id);
-			foreach (Demande demande in demandes)
+			foreach (Demande demande in team.Demandes)
 			{
 				if (demande.GamerTag.UserID == user.UserID)
 				{
 					uow.DemandeRepository.Delete(demande);
+					break;
 				}
 			}
 
