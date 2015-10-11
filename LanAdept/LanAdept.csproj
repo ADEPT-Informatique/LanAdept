@@ -139,6 +139,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\Place\ModelController\FastMap.cs" />
     <Compile Include="Views\Place\ModelController\ListeModel.cs" />
     <Compile Include="Views\Place\ModelController\MaPlaceModel.cs" />
     <Compile Include="Views\Place\ModelController\PlaceController.cs" />

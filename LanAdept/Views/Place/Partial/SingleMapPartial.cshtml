@@ -1,18 +1,19 @@
-﻿@model LanAdeptData.Model.Map
+﻿@model LanAdept.Views.Place.ModelController.FastMap
 
 <div id="map-container">
     <div id="map">
         @for (int i = 0; i < Model.Height; i++) {
             <div class="row">
                 @for (int j = 0; j < Model.Width; j++) {
-                    Tile tile = Model.Tiles.Where(x => x.PositionX == j && x.PositionY == i).FirstOrDefault();
-                    if (tile == null) {
+                    Place place = Model.TabPlaces[j, i];
+                    if (place == null)
+                    {
                         <div class="place place-none">
                             <div></div>
                         </div>
                     }
                     else {
-                        @Html.Partial("SinglePlacePartial", tile.Place)
+                        @Html.Partial("SinglePlacePartial", place)
                     }
                 }
             </div>
