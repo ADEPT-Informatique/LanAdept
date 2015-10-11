@@ -46,6 +46,34 @@
 			@Model.Email
 		</dd>
 
+		<dt>Place actuelle</dt>
+
+		<dd>
+			@if (LanAdeptCore.Service.ReservationService.HasUserPlace(Model))
+			{
+				@Html.AuthorizeActionLink(Model.LastReservation.Place.ToString(), "Details", "Place", new { id = Model.LastReservation.Place.PlaceID }, true)
+			}
+			else
+			{
+				<em>Aucune</em>
+			}
+		</dd>
+
+		<dt>
+			Première connexion
+		</dt>
+
+		<dd>
+			@if (Model.LoginHistories.FirstOrDefault() == null)
+			{
+				<em>Jamais</em>
+			}
+			else
+			{
+				@Model.LoginHistories.FirstOrDefault().Date.ToString("f", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA"))
+			}
+		</dd>
+
 		<dt>
 			Rôle
 		</dt>
@@ -54,4 +82,102 @@
 			@Html.DisplayFor(model => model.Role.Name)
 		</dd>
 	</dl>
+
+	<h3>Historique des réservations</h3>
+	<hr />
+	@if (Model.Reservations.Count > 0)
+	{
+		
+		<div class="row">
+			<div class="table-responsive col-lg-6">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Place</th>
+							<th>Date de réservation</th>
+							<th>Date d'arrivée</th>
+							<th>Date de départ</th>
+							<th>Date d'annulation</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (Reservation reservation in Model.Reservations)
+						{
+							<tr>
+								<td>@Html.AuthorizeActionLink(reservation.Place.ToString(), "Details", "Place", new { id = reservation.Place.PlaceID }, true)</td>
+								<td>@reservation.CreationDate.ToString("f", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA"))</td>
+								<td>
+									@if (reservation.ArrivalDate != null)
+									{
+										@reservation.ArrivalDate.Value.ToString("f", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA"))
+									}
+									else
+									{
+										<em>--</em>
+									}
+								</td>
+								<td>
+									@if (reservation.LeavingDate != null)
+									{
+										@reservation.LeavingDate.Value.ToString("f", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA"))
+									}
+									else
+									{
+										<em>--</em>
+									}
+								</td>
+								<td>
+									@if (reservation.CancellationDate != null)
+									{
+										@reservation.CancellationDate.Value.ToString("f", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA"))
+									}
+									else
+									{
+										<em>--</em>
+									}
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	}
+	else
+	{
+		<em>Cet utilisateur n'a jamais réservé de place.</em>
+	}
+
+	<h3>Dernières connexions</h3>
+	<hr />
+	@if (Model.LoginHistories.Count > 0)
+	{
+		IEnumerable<LoginHistory> history = Model.LoginHistories.OrderByDescending(x => x.Date).Take(5);
+
+		<div class="row">
+			<div class="table-responsive col-lg-6">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Date</th>
+							<th>Adresse IP</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (LoginHistory login in history)
+						{
+							<tr>
+								<td>@login.Date.ToString("f", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA"))</td>
+								<td>@login.IpAddress</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	}
+	else
+	{
+		<em>Cet utilisateur ne s'est jamais connecté.</em>
+	}
 </div>
