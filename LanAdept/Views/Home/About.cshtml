@@ -20,6 +20,15 @@
     </audio>
 </div>
 
+<h3>Règlements</h3>
+<div class="panel panel-default">
+	<div class="panel-body">
+		@Html.Markdown(LanAdeptData.DAL.UnitOfWork.Current.SettingRepository.GetCurrentSettings().Rules)
+	</div>
+</div>
+
+<hr />
+
 <h2>Remerciements</h2>
 <p>Merci à tous les bénévoles qui ont contribué à la réalisation de ce LAN</p>
 
