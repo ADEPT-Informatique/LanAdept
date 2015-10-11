@@ -4,10 +4,10 @@
 
 <div class="jumbotron">
 	<div class="row">
-		<img src="~/Image/LOGO_noir_Transparent.png" class="img-responsive center-block home-image" />
+		<img src="~/Image/LOGO_noir_Transparent.png" class="img-responsive center-block home-image" alt="LAN de l'ADEPT" />
 	</div>
 	<div class="row text-center">
-		<p id="date"></p>
+		<p id="date">@ViewBag.dateLanHuman.ToString("dddd", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA")) @ViewBag.dateLanHuman.ToString("f", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA"))</p>
 		@Html.AuthorizeActionLink("Inscrivez-vous dès maintenant!", "Register", "Auth", null, new { @class = "text-center btn btn-primary", @role = "button" })
 	</div>
 </div>

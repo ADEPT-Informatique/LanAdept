@@ -25,6 +25,7 @@ namespace LanAdept.Controllers
 			double dateLanMs = dateLan.Subtract(new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds; //Donne le temps en unix time
 
 			ViewBag.dateLan = dateLanMs;
+			ViewBag.dateLanHuman = settings.StartDate;
 			return View();
 		}
 
