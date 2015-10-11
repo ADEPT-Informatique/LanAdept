@@ -51,7 +51,7 @@
 		<a href="https://play.google.com/store/apps/details?id=com.google.zxing.client.android&hl=fr" class="btn btn-default">
 			Télécharger l'app
 		</a>
-		<a href="zxing://scan/?ret=http://loctest.cgagnier.ca:8080/place/search?query={CODE}&SCAN_FORMATS=CODE_39" class="btn btn-success">
+		<a href="zxing://scan/?ret=@Url.Action("Search", "Place", new { query = "{CODE}", SCAN_FORMATS = "39" }, "http")"  class="btn btn-success"> @*//http://loctest.cgagnier.ca:8080/place/search?query={CODE}&SCAN_FORMATS=CODE_39*@
 			Ouvrir le Scanner
 		</a>
 	</div>
