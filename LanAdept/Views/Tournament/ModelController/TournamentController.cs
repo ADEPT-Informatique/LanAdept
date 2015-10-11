@@ -116,7 +116,7 @@ namespace LanAdept.Controllers
 					}
 				}
 
-				teamModel.Gamertags = teamModel.Gamertags.OrderBy(g => g.Gamertag);
+				teamModel.Gamertags = teamModel.Gamertags.OrderByDescending(g => g.GamerTagID == team.TeamLeaderTag.GamerTagID).ThenBy(g => g.Gamertag);
 
 				teamModels.Add(teamModel);
 			}
