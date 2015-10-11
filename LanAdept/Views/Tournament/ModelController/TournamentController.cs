@@ -41,7 +41,8 @@ namespace LanAdept.Controllers
 				tournamentModel.Teams = teamModels;
 				tournamentModels.Add(tournamentModel);
 			}
-			return View(tournamentModels);
+
+			return View(tournamentModels.OrderBy(t => t.Game.Name));
 		}
 
 		[AllowAnonymous]
@@ -75,7 +76,8 @@ namespace LanAdept.Controllers
 
 				if (UserService.IsUserLoggedIn())
 				{
-					if (team.TeamLeaderTag.UserID == UserService.GetLoggedInUser().UserID)
+					User loggedInUser = UserService.GetLoggedInUser();
+					if (team.TeamLeaderTag.UserID == loggedInUser.UserID)
 					{
 						tournamentModel.IsTeamLeader = true;
 						tournamentModel.CanAddTeam = false;
@@ -87,7 +89,7 @@ namespace LanAdept.Controllers
 					{
 						foreach (GamerTag gamer in team.GamerTags)
 						{
-							if (gamer.User.UserID == UserService.GetLoggedInUser().UserID)
+							if (gamer.User.UserID == loggedInUser.UserID)
 							{
 								tournamentModel.CanAddTeam = false;
 								teamModel.IsMyTeamForTeamLeader = false;
@@ -99,10 +101,9 @@ namespace LanAdept.Controllers
 
 						if (!teamModel.IsMyTeam)
 						{
-							List<Demande> demandes = uow.DemandeRepository.GetByTeamId(team.TeamID);
-							foreach (Demande demande in demandes)
+							foreach (Demande demande in team.Demandes)
 							{
-								if (demande.GamerTag.UserID == UserService.GetLoggedInUser().UserID)
+								if (demande.GamerTag.UserID == loggedInUser.UserID)
 								{
 									tournamentModel.CanAddTeam = false;
 									teamModel.IsMyTeamForTeamLeader = false;
@@ -114,6 +115,9 @@ namespace LanAdept.Controllers
 						}
 					}
 				}
+
+				teamModel.Gamertags = teamModel.Gamertags.OrderBy(g => g.Gamertag);
+
 				teamModels.Add(teamModel);
 			}
 
@@ -126,6 +130,8 @@ namespace LanAdept.Controllers
 				tournamentModel.GamerTags = uow.GamerTagRepository.GetByUser(user);
 				tournamentModel.UserTeam = uow.TeamRepository.UserTeamInTournament(user, tournament);
 			}
+
+			tournamentModel.Teams = tournamentModel.Teams.OrderBy(t => t.Name);
 
 			return View(tournamentModel);
 		}

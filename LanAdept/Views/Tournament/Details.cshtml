@@ -1,14 +1,14 @@
 ﻿@model LanAdept.Views.Tournaments.ModelController.TournamentModel
 
 @{
-	ViewBag.Title = "Details";
+	ViewBag.Title = "Tournoi de " + Model.Game.Name;
 }
 <h1>
 	@ViewBag.test
 </h1>
 
 
-<div class="map-max-width">
+<div>
 
 	@if (Model.IsOver)
 	{
@@ -21,7 +21,7 @@
 
 
 	<div class="page-header clearfix">
-		<h1 class="pull-left">@Html.DisplayFor(model => model.Game.Name)</h1>
+		<h1 class="pull-left">Tournoi de @Html.DisplayFor(model => model.Game.Name)</h1>
 
 
 		@if (Model.IsConnected && !Model.IsStarted && !Model.IsOver && Model.CanAddTeam)
@@ -41,11 +41,11 @@
 			@Html.Markdown(Model.Info)
 		</div>
 		<hr />
+		<h4>Équipes</h4>
 	}
 
 	@if (Model.Teams.Count() > 0)
 	{
-		<h4>Équipes</h4>
 
 		using (Html.BeginForm("JoinTeam", "Tournament", new LanAdept.Views.Tournaments.ModelController.JoinTeamModel() { TournamentID = Model.TournamentID }))
 		{
@@ -62,10 +62,9 @@
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th>@Html.DisplayNameFor(model => model.Teams.First().Name)</th>
-							<th>@Html.DisplayNameFor(model => model.Teams.First().Tag)</th>
-							<th>Nombre de joueur</th>
-							<th>Membre de l'équipe</th>
+							<th>Équipes</th>
+							<th>Membres</th>
+							<th class="text-center">Nombre de joueur</th>
 							@if (Model.IsConnected)
 							{
 								<th></th>
@@ -76,24 +75,11 @@
 					{
 						<tr>
 							<td>
+								@if (!string.IsNullOrWhiteSpace(team.Tag))
+								{
+									<span class="text-muted">[@team.Tag.ToUpper()]</span>
+								}
 								@team.Name
-							</td>
-							<td>
-								@(team.Tag ?? "")
-							</td>
-							<td>
-								@if (team.Gamertags.Count() == Model.MaxPlayerPerTeam)
-								{
-									<div class="alert alert-success">
-										Complète
-									</div>
-								}
-								else
-								{
-									<div>
-										@team.Gamertags.Count() / @Model.MaxPlayerPerTeam
-									</div>
-								}
 							</td>
 							<td>
 								@foreach (GamerTag gamerTag in team.Gamertags)
@@ -106,6 +92,18 @@
 									{
 										<div class="col-xs-12">@gamerTag.Gamertag</div>
 									}
+								}
+							</td>
+							<td class="text-center">
+								@if (team.Gamertags.Count() == Model.MaxPlayerPerTeam)
+								{
+									<span class="text-success">
+										@team.Gamertags.Count() / @Model.MaxPlayerPerTeam
+									</span>
+								}
+								else
+								{
+									@team.Gamertags.Count() <text>/</text> @Model.MaxPlayerPerTeam
 								}
 							</td>
 							@if (Model.IsConnected)
