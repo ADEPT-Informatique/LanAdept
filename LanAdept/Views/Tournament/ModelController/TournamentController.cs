@@ -24,7 +24,7 @@ namespace LanAdept.Controllers
 			List<TournamentModel> tournamentModels = new List<TournamentModel>();
 			IEnumerable<Tournament> tournaments = uow.TournamentRepository.Get();
 
-			if(tournaments.Count() == 0)
+			if (tournaments.Count() == 0)
 			{
 				return View("TournamentComing");
 			}
@@ -55,7 +55,7 @@ namespace LanAdept.Controllers
 			}
 
 			Tournament tournament = uow.TournamentRepository.GetByID(id);
-			
+
 
 			if (tournament == null)
 			{
@@ -121,7 +121,7 @@ namespace LanAdept.Controllers
 				teamModels.Add(teamModel);
 			}
 
-			tournamentModel.Teams = teamModels;
+			tournamentModel.Teams = teamModels.OrderBy(t => t.Name);
 
 			User user = UserService.GetLoggedInUser();
 			if (user != null)
@@ -131,8 +131,6 @@ namespace LanAdept.Controllers
 				tournamentModel.UserTeam = uow.TeamRepository.UserTeamInTournament(user, tournament);
 			}
 
-			tournamentModel.Teams = tournamentModel.Teams.OrderBy(t => t.Name);
-
 			return View(tournamentModel);
 		}
 
@@ -140,18 +138,33 @@ namespace LanAdept.Controllers
 		public ActionResult Addteam(int id)
 		{
 			LanAdeptData.Model.Tournament tournament = uow.TournamentRepository.GetByID(id);
+
+			if (tournament.IsStarted || tournament.IsOver)
+			{
+				TempData["Error"] = "Il n'est pas possible d'ajouter une équipe pour le moment";
+				return RedirectToAction("Details", new { id = tournament.TournamentID });
+			}
+
+			User loggedInUser = UserService.GetLoggedInUser();
+
 			foreach (LanAdeptData.Model.Team team in tournament.Teams)
 			{
-				if (team.TeamLeaderTag.User == UserService.GetLoggedInUser())
+				if (team.TeamLeaderTag.User.UserID == loggedInUser.UserID)
 				{
+					TempData["Error"] = "Vous ne pouvez pas ajouter une équipe car vous en avez déjà une.";
 					return RedirectToAction("Details", new { id = team.Tournament.TournamentID });
 				}
 			}
-			foreach (Demande demande in uow.DemandeRepository.Get())
+
+			foreach (Team team in tournament.Teams)
 			{
-				if (demande.Team.TournamentID == tournament.TournamentID)
+				foreach (Demande demande in team.Demandes)
 				{
-					return RedirectToAction("Details", new { id = tournament.TournamentID });
+					if (demande.GamerTag.User.UserID == loggedInUser.UserID)
+					{
+						TempData["Error"] = "Vous ne pouvez pas ajouter une équipe car vous avez envoyé une demande pour rejoindre une équipe.";
+						return RedirectToAction("Details", new { id = tournament.TournamentID });
+					}
 				}
 			}
 
@@ -171,14 +184,30 @@ namespace LanAdept.Controllers
 
 			if (tournament.IsStarted || tournament.IsOver)
 			{
+				TempData["Error"] = "Il n'est pas possible d'ajouter une équipe pour le moment";
 				return RedirectToAction("Details", new { id = tournament.TournamentID });
 			}
 
+			User loggedInUser = UserService.GetLoggedInUser();
+
 			foreach (LanAdeptData.Model.Team team in tournament.Teams)
 			{
-				if (team.TeamLeaderTag.User == UserService.GetLoggedInUser())
+				if (team.TeamLeaderTag.User.UserID == loggedInUser.UserID)
 				{
-					return RedirectToAction("Details", new { id = tournament.TournamentID });
+					TempData["Error"] = "Vous ne pouvez pas ajouter une équipe car vous en avez déjà une.";
+					return RedirectToAction("Details", new { id = team.Tournament.TournamentID });
+				}
+			}
+
+			foreach (Team team in tournament.Teams)
+			{
+				foreach (Demande demande in team.Demandes)
+				{
+					if (demande.GamerTag.User.UserID == loggedInUser.UserID)
+					{
+						TempData["Error"] = "Vous ne pouvez pas ajouter une équipe car vous avez envoyé une demande pour rejoindre une équipe.";
+						return RedirectToAction("Details", new { id = tournament.TournamentID });
+					}
 				}
 			}
 
@@ -187,8 +216,7 @@ namespace LanAdept.Controllers
 				LanAdeptData.Model.Team team = new LanAdeptData.Model.Team();
 				team.Name = teamModel.Name;
 				team.Tag = teamModel.Tag;
-				User user = UserService.GetLoggedInUser();
-				team.TeamLeaderTag = uow.GamerTagRepository.GetByUserAndGamerTagID(user, teamModel.GamerTagId);
+				team.TeamLeaderTag = uow.GamerTagRepository.GetByUserAndGamerTagID(loggedInUser, teamModel.GamerTagId);
 
 				List<GamerTag> listGamerTags = new List<GamerTag>();
 				listGamerTags.Add(team.TeamLeaderTag);

@@ -10,6 +10,19 @@
 
 <div>
 
+	@if (!string.IsNullOrWhiteSpace(TempData["Error"] as string))
+	{
+		<div class="alert alert-danger" role="alert">
+			@Html.Raw(TempData["Error"])
+		</div>
+	}
+	@if (!string.IsNullOrWhiteSpace(TempData["Success"] as string))
+	{
+		<div class="alert alert-success" role="alert">
+			@Html.Raw(TempData["Success"])
+		</div>
+	}
+
 	@if (Model.IsOver)
 	{
 		<div class="alert alert-danger">Le tournoi est présentement terminé</div>

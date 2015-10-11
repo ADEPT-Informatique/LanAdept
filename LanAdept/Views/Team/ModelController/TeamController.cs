@@ -186,12 +186,15 @@ namespace LanAdept.Controllers
 		{
 			Team team = uow.TeamRepository.GetByID(id);
 
-			List<Demande> demandes = uow.DemandeRepository.GetByTeamId(id);
+			ICollection<Demande> demandes = team.Demandes;
+			User loggedInUser = UserService.GetLoggedInUser();
+
             foreach (Demande demande in demandes)
 			{
-				if (demande.GamerTag.UserID == UserService.GetLoggedInUser().UserID)
+				if (demande.GamerTag.UserID == loggedInUser.UserID)
 				{
 					uow.DemandeRepository.Delete(demande);
+					break;
 				}
 			}
 
