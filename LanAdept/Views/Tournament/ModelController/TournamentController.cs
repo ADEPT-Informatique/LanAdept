@@ -42,7 +42,7 @@ namespace LanAdept.Controllers
 				tournamentModels.Add(tournamentModel);
 			}
 
-			return View(tournamentModels.OrderBy(t => t.Game.Name));
+			return View(tournamentModels.OrderBy(t => t.StartTime));
 		}
 
 		[AllowAnonymous]

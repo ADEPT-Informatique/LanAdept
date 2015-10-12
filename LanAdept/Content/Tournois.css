@@ -1,3 +1,7 @@
 ﻿.clickable-row {
     cursor: pointer;
 }
+
+.not-visible {
+	visibility: hidden;
+}
