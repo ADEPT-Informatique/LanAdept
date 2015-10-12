@@ -99,8 +99,24 @@ namespace LanAdept.Controllers
 		[AuthorizePermission("user.tournament.team.kick")]
 		public ActionResult KickPlayer(int? id, int? gamerTagId)
 		{
-			GamerTag gamerTag = uow.GamerTagRepository.GetByID(gamerTagId);
+			if (id == null)
+			{
+				return RedirectToAction("Index");
+			}
+
 			Team team = uow.TeamRepository.GetByID(id);
+			if (team == null)
+			{
+				return RedirectToAction("Index");
+			}
+
+			if (gamerTagId == null)
+			{
+				TempData["ErrorMessage"] = "Vous ne pouvez pas kicker le team leader.";
+				return RedirectToAction("Details", new { id = team.TeamID });
+			}
+
+			GamerTag gamerTag = uow.GamerTagRepository.GetByID(gamerTagId);
 
 			User user = UserService.GetLoggedInUser();
 			if (user.UserID != team.TeamLeaderTag.UserID)
@@ -110,17 +126,14 @@ namespace LanAdept.Controllers
 
 			if (team.TeamLeaderTag == gamerTag)
 			{
-				TempData["ErrorMessage"] = "Vous ne pouvez pas kicker le team leader.";
+				TempData["ErrorMessage"] = "Vous ne pouvez pas retirer le team leader.";
 				return RedirectToAction("Details", new { id = id });
 			}
-			else
-			{
-				team.GamerTags.Remove(gamerTag);
 
-				uow.TeamRepository.Update(team);
-				uow.GamerTagRepository.Update(gamerTag);
-				uow.Save();
-			}
+			team.GamerTags.Remove(gamerTag);
+			uow.TeamRepository.Update(team);
+			uow.GamerTagRepository.Update(gamerTag);
+			uow.Save();
 
 			return RedirectToAction("Details", new { id = id });
 		}

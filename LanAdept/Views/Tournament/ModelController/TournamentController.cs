@@ -67,7 +67,7 @@ namespace LanAdept.Controllers
 			TournamentModel tournamentModel = new TournamentModel(tournament);
 
 			tournamentModel.CanAddTeam = UserService.IsUserLoggedIn();
-			tournamentModel.IsTeamLeader = UserService.IsTeamLeader();
+			tournamentModel.IsTeamLeader = UserService.IsTeamLeader(tournament.TournamentID);
 
 			List<TeamModel> teamModels = new List<TeamModel>();
 			foreach (Team team in tournament.Teams)

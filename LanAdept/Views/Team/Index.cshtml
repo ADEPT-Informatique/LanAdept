@@ -14,13 +14,12 @@
 				<th>
 					Nom
 				</th>
-				<th>
+				<th class="text-center">
 					Nombre de joueurs inscrits
 				</th>
-				<th>
+				<th class="text-center">
 					Nombre de demandes
 				</th>
-				<th></th>
 				<th></th>
 			</tr>
 		</thead>
@@ -31,10 +30,10 @@
 				<td>
 					@team.Team.Name
 				</td>
-				<td>
+				<td class="text-center">
 					@team.Team.GamerTags.Count / @team.Team.Tournament.MaxPlayerPerTeam
 				</td>
-				<td>
+				<td class="text-center">
 					@if (team.Demandes == null)
 					{
 						<text>0</text>
@@ -44,20 +43,6 @@
 						@team.Demandes.Count
 					}
 
-				</td>
-				<td>
-					@if (team.Team.IsReady)
-					{
-						<div class="label label-success">
-							Prête
-						</div>
-					}
-					else
-					{
-						<div class="label label-danger">
-							Pas prête
-						</div>
-					}
 				</td>
 				<td>
 					@if (team.Team.IsConfirmed)

@@ -6,112 +6,154 @@
 	ViewBag.Title = "Équipe " + Model.Name;
 }
 
+<div class="modal fade" id="kickModal" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Retirer un joueur</h4>
+			</div>
+			<div class="modal-body">
+				<p>Voulez-vous vraiment retirer le joueur "<span id="modal-gamertag"></span>"?</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+				<a href="#" class="btn btn-danger" id="modal-link">Exclure</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="deleteModal" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Supprimer l'équipe</h4>
+			</div>
+			<div class="modal-body">
+				<p>Voulez-vous vraiment supprimer votre équipe "@Model.Name"?</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+				@Html.ActionLink("Supprimer", "Delete", new { id = Model.TeamID }, new { @class = "btn btn-danger" })
+			</div>
+		</div>
+	</div>
+</div>
+
+
 <div class="page-header clearfix">
 	<h1>
 		@(String.IsNullOrWhiteSpace(Model.Tag) ? "" : "[" + Model.Tag + "]")
 		@Model.Name
 
 		<div class="pull-right">
-			@Html.ActionLink("Supprimer l'équipe", "Delete", new { id = Model.TeamID }, new { @class = "btn btn-danger" })
+			<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+				Supprimer l'équipe
+			</button>
 		</div>
 	</h1>
 
 </div>
+<div class="row">
+	<div class="col-lg-6">
+		<h3>
+			Joueurs
+		</h3>
 
-<h3>
-	Joueurs
-</h3>
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Gamertag</th>
+						<th>Nom complet</th>
+						<th></th>
+					</tr>
+				</thead>
 
-<div class="table-responsive">
-	<table class="table table-striped" style="max-width: 700px;">
-		<thead>
-			<tr>
-				<th>Gamertag</th>
-				<th>Nom complet</th>
-				<th></th>
-			</tr>
-		</thead>
+				@foreach (GamerTag gamerTag in Model.GamerTags)
+				{
+					<tr>
+						<td>
+							@gamerTag.Gamertag
+							@if (Model.TeamLeaderTag == gamerTag)
+							{
+								<span class="glyphicon glyphicon-star"></span>
+							}
+						</td>
+						<td>
+							@gamerTag.User.CompleteName
+						</td>
+						<td class="text-right">
+							@if (gamerTag != Model.TeamLeaderTag && !Model.Tournament.IsOver && !Model.Tournament.IsStarted)
+							{
+								<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#kickModal" data-gamertag="@gamerTag.Gamertag" data-gamertag-id="@gamerTag.GamerTagID">
+									Exclure
+								</button>
+							}
+						</td>
+					</tr>
+				}
+			</table>
+		</div>
+	</div>
 
-		@foreach (GamerTag gamerTag in Model.GamerTags)
+	<div class="col-lg-6">
+		<h3>
+			Demandes
+		</h3>
+
+		@if (Model.Demandes.Count() >= 1)
 		{
-			<tr>
-				<td>
-					@gamerTag.Gamertag
-					@if (Model.TeamLeaderTag == gamerTag)
-					{
-						<span class="glyphicon glyphicon-star"></span>
-					}
-				</td>
-				<td>
-					@gamerTag.User.CompleteName
-				</td>
-				<td>
-					@if (gamerTag != Model.TeamLeaderTag && !Model.Tournament.IsOver && !Model.Tournament.IsStarted)
-					{
-						<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#kickModal">Retirer</button>
+			<div class="table-responsive table-hover">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Nom</th>
+							<th>GamerTag</th>
+							<th></th>
+						</tr>
+					</thead>
 
-						<div class="modal fade" id="kickModal" role="dialog">
-							<div class="modal-dialog">
-								<!-- Modal content-->
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal">&times;</button>
-										<h4 class="modal-title">Retirer joueur</h4>
-									</div>
-									<div class="modal-body">
-										<p>Voulez-vous vraiment retirer @gamerTag.Gamertag</p>
-									</div>
-									<div class="modal-footer">
-										@Html.ActionLink("Oui", "KickPlayer", new { gamerTagId = gamerTag.GamerTagID, id = Model.TeamID }, new { @class = "btn btn-success" })
-										<button type="button" class="btn btn-danger" data-dismiss="modal">Non</button>
-									</div>
-								</div>
-							</div>
-						</div>
+					@foreach (Demande demande in Model.Demandes)
+					{
+						<tr>
+							<td>
+								@demande.GamerTag.User.CompleteName
+							</td>
+							<td>
+								@demande.GamerTag.Gamertag
+							</td>
+							<td class="text-right">
+								@Html.ActionLink("Accepter", "AcceptTeamMember", new { gamerTagId = demande.GamerTag.GamerTagID, id = Model.TeamID }, new { @class = "btn btn-success" })
+								@Html.ActionLink("Refuser", "RefuseTeamMember", new { gamerTagId = demande.GamerTag.GamerTagID, id = Model.TeamID }, new { @class = "btn btn-danger" })
+							</td>
+						</tr>
 					}
-				</td>
-			</tr>
+				</table>
+			</div>
 		}
-	</table>
+		else
+		{
+			<br />
+			<em class="small">
+				Il n'y a aucune demande pour rejoindre votre équipe pour le moment
+			</em>
+		}
+	</div>
 </div>
 
-<h4>
-	Demandes
-</h4>
+@section Scripts {
+	<script>
+		$('#kickModal').on('show.bs.modal', function (event) {
+			var button = $(event.relatedTarget);
+			var gamertagId = button.data('gamertagId');
+			var gamertag = button.data('gamertag');
 
-@if (Model.Demandes.Count() >= 1)
-{
-	<div class="table-responsive table-hover">
-		<table class="table">
-			<thead>
-				<tr>
-					<th>Nom</th>
-					<th>GamerTag</th>
-					<th></th>
-				</tr>
-			</thead>
-
-			@foreach (Demande demande in Model.Demandes)
-			{
-				<tr>
-					<td>
-						@demande.GamerTag.User.CompleteName
-					</td>
-					<td>
-						@demande.GamerTag.Gamertag
-					</td>
-					<td class="col-md-3">
-						@Html.ActionLink("Accepter", "AcceptTeamMember", new { gamerTagId = demande.GamerTag.GamerTagID, id = Model.TeamID }, new { @class = "btn btn-success" })
-						@Html.ActionLink("Refuser", "RefuseTeamMember", new { gamerTagId = demande.GamerTag.GamerTagID, id = Model.TeamID }, new { @class = "btn btn-danger" })
-					</td>
-				</tr>
-			}
-		</table>
-	</div>
-}
-else
-{
-	<em class="small">
-		Il n'y a aucune demande pour rejoindre votre équipe pour le moment
-	</em>
+			var modal = $(this);
+			modal.find('#modal-gamertag').text(gamertag);
+			modal.find('#modal-link').attr("href", "@Url.Action("KickPlayer", "Team", new { Id = Model.TeamID })" + "/?gamerTagId=" + gamertagId)
+		});
+	</script>
 }

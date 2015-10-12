@@ -118,10 +118,23 @@ namespace LanAdeptCore.Service
 			return HttpContext.Current.User.Identity.IsAuthenticated;
 		}
 
+		public static bool IsTeamLeader(int tournamentID)
+		{
+			if (IsUserLoggedIn())
+			{
+				IEnumerable<Team> teams = UnitOfWork.Current.TeamRepository.GetByTeamLeaderID(GetLoggedInUser().UserID);
+				return teams.Where(t => t.Tournament.TournamentID == tournamentID).Count() > 0;
+			}
+
+			return false;
+		}
+
 		public static bool IsTeamLeader()
 		{
 			if (IsUserLoggedIn())
-				return UnitOfWork.Current.TeamRepository.GetByTeamLeaderID(GetLoggedInUser().UserID).Count() >= 1;
+			{
+				return UnitOfWork.Current.TeamRepository.GetByTeamLeaderID(GetLoggedInUser().UserID).Count() > 0;
+			}
 
 			return false;
 		}
