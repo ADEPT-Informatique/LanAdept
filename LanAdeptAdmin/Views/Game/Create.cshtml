@@ -24,8 +24,10 @@
 
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-5 text-right">
-				@Html.ActionLink("Annuler", "Index", null, new { @class = "btn btn-default" })
-				<input type="submit" value="Modifier" class="btn btn-primary" />
+				@Html.IconActionLink("glyphicon-arrow-left", "Index", "Game", null, new { @class = "btn btn-default" })
+				<button type="submit" class="btn btn-primary">
+					<span class="glyphicon glyphicon-plus"></span> Ajouter
+				</button>
 			</div>
 		</div>
     </div>

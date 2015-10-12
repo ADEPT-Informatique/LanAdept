@@ -35,7 +35,9 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-6 text-right">
 				@Html.IconActionLink("glyphicon-arrow-left", "DetailsTeam", "Tournaments", new { id = Model.TeamID }, new { @class = "btn btn-default" })
-                <input type="submit" value="Enregistrer" class="btn btn-primary" />
+				<button type="submit" class="btn btn-primary">
+					<span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer
+				</button>
             </div>
         </div>
     </div>
