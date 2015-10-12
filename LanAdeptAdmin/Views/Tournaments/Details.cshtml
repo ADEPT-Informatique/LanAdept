@@ -7,12 +7,12 @@
 
 <h2>
 	@Html.DisplayFor(model => model.Game.Name)
-	@Model.GetStatus()
+	<div class="pull-right">@Model.GetStatus()</div>
 </h2>
 <hr />
 
 <div class="row">
-	<div class="col-md-3">
+	<div class="col-md-3 col-lg-4">
 		<dl class=" dl-horizontal">
 			<dt>
 				@Html.DisplayNameFor(model => model.StartTime)
@@ -32,86 +32,111 @@
 
 		</dl>
 	</div>
-	<div class="col-md-9 text-right">
-		@Html.TextIconActionLink("Modifier", "glyphicon-pencil", "Edit", null, new { id = Model.Id }, new { @class = "btn btn-success btn-mobile-full" })
+	<div class="col-md-9 col-lg-8 text-right">
+		@if (!Model.IsStarted && !Model.IsOver)
+		{
+			@Html.TextIconActionLink("Démarrer", "glyphicon-play", "Start", "Tournaments", new { id = Model.Id }, new { @class = "btn btn-success btn-mobile-full" })
+		}
+		else if (Model.IsStarted && !Model.IsOver)
+		{
+			@Html.TextIconActionLink("Suspendre", "glyphicon-pause", "CancelStart", "Tournaments", new { id = Model.Id }, new { @class = "btn btn-warning btn-mobile-full" })
+			<text> </text>
+			@Html.TextIconActionLink("Terminer", "glyphicon-stop", "Stop", "Tournaments", new { id = Model.Id }, new { @class = "btn btn-danger btn-mobile-full" })
+		}
+		else
+		{
+			@Html.TextIconActionLink("Reprendre", "glyphicon-play", "Start", "Tournaments", new { id = Model.Id }, new { @class = "btn btn-success btn-mobile-full", title = "Reprendre le tournoi" })
+			<text> </text>
+			@Html.TextIconActionLink("Revenir", "glyphicon-fast-backward", "CancelStart", "Tournaments", new { id = Model.Id }, new { @class = "btn btn-warning btn-mobile-full", title = "Remettre le tournoi à l'étape de préparation" })
+		}
+		@Html.TextIconActionLink("Modifier", "glyphicon-pencil", "Edit", null, new { id = Model.Id }, new { @class = "btn btn-primary btn-mobile-full" })
 		<button type="button" class="btn btn-default btn-mobile-full" data-toggle="modal" data-target="#teamList">
 			<span class="glyphicon glyphicon-copy"></span> liste copiable
 		</button>
 	</div>
 </div>
-
-<div>
-	<h3>Informations et reglements</h3>
-	<p>
-		@if (!string.IsNullOrWhiteSpace(Model.Info))
+<div class="row">
+	<div class="col-xs-12">
+		<h3>Informations et reglements</h3>
+		<p>
+			@if (!string.IsNullOrWhiteSpace(Model.Info))
+			{
+				@Html.Markdown(Model.Info)
+			}
+			else
+			{
+				<em>Les règlements n'ont pas encore été définis.</em>
+			}
+		</p>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12">
+		<h3>Équipes inscrites</h3>
+		@if (Model.Teams.Count > 0)
 		{
-			@Html.Markdown(Model.Info)
+			<table class="table">
+				<tr>
+					<th>@Html.DisplayNameFor(model => model.Teams.First().Name)</th>
+					<th>@Html.DisplayNameFor(model => model.Teams.First().Tag)</th>
+					<th>Nombre de joueur</th>
+					<th></th>
+				</tr>
+
+				@foreach (Team team in Model.Teams)
+				{
+					<tr @("class=clickable-row data-row-url=" + Url.Action("DetailsTeam", new { id = team.TeamID }))>
+						<td>
+							@if (team.IsConfirmed)
+							{
+								<span class="label label-success"><span class="glyphicon glyphicon-ok"></span></span>
+							}
+							else
+							{
+								<span class="label label-danger"><span class="glyphicon glyphicon-hourglass"></span></span>
+							}
+
+							@team.Name
+						</td>
+						<td>
+							@if (team.Tag != null)
+							{
+								@team.Tag
+							}
+						</td>
+						<td>
+							@if (team.GamerTags.Count >= team.Tournament.MaxPlayerPerTeam)
+							{
+								<span class="label label-success">
+									Complete
+								</span>
+							}
+							else
+							{
+								<p>
+									@team.GamerTags.Count / @team.Tournament.MaxPlayerPerTeam
+								</p>
+							}
+						</td>
+						<td class="text-right">
+							@Html.IconActionLink("glyphicon-trash", "DeleteTeam", null, new { id = team.TeamID }, new { @class = "btn btn-danger btn-sm" })
+						</td>
+					</tr>
+				}
+			</table>
 		}
 		else
 		{
-			<em>Les règlements n'ont pas encore été définis</em>
+			<em>Il n'y a pas encore d'équipe inscrite à ce tournoi.</em>
 		}
-	</p>
+	</div>
 </div>
-
-<h3>Équipes inscrites</h3>
-@if (Model.Teams.Count > 0)
-{
-	<table class="table">
-		<tr>
-			<th>@Html.DisplayNameFor(model => model.Teams.First().Name)</th>
-			<th>@Html.DisplayNameFor(model => model.Teams.First().Tag)</th>
-			<th>Nombre de joueur</th>
-			<th></th>
-		</tr>
-
-		@foreach (Team team in Model.Teams)
-		{
-			<tr @("class=clickable-row data-row-url=" + Url.Action("DetailsTeam", new { id = team.TeamID }))>
-				<td>
-					@if (team.IsConfirmed)
-					{
-						<span class="label label-success"><span class="glyphicon glyphicon-ok"></span></span>
-					}
-					else
-					{
-						<span class="label label-danger"><span class="glyphicon glyphicon-hourglass"></span></span>
-					}
-
-					@team.Name
-				</td>
-				<td>
-					@if (team.Tag != null)
-					{
-						@team.Tag
-					}
-				</td>
-				<td>
-					@if (team.GamerTags.Count >= team.Tournament.MaxPlayerPerTeam)
-					{
-						<span class="label label-success">
-							Complete
-						</span>
-					}
-					else
-					{
-						<p>
-							@team.GamerTags.Count / @team.Tournament.MaxPlayerPerTeam
-						</p>
-					}
-				</td>
-				<td class="text-right">
-					@Html.IconActionLink("glyphicon-trash", "DeleteTeam", null, new { id = team.TeamID }, new { @class = "btn btn-danger btn-sm" })
-				</td>
-			</tr>
-		}
-	</table>
-}
-else
-{
-	<em>Il n'y a pas encore d'équipe inscrite à ce tournoi</em>
-}
-
+<br />
+<div class="row">
+	<div class="col-xs-12">
+		@Html.TextIconActionLink("Retour", "glyphicon-arrow-left", "Index", "Tournaments", null, new { @class = "btn btn-default" })
+	</div>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="teamList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -122,11 +147,18 @@ else
 				<h4 class="modal-title" id="myModalLabel">Copier la liste d'équipes</h4>
 			</div>
 			<div class="modal-body">
-				@foreach (Team team in Model.Teams)
+				@if (Model.Teams.Count > 0)
 				{
-					<p>
-						@team.Name
-					</p>
+					foreach (Team team in Model.Teams)
+					{
+						<p>
+							@team.Name
+						</p>
+					}
+				}
+				else
+				{
+					<em>Il n'y a pas encore d'équipe inscrite à ce tournoi.</em>
 				}
 			</div>
 			<div class="modal-footer">

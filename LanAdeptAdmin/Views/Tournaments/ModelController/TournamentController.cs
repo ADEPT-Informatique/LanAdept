@@ -36,12 +36,13 @@ namespace LanAdeptAdmin.Views
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
-			TournamentModel tournament = new TournamentModel(uow.TournamentRepository.GetByID(id));
+			Tournament tournament = uow.TournamentRepository.GetByID(id);
 			if (tournament == null)
 			{
 				return HttpNotFound();
 			}
-			return View(tournament);
+
+			return View(new TournamentModel(tournament));
 		}
 
 		[AuthorizePermission("admin.tournament.create")]
@@ -86,21 +87,19 @@ namespace LanAdeptAdmin.Views
 			{
 				return HttpNotFound();
 			}
-			ViewBag.Id = tournament.Id;
-			ViewBag.GameID = new SelectList(uow.GameRepository.Get(), "GameID", "Name", tournament.Game.GameID);
+
 			return View(tournament);
 		}
 
 		[AuthorizePermission("admin.tournament.edit")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit([Bind(Include = "GameID, MaxPlayerPerTeam, StartTime, Id, IsStarted, IsOver, Info")] TournamentModel tournamentModel)
+		public ActionResult Edit([Bind(Include = "MaxPlayerPerTeam, StartTime, Id, IsStarted, IsOver, Info")] TournamentModel tournamentModel)
 		{
 			if (ModelState.IsValid)
 			{
 				Tournament tournament = uow.TournamentRepository.GetByID(tournamentModel.Id);
 
-				tournament.Game = tournamentModel.Game;
 				tournament.MaxPlayerPerTeam = tournamentModel.MaxPlayerPerTeam;
 				tournament.StartTime = tournamentModel.StartTime;
 				tournament.IsStarted = tournamentModel.IsStarted;
@@ -111,7 +110,7 @@ namespace LanAdeptAdmin.Views
 				uow.Save();
 				return RedirectToAction("Details", new { id = tournament.TournamentID});
 			}
-			ViewBag.GameID = new SelectList(uow.GameRepository.Get(), "GameID", "Name", tournamentModel.Game.GameID);
+
 			return View(tournamentModel);
 		}
 
@@ -214,7 +213,7 @@ namespace LanAdeptAdmin.Views
 
 			if (team.TeamLeaderTag == gamerTag || team.GamerTags.Count == 1)
 			{
-				TempData["ErrorMessage"] = "Vous ne pouvez pas kicker le team leader.";
+				TempData["ErrorMessage"] = "Vous ne pouvez pas exclure le team leader.";
                 return RedirectToAction("DetailsTeam", new { id = teamId });
 			}
 			else
@@ -265,6 +264,72 @@ namespace LanAdeptAdmin.Views
 				return RedirectToAction("DetailsTeam", new { id = teamModel.TeamID });
 			}
 			return View(teamModel);
+		}
+
+		[AuthorizePermission("admin.tournament.edit")]
+		public ActionResult Start(int? id)
+		{
+			if(id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			Tournament tournament = uow.TournamentRepository.GetByID(id);
+			if (tournament == null)
+			{
+				return HttpNotFound();
+			}
+
+			tournament.IsStarted = true;
+			tournament.IsOver = false;
+
+			uow.TournamentRepository.Update(tournament);
+			uow.Save();
+
+			return RedirectToAction("Details", new { id = id });
+		}
+
+		[AuthorizePermission("admin.tournament.edit")]
+		public ActionResult Stop(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			Tournament tournament = uow.TournamentRepository.GetByID(id);
+			if (tournament == null)
+			{
+				return HttpNotFound();
+			}
+
+			tournament.IsStarted = false;
+			tournament.IsOver = true;
+
+			uow.TournamentRepository.Update(tournament);
+			uow.Save();
+
+			return RedirectToAction("Details", new { id = id });
+		}
+
+		[AuthorizePermission("admin.tournament.edit")]
+		public ActionResult CancelStart(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			Tournament tournament = uow.TournamentRepository.GetByID(id);
+			if (tournament == null)
+			{
+				return HttpNotFound();
+			}
+
+			tournament.IsStarted = false;
+			tournament.IsOver = false;
+
+			uow.TournamentRepository.Update(tournament);
+			uow.Save();
+
+			return RedirectToAction("Details", new { id = id });
 		}
 	}
 }

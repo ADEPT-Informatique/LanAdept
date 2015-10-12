@@ -53,20 +53,6 @@ namespace LanAdeptCore.HtmlExtension
 		/// <param name="routeValues">routeValues for the link</param>
 		/// <param name="htmlAttributes">htmlAttributes for the link (for style, classes, ...)</param>
 		/// <paramparam name="showText">True to show text without a link if unauthorized</paramparam>
-		public static MvcHtmlString TextIconActionLink(this HtmlHelper helper, string text, string iconClass, string actionName, string controllerName, RouteValueDictionary routeValues, IDictionary<string, object> htmlAttributes, bool showText = false)
-		{
-			return TextIconActionLink(helper, text, iconClass, actionName, controllerName, routeValues, htmlAttributes, showText);
-		}
-
-		/// <summary>
-		/// Create a link that contains only an icon if the user has permission, or else does nothing
-		/// </summary>
-		/// <param name="iconClass">Icon class for the link</param>
-		/// <param name="actionName">Action for the link</param>
-		/// <param name="controllerName">Controller for the link</param>
-		/// <param name="routeValues">routeValues for the link</param>
-		/// <param name="htmlAttributes">htmlAttributes for the link (for style, classes, ...)</param>
-		/// <paramparam name="showText">True to show text without a link if unauthorized</paramparam>
 		public static MvcHtmlString TextIconActionLink(this HtmlHelper helper, string text, string iconClass, string actionName, string controllerName, object routeValues, object htmlAttributes, bool showText = false)
 		{
 			if(helper.HasActionPermission(actionName, controllerName))

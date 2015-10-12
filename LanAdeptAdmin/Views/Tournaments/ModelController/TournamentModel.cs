@@ -9,10 +9,9 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 {
 	public class TournamentModel
 	{
-		[DataType(DataType.Time)]
 		[DisplayName("Heure de début")]
-		[DisplayFormat(DataFormatString = @"{0:HH\hmm}")]
 		[Required(ErrorMessage="L'heure de début du tournoi est requise")]
+		[DisplayFormat(DataFormatString = @"{0:HH\hmm}")]
 		public DateTime? StartTime { get; set; }
 
 		public bool IsStarted { get; set; }
@@ -20,6 +19,7 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 		public bool IsOver { get; set; }
 
 		[DataType(DataType.MultilineText)]
+		[DisplayName("Informations et règlements")]
 		public string Info { get; set; }
 
 		[DisplayName("Nb. de joueurs par équipe")]
@@ -34,9 +34,9 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 			string classeEtat = "";
 			string messageEtat = "";
 
-			if (!IsStarted)
+			if (!IsStarted && !IsOver)
 			{
-				classeEtat = "label-warning";
+				classeEtat = "label-default";
 				messageEtat = "Préparation";
 			}
 			else if (!IsOver)
@@ -46,11 +46,11 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 			}
 			else
 			{
-				classeEtat = "label-default";
+				classeEtat = "label-primary";
 				messageEtat = "Terminé";
 			}
 
-			return new MvcHtmlString("<div class=\"label " + classeEtat + " pull-right\">" + messageEtat + "</div>");
+			return new MvcHtmlString("<div class=\"label " + classeEtat + "\">" + messageEtat + "</div>");
 		}
 
 
