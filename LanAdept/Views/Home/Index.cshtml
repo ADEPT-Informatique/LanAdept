@@ -3,12 +3,27 @@
 }
 
 <div class="jumbotron">
+
+	<div class="row text-center messageStart">
+		<p class="alert alert-success">
+			Le LAN est maintenant commencé. Bon LAN!
+		</p>
+	</div>
+
+	<div class="row text-center messageEnd">
+		<p class="alert alert-info">
+			Le LAN est maintenant terminé. À la prochaine!
+		</p>
+	</div>
+
 	<div class="row">
 		<img src="~/Image/LOGO_noir_Transparent.png" class="img-responsive center-block home-image" alt="LAN de l'ADEPT" />
 	</div>
 	<div class="row text-center">
 		<p id="date">@ViewBag.dateLanHuman.ToString("dddd", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA")) @ViewBag.dateLanHuman.ToString("f", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA"))</p>
-		@Html.AuthorizeActionLink("Inscrivez-vous dès maintenant!", "Register", "Auth", null, new { @class = "text-center btn btn-primary", @role = "button" })
+		<div class="inscription">
+			@Html.AuthorizeActionLink("Inscrivez-vous dès maintenant!", "Register", "Auth", null, new { @class = "text-center btn btn-primary", @role = "button" })
+		</div>
 	</div>
 </div>
 
@@ -35,15 +50,17 @@
 	</div>
 </div>
 
+
+
 <div class="row">
 	<div id="description" class="col-md-6">
 		<h2>À propos du LAN</h2>
 		@Html.Markdown((string)ViewBag.Description)
 	</div>
-    <div id="places-disponibles" class="col-md-6">
-        <h2 class="row">Places réservées</h2>
-        <h1 class="row">@ViewBag.PlacesReservee</h1>
-    </div>
+	<div id="places-disponibles" class="col-md-6">
+		<h2 class="row">Places réservées</h2>
+		<h1 class="row">@ViewBag.PlacesReservee</h1>
+	</div>
 </div>
 
 <hr class="hidden-xs" />
@@ -100,18 +117,18 @@
 <hr />
 
 <div class="row">
-    <div id="map">
-        <h2>Emplacement du LAN</h2>
-        <p>Le LAN de l'ADEPT se déroulera dans la caféteria orange du Collège Édouard-Montpetit.</p>
-        <div id="map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3323.538629585589!2d-73.4939839013939!3d45.535201598053156!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc91b5a9478504d%3A0x18f852b44040e119!2s945+Chemin+de+Chambly%2C+Longueuil%2C+QC+J4H!5e0!3m2!1sfr!2sca!4v1444148974514"
-                    width="1000"
-                    height="450"
-                    frameborder="0"
-                    style="border:0;"
-                    allowfullscreen></iframe>
-        </div>
-    </div>
+	<div id="map">
+		<h2>Emplacement du LAN</h2>
+		<p>Le LAN de l'ADEPT se déroulera dans la caféteria orange du Collège Édouard-Montpetit.</p>
+		<div id="map-container">
+			<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3323.538629585589!2d-73.4939839013939!3d45.535201598053156!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc91b5a9478504d%3A0x18f852b44040e119!2s945+Chemin+de+Chambly%2C+Longueuil%2C+QC+J4H!5e0!3m2!1sfr!2sca!4v1444148974514"
+					width="1000"
+					height="450"
+					frameborder="0"
+					style="border:0;"
+					allowfullscreen></iframe>
+		</div>
+	</div>
 </div>
 
 @section Styles {
@@ -131,6 +148,25 @@
 			function setTimer() {
 				var dateNow = new Date();
 				var timeDiff = new Date(dateLan - dateNow);
+				var timdeDiffEnd = new Date(dateLanEnd - dateNow);
+
+				if (timdeDiffEnd < 0) {
+					$(".messageEnd").show();
+					$(".messageStart").hide();
+					$(".inscription").hide();
+					$(".countdown").hide();
+					$("#date").hide();
+				} else if (timeDiff < 0) {
+					$(".message").show();
+					$(".messageEnd").hide();
+					$(".inscription").hide();
+					$(".countdown").hide();
+					clearTimeout(timer);
+					return;
+				} else {
+					$(".messageEnd").hide();
+					$(".messageStart").hide();
+				}
 
 				var seconds = Math.floor((dateLan.getTime() - (new Date().getTime())) / 1000);
 				var minutes = Math.floor(seconds / 60);
@@ -166,6 +202,7 @@
 			}
 
 			var dateLan = new Date(@ViewBag.dateLan);
+			var dateLanEnd = new Date(@ViewBag.dateLanEnd);
 
 			$("#date").text(dateToString(dateLan));
 

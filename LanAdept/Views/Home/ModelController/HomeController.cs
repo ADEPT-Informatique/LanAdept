@@ -16,16 +16,20 @@ namespace LanAdept.Controllers
 		{
 			ViewBag.PlacesReservee = uow.PlaceRepository.Get().Count(x => !x.IsFree);
 
-			Setting settings = uow.SettingRepository.GetCurrentSettings();
-			DateTime dateLan = TimeZoneInfo.ConvertTimeToUtc(settings.StartDate);
+			Setting setting = uow.SettingRepository.GetCurrentSettings();
+			
 
-            Setting setting = uow.SettingRepository.GetCurrentSettings();
             ViewBag.Description = setting.Description;
 
+			DateTime dateLan = TimeZoneInfo.ConvertTimeToUtc(setting.StartDate);
 			double dateLanMs = dateLan.Subtract(new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds; //Donne le temps en unix time
+			DateTime dateLanEnd = TimeZoneInfo.ConvertTimeToUtc(setting.EndDate);
+			double dateLanEndMs = dateLanEnd.Subtract(new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+
 
 			ViewBag.dateLan = dateLanMs;
-			ViewBag.dateLanHuman = settings.StartDate;
+			ViewBag.dateLanEnd = dateLanEndMs;
+			ViewBag.dateLanHuman = setting.StartDate;
 			return View();
 		}
 
