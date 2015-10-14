@@ -246,7 +246,7 @@ namespace LanAdeptAdmin.Views
 		[AuthorizePermission("admin.tournament.team.edit")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult EditTeam([Bind(Include = "TeamId,Name,Tag,StartTime,IsComplete,IsReady,IsConfirmed")] TeamModel teamModel)
+		public ActionResult EditTeam([Bind(Include = "TeamId,Name,Tag,StartTime,IsConfirmed")] TeamModel teamModel)
 		{
 			if (ModelState.IsValid)
 			{
@@ -254,8 +254,6 @@ namespace LanAdeptAdmin.Views
 
 				team.Name = teamModel.Name;
 				team.Tag = teamModel.Tag;
-				team.IsComplete = teamModel.IsComplete;
-				team.IsReady = teamModel.IsReady;
 				team.IsConfirmed = teamModel.IsConfirmed;
 
 				uow.TeamRepository.Update(team);
@@ -331,5 +329,45 @@ namespace LanAdeptAdmin.Views
 
 			return RedirectToAction("Details", new { id = id });
 		}
-	}
+
+        [AuthorizePermission("admin.tournament.edit")]
+        public ActionResult TeamReady(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Team team = uow.TeamRepository.GetByID(id);
+            if (team == null)
+            {
+                return HttpNotFound();
+            }
+
+            team.IsConfirmed = true;
+			uow.TeamRepository.Update(team);
+			uow.Save();
+
+			return RedirectToAction("DetailsTeam", new { id = team.TeamID });
+        }
+
+        [AuthorizePermission("admin.tournament.edit")]
+        public ActionResult TeamNotReady(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Team team = uow.TeamRepository.GetByID(id);
+            if (team == null)
+            {
+                return HttpNotFound();
+            }
+
+            team.IsConfirmed = false;
+			uow.TeamRepository.Update(team);
+			uow.Save();
+
+            return RedirectToAction("DetailsTeam", new { id = team.TeamID });
+        }
+    }
 }

@@ -26,7 +26,18 @@
 
 	@Model.Name
 
-	@Html.TextIconActionLink("Modifier", "glyphicon-pencil", "EditTeam", "Tournaments", new { teamId = Model.TeamID }, new { @class = "btn btn-primary pull-right" })
+    <div class="pull-right">
+        @if (Model.IsConfirmed)
+        {
+            @Html.TextIconActionLink("Non confirmé", "glyphicon-remove", "TeamNotReady", "Tournaments", new { Id = Model.TeamID }, new { @class = "btn btn-danger" })
+        }
+        else
+        {
+            @Html.TextIconActionLink("Confirmer l'équipe", "glyphicon-ok", "TeamReady", "Tournaments", new { Id = Model.TeamID }, new { @class = "btn btn-success" })
+        }
+        <text> </text>
+        @Html.TextIconActionLink("Modifier", "glyphicon-pencil", "EditTeam", "Tournaments", new { teamId = Model.TeamID }, new { @class = "btn btn-primary" })
+    </div>
 </h2>
 <hr />
 
