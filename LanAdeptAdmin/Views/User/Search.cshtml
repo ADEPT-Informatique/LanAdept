@@ -69,15 +69,12 @@
 
 			@foreach (User user in Model.UsersFound)
 			{
-				<tr data-row-url="@Url.Action("Details", new { id = user.UserID })" class="clickable-row">
+				<tr data-row-url="@Url.Action("Details", new { id = user.Id })" class="clickable-row">
 					<td>
 						@Html.DisplayFor(modelItem => user.CompleteName)
 					</td>
 					<td>
 						@user.Email
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => user.Role.Name)
 					</td>
 					<td class="text-center">
 						@if (LanAdeptCore.Service.ReservationService.HasUserPlace(user))

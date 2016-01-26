@@ -6,40 +6,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LanAdeptData.Validation;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Security.Claims;
+using Microsoft.AspNet.Identity;
 
 namespace LanAdeptData.Model
 {
-	public class User
+	public class User : IdentityUser
 	{
-		[Key]
-		[DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-		public int UserID { get; set; }
-
-		[Required]
-		[EmailAddress]
-		[StringLength(55)]
-		[Index("UK_User_Email", IsUnique = true)]
-		[UniqueEmail]
-		public string Email { get; set; }
-
-		[Required]
-		public string Password { get; set; }
-
-		[Required]
-		public string Salt { get; set; }
-
 		[Required]
 		public string CompleteName { get; set; }
 
-		[Required]
-		[ForeignKey("Role")]
-		public int RoleID { get; set; }
-
 		#region Navigation properties
-
-		public virtual Role Role { get; set; }
-
-		public virtual ICollection<LoginHistory> LoginHistories { get; set; }
 
 		public virtual ICollection<Reservation> Reservations { get; set; }
 
@@ -48,14 +26,6 @@ namespace LanAdeptData.Model
 		#endregion
 
 		#region Calculated properties
-
-		public LoginHistory LastConnection
-		{
-			get
-			{
-				return LoginHistories.LastOrDefault();
-			}
-		}
 
 		public Reservation LastReservation
 		{
@@ -70,9 +40,19 @@ namespace LanAdeptData.Model
             get 
             {
                 UInt32 hashCode = (UInt32)Email.GetHashCode();
-                return hashCode.ToString("00000000") + UserID;
+                return hashCode.ToString("00000000") + Id;
             }
         }
+
+		#endregion
+
+		#region Identity Methods
+
+		public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
+		{
+			var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+			return userIdentity;
+		}
 
 		#endregion
 	}

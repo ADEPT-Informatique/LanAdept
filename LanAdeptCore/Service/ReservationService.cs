@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LanAdeptCore.Service.ServiceResult;
 using LanAdeptData.DAL;
 using LanAdeptData.Model;
+using System.Web;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace LanAdeptCore.Service
 {
 	public static class ReservationService
 	{
+		private static UnitOfWork uow
+		{
+			get { return UnitOfWork.Current; }
+		}
+
 		/// <summary>
 		/// Determine wether the currently connected user has reserved a place or not
 		/// </summary>
@@ -85,8 +90,8 @@ namespace LanAdeptCore.Service
 			reservation.User = user;
 			reservation.Place = place;
 
-			UnitOfWork.Current.ReservationRepository.Insert(reservation);
-			UnitOfWork.Current.Save();
+			uow.ReservationRepository.Insert(reservation);
+			uow.Save();
 
 			return new BaseResult();
 		}
@@ -113,9 +118,9 @@ namespace LanAdeptCore.Service
 			reservation.Guest = guest;
 			reservation.Place = place;
 
-			UnitOfWork.Current.GuestRepository.Insert(guest);
-			UnitOfWork.Current.ReservationRepository.Insert(reservation);
-			UnitOfWork.Current.Save();
+			uow.GuestRepository.Insert(guest);
+			uow.ReservationRepository.Insert(reservation);
+			uow.Save();
 
 			return new BaseResult();
 		}
@@ -129,8 +134,8 @@ namespace LanAdeptCore.Service
 
 			Reservation reservation = place.LastReservation;
 			reservation.ArrivalDate = DateTime.Now;
-			UnitOfWork.Current.ReservationRepository.Update(reservation);
-			UnitOfWork.Current.Save();
+			uow.ReservationRepository.Update(reservation);
+			uow.Save();
 
 			return new BaseResult();
 		}
@@ -144,8 +149,8 @@ namespace LanAdeptCore.Service
 			if (!place.LastReservation.IsCancelled)
 			{
 				place.LastReservation.CancellationDate = DateTime.Now;
-				UnitOfWork.Current.ReservationRepository.Update(place.LastReservation);
-				UnitOfWork.Current.Save();
+				uow.ReservationRepository.Update(place.LastReservation);
+				uow.Save();
 			}
 		}
 
@@ -166,8 +171,8 @@ namespace LanAdeptCore.Service
 			if (!user.LastReservation.IsCancelled)
 			{
 				user.LastReservation.CancellationDate = DateTime.Now;
-				UnitOfWork.Current.ReservationRepository.Update(user.LastReservation);
-				UnitOfWork.Current.Save();
+				uow.ReservationRepository.Update(user.LastReservation);
+				uow.Save();
 			}
 		}
 

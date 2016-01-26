@@ -80,8 +80,17 @@
 						@Html.Partial((string)ViewBag.SideBar)
 					</ul>
 				</div>
-			}
-		}
+            }
+        }
+        else
+        {
+            //We should always display logout button if the user is logged in
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right" style="margin-right:15px;">
+                    @Html.ListItemCategory("Déconnexion", "Logout", "Auth")
+                </ul>
+            </div>
+        }
 	</div>
 
 	<div class="@(String.IsNullOrWhiteSpace(ViewBag.SideBar) ? "col-xs-12" : "col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2") main">

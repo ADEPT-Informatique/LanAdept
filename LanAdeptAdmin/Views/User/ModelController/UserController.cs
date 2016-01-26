@@ -11,16 +11,21 @@ using LanAdeptCore.Attribute.Authorization;
 using LanAdeptData.DAL;
 using LanAdeptData.Model;
 using PagedList;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace LanAdeptAdmin.Controllers
 {
-    public class UserController : Controller
+	//TODO: Autorisation plus précise
+	[LanAuthorize]
+	public class UserController : Controller
     {
 		private const string ERROR_INVALID_ID = "Désolé, une erreur est survenue. Merci de réessayer dans quelques instants";
 
-		UnitOfWork uow = UnitOfWork.Current;
+		private UnitOfWork uow
+		{
+			get { return UnitOfWork.Current; }
+		}
 
-		[AuthorizePermission("admin.user.index")]
 		public ActionResult Index(string sortOrder, int? page)
         {
 			int currentPage = page ?? 1;
@@ -44,14 +49,6 @@ namespace LanAdeptAdmin.Controllers
 				case "email_desc":
 					users = users.OrderByDescending(u => u.Email);
 					break;
-				case "role":
-					users = users.OrderBy(u => u.Role.Name)
-						.ThenBy(u => u.CompleteName);
-					break;
-				case "role_desc":
-					users = users.OrderByDescending(u => u.Role.Name)
-						.ThenBy(u => u.CompleteName);
-					break;
 				case "place":
 					users = users.OrderBy(u => (u.LastReservation == null || u.LastReservation.Place.IsFree ? "zz" : u.LastReservation.Place.ToString()))
 						.ThenBy(u => u.CompleteName);
@@ -68,7 +65,6 @@ namespace LanAdeptAdmin.Controllers
 			return View(users.ToPagedList(currentPage, 10));
         }
 
-		[AuthorizePermission("admin.user.details")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -83,7 +79,6 @@ namespace LanAdeptAdmin.Controllers
             return View(user);
         }
 
-		[AuthorizePermission("admin.user.index")]
 		public ActionResult Search(SearchModel model)
 		{
 			if (ModelState.IsValid && model.Query != null)
@@ -98,7 +93,7 @@ namespace LanAdeptAdmin.Controllers
 				{
 					User userFound = model.UsersFound.First();
 
-					return RedirectToAction("Details", new { id = userFound.UserID });
+					return RedirectToAction("Details", new { id = userFound.Id });
 				}
 				else
 				{
@@ -109,7 +104,6 @@ namespace LanAdeptAdmin.Controllers
 			return View(model);
 		}
 
-		[AuthorizePermission("admin.user.edit")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -123,13 +117,12 @@ namespace LanAdeptAdmin.Controllers
             }
 
 			EditModel model = new EditModel(user);
-			model.RoleList = new SelectList(uow.RoleRepository.Get(), "RoleID", "Name", user.RoleID);
+			model.RoleList = new SelectList(uow.RoleRepository.Get(), "RoleID", "Name", user.Id);
 
 			return View(model);
         }
 
         [HttpPost]
-		[AuthorizePermission("admin.user.edit")]
         [ValidateAntiForgeryToken]
 		public ActionResult Edit([Bind(Include = "UserID,CompleteName,RoleID")] EditModel model)
         {
@@ -139,31 +132,28 @@ namespace LanAdeptAdmin.Controllers
 				TempData["Error"] = ERROR_INVALID_ID;
 				return RedirectToAction("Index");
 			}
-			Role role = uow.RoleRepository.GetByID(model.RoleID);
+			Role role = uow.RoleRepository.GetByID(model.UserID);
 			if (role == null)
 			{
 				TempData["Error"] = ERROR_INVALID_ID;
-				return RedirectToAction("Details", new { id = user.UserID });
+				return RedirectToAction("Details", new { id = user.Id });
 			}
 
             if (ModelState.IsValid)
             {
 				user.CompleteName = model.CompleteName;
-				user.Role = role;
 
 				uow.UserRepository.Update(user);
 				uow.Save();
 
 				TempData["Success"] = "Les changements ont bien été enregistré";
-				return RedirectToAction("Details", new { id = user.UserID });
+				return RedirectToAction("Details", new { id = user.Id });
             }
 
-			ViewBag.RoleID = new SelectList(uow.RoleRepository.Get(), "RoleID", "Name", model.RoleID);
             return View(user);
         }
 
 #if DEBUG
-		[AuthorizePermission("admin.user.delete")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -180,7 +170,6 @@ namespace LanAdeptAdmin.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-		[AuthorizePermission("admin.user.delete")]
         public ActionResult DeleteConfirmed(int id)
         {
 			User user = uow.UserRepository.GetByID(id);

@@ -5,7 +5,7 @@ namespace LanAdeptAdmin.Controllers
 {
 	public class HomeController : Controller
 	{
-		[AuthorizePermission("admin.home.index")]
+		[LanAuthorize]
 		public ActionResult Index()
 		{
 			return View();

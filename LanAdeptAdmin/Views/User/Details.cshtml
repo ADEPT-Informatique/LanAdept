@@ -8,7 +8,7 @@
 <h2>
 	Détails - @Model.CompleteName
 	<div class="pull-right">
-		@Html.ActionLink("Modifier", "Edit", new { id = Model.UserID }, new { @class = "btn btn-primary" })
+		@Html.ActionLink("Modifier", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })
 	</div>
 
 </h2>
@@ -63,8 +63,9 @@
 			Première connexion
 		</dt>
 
-		<dd>
-			@if (Model.LoginHistories.FirstOrDefault() == null)
+		@* //TODO
+            <dd>
+			@if (Model..LoginHistories.FirstOrDefault() == null)
 			{
 				<em>Jamais</em>
 			}
@@ -72,15 +73,16 @@
 			{
 				@Model.LoginHistories.FirstOrDefault().Date.ToString("f", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA"))
 			}
-		</dd>
+		</dd>*@
 
-		<dt>
-			Rôle
-		</dt>
+		@*//TODO
+        <dt>
+        Rôle
+    </dt>
 
-		<dd>
-			@Html.DisplayFor(model => model.Role.Name)
-		</dd>
+    <dd>
+        @Html.DisplayFor(model => model.Role.Name)
+    </dd>*@
 	</dl>
 
 	<h3>Historique des réservations</h3>
@@ -148,7 +150,8 @@
 		<em>Cet utilisateur n'a jamais réservé de place.</em>
 	}
 
-	<h3>Dernières connexions</h3>
+	@* //TODO
+        <h3>Dernières connexions</h3>
 	<hr />
 	@if (Model.LoginHistories.Count > 0)
 	{
@@ -179,5 +182,5 @@
 	else
 	{
 		<em>Cet utilisateur ne s'est jamais connecté.</em>
-	}
+	}*@
 </div>

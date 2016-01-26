@@ -9,15 +9,20 @@ using System.Web.Mvc;
 using LanAdeptData.DAL;
 using LanAdeptData.Model;
 using LanAdeptAdmin.Views.Tournaments.ModelController;
+using Microsoft.AspNet.Identity.Owin;
 using LanAdeptCore.Attribute.Authorization;
 
 namespace LanAdeptAdmin.Views
 {
+	//TODO: Autorisation plus précise
+	[LanAuthorize]
 	public class TournamentsController : Controller
 	{
-		UnitOfWork uow = UnitOfWork.Current;
+		private UnitOfWork uow
+		{
+			get { return UnitOfWork.Current; }
+		}
 
-		[AuthorizePermission("admin.tournament.index")]
 		public ActionResult Index()
 		{
 			List<TournamentModel> tournamentModelList = new List<TournamentModel>();
@@ -29,7 +34,6 @@ namespace LanAdeptAdmin.Views
 			return View(tournamentModelList);
 		}
 
-		[AuthorizePermission("admin.tournament.details")]
 		public ActionResult Details(int? id)
 		{
 			if (id == null)
@@ -45,14 +49,12 @@ namespace LanAdeptAdmin.Views
 			return View(new TournamentModel(tournament));
 		}
 
-		[AuthorizePermission("admin.tournament.create")]
 		public ActionResult Create()
 		{
 			ViewBag.GameID = new SelectList(uow.GameRepository.Get(), "GameID", "Name");
 			return View();
 		}
 
-		[AuthorizePermission("admin.tournament.create")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create([Bind(Include = "GameID, StartTime,MaxPlayerPerTeam")] TournamentModel tournamentModel)
@@ -75,7 +77,6 @@ namespace LanAdeptAdmin.Views
 			return View(tournamentModel);
 		}
 
-		[AuthorizePermission("admin.tournament.edit")]
 		public ActionResult Edit(int? id)
 		{
 			if (id == null)
@@ -91,7 +92,6 @@ namespace LanAdeptAdmin.Views
 			return View(tournament);
 		}
 
-		[AuthorizePermission("admin.tournament.edit")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit([Bind(Include = "MaxPlayerPerTeam, StartTime, Id, IsStarted, IsOver, Info")] TournamentModel tournamentModel)
@@ -114,7 +114,6 @@ namespace LanAdeptAdmin.Views
 			return View(tournamentModel);
 		}
 
-		[AuthorizePermission("admin.tournament.delete")]
 		public ActionResult Delete(int? id)
 		{
 			if (id == null)
@@ -129,7 +128,6 @@ namespace LanAdeptAdmin.Views
 			return View(tournament);
 		}
 
-		[AuthorizePermission("admin.tournament.delete")]
 		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteConfirmed(int id)
@@ -148,7 +146,6 @@ namespace LanAdeptAdmin.Views
 			return RedirectToAction("Index");
 		}
 
-		[AuthorizePermission("admin.tournament.team.delete")]
 		public ActionResult DeleteTeam(int? id)
 		{
 			if (id == null)
@@ -163,7 +160,6 @@ namespace LanAdeptAdmin.Views
 			return View(team);
 		}
 
-		[AuthorizePermission("admin.tournament.team.delete")]
 		[HttpPost, ActionName("DeleteTeam")]
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteTeamConfirmed(int id)
@@ -190,7 +186,6 @@ namespace LanAdeptAdmin.Views
 			return RedirectToAction("Details", new { id = tournamentID });
 		}
 
-		[AuthorizePermission("admin.tournament.team.details")]
 		public ActionResult DetailsTeam(int? id)
 		{
 			if (id == null)
@@ -205,7 +200,6 @@ namespace LanAdeptAdmin.Views
 			return View(team);
 		}
 
-		[AuthorizePermission("admin.tournament.team.kick")]
 		public ActionResult KickPlayer(int? gamerTagId, int? teamId)
 		{
 			GamerTag gamerTag = uow.GamerTagRepository.GetByID(gamerTagId);
@@ -228,7 +222,6 @@ namespace LanAdeptAdmin.Views
 			return RedirectToAction("DetailsTeam", new { id = teamId });
 		}
 
-		[AuthorizePermission("admin.tournament.team.edit")]
 		public ActionResult EditTeam(int? teamId)
 		{
 			if (teamId == null)
@@ -243,7 +236,6 @@ namespace LanAdeptAdmin.Views
 			return View(team);
 		}
 
-		[AuthorizePermission("admin.tournament.team.edit")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult EditTeam([Bind(Include = "TeamId,Name,Tag,StartTime,IsConfirmed")] TeamModel teamModel)
@@ -264,7 +256,6 @@ namespace LanAdeptAdmin.Views
 			return View(teamModel);
 		}
 
-		[AuthorizePermission("admin.tournament.edit")]
 		public ActionResult Start(int? id)
 		{
 			if(id == null)
@@ -286,7 +277,6 @@ namespace LanAdeptAdmin.Views
 			return RedirectToAction("Details", new { id = id });
 		}
 
-		[AuthorizePermission("admin.tournament.edit")]
 		public ActionResult Stop(int? id)
 		{
 			if (id == null)
@@ -308,7 +298,6 @@ namespace LanAdeptAdmin.Views
 			return RedirectToAction("Details", new { id = id });
 		}
 
-		[AuthorizePermission("admin.tournament.edit")]
 		public ActionResult CancelStart(int? id)
 		{
 			if (id == null)
@@ -330,7 +319,6 @@ namespace LanAdeptAdmin.Views
 			return RedirectToAction("Details", new { id = id });
 		}
 
-        [AuthorizePermission("admin.tournament.edit")]
         public ActionResult TeamReady(int? id)
         {
             if (id == null)
@@ -350,7 +338,6 @@ namespace LanAdeptAdmin.Views
 			return RedirectToAction("DetailsTeam", new { id = team.TeamID });
         }
 
-        [AuthorizePermission("admin.tournament.edit")]
         public ActionResult TeamNotReady(int? id)
         {
             if (id == null)

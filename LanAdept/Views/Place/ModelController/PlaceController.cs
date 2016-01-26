@@ -14,6 +14,7 @@ using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
+using Microsoft.AspNet.Identity.Owin;
 using LanAdeptCore.Attribute.Authorization;
 
 namespace LanAdept.Controllers
@@ -26,7 +27,10 @@ namespace LanAdept.Controllers
 		private const string ERROR_CANCEL_LAN_STARTED = "Désolé, il est impossible d'annler une réservation lorsque le LAN est déjà terminé.";
 		private const string ERROR_CANCEL_LAN_OVER = "Désolé, il est impossible d'annuler une réservation lorsque le LAN est déjà terminé.";
 
-		private UnitOfWork uow = UnitOfWork.Current;
+		private UnitOfWork uow
+		{
+			get { return UnitOfWork.Current; }
+		}
 
 		[AllowAnonymous]
 		public ActionResult Index()
@@ -38,7 +42,7 @@ namespace LanAdept.Controllers
 		public ActionResult Liste()
 		{
 			ListeModel listeModel = new ListeModel();
-			listeModel.Settings = LanAdeptData.DAL.UnitOfWork.Current.SettingRepository.GetCurrentSettings();
+			listeModel.Settings = uow.SettingRepository.GetCurrentSettings();
 
 			listeModel.Maps = uow.MapRepository.Get();
 			listeModel.Sections = uow.PlaceSectionRepository.Get();
@@ -51,7 +55,7 @@ namespace LanAdept.Controllers
 			return View(listeModel);
 		}
 
-		[AuthorizePermission("user.place.reserver")]
+		[LanAuthorize]
 		public ActionResult Reserver(int? id)
 		{
 			if (id == null || id < 1)
@@ -60,7 +64,7 @@ namespace LanAdept.Controllers
 				return RedirectToAction("Liste");
 			}
 
-			Setting settings = LanAdeptData.DAL.UnitOfWork.Current.SettingRepository.GetCurrentSettings();
+			Setting settings = uow.SettingRepository.GetCurrentSettings();
 
 			if (settings.IsLanStarted)
 			{
@@ -90,7 +94,7 @@ namespace LanAdept.Controllers
 			}
 		}
 
-		[AuthorizePermission("user.place.maPlace")]
+		[LanAuthorize]
 		public ActionResult MaPlace()
 		{
 			if (!ReservationService.HasUserPlace())
@@ -101,12 +105,12 @@ namespace LanAdept.Controllers
 
 			MaPlaceModel model = new MaPlaceModel();
 			model.reservation = UserService.GetLoggedInUser().LastReservation;
-			model.setting = LanAdeptData.DAL.UnitOfWork.Current.SettingRepository.GetCurrentSettings();
+			model.setting = uow.SettingRepository.GetCurrentSettings();
 
 			return View(model);
 		}
 
-		[AuthorizePermission("user.place.cancel")]
+		[LanAuthorize]
 		public ActionResult Annuler()
 		{
 			if (!ReservationService.HasUserPlace())
@@ -114,7 +118,7 @@ namespace LanAdept.Controllers
 				TempData["Error"] = ERROR_CANCEL_LAN_NO_RESERVATION;
 				return RedirectToAction("Liste");
 			}
-			Setting settings = LanAdeptData.DAL.UnitOfWork.Current.SettingRepository.GetCurrentSettings();
+			Setting settings = uow.SettingRepository.GetCurrentSettings();
 
 			if (settings.IsLanOver)
 			{
@@ -133,13 +137,15 @@ namespace LanAdept.Controllers
 			return RedirectToAction("Liste");
 		}
 
-		[AuthorizePermission("user.place.getBarcode")]
+		[LanAuthorize]
 		public ActionResult GetBarcode(string id)
 		{
 			id = "(" + id + ")";
 
 			Bitmap measureBmp = new Bitmap(1, 1);
-			System.Drawing.Font font = new System.Drawing.Font("IDAutomationHC39M Free Version", 24, FontStyle.Regular, GraphicsUnit.Pixel);
+			System.Drawing.Text.PrivateFontCollection fonts = new System.Drawing.Text.PrivateFontCollection();
+			fonts.AddFontFile(HttpContext.Server.MapPath("~/fonts/code39.ttf"));
+			Font font = new Font(fonts.Families[0], 24, FontStyle.Regular, GraphicsUnit.Pixel);
 			SizeF imageSize;
 
 			using (Graphics measureGraphics = Graphics.FromImage(measureBmp))

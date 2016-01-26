@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using LanAdeptCore.Service;
+using System.Web;
+using LanAdeptCore.Manager;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace LanAdeptCore.Attribute.Authorization
 {
@@ -16,7 +19,7 @@ namespace LanAdeptCore.Attribute.Authorization
 			{
 				if (UserService.GetLoggedInUser() == null)
 				{
-					UserService.Logout();
+					HttpContext.Current.GetOwinContext().Authentication.SignOut();
 				}
 			}
 			base.OnActionExecuting(filterContext);

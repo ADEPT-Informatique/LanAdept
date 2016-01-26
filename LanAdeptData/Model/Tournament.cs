@@ -26,7 +26,7 @@ namespace LanAdeptData.Model
 
 		public virtual int GameID { get; set; }
 
-		public virtual int? UserID { get; set; }
+		public virtual string UserID { get; set; }
 
 		#region Navigation properties
 		[ForeignKey("GameID")]

@@ -3,14 +3,18 @@ using System.Linq;
 using System.Web.Mvc;
 using LanAdeptData.DAL;
 using LanAdeptData.Model;
-using System.Collections.Generic;
+using Microsoft.AspNet.Identity.Owin;
+using System.Web;
 
 namespace LanAdept.Controllers
 {
 	[AllowAnonymous]
 	public class HomeController : Controller
 	{
-		UnitOfWork uow = new UnitOfWork();
+		private UnitOfWork uow
+		{
+			get { return UnitOfWork.Current; }
+		}
 
 		public ActionResult Index()
 		{
@@ -34,7 +38,8 @@ namespace LanAdept.Controllers
 		}
 
         public ActionResult About() {
-            return View();
+			ViewBag.Rules = uow.SettingRepository.GetCurrentSettings().Rules;
+			return View();
         }
 	}
 }

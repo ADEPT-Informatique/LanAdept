@@ -10,9 +10,8 @@ namespace LanAdept.Views.Auth.ModelController
 	public class RegisterModel
 	{
 		[Required]
-		[EmailAddress]
+		[EmailAddress(ErrorMessage = "L'adresse email doit être valide.")]
 		[Display(Name = "Email")]
-		[UniqueEmail]
 		public string Email { get; set; }
 
 		[Required]
@@ -28,13 +27,14 @@ namespace LanAdept.Views.Auth.ModelController
 
 		[Required]
 		[DataType(DataType.Password)]
+		[StringLength(100, ErrorMessage = "Votre mot de passe doit avoir au moins {2} caractères.", MinimumLength = 4)]
 		[Display(Name = "Mot de passe")]
 		public string Password { get; set; }
 
 		[Required]
 		[DataType(DataType.Password)]
 		[Display(Name = "Confirmer le mot de passe")]
-		[Compare("Password")]
+		[Compare("Password", ErrorMessage ="Votre mot de passe et la confirmation de celui-ci sont différents.")]
 		public string PasswordConfirmation { get; set; }
 
 	}

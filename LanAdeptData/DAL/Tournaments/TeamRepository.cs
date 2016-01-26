@@ -20,7 +20,7 @@ namespace LanAdeptData.DAL.Tournaments
         /// <returns>true if he has a team</returns>
         public bool IsTeamLeader(User user)
         {
-            return Get().Where(x => x.TeamLeaderTag.UserID == user.UserID).FirstOrDefault() != null;
+            return Get().Where(x => x.TeamLeaderTag.UserID == user.Id).FirstOrDefault() != null;
         }
 
         /// <summary>
@@ -30,11 +30,11 @@ namespace LanAdeptData.DAL.Tournaments
         /// <returns>true if he has a team</returns>
         public Team UserTeamInTournament(User user, Tournament tournament)
         {
-            return Get().Where(x => x.GamerTags.Where(y => y.UserID == user.UserID).FirstOrDefault() != null 
+            return Get().Where(x => x.GamerTags.Where(y => y.UserID == user.Id).FirstOrDefault() != null 
                 && x.TournamentID == tournament.TournamentID).FirstOrDefault();
         }
 
-		public IEnumerable<Team> GetByTeamLeaderID(int? TeamLeaderID)
+		public IEnumerable<Team> GetByTeamLeaderID(string TeamLeaderID)
 		{
 			List<Team> teams = new List<Team>();
 			foreach (Team team in Get())

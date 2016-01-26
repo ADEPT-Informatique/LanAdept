@@ -55,7 +55,7 @@
 					@Html.ListItemAction("À propos", "About", "Home")
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					@Html.ListItemAction("Connexion", "Login", "Auth")
+					@Html.ListItemAction("Connexion", "Login", "Auth", new { ReturnUrl = Request.Url.AbsolutePath })
 					@Html.ListItemAction("Inscription", "Register", "Auth")
 
 					@if (LanAdeptCore.Service.UserService.IsTeamLeader())

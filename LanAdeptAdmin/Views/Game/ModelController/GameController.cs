@@ -7,15 +7,20 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity.Owin;
 using LanAdeptCore.Attribute.Authorization;
 
 namespace LanAdeptAdmin.Controllers
 {
+	//TODO: Autorisation plus précise
+	[LanAuthorize]
 	public class GameController : Controller
 	{
-		UnitOfWork uow = UnitOfWork.Current;
+		private UnitOfWork uow
+		{
+			get { return UnitOfWork.Current; }
+		}
 
-		[AuthorizePermission("admin.game.index")]
 		public ActionResult Index()
 		{
 			List<GameModel> gameModels = new List<GameModel>();
@@ -27,13 +32,11 @@ namespace LanAdeptAdmin.Controllers
 			return View(gameModels);
 		}
 
-		[AuthorizePermission("admin.game.create")]
 		public ActionResult Create()
 		{
 			return View();
 		}
 
-		[AuthorizePermission("admin.game.create")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create([Bind(Include = "GameID, Name, Description")] GameModel gameModel)
@@ -53,7 +56,6 @@ namespace LanAdeptAdmin.Controllers
 			return View(gameModel);
 		}
 
-		[AuthorizePermission("admin.game.edit")]
 		public ActionResult Edit(int? id)
 		{
 			if (id == null)
@@ -70,7 +72,6 @@ namespace LanAdeptAdmin.Controllers
 			return View(game);
 		}
 
-		[AuthorizePermission("admin.game.edit")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit([Bind(Include = "GameID, Name, Description")] GameModel gameModel)
@@ -89,7 +90,6 @@ namespace LanAdeptAdmin.Controllers
 			return View(gameModel);
 		}
 
-		[AuthorizePermission("admin.game.delete")]
 		public ActionResult Delete(int? id)
 		{
 			if (id == null)
@@ -104,7 +104,6 @@ namespace LanAdeptAdmin.Controllers
 			return View(game);
 		}
 
-		[AuthorizePermission("admin.game.delete")]
 		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteConfirmed(int id)

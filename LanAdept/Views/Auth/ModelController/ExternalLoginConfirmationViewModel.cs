@@ -6,7 +6,7 @@ using System.Web;
 
 namespace LanAdept.Views.Auth.ModelController
 {
-	public class LoginModel
+	public class ExternalLoginConfirmationViewModel
 	{
 		[Required]
 		[EmailAddress(ErrorMessage = "L'adresse email doit être valide.")]
@@ -14,12 +14,9 @@ namespace LanAdept.Views.Auth.ModelController
 		public string Email { get; set; }
 
 		[Required]
-		[DataType(DataType.Password)]
-		[Display(Name = "Mot de passe")]
-		public string Password { get; set; }
-
-		[Display(Name = "Garder ma session active")]
-		public bool RememberMe { get; set; }
+		[StringLength(60, MinimumLength = 4)]
+		[Display(Name = "Nom complet")]
+		public string CompleteName { get; set; }
 
 	}
 }

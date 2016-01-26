@@ -157,3 +157,7 @@ textarea {
 .modal-backdrop {
   z-index: -1;
 }
+
+.validation-summary-errors {
+    clear:both;
+}

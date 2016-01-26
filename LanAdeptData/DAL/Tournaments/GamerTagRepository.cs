@@ -14,17 +14,17 @@ namespace LanAdeptData.DAL.Tournaments
 
         public IEnumerable<GamerTag> GetByUser(User user)
         {
-            return this.Get().Where(x => x.UserID == user.UserID);
+            return this.Get().Where(x => x.UserID == user.Id);
         }
 
         public GamerTag GetByUserAndGamerTagID(User user, int gamerTagID)
         {
-            return this.Get().Where(x => x.UserID == user.UserID && x.GamerTagID == gamerTagID).First();
+            return this.Get().Where(x => x.UserID == user.Id && x.GamerTagID == gamerTagID).First();
         }
 
         public bool HasSameGamerTag(User user, string gamerTag)
         {
-            return this.Get().Where(x => x.UserID == user.UserID && x.Gamertag == gamerTag).Count() != 0;
+            return this.Get().Where(x => x.UserID == user.Id && x.Gamertag == gamerTag).Count() != 0;
         }
 	}
 }

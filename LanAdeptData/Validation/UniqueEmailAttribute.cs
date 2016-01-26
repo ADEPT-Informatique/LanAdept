@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using LanAdeptData.DAL;
 using LanAdeptData.Model;
+using System.Web;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace LanAdeptData.Validation
 {
@@ -19,7 +21,7 @@ namespace LanAdeptData.Validation
 			User userFromEmail = UnitOfWork.Current.UserRepository.GetUserByEmail(value.ToString());
 			User currentUser = validationContext.ObjectInstance as User;
 
-			if (userFromEmail != null && (currentUser == null || currentUser.UserID != userFromEmail.UserID))
+			if (userFromEmail != null && (currentUser == null || currentUser.Id != userFromEmail.Id))
 			{
 				return new ValidationResult("Cette adresse email est déjà prise");
 			}

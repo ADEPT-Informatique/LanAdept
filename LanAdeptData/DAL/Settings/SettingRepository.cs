@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LanAdeptData.DAL.Generic;
 using LanAdeptData.Model;
+using System.Web;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace LanAdeptData.DAL.Settings
 {

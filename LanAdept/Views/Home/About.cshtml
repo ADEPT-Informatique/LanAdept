@@ -23,7 +23,7 @@
 <h3>Règlements</h3>
 <div class="panel panel-default">
 	<div class="panel-body">
-		@Html.Markdown(LanAdeptData.DAL.UnitOfWork.Current.SettingRepository.GetCurrentSettings().Rules)
+		@Html.Markdown((string)ViewBag.Rules)
 	</div>
 </div>
 

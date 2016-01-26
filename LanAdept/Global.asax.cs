@@ -21,9 +21,10 @@ namespace LanAdept
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
 
 			ViewEngines.Engines.Add(new ViewEngine());
-        }
+		}
 
-        protected virtual void Application_BeginRequest()
+
+		protected virtual void Application_BeginRequest()
 		{
 			HttpContext.Current.Items["_UnitOfWork"] = new UnitOfWork();
 		}

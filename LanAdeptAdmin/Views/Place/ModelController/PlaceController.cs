@@ -10,24 +10,28 @@ using LanAdeptCore.Service.ServiceResult;
 using LanAdeptData.DAL;
 using LanAdeptData.Model;
 using PagedList;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace LanAdeptAdmin.Controllers
 {
+	//TODO: Autorisation plus précise
+	[LanAuthorize]
 	public class PlaceController : Controller
 	{
 		private const string ERROR_INVALID_ID = "Désolé, une erreur est survenue. Merci de réessayer dans quelques instants";
 		private const string ERROR_PLACE_OCCUPIED = "Cette place est présentement occupé. Vous devez libérer la place avant de pouvoir modifier la réservation";
 		private const string WARNING_PLACE_OCCUPIED = "Attention! Cette place est déjà réservée. Si vous changer le nom de la personne dans ce formulaire, vous annulerez du même coup la réservation de cette personne.";
 
-		private UnitOfWork uow = UnitOfWork.Current;
+		private UnitOfWork uow
+		{
+			get { return UnitOfWork.Current; }
+		}
 
-		[AuthorizePermission("admin.place.list")]
 		public ActionResult Index()
 		{
 			return RedirectToAction("Liste");
 		}
 
-		[AuthorizePermission("admin.place.list")]
 		public ActionResult Liste()
 		{
 			ListeModel listeModel = new ListeModel();
@@ -37,7 +41,6 @@ namespace LanAdeptAdmin.Controllers
 			return View(listeModel);
 		}
 
-		[AuthorizePermission("admin.place.details")]
 		public ActionResult Details(int? id, string sortOrder, string searchString, string currentFilter, int? page)
 		{
 			if (id == null || id < 1)
@@ -98,7 +101,6 @@ namespace LanAdeptAdmin.Controllers
 			return View(place);
 		}
 
-		[AuthorizePermission("admin.place.search")]
 		public ActionResult Search(SearchModel model)
 		{
 			if (ModelState.IsValid && model.Query != null)
@@ -137,7 +139,6 @@ namespace LanAdeptAdmin.Controllers
 		}
 
 
-		[AuthorizePermission("admin.place.reserve")]
 		public ActionResult Reserve(int? id)
 		{
 			if (id == null || id < 1)
@@ -173,7 +174,7 @@ namespace LanAdeptAdmin.Controllers
 				}
 				else
 				{
-					model.UserID = placeAReserver.LastReservation.User.UserID;
+					model.UserID = placeAReserver.LastReservation.User.Id;
 				}
 			}
 
@@ -184,9 +185,8 @@ namespace LanAdeptAdmin.Controllers
 			return View(model);
 		}
 
-		[AuthorizePermission("admin.place.reserve")]
 		[HttpPost]
-		[ValidateAntiForgeryToken]	//Le code de cette action est affreux
+		[ValidateAntiForgeryToken]  //Le code de cette action est affreux
 		public ActionResult Reserve([Bind(Include = "PlaceID,UserID,IsGuest,Place,FullNameNoAccount")] ReserveModel model)
 		{
 			if (model.PlaceID < 1)
@@ -208,14 +208,9 @@ namespace LanAdeptAdmin.Controllers
 
 			if (ModelState.IsValid)
 			{
-				if (!model.IsGuest)		//Enregistrement pour un User inscrit
+				if (!model.IsGuest)     //Enregistrement pour un User inscrit
 				{
-					if (model.UserID < 1)
-					{
-						model.UserID = 0;
-						ModelState.AddModelError("", ERROR_INVALID_ID);
-					}
-					else if (!currentPlace.IsFree && currentPlace.LastReservation.User.UserID == model.UserID)
+					if (!currentPlace.IsFree && currentPlace.LastReservation.User.Id == model.UserID)
 					{
 						TempData["Warning"] = "Aucune donnée n'a été mise à jours";
 						return RedirectToAction("Details", new { id = currentPlace.PlaceID });
@@ -243,7 +238,7 @@ namespace LanAdeptAdmin.Controllers
 						}
 					}
 				}
-				else				//Enregistrement pour un invité
+				else                //Enregistrement pour un invité
 				{
 					if (!currentPlace.IsFree)
 						ReservationService.CancelReservation(currentPlace);
@@ -268,7 +263,6 @@ namespace LanAdeptAdmin.Controllers
 			return View(model);
 		}
 
-		[AuthorizePermission("admin.place.cancel")]
 		public ActionResult Cancel(int? id)
 		{
 			if (id == null || id < 1)
@@ -302,7 +296,6 @@ namespace LanAdeptAdmin.Controllers
 		}
 
 
-		[AuthorizePermission("admin.place.arriving")]
 		public ActionResult Arriving(int? id)
 		{
 			if (id == null || id < 1)
@@ -337,7 +330,6 @@ namespace LanAdeptAdmin.Controllers
 			return RedirectToAction("Details", new { id = currentPlace.PlaceID });
 		}
 
-		[AuthorizePermission("admin.place.leaving")]
 		public ActionResult Leaving(int? id)
 		{
 			if (id == null || id < 1)
@@ -374,13 +366,13 @@ namespace LanAdeptAdmin.Controllers
 
 #if DEBUG
 
-		[Authorize]
+		[LanAuthorize]
 		public ActionResult Reset()
 		{
 			return View();
 		}
 
-		[Authorize]
+		[LanAuthorize]
 		public ActionResult DoReset()
 		{
 			IEnumerable<Reservation> reservations = uow.ReservationRepository.Get();

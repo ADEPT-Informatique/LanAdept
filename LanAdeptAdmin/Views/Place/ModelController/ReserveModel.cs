@@ -18,7 +18,7 @@ namespace LanAdeptAdmin.Views.Places.ModelController
 		public bool IsGuest { get; set; }
 
 		[DisplayName("Utilisateur")]
-		public int UserID { get; set; }
+		public string UserID { get; set; }
 
 		public IEnumerable<SelectListItem> Users { get; set; } 
 

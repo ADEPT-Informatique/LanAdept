@@ -10,6 +10,7 @@ namespace LanAdeptAdmin
 		{
 			filters.Add(new HandleErrorAttribute());
 			filters.Add(new AuthenticationVerificationAttribute());
+			filters.Add(new AdminOnlyAttribute());
 
 			#if DEBUG
 				filters.Add(new AuthorizationRequiredAttribute());

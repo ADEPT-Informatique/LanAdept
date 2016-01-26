@@ -12,7 +12,7 @@ namespace LanAdeptAdmin.Views.Users.ModelController
 {
 	public class EditModel
 	{
-		public int UserID { get; set; }
+		public string UserID { get; set; }
 
 		[UniqueEmail]
 		[Editable(false)]
@@ -22,19 +22,14 @@ namespace LanAdeptAdmin.Views.Users.ModelController
 		[DisplayName("Nom complet")]
 		public string CompleteName { get; set; }
 
-		[Required]
-		[DisplayName("Rôle")]
-		public int RoleID { get; set; }
-
 		public SelectList RoleList { get; set; }
 
 		public EditModel() { }
 		public EditModel(User user)
 		{
-			UserID = user.UserID;
+			UserID = user.Id;
 			Email = user.Email;
 			CompleteName = user.CompleteName;
-			RoleID = user.RoleID;
 		}
 
 	}

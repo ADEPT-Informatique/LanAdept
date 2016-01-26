@@ -17,7 +17,7 @@ namespace LanAdeptData.Model
 		[MaxLength(30)]
 		public string Gamertag { get; set; }
 
-		public virtual int UserID { get; set; }
+		public string UserID { get; set; }
 
 		#region Navigation properties
 

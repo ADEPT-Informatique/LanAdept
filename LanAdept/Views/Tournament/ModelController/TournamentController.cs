@@ -8,6 +8,9 @@ using System.Data;
 using LanAdeptCore.Attribute.Authorization;
 using System.Linq;
 using LanAdept.Views.Tournaments.ModelController;
+using System;
+using Microsoft.AspNet.Identity.Owin;
+using System.Web;
 
 namespace LanAdept.Controllers
 {
@@ -15,8 +18,10 @@ namespace LanAdept.Controllers
 	{
 		private const string ERROR_INVALID_ID = "Désolé, une erreur est survenue. Merci de réessayer dans quelques instants";
 
-
-		UnitOfWork uow = UnitOfWork.Current;
+		private UnitOfWork uow
+		{
+			get { return UnitOfWork.Current; }
+		}
 
 		[AllowAnonymous]
 		public ActionResult Index()
@@ -77,7 +82,7 @@ namespace LanAdept.Controllers
 				if (UserService.IsUserLoggedIn())
 				{
 					User loggedInUser = UserService.GetLoggedInUser();
-					if (team.TeamLeaderTag.UserID == loggedInUser.UserID)
+					if (team.TeamLeaderTag.UserID == loggedInUser.Id)
 					{
 						tournamentModel.IsTeamLeader = true;
 						tournamentModel.CanAddTeam = false;
@@ -89,7 +94,7 @@ namespace LanAdept.Controllers
 					{
 						foreach (GamerTag gamer in team.GamerTags)
 						{
-							if (gamer.User.UserID == loggedInUser.UserID)
+							if (gamer.User.Id == loggedInUser.Id)
 							{
 								tournamentModel.CanAddTeam = false;
 								teamModel.IsMyTeamForTeamLeader = false;
@@ -103,7 +108,7 @@ namespace LanAdept.Controllers
 						{
 							foreach (Demande demande in team.Demandes)
 							{
-								if (demande.GamerTag.UserID == loggedInUser.UserID)
+								if (demande.GamerTag.UserID == loggedInUser.Id)
 								{
 									tournamentModel.CanAddTeam = false;
 									teamModel.IsMyTeamForTeamLeader = false;
@@ -134,7 +139,6 @@ namespace LanAdept.Controllers
 			return View(tournamentModel);
 		}
 
-		[AuthorizePermission("user.tournament.team.add")]
 		public ActionResult Addteam(int id)
 		{
 			LanAdeptData.Model.Tournament tournament = uow.TournamentRepository.GetByID(id);
@@ -149,7 +153,7 @@ namespace LanAdept.Controllers
 
 			foreach (LanAdeptData.Model.Team team in tournament.Teams)
 			{
-				if (team.TeamLeaderTag.User.UserID == loggedInUser.UserID)
+				if (team.TeamLeaderTag.User.Id == loggedInUser.Id)
 				{
 					TempData["Error"] = "Vous ne pouvez pas ajouter une équipe car vous en avez déjà une.";
 					return RedirectToAction("Details", new { id = team.Tournament.TournamentID });
@@ -160,7 +164,7 @@ namespace LanAdept.Controllers
 			{
 				foreach (Demande demande in team.Demandes)
 				{
-					if (demande.GamerTag.User.UserID == loggedInUser.UserID)
+					if (demande.GamerTag.User.Id == loggedInUser.Id)
 					{
 						TempData["Error"] = "Vous ne pouvez pas ajouter une équipe car vous avez envoyé une demande pour rejoindre une équipe.";
 						return RedirectToAction("Details", new { id = tournament.TournamentID });
@@ -175,7 +179,6 @@ namespace LanAdept.Controllers
 			return View(model);
 		}
 
-		[AuthorizePermission("user.tournament.team.add")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Addteam(AddTeamModel teamModel)
@@ -192,7 +195,7 @@ namespace LanAdept.Controllers
 
 			foreach (LanAdeptData.Model.Team team in tournament.Teams)
 			{
-				if (team.TeamLeaderTag.User.UserID == loggedInUser.UserID)
+				if (team.TeamLeaderTag.User.Id == loggedInUser.Id)
 				{
 					TempData["Error"] = "Vous ne pouvez pas ajouter une équipe car vous en avez déjà une.";
 					return RedirectToAction("Details", new { id = team.Tournament.TournamentID });
@@ -203,7 +206,7 @@ namespace LanAdept.Controllers
 			{
 				foreach (Demande demande in team.Demandes)
 				{
-					if (demande.GamerTag.User.UserID == loggedInUser.UserID)
+					if (demande.GamerTag.User.Id == loggedInUser.Id)
 					{
 						TempData["Error"] = "Vous ne pouvez pas ajouter une équipe car vous avez envoyé une demande pour rejoindre une équipe.";
 						return RedirectToAction("Details", new { id = tournament.TournamentID });
@@ -247,7 +250,6 @@ namespace LanAdept.Controllers
 			return View(teamModel);
 		}
 
-		[AuthorizePermission("user.tournament.gamertag.add")]
 		public ActionResult AddGamerTag(string gamertag)
 		{
 			User user = UserService.GetLoggedInUser();
@@ -267,7 +269,6 @@ namespace LanAdept.Controllers
 			return Json(new GamerTagResponse() { HasError = true, ErrorMessage = "Vous avez déja un GamerTag avec ce nom", GamerTagID = 0, Gamertag = gamertag }, JsonRequestBehavior.AllowGet); ;
 		}
 
-		[AuthorizePermission("user.tournament.team.join")]
 		public ActionResult JoinTeam(JoinTeamModel model)
 		{
 			if (model.GamerTagID == null || model.TournamentID == null || model.TeamID == null)

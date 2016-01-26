@@ -10,133 +10,127 @@ using LanAdeptData.DAL.Users;
 using LanAdeptData.DAL.Tournaments;
 using LanAdeptData.DAL.Settings;
 using LanAdeptData.DAL.Maps;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace LanAdeptData.DAL
 {
-    public class UnitOfWork : IUnitOfWork
-    {
-        private LanAdeptDataContext context;
+	public class UnitOfWork : IUnitOfWork
+	{
+		public static UnitOfWork Current
+		{
+			get { return HttpContext.Current.Items["_UnitOfWork"] as UnitOfWork; }
+		}
 
-        public static UnitOfWork Current
-        {
-            get { return HttpContext.Current.Items["_UnitOfWork"] as UnitOfWork; }
-        }
+		private LanAdeptDataContext context;
 
-        public UnitOfWork()
-        {
-            context = new LanAdeptDataContext();
-        }
+		public LanAdeptDataContext Context
+		{
+			get { return context; }
+		}
 
-        private UserRepository userRepository;
-        public UserRepository UserRepository
-        {
-            get
-            {
-                if (userRepository == null)
-                    userRepository = new UserRepository(context);
+		public UnitOfWork()
+		{
+			context = new LanAdeptDataContext();
+		}
 
-                return userRepository;
-            }
-        }
+		private UserRepository userRepository;
+		public UserRepository UserRepository
+		{
+			get
+			{
+				if (userRepository == null)
+					userRepository = new UserRepository(context);
 
-        private RoleRepository roleRepository;
-        public RoleRepository RoleRepository
-        {
-            get
-            {
-                if (roleRepository == null)
-                    roleRepository = new RoleRepository(context);
+				return userRepository;
+			}
+		}
 
-                return roleRepository;
-            }
-        }
+		private RoleRepository roleRepository;
+		public RoleRepository RoleRepository
+		{
+			get
+			{
+				if (roleRepository == null)
+					roleRepository = new RoleRepository(context);
 
-        private PermissionRepository permissionRepository;
-        public PermissionRepository PermissionRepository
-        {
-            get
-            {
-                if (permissionRepository == null)
-                    permissionRepository = new PermissionRepository(context);
+				return roleRepository;
+			}
+		}
 
-                return permissionRepository;
-            }
-        }
+		private PermissionRepository permissionRepository;
+		public PermissionRepository PermissionRepository
+		{
+			get
+			{
+				if (permissionRepository == null)
+					permissionRepository = new PermissionRepository(context);
 
-        private LoginHistoryRepository loginHistoryRepository;
-        public LoginHistoryRepository LoginHistoryRepository
-        {
-            get
-            {
-                if (loginHistoryRepository == null)
-                    loginHistoryRepository = new LoginHistoryRepository(context);
+				return permissionRepository;
+			}
+		}
 
-                return loginHistoryRepository;
-            }
-        }
+		private PlaceRepository placeRepository;
+		public PlaceRepository PlaceRepository
+		{
+			get
+			{
+				if (placeRepository == null)
+					placeRepository = new PlaceRepository(context);
 
-        private PlaceRepository placeRepository;
-        public PlaceRepository PlaceRepository
-        {
-            get
-            {
-                if (placeRepository == null)
-                    placeRepository = new PlaceRepository(context);
+				return placeRepository;
+			}
+		}
 
-                return placeRepository;
-            }
-        }
+		private PlaceSectionRepository placeSectionRepository;
+		public PlaceSectionRepository PlaceSectionRepository
+		{
+			get
+			{
+				if (placeSectionRepository == null)
+					placeSectionRepository = new PlaceSectionRepository(context);
 
-        private PlaceSectionRepository placeSectionRepository;
-        public PlaceSectionRepository PlaceSectionRepository
-        {
-            get
-            {
-                if (placeSectionRepository == null)
-                    placeSectionRepository = new PlaceSectionRepository(context);
+				return placeSectionRepository;
+			}
+		}
 
-                return placeSectionRepository;
-            }
-        }
+		private ReservationRepository reservationRepository;
+		public ReservationRepository ReservationRepository
+		{
+			get
+			{
+				if (reservationRepository == null)
+					reservationRepository = new ReservationRepository(context);
 
-        private ReservationRepository reservationRepository;
-        public ReservationRepository ReservationRepository
-        {
-            get
-            {
-                if (reservationRepository == null)
-                    reservationRepository = new ReservationRepository(context);
-
-                return reservationRepository;
-            }
-        }
+				return reservationRepository;
+			}
+		}
 
 		#region Tournaments Repo
 		private TournamentRepository tournamentRepository;
-        public TournamentRepository TournamentRepository
-        {
-            get
-            {
-                if (tournamentRepository == null)
-                {
-                    tournamentRepository = new TournamentRepository(context);
-                }
-                return tournamentRepository;
-            }
-        }
+		public TournamentRepository TournamentRepository
+		{
+			get
+			{
+				if (tournamentRepository == null)
+				{
+					tournamentRepository = new TournamentRepository(context);
+				}
+				return tournamentRepository;
+			}
+		}
 
-        private TeamRepository teamRepository;
-        public TeamRepository TeamRepository
-        {
-            get
-            {
-                if (teamRepository == null)
-                {
-                    teamRepository = new TeamRepository(context);
-                }
-                return teamRepository;
-            }
-        }
+		private TeamRepository teamRepository;
+		public TeamRepository TeamRepository
+		{
+			get
+			{
+				if (teamRepository == null)
+				{
+					teamRepository = new TeamRepository(context);
+				}
+				return teamRepository;
+			}
+		}
 
 		private GameRepository gameRepository;
 		public GameRepository GameRepository
@@ -156,26 +150,26 @@ namespace LanAdeptData.DAL
 		{
 			get
 			{
-                if (gamerTagRepository == null)
+				if (gamerTagRepository == null)
 				{
-                    gamerTagRepository = new GamerTagRepository(context);
+					gamerTagRepository = new GamerTagRepository(context);
 				}
-                return gamerTagRepository;
+				return gamerTagRepository;
 			}
 		}
 
-        private DemandeRepository demandeRepository;
-        public DemandeRepository DemandeRepository
-        {
-            get
-            {
-                if (demandeRepository == null)
-                {
-                    demandeRepository = new DemandeRepository(context);
-                }
-                return demandeRepository;
-            }
-        }
+		private DemandeRepository demandeRepository;
+		public DemandeRepository DemandeRepository
+		{
+			get
+			{
+				if (demandeRepository == null)
+				{
+					demandeRepository = new DemandeRepository(context);
+				}
+				return demandeRepository;
+			}
+		}
 		#endregion
 
 		private SettingRepository settingRepository;
@@ -231,9 +225,9 @@ namespace LanAdeptData.DAL
 		}
 
 		public void Save()
-        {
-            context.SaveChanges();
-        }
+		{
+			context.SaveChanges();
+		}
 
         #region IDisposable
 

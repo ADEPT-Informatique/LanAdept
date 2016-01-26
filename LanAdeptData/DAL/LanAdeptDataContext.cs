@@ -6,19 +6,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LanAdeptData.Model;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace LanAdeptData.DAL
 {
-	public class LanAdeptDataContext : DbContext
+	public class LanAdeptDataContext : IdentityDbContext<User>
 	{
+		public static LanAdeptDataContext Create()
+		{
+			return new LanAdeptDataContext();
+		}
+
 		public LanAdeptDataContext() : base("name=LanAdeptDataContext")
 		{ }
 
-		public DbSet<User> Users { get; set; }
 		public DbSet<Guest> Guests { get; set; }
-		public DbSet<Role> Roles { get; set; }
 		public DbSet<Permission> Permissions { get; set; }
-		public DbSet<LoginHistory> LoginHistories { get; set; }
 		public DbSet<Place> Places { get; set; }
 		public DbSet<PlaceSection> PlaceSections { get; set; }
 		public DbSet<Reservation> Reservations { get; set; }
@@ -44,6 +47,8 @@ namespace LanAdeptData.DAL
 							tg.MapRightKey("TeamID");
 							tg.ToTable("GamertagTeam");
 						});
+
+			base.OnModelCreating(modelBuilder);
 		}
 	}
 }

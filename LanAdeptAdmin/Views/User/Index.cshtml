@@ -53,7 +53,7 @@
 			@foreach (var user in Model)
 			{
 
-				<tr data-row-url="@Url.Action("Details", new { id = user.UserID })" class="clickable-row">
+				<tr data-row-url="@Url.Action("Details", new { id = user.Id })" class="clickable-row">
 					<td>
 						@Html.DisplayFor(modelItem => user.CompleteName)
 					</td>
@@ -61,7 +61,8 @@
 						@user.Email
 					</td>
 					<td>
-						@Html.DisplayFor(modelItem => user.Role.Name)
+						@*@Html.DisplayFor(modelItem => user.Role.Name)*@
+                        TODO
 					</td>
 					<td class="text-center">
 						@if (LanAdeptCore.Service.ReservationService.HasUserPlace(user))
