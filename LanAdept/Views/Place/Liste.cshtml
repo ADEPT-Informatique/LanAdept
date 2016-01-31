@@ -82,9 +82,9 @@ else
 	</div>
 }
 
-@foreach (Map map in Model.Maps)
+@foreach (LanAdept.Views.Place.ModelController.FastMap fastMap in Model.Maps)
 {
-	@Html.Partial("SingleMapPartial", map)
+	@Html.Partial("SingleMapPartial", fastMap)
 }
 
 <div id="legende-container">

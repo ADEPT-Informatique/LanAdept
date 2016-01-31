@@ -44,8 +44,11 @@ namespace LanAdept.Controllers
 			ListeModel listeModel = new ListeModel();
 			listeModel.Settings = uow.SettingRepository.GetCurrentSettings();
 
-			listeModel.Maps = uow.MapRepository.Get();
-			listeModel.Sections = uow.PlaceSectionRepository.Get();
+            List<FastMap> fastMaps = new List<FastMap>();
+            foreach (Map map in uow.MapRepository.Get())
+                fastMaps.Add(new FastMap(map));
+
+            listeModel.Maps = fastMaps;
 
 			if (!listeModel.Settings.IsLanStarted)
 			{
