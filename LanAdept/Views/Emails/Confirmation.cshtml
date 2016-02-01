@@ -7,10 +7,10 @@ Subject: Inscription au LAN de l'ADEPT
 
 Bonjour, @Html.Raw(Model.User.CompleteName)
 
-Merci pour votre inscription au LAN!
+Merci pour votre inscription au LAN de l'Adept!
 
 Pour terminer votre inscription, vous devez confirmer votre compte en visitant le lien suivant:
-@Url.Action("Confirm", "Auth", new { id = @Model.User.Barcode }, "http")
+@Url.Action("Confirm", "Auth", new { id = Model.User.Id, code = Model.ConfirmationToken }, "http")
 
 Par la suite, vous pourrez réserver une place en cliquant sur celle-ci dans la liste des places.
 

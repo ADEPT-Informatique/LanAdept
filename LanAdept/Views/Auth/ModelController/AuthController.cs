@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 using LanAdeptData.DAL;
 using System.Linq;
 using System.Security.Claims;
+using LanAdept.Emails;
 
 namespace LanAdept.Controllers
 {
@@ -94,7 +95,13 @@ namespace LanAdept.Controllers
 			switch (result)
 			{
 				case SignInStatus.Success:
+					var user = await UserManager.FindByEmailAsync(model.Email);
+
+					if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+						return RedirectToAction("UnconfirmedLogout", new { returnUrl = returnUrl });
+
 					return RedirectToReturnUrl(returnUrl);
+
 				case SignInStatus.LockedOut:
 					return View("Lockout");
 				case SignInStatus.RequiresVerification:
@@ -188,7 +195,15 @@ namespace LanAdept.Controllers
 			AuthenticationManager.SignOut();
 			return RedirectToAction("Index", "Home");
 		}
-		
+
+		[LanAuthorize]
+		public ActionResult UnconfirmedLogout(string returnUrl)
+		{
+			TempData["Error"] = true;
+			AuthenticationManager.SignOut();
+			return RedirectToAction("Login", new { returnUrl = returnUrl });
+		}
+
 		[AuthorizeGuestOnly]
 		public ActionResult Register()
 		{
@@ -203,8 +218,8 @@ namespace LanAdept.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				//TODO: Complété le nouvel user
-				var user = new User {
+				var user = new User
+				{
 					UserName = model.Email,
 					Email = model.Email,
 					CompleteName = model.CompleteName
@@ -213,14 +228,24 @@ namespace LanAdept.Controllers
 				var result = await UserManager.CreateAsync(user, model.Password);
 				if (result.Succeeded)
 				{
-					await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
 					// Send confirmation link by email
 					string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+					ConfirmationEmail email = new ConfirmationEmail();
+					email.User = user;
+					email.ConfirmationToken = code;
+					email.Send();
+
 					var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
 					await UserManager.SendEmailAsync(user.Id, "Confirmez votre compte", "Confirmez votre compte en cliquant <a href=\"" + callbackUrl + "\">ici</a>");
 
-					return RedirectToAction("Index", "Home");
+					MessageModel messageView = new MessageModel()
+					{
+						Title = "Vous êtes maintenant inscrit!",
+						Content = "Vous devez maintenant <strong>confirmer votre email</strong>. Une fois que ce sera fait, vous pourrez réserver une place pour participer au LAN de l'ADEPT.",
+						Type = AuthMessageType.Success
+					};
+
+					return View("Message", messageView);
 				}
 				AddErrors(result);
 			}
@@ -230,54 +255,23 @@ namespace LanAdept.Controllers
 
 			ViewBag.Rules = uow.SettingRepository.GetCurrentSettings().Rules;
 			return View(model);
-
-			//if (ModelState.IsValid)
-			//{
-			//	User newUser = UserService.CreateUser(model.Email, model.Password, model.CompleteName);
-
-			//	UnitOfWork.UserRepository.Insert(newUser);
-			//	UnitOfWork.Save();
-
-			//	ConfirmationEmail email = new ConfirmationEmail();
-			//	email.User = newUser;
-			//	email.Send();
-
-			//	MessageModel result = new MessageModel();
-			//	result.Title = "Vous êtes maintenant inscrit!";
-			//	result.Content = "Vous devez maintenant <strong>confirmer votre email</strong>. Une fois que ce sera fait, vous pourrez réserver une place pour participer au LAN de l'ADEPT.";
-			//	result.Type = AuthMessageType.Success;
-
-			//	return View("Message", result);
-			//}
-
-			//model.Password = null;
-			//model.PasswordConfirmation = null;
-
-			//return View(model);
 		}
 
 		[AuthorizeGuestOnly]
-		public ActionResult Confirm(string id)
+		public async Task<ActionResult> Confirm(string id, string code)
 		{
-			//User user = UnitOfWork.UserRepository.GetUserByBarCode(id);
+			User user = uow.UserRepository.GetByID(id);
 
-			//if (user == null)
-			//{
-			//	return View("Message", new MessageModel() { Title = "Une erreur est survenue", Content = "Ce lien n'est pas valide. Si vous continuez de voir cette erreur, contactez un administrateur.", Type = AuthMessageType.Error });
-			//}
+			try {
+				var result = await UserManager.ConfirmEmailAsync(id, code);
 
-			////if (user.RoleID != UnitOfWork.RoleRepository.GetUnconfirmedRole().RoleID)
-			////{
-			////	return View("Message", new MessageModel() { Title = "Votre compte est déjà actif", Content = "Vous pouvez maintenant vous connecter et réserver une place.", Type = AuthMessageType.Success});
-			////}
-
-			////user.RoleID = UnitOfWork.RoleRepository.GetDefaultRole().RoleID;
-			//UnitOfWork.UserRepository.Update(user);
-			//UnitOfWork.Save();
-
-			//return View("Message", new MessageModel() { Title = "Félicitation, " + user.CompleteName, Content = "Votre compte est maintenant activé! Vous pouvez maintenant vous connecter et réserver une place.", Type = AuthMessageType.Success });
-
-			throw new NotImplementedException();
+				if (result.Succeeded)
+				{
+					return View("Message", new MessageModel() { Title = "Félicitation, " + user.CompleteName, Content = "Votre compte est activé! Vous pouvez maintenant vous connecter et réserver une place.", Type = AuthMessageType.Success });
+				}
+			}
+			catch(InvalidOperationException) { }
+			return View("Message", new MessageModel() { Title = "Une erreur est survenue", Content = "Ce lien n'est pas valide. Si vous continuez de voir cette erreur, contactez un administrateur.", Type = AuthMessageType.Error });
 		}
 
 		internal class ChallengeResult : HttpUnauthorizedResult
