@@ -8,6 +8,11 @@ namespace LanAdeptAdmin.Controllers
 		[LanAuthorize]
 		public ActionResult Index()
 		{
+			if(Request.IsLocal)
+				ViewBag.UrlSite = "http://localhost/";
+			else
+				ViewBag.UrlSite = "http://lanadept.com/";
+
 			return View();
 		}
 	}
