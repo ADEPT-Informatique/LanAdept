@@ -8,14 +8,15 @@
         <img src="~/Image/LOGO_noir_Transparent.png" class="img-responsive center-block home-image" alt="LAN de l'ADEPT" />
     </div>
 
-    <h2 class="text-success text-center messageStart" style="display:none">
-        Le LAN est maintenant commencé. Bon LAN!
-    </h2>
+	<div id="messageInfo">
+		<h2 class="text-success text-center messageStart" style="display:none">
+			Le LAN est maintenant commencé. Bon LAN!
+		</h2>
 
-    <h2 class="text-success text-center messageEnd" style="display:none">
-        Le LAN est terminé. À la prochaine!
-    </h2>
-
+		<h2 class="text-success text-center messageEnd" style="display:none">
+			Le LAN est terminé. À la prochaine!
+		</h2>
+	</div>
 
     <div class="text-center">
         <p id="date">@ViewBag.dateLanHuman.ToString("dddd", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA")) @ViewBag.dateLanHuman.ToString("f", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA"))</p>
