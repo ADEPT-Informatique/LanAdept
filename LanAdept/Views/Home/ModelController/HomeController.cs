@@ -19,6 +19,7 @@ namespace LanAdept.Controllers
 		public ActionResult Index()
 		{
 			ViewBag.PlacesReservee = uow.PlaceRepository.Get().Count(x => !x.IsFree);
+			ViewBag.PlacesTotal = uow.PlaceRepository.Get().Count();
 
 			Setting setting = uow.SettingRepository.GetCurrentSettings();
 			
