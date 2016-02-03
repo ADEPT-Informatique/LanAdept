@@ -24,7 +24,8 @@
             </div>
 
             <button type="submit" class="btn btn-primary btn-block">Se connecter</button>
-    }
+			@Html.AuthorizeActionLink("S'inscrire", "Register", "Auth", null, new { @class = "btn btn-primary btn-block", @role = "button" })
+	}
     <hr />
     @{
         var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
