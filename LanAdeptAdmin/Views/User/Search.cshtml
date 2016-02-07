@@ -11,18 +11,7 @@
 <h2>Rechercher un utilisateur</h2>
 <hr />
 
-@if (!string.IsNullOrWhiteSpace(TempData["Error"] as string))
-{
-	<div class="alert alert-danger" role="alert">
-		@Html.Raw(TempData["Error"])
-	</div>
-}
-@if (!string.IsNullOrWhiteSpace(TempData["Success"] as string))
-{
-	<div class="alert alert-success" role="alert">
-		@Html.Raw(TempData["Success"])
-	</div>
-}
+@Html.ShowMessage()
 
 <div class="form-horizontal">
 	@using (Html.BeginForm("Search", "User", FormMethod.Get))

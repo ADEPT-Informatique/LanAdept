@@ -9,18 +9,7 @@
     <h2>Liste des places</h2>
 </div>
 
-@if (!string.IsNullOrWhiteSpace(TempData["Error"] as string))
-{
-    <div class="alert alert-danger" role="alert">
-        @Html.Raw(TempData["Error"])
-    </div>
-}
-@if (!string.IsNullOrWhiteSpace(TempData["Success"] as string))
-{
-    <div class="alert alert-success" role="alert">
-        @Html.Raw(TempData["Success"])
-    </div>
-}
+@Html.ShowMessage()
 
 
 @foreach (Map map in Model.Maps)

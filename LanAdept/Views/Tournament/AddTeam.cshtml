@@ -78,7 +78,6 @@
 					url: "@Url.Action("AddGamerTag")",
 					data: { gamertag: $('#gamerTagText').val() }
 				}).done(function (data) {
-					console.log(data);
 					if (!data.HasError) {
 						var element = $('<a href="#" class="tagItem list-group-item" data-tag-id="' + data.GamerTagID + '">' + data.Gamertag + '</a>')
 						$('#listGamerTag').append(element);

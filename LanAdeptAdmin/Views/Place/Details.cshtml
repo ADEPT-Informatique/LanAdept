@@ -38,24 +38,7 @@
 
 @Html.Partial("ModalConfirmerAdminAction")
 
-@if (!string.IsNullOrWhiteSpace(TempData["Error"] as string))
-{
-	<div class="alert alert-danger" role="alert">
-		@Html.Raw(TempData["Error"])
-	</div>
-}
-@if (!string.IsNullOrWhiteSpace(TempData["Success"] as string))
-{
-	<div class="alert alert-success" role="alert">
-		@Html.Raw(TempData["Success"])
-	</div>
-}
-@if (!string.IsNullOrWhiteSpace(TempData["Warning"] as string))
-{
-	<div class="alert alert-warning" role="alert">
-		@Html.Raw(TempData["Warning"])
-	</div>
-}
+@Html.ShowMessage()
 
 <h2>
 	<span class="label @classeEtat">@messageEtat</span> Place @Model

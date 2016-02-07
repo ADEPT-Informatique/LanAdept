@@ -10,18 +10,7 @@
 
 <div>
 
-	@if (!string.IsNullOrWhiteSpace(TempData["Error"] as string))
-	{
-		<div class="alert alert-danger" role="alert">
-			@Html.Raw(TempData["Error"])
-		</div>
-	}
-	@if (!string.IsNullOrWhiteSpace(TempData["Success"] as string))
-	{
-		<div class="alert alert-success" role="alert">
-			@Html.Raw(TempData["Success"])
-		</div>
-	}
+	@Html.ShowMessage()
 
 	@if (Model.IsOver)
 	{
@@ -199,7 +188,6 @@
 					url: "@Url.Action("AddGamerTag")",
 					data: { gamertag: $('#gamerTagText').val() }
 				}).done(function (data) {
-					console.log(data);
 					if (!data.HasError) {
 						var element = $('<a href="#" class="tagItem list-group-item" data-tag-id="' + data.GamerTagID + '">' + data.Gamertag + '</a>')
 						$('#listGamerTag').append(element);
