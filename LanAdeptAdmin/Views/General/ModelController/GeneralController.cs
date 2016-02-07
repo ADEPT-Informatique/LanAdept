@@ -11,8 +11,6 @@ using LanAdeptCore.Attribute.Authorization;
 
 namespace LanAdeptAdmin.Controllers
 {
-	//TODO: Autorisation plus précise
-	[LanAuthorize]
 	public class GeneralController : Controller
 	{
 		private UnitOfWork uow
@@ -20,12 +18,13 @@ namespace LanAdeptAdmin.Controllers
 			get { return UnitOfWork.Current; }
 		}
 
-		[Authorize(Roles = "admin")]
+		[Authorize(Roles = "generalAdmin")]
 		public ActionResult Index()
 		{
 			return RedirectToAction("Settings");
 		}
 
+		[Authorize(Roles = "generalAdmin")]
 		public ActionResult Settings()
 		{
 			Setting settings = uow.SettingRepository.GetCurrentSettings();
@@ -35,6 +34,7 @@ namespace LanAdeptAdmin.Controllers
 		}
 
 		[HttpPost]
+		[Authorize(Roles = "generalAdmin")]
 		public ActionResult Settings(SettingsModel model)
 		{
 			if (ModelState.IsValid)
@@ -54,6 +54,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(model);
 		}
 
+		[Authorize(Roles = "generalAdmin")]
 		public ActionResult Rules()
 		{
 			Setting settings = uow.SettingRepository.GetCurrentSettings();
@@ -64,6 +65,7 @@ namespace LanAdeptAdmin.Controllers
 		}
 
 		[HttpPost]
+		[Authorize(Roles = "generalAdmin")]
 		public ActionResult Rules(RulesModel model)
 		{
 			if (ModelState.IsValid)
@@ -80,6 +82,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(model);
 		}
 
+		[Authorize(Roles = "generalAdmin")]
 		public ActionResult Description()
 		{
 			Setting settings = uow.SettingRepository.GetCurrentSettings();
@@ -90,6 +93,7 @@ namespace LanAdeptAdmin.Controllers
 		}
 
 		[HttpPost]
+		[Authorize(Roles = "generalAdmin")]
 		public ActionResult Description(DescriptionModel model)
 		{
 			if (ModelState.IsValid)
@@ -106,6 +110,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(model);
 		}
 
+		[Authorize(Roles = "generalAdmin")]
 		public ActionResult RememberEmail()
 		{
 			Setting settings = uow.SettingRepository.GetCurrentSettings();
@@ -116,6 +121,7 @@ namespace LanAdeptAdmin.Controllers
 		}
 
 		[HttpPost]
+		[Authorize(Roles = "generalAdmin")]
 		public ActionResult RememberEmail(RememberEmailModel model)
 		{
 			if (ModelState.IsValid)

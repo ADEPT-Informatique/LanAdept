@@ -41,9 +41,6 @@
 				<th>
 					@Html.ActionLink("Email", "Index", new { sortOrder = ViewBag.EmailSortParm })
 				</th>
-				<th>
-					@Html.ActionLink("Rôle", "Index", new { sortOrder = ViewBag.RoleSortParm })
-				</th>
 				<th class="text-center">
 					@Html.ActionLink("Place", "Index", new { sortOrder = ViewBag.PlaceSortParm })
 				</th>
@@ -59,10 +56,6 @@
 					</td>
 					<td>
 						@user.Email
-					</td>
-					<td>
-						@*@Html.DisplayFor(modelItem => user.Role.Name)*@
-                        TODO
 					</td>
 					<td class="text-center">
 						@if (LanAdeptCore.Service.ReservationService.HasUserPlace(user))

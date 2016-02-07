@@ -8,7 +8,7 @@
 <h2>
 	Détails - @Model.CompleteName
 	<div class="pull-right">
-		@Html.ActionLink("Modifier", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })
+		@Html.TextIconActionLink("Modifier", "glyphicon-pencil", "Edit", null, new { id = Model.Id }, new { @class = "btn btn-primary" })
 	</div>
 
 </h2>
@@ -28,7 +28,7 @@
 }
 
 <div>
-	<dl class="dl-horizontal">
+	<dl class="dl-horizontal clearfix">
 
 		<dt>
 			Nom complet

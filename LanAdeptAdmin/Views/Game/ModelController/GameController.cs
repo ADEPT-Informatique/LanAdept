@@ -12,8 +12,6 @@ using LanAdeptCore.Attribute.Authorization;
 
 namespace LanAdeptAdmin.Controllers
 {
-	//TODO: Autorisation plus précise
-	[LanAuthorize]
 	public class GameController : Controller
 	{
 		private UnitOfWork uow
@@ -21,6 +19,7 @@ namespace LanAdeptAdmin.Controllers
 			get { return UnitOfWork.Current; }
 		}
 
+		[LanAuthorize(Roles = "tournamentAdmin")]
 		public ActionResult Index()
 		{
 			List<GameModel> gameModels = new List<GameModel>();
@@ -32,6 +31,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(gameModels);
 		}
 
+		[LanAuthorize(Roles = "tournamentAdmin")]
 		public ActionResult Create()
 		{
 			return View();
@@ -39,6 +39,7 @@ namespace LanAdeptAdmin.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[LanAuthorize(Roles = "tournamentAdmin")]
 		public ActionResult Create([Bind(Include = "GameID, Name, Description")] GameModel gameModel)
 		{
 			if (ModelState.IsValid)
@@ -56,6 +57,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(gameModel);
 		}
 
+		[LanAuthorize(Roles = "tournamentAdmin")]
 		public ActionResult Edit(int? id)
 		{
 			if (id == null)
@@ -74,6 +76,7 @@ namespace LanAdeptAdmin.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[LanAuthorize(Roles = "tournamentAdmin")]
 		public ActionResult Edit([Bind(Include = "GameID, Name, Description")] GameModel gameModel)
 		{
 			if (ModelState.IsValid)
@@ -90,6 +93,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(gameModel);
 		}
 
+		[LanAuthorize(Roles = "tournamentAdmin")]
 		public ActionResult Delete(int? id)
 		{
 			if (id == null)
@@ -106,6 +110,7 @@ namespace LanAdeptAdmin.Controllers
 
 		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
+		[LanAuthorize(Roles = "tournamentAdmin")]
 		public ActionResult DeleteConfirmed(int id)
 		{
 			Game game = uow.GameRepository.GetByID(id);

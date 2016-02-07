@@ -14,8 +14,6 @@ using LanAdeptCore.Attribute.Authorization;
 
 namespace LanAdeptAdmin.Views
 {
-	//TODO: Autorisation plus précise
-	[LanAuthorize]
 	public class TournamentsController : Controller
 	{
 		private UnitOfWork uow
@@ -23,6 +21,7 @@ namespace LanAdeptAdmin.Views
 			get { return UnitOfWork.Current; }
 		}
 
+		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
 		public ActionResult Index()
 		{
 			List<TournamentModel> tournamentModelList = new List<TournamentModel>();
@@ -34,6 +33,7 @@ namespace LanAdeptAdmin.Views
 			return View(tournamentModelList);
 		}
 
+		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
 		public ActionResult Details(int? id)
 		{
 			if (id == null)
@@ -49,6 +49,7 @@ namespace LanAdeptAdmin.Views
 			return View(new TournamentModel(tournament));
 		}
 
+		[LanAuthorize(Roles = "tournamentAdmin")]
 		public ActionResult Create()
 		{
 			ViewBag.GameID = new SelectList(uow.GameRepository.Get(), "GameID", "Name");
@@ -57,6 +58,7 @@ namespace LanAdeptAdmin.Views
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[LanAuthorize(Roles = "tournamentAdmin")]
 		public ActionResult Create([Bind(Include = "GameID, StartTime,MaxPlayerPerTeam")] TournamentModel tournamentModel)
 		{
 			if (ModelState.IsValid)
@@ -77,6 +79,7 @@ namespace LanAdeptAdmin.Views
 			return View(tournamentModel);
 		}
 
+		[LanAuthorize(Roles = "tournamentAdmin")]
 		public ActionResult Edit(int? id)
 		{
 			if (id == null)
@@ -94,6 +97,7 @@ namespace LanAdeptAdmin.Views
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[LanAuthorize(Roles = "tournamentAdmin")]
 		public ActionResult Edit([Bind(Include = "MaxPlayerPerTeam, StartTime, Id, IsStarted, IsOver, Info")] TournamentModel tournamentModel)
 		{
 			if (ModelState.IsValid)
@@ -114,6 +118,7 @@ namespace LanAdeptAdmin.Views
 			return View(tournamentModel);
 		}
 
+		[LanAuthorize(Roles = "tournamentAdmin")]
 		public ActionResult Delete(int? id)
 		{
 			if (id == null)
@@ -130,6 +135,7 @@ namespace LanAdeptAdmin.Views
 
 		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
+		[LanAuthorize(Roles = "tournamentAdmin")]
 		public ActionResult DeleteConfirmed(int id)
 		{
 			Tournament tournament = uow.TournamentRepository.GetByID(id);
@@ -146,6 +152,7 @@ namespace LanAdeptAdmin.Views
 			return RedirectToAction("Index");
 		}
 
+		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
 		public ActionResult DeleteTeam(int? id)
 		{
 			if (id == null)
@@ -162,6 +169,7 @@ namespace LanAdeptAdmin.Views
 
 		[HttpPost, ActionName("DeleteTeam")]
 		[ValidateAntiForgeryToken]
+		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
 		public ActionResult DeleteTeamConfirmed(int id)
 		{
 			Team team = uow.TeamRepository.GetByID(id);
@@ -186,6 +194,7 @@ namespace LanAdeptAdmin.Views
 			return RedirectToAction("Details", new { id = tournamentID });
 		}
 
+		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
 		public ActionResult DetailsTeam(int? id)
 		{
 			if (id == null)
@@ -200,6 +209,7 @@ namespace LanAdeptAdmin.Views
 			return View(team);
 		}
 
+		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
 		public ActionResult KickPlayer(int? gamerTagId, int? teamId)
 		{
 			GamerTag gamerTag = uow.GamerTagRepository.GetByID(gamerTagId);
@@ -222,6 +232,7 @@ namespace LanAdeptAdmin.Views
 			return RedirectToAction("DetailsTeam", new { id = teamId });
 		}
 
+		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
 		public ActionResult EditTeam(int? teamId)
 		{
 			if (teamId == null)
@@ -238,6 +249,7 @@ namespace LanAdeptAdmin.Views
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
 		public ActionResult EditTeam([Bind(Include = "TeamId,Name,Tag,StartTime,IsConfirmed")] TeamModel teamModel)
 		{
 			if (ModelState.IsValid)
@@ -256,6 +268,7 @@ namespace LanAdeptAdmin.Views
 			return View(teamModel);
 		}
 
+		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
 		public ActionResult Start(int? id)
 		{
 			if(id == null)
@@ -277,6 +290,7 @@ namespace LanAdeptAdmin.Views
 			return RedirectToAction("Details", new { id = id });
 		}
 
+		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
 		public ActionResult Stop(int? id)
 		{
 			if (id == null)
@@ -298,6 +312,7 @@ namespace LanAdeptAdmin.Views
 			return RedirectToAction("Details", new { id = id });
 		}
 
+		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
 		public ActionResult CancelStart(int? id)
 		{
 			if (id == null)
@@ -319,7 +334,8 @@ namespace LanAdeptAdmin.Views
 			return RedirectToAction("Details", new { id = id });
 		}
 
-        public ActionResult TeamReady(int? id)
+		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
+		public ActionResult TeamReady(int? id)
         {
             if (id == null)
             {
@@ -338,7 +354,8 @@ namespace LanAdeptAdmin.Views
 			return RedirectToAction("DetailsTeam", new { id = team.TeamID });
         }
 
-        public ActionResult TeamNotReady(int? id)
+		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
+		public ActionResult TeamNotReady(int? id)
         {
             if (id == null)
             {

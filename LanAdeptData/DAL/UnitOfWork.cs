@@ -57,18 +57,6 @@ namespace LanAdeptData.DAL
 			}
 		}
 
-		private PermissionRepository permissionRepository;
-		public PermissionRepository PermissionRepository
-		{
-			get
-			{
-				if (permissionRepository == null)
-					permissionRepository = new PermissionRepository(context);
-
-				return permissionRepository;
-			}
-		}
-
 		private PlaceRepository placeRepository;
 		public PlaceRepository PlaceRepository
 		{

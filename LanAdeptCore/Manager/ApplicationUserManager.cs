@@ -57,14 +57,10 @@ namespace LanAdeptCore.Manager
 				BodyFormat = "Votre code de sécurité est {0}"
 			});
 
-			//manager.EmailService = new EmailService();
-			//manager.SmsService = new SmsService();
-
 			var dataProtectionProvider = options.DataProtectionProvider;
 			if (dataProtectionProvider != null)
 			{
-				manager.UserTokenProvider =
-					new DataProtectorTokenProvider<User>(dataProtectionProvider.Create("ASP.NET Identity"));
+				manager.UserTokenProvider = new DataProtectorTokenProvider<User>(dataProtectionProvider.Create("ASP.NET Identity"));
 			}
 			return manager;
 		}

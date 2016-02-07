@@ -21,7 +21,6 @@ namespace LanAdeptData.DAL
 		{ }
 
 		public DbSet<Guest> Guests { get; set; }
-		public DbSet<Permission> Permissions { get; set; }
 		public DbSet<Place> Places { get; set; }
 		public DbSet<PlaceSection> PlaceSections { get; set; }
 		public DbSet<Reservation> Reservations { get; set; }

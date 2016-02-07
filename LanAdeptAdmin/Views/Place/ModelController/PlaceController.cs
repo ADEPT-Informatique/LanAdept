@@ -14,8 +14,6 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace LanAdeptAdmin.Controllers
 {
-	//TODO: Autorisation plus précise
-	[LanAuthorize]
 	public class PlaceController : Controller
 	{
 		private const string ERROR_INVALID_ID = "Désolé, une erreur est survenue. Merci de réessayer dans quelques instants";
@@ -27,11 +25,13 @@ namespace LanAdeptAdmin.Controllers
 			get { return UnitOfWork.Current; }
 		}
 
+		[LanAuthorize(Roles = "placeAdmin")]
 		public ActionResult Index()
 		{
 			return RedirectToAction("Liste");
 		}
 
+		[LanAuthorize(Roles = "placeAdmin")]
 		public ActionResult Liste()
 		{
 			ListeModel listeModel = new ListeModel();
@@ -41,6 +41,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(listeModel);
 		}
 
+		[LanAuthorize(Roles = "placeAdmin")]
 		public ActionResult Details(int? id, string sortOrder, string searchString, string currentFilter, int? page)
 		{
 			if (id == null || id < 1)
@@ -101,6 +102,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(place);
 		}
 
+		[LanAuthorize(Roles = "placeAdmin")]
 		public ActionResult Search(SearchModel model)
 		{
 			if (ModelState.IsValid && model.Query != null)
@@ -138,7 +140,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(model);
 		}
 
-
+		[LanAuthorize(Roles = "placeAdmin")]
 		public ActionResult Reserve(int? id)
 		{
 			if (id == null || id < 1)
@@ -187,6 +189,7 @@ namespace LanAdeptAdmin.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]  //Le code de cette action est affreux
+		[LanAuthorize(Roles = "placeAdmin")]
 		public ActionResult Reserve([Bind(Include = "PlaceID,UserID,IsGuest,Place,FullNameNoAccount")] ReserveModel model)
 		{
 			if (model.PlaceID < 1)
@@ -263,6 +266,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(model);
 		}
 
+		[LanAuthorize(Roles = "placeAdmin")]
 		public ActionResult Cancel(int? id)
 		{
 			if (id == null || id < 1)
@@ -295,7 +299,7 @@ namespace LanAdeptAdmin.Controllers
 			return RedirectToAction("Details", new { id = currentPlace.PlaceID });
 		}
 
-
+		[LanAuthorize(Roles = "placeAdmin")]
 		public ActionResult Arriving(int? id)
 		{
 			if (id == null || id < 1)
@@ -330,6 +334,7 @@ namespace LanAdeptAdmin.Controllers
 			return RedirectToAction("Details", new { id = currentPlace.PlaceID });
 		}
 
+		[LanAuthorize(Roles = "placeAdmin")]
 		public ActionResult Leaving(int? id)
 		{
 			if (id == null || id < 1)
@@ -366,13 +371,13 @@ namespace LanAdeptAdmin.Controllers
 
 #if DEBUG
 
-		[LanAuthorize]
+		[LanAuthorize(Roles = "placeAdmin")]
 		public ActionResult Reset()
 		{
 			return View();
 		}
 
-		[LanAuthorize]
+		[LanAuthorize(Roles = "placeAdmin")]
 		public ActionResult DoReset()
 		{
 			IEnumerable<Reservation> reservations = uow.ReservationRepository.Get();

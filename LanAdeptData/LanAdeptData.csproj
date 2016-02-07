@@ -133,7 +133,6 @@
     <Compile Include="DAL\Tournaments\TeamRepository.cs" />
     <Compile Include="DAL\Tournaments\TournamentRepository.cs" />
     <Compile Include="DAL\Users\GuestRepository.cs" />
-    <Compile Include="DAL\Users\PermissionRepository.cs" />
     <Compile Include="DAL\Users\RoleRepository.cs" />
     <Compile Include="DAL\Users\UserRepository.cs" />
     <Compile Include="Model\Demande.cs" />
@@ -142,7 +141,6 @@
     <Compile Include="Model\Guest.cs" />
     <Compile Include="Model\LoginHistory.cs" />
     <Compile Include="Model\Map.cs" />
-    <Compile Include="Model\Permission.cs" />
     <Compile Include="Model\Place.cs" />
     <Compile Include="Model\Reservation.cs" />
     <Compile Include="Model\PlaceSection.cs" />

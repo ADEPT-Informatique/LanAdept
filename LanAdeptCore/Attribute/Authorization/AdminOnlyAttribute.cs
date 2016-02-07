@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace LanAdeptCore.Attribute.Authorization
 {
@@ -30,17 +31,26 @@ namespace LanAdeptCore.Attribute.Authorization
 				throw new ArgumentNullException("httpContext");
 			}
 
-			//If the user is not logged in, we let him in (He will have to be redirected to the login page anyways)
-			IPrincipal user = httpContext.User;
-			if (!user.Identity.IsAuthenticated)
-			{
-				return true;
-			}
-
 			if (!base.AuthorizeCore(httpContext))
 				return false;
 
-			return httpContext.User.IsInRole("admin");
+			return httpContext.User.IsInRole("owner") || httpContext.User.IsInRole("admin");
+		}
+
+		protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
+		{
+			if (filterContext.HttpContext.Request.IsAuthenticated)
+			{
+				filterContext.Result = new RedirectToRouteResult(
+								   new RouteValueDictionary
+								   {
+									   { "action", "silentLogout" },
+									   { "controller", "Auth" }
+								   });
+			}
+
+			//else do normal process
+			base.HandleUnauthorizedRequest(filterContext);
 		}
 	}
 }

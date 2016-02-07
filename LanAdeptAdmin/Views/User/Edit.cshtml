@@ -6,48 +6,87 @@
 }
 
 <h2>Modifier un utilisateur</h2>
+<hr />
 
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>User</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.UserID)
+	@Html.AntiForgeryToken()
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @readonly="readonly" } })
-            </div>
-        </div>
+	<div class="form-horizontal">
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+		@Html.HiddenFor(model => model.UserID)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.CompleteName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.CompleteName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CompleteName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.RoleID, "RoleID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-				@Html.DropDownListFor(m => m.RoleID, Model.RoleList, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.RoleID, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
-        <div class="form-group">
-			<div class="col-md-push-2 col-md-6">
-				<input type="submit" value="Enregistrer" class="btn btn-primary pull-right" />
+		<div class="form-group">
+			@Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-8 col-lg-6">
+				@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
 			</div>
-        </div>
-    </div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.CompleteName, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-8 col-lg-6">
+				@Html.EditorFor(model => model.CompleteName, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.CompleteName, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="control-label col-md-2">Permissions</div>
+			<div class="col-md-8 col-lg-6 role-list">
+				<div class="row">
+					@for (int i = 0; i < Model.Roles.Count; i++)
+					{
+						@Html.HiddenFor(model => model.Roles[i].RoleId)
+						@Html.HiddenFor(model => model.Roles[i].DisplayName)
+						@Html.HiddenFor(model => model.Roles[i].Description)
+						<label class="col-xs-12 col-md-6 col-lg-4" data-toggle="tooltip" data-placement="top" data-title="<strong>@Model.Roles[i].DisplayName</strong><p>@Model.Roles[i].Description</p>">
+							@Html.EditorFor(model => model.Roles[i].UserInRole) @Model.Roles[i].DisplayName
+						</label>
+					}
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-push-2 col-md-6 text-right">
+				@Html.IconActionLink("glyphicon-arrow-left", "Details", null, new { id = Model.UserID }, new { @class = "btn btn-default" })
+				<button type="submit" class="btn btn-primary">
+					<span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer
+				</button>
+			</div>
+		</div>
+	</div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+@section Styles {
+	<style>
+		.role-list {
+			padding-top: 4px;
+		}
+
+			.role-list label {
+				font-weight: normal;
+				margin: 4px 0;
+				line-height: 30px;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+
+			.role-list input {
+				margin-right: 7px;
+				margin-left: 7px;
+			}
+	</style>
+}
+@section Scripts {
+	<script>
+		$(function () {
+			$('[data-toggle="tooltip"]').tooltip({
+				html: true,
+				trigger: 'hover'
+			});
+		});
+	</script>
+}

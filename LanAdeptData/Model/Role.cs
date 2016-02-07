@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,20 +7,15 @@ using System.Threading.Tasks;
 
 namespace LanAdeptData.Model
 {
-	public class Role
+	public class Role : IdentityRole
 	{
-		public int RoleID { get; set; }
+		public Role() : base() { }
+		public Role(string name) : base(name) { }
 
-		public string Name { get; set; }
+		public string DisplayName { get; set; }
 
-		public int PermissionLevel { get; set; }
+		public string Description { get; set; }
 
-		public bool IsReadOnly { get; set; }
-
-		public bool IsDefaultRole { get; set; }
-
-		public bool IsOwnerRole { get; set; }
-
-		public bool IsUnconfirmedRole { get; set; }
+		public bool HideRole { get; set; }
 	}
 }
