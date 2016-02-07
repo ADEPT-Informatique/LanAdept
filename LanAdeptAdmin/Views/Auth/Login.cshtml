@@ -1,27 +1,52 @@
 ﻿@model LanAdept.Views.Auth.ModelController.LoginModel
+@using Microsoft.Owin.Security
 @{
 	ViewBag.Title = "Se connecter";
 	ViewBag.HideMenu = true;
 }
 
-@using (Html.BeginForm("Login", "Auth", FormMethod.Post, new { @class = "form-login" }))
-{
-	<h2 class="form-login-heading">Connexion</h2>
-	@Html.AntiForgeryToken()
+<div class="form-login">
+	@using (Html.BeginForm("Login", "Auth", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
+	{
+		<h2 class="form-login-heading">Connexion</h2>
+		@Html.AntiForgeryToken()
 
-	@Html.ValidationSummary("", new { @class = "text-danger" })
+		@Html.ValidationSummary("", new { @class = "text-danger" })
 
-	@Html.LabelFor(model => model.Email, new { @class = "sr-only" })
-	@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", autofocus = true, placeholder = Html.NameFor(m2 => m2.Email) } })
+		@Html.LabelFor(model => model.Email, new { @class = "sr-only" })
+		@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", autofocus = true, placeholder = Html.NameFor(m2 => m2.Email) } })
 
-	@Html.LabelFor(model => model.Password, new { @class = "sr-only" })
-	@Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = Html.NameFor(m2 => m2.Password) } })
+		@Html.LabelFor(model => model.Password, new { @class = "sr-only" })
+		@Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = Html.NameFor(m2 => m2.Password) } })
 
-	@Html.HiddenFor(model => model.ReturnURL)
+		@Html.HiddenFor(model => model.ReturnURL)
 
-	<button type="submit" class="btn btn-primary btn-block">Se connecter</button>
+		<button type="submit" class="btn btn-primary btn-block">Se connecter</button>
 
-}
+	}
+	<hr />
+	@{
+		var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
+		if (loginProviders.Count() > 0)
+		{
+			using (Html.BeginForm("ExternalLogin", "Auth", new { ReturnUrl = ViewBag.ReturnUrl }))
+			{
+				@Html.AntiForgeryToken()
+				<div id="socialLoginList">
+					<p>
+						@foreach (AuthenticationDescription p in loginProviders)
+					{
+							<button class="btn btn-block btn-social btn-@p.AuthenticationType.ToLower()" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Connexion avec votre compte @p.Caption">
+								<span class="fa fa-@p.AuthenticationType.ToLower()"></span> Se connecter avec @p.AuthenticationType
+							</button>
+					}
+					</p>
+				</div>
+			}
+
+		}
+	}
+</div>
 
 @section Styles {
 	<link href="@Url.Content("~/Content/login.css")" rel="stylesheet" type="text/css" />

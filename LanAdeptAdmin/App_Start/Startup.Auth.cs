@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using System;
@@ -49,9 +50,14 @@ namespace LanAdeptAdmin
 
 #if DEBUG
 
-			app.UseFacebookAuthentication(
-			   appId: "108482432869073",
-			   appSecret: "9c53519dfb270275528207a135701c60");
+			var facebookAuthenticationOptions = new FacebookAuthenticationOptions()
+			{
+				AppId = "108482432869073",
+				AppSecret = "9c53519dfb270275528207a135701c60"
+			};
+
+			facebookAuthenticationOptions.Scope.Add("email");
+			app.UseFacebookAuthentication(facebookAuthenticationOptions);
 
 			app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
 			{
@@ -61,9 +67,15 @@ namespace LanAdeptAdmin
 
 #else
 
-			app.UseFacebookAuthentication(
-			   appId: "108479299536053",
-			   appSecret: "f22dc9d817e355d8ef619e9bb6c9c138");
+			var facebookAuthenticationOptions = new FacebookAuthenticationOptions()
+			{
+			   AppId = "108479299536053",
+			   AppSecret = "f22dc9d817e355d8ef619e9bb6c9c138"
+			};
+
+			facebookAuthenticationOptions.Scope.Add("email");
+			app.UseFacebookAuthentication(facebookAuthenticationOptions);
+
 
 			app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
 			{

@@ -48,9 +48,6 @@ namespace LanAdeptCore.Attribute.Authorization
 									   { "controller", "Auth" }
 								   });
 			}
-
-			//else do normal process
-			base.HandleUnauthorizedRequest(filterContext);
 		}
 	}
 }
