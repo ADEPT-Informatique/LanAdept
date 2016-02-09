@@ -13,6 +13,7 @@ using LanAdeptData.DAL;
 using System.Linq;
 using System.Security.Claims;
 using LanAdept.Emails;
+using LanAdeptData.Model.Users;
 
 namespace LanAdept.Controllers
 {

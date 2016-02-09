@@ -5,6 +5,7 @@ using LanAdeptData.DAL;
 using LanAdeptData.Model;
 using Microsoft.AspNet.Identity.Owin;
 using System.Web;
+using LanAdeptData.Model.Settings;
 
 namespace LanAdept.Controllers
 {

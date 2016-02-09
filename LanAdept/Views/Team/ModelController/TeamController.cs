@@ -11,6 +11,8 @@ using System.Web;
 using System.Web.Mvc;
 using LanAdept.Views.Teams.ModelController;
 using Microsoft.AspNet.Identity.Owin;
+using LanAdeptData.Model.Users;
+using LanAdeptData.Model.Tournaments;
 
 namespace LanAdept.Controllers
 {

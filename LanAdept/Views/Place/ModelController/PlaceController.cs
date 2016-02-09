@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using LanAdept.Views.Place.ModelController;
+using LanAdept.Views.Places.ModelController;
 using LanAdeptCore.Service;
 using LanAdeptCore.Service.ServiceResult;
 using LanAdeptData.DAL;
@@ -16,6 +16,9 @@ using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using Microsoft.AspNet.Identity.Owin;
 using LanAdeptCore.Attribute.Authorization;
+using LanAdeptData.Model.Settings;
+using LanAdeptData.Model.Places;
+using LanAdeptData.Model.Maps;
 
 namespace LanAdept.Controllers
 {

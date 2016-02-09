@@ -4,6 +4,7 @@ using LanAdeptData.DAL.Generic;
 using LanAdeptData.Model;
 using System.Web;
 using Microsoft.AspNet.Identity.Owin;
+using LanAdeptData.Model.Settings;
 
 namespace LanAdeptData.DAL.Settings
 {

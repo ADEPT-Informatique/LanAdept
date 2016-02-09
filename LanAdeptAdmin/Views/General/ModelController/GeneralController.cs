@@ -8,6 +8,7 @@ using LanAdeptData.DAL;
 using LanAdeptData.Model;
 using Microsoft.AspNet.Identity.Owin;
 using LanAdeptCore.Attribute.Authorization;
+using LanAdeptData.Model.Settings;
 
 namespace LanAdeptAdmin.Controllers
 {

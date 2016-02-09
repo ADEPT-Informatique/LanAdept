@@ -12,6 +12,8 @@ using LanAdeptData.Model;
 using Microsoft.AspNet.Identity.Owin;
 using LanAdeptCore.Manager;
 using Microsoft.AspNet.Identity;
+using LanAdeptData.Model.Users;
+using LanAdeptData.Model.Tournaments;
 
 namespace LanAdeptCore.Service
 {

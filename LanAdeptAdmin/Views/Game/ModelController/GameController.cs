@@ -1,4 +1,4 @@
-﻿using LanAdeptAdmin.Views.Game.ModelController;
+﻿using LanAdeptAdmin.Views.Games.ModelController;
 using LanAdeptData.DAL;
 using LanAdeptData.Model;
 using System;
@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
 using LanAdeptCore.Attribute.Authorization;
+using LanAdeptData.Model.Tournaments;
 
 namespace LanAdeptAdmin.Controllers
 {
@@ -23,8 +24,8 @@ namespace LanAdeptAdmin.Controllers
 		public ActionResult Index()
 		{
 			List<GameModel> gameModels = new List<GameModel>();
-			IEnumerable<LanAdeptData.Model.Game> games = uow.GameRepository.Get();
-			foreach (LanAdeptData.Model.Game game in games)
+			IEnumerable<Game> games = uow.GameRepository.Get();
+			foreach (Game game in games)
 			{
 				gameModels.Add(new GameModel(game));
 			}
@@ -44,7 +45,7 @@ namespace LanAdeptAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				LanAdeptData.Model.Game game = new LanAdeptData.Model.Game();
+				Game game = new Game();
 
 				game.GameID = gameModel.GameID;
 				game.Name = gameModel.Name;
@@ -81,7 +82,7 @@ namespace LanAdeptAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				LanAdeptData.Model.Game game = new LanAdeptData.Model.Game();
+				Game game = new Game();
 
 				game.GameID = gameModel.GameID;
 				game.Name = gameModel.Name;

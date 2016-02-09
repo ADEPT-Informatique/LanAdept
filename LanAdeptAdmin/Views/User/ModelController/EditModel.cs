@@ -12,6 +12,7 @@ using LanAdeptCore.Manager;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using LanAdeptData.DAL;
+using LanAdeptData.Model.Users;
 
 namespace LanAdeptAdmin.Views.Users.ModelController
 {

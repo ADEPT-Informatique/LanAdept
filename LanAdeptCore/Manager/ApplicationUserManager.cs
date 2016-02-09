@@ -1,5 +1,6 @@
 ﻿using LanAdeptData.DAL;
 using LanAdeptData.Model;
+using LanAdeptData.Model.Users;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;

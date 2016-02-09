@@ -8,6 +8,7 @@ using LanAdeptData.DAL;
 using LanAdeptData.Model;
 using System.Web;
 using Microsoft.AspNet.Identity.Owin;
+using LanAdeptData.Model.Users;
 
 namespace LanAdeptData.Validation
 {

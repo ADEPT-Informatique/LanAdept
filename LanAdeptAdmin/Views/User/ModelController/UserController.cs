@@ -13,6 +13,7 @@ using LanAdeptData.Model;
 using PagedList;
 using Microsoft.AspNet.Identity.Owin;
 using LanAdeptCore.Manager;
+using LanAdeptData.Model.Users;
 
 namespace LanAdeptAdmin.Controllers
 {

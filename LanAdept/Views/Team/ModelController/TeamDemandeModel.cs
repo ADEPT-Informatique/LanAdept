@@ -1,4 +1,5 @@
 ﻿using LanAdeptData.Model;
+using LanAdeptData.Model.Tournaments;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,6 @@ namespace LanAdept.Views.Teams.ModelController
 	{
 		public List<Demande> Demandes { get; set; }
 
-		public LanAdeptData.Model.Team Team { get; set; }
+		public Team Team { get; set; }
 	}
 }

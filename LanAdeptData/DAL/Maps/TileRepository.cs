@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LanAdeptData.DAL.Generic;
 using LanAdeptData.Model;
+using LanAdeptData.Model.Maps;
 
 namespace LanAdeptData.DAL.Maps
 {

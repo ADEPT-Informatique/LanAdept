@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using LanAdeptData.Model;
+using LanAdeptData.Model.Settings;
 
 namespace LanAdeptAdmin.Views.General.ModelController
 {

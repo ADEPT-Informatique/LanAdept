@@ -11,6 +11,8 @@ using LanAdept.Views.Tournaments.ModelController;
 using System;
 using Microsoft.AspNet.Identity.Owin;
 using System.Web;
+using LanAdeptData.Model.Users;
+using LanAdeptData.Model.Tournaments;
 
 namespace LanAdept.Controllers
 {
@@ -141,7 +143,7 @@ namespace LanAdept.Controllers
 
 		public ActionResult Addteam(int id)
 		{
-			LanAdeptData.Model.Tournament tournament = uow.TournamentRepository.GetByID(id);
+			Tournament tournament = uow.TournamentRepository.GetByID(id);
 
 			if (tournament.IsStarted || tournament.IsOver)
 			{
@@ -151,7 +153,7 @@ namespace LanAdept.Controllers
 
 			User loggedInUser = UserService.GetLoggedInUser();
 
-			foreach (LanAdeptData.Model.Team team in tournament.Teams)
+			foreach (Team team in tournament.Teams)
 			{
 				if (team.TeamLeaderTag.User.Id == loggedInUser.Id)
 				{
@@ -183,7 +185,7 @@ namespace LanAdept.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Addteam(AddTeamModel teamModel)
 		{
-			LanAdeptData.Model.Tournament tournament = uow.TournamentRepository.GetByID(teamModel.TournamentID);
+			Tournament tournament = uow.TournamentRepository.GetByID(teamModel.TournamentID);
 
 			if (tournament.IsStarted || tournament.IsOver)
 			{
@@ -193,7 +195,7 @@ namespace LanAdept.Controllers
 
 			User loggedInUser = UserService.GetLoggedInUser();
 
-			foreach (LanAdeptData.Model.Team team in tournament.Teams)
+			foreach (Team team in tournament.Teams)
 			{
 				if (team.TeamLeaderTag.User.Id == loggedInUser.Id)
 				{
@@ -216,7 +218,7 @@ namespace LanAdept.Controllers
 
 			if (ModelState.IsValid)
 			{
-				LanAdeptData.Model.Team team = new LanAdeptData.Model.Team();
+				Team team = new Team();
 				team.Name = teamModel.Name;
 				team.Tag = teamModel.Tag;
 				team.TeamLeaderTag = uow.GamerTagRepository.GetByUserAndGamerTagID(loggedInUser, teamModel.GamerTagId);
@@ -230,8 +232,8 @@ namespace LanAdept.Controllers
 
 				if (team.Tournament.Teams == null)
 				{
-					ICollection<LanAdeptData.Model.Team> teamList;
-					teamList = new List<LanAdeptData.Model.Team>();
+					ICollection<Team> teamList;
+					teamList = new List<Team>();
 					teamList.Add(team);
 					team.Tournament.Teams = teamList;
 				}
@@ -310,7 +312,7 @@ namespace LanAdept.Controllers
 
 			demande.GamerTag = gamerTag;
 
-			LanAdeptData.Model.Team team = uow.TeamRepository.GetByID(model.TeamID);
+			Team team = uow.TeamRepository.GetByID(model.TeamID);
 			if (team == null)
 			{
 				//TODO : Add client error

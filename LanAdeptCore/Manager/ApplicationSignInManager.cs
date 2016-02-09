@@ -1,4 +1,5 @@
 ﻿using LanAdeptData.Model;
+using LanAdeptData.Model.Users;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;

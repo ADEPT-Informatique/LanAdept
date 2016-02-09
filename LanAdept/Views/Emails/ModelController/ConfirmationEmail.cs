@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using LanAdeptData.Model;
 using Postal;
+using LanAdeptData.Model.Users;
 
 namespace LanAdept.Emails
 {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LanAdeptData.Model
+namespace LanAdeptData.Model.Users
 {
 	public class Role : IdentityRole
 	{

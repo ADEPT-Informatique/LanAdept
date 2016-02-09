@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using LanAdeptCore.Service;
+using LanAdeptData.Model.Tournaments;
 
 namespace LanAdept.Views.Tournaments.ModelController
 {
@@ -26,7 +27,7 @@ namespace LanAdept.Views.Tournaments.ModelController
 
 		public IEnumerable<GamerTag> Gamertags { get; set; }
 
-		public TeamModel(LanAdeptData.Model.Team team)
+		public TeamModel(Team team)
 		{
 			TeamID = team.TeamID;
 			Name = team.Name;

@@ -7,6 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using LanAdeptData.Model;
 using Microsoft.AspNet.Identity.EntityFramework;
+using LanAdeptData.Model.Users;
+using LanAdeptData.Model.Places;
+using LanAdeptData.Model.Tournaments;
+using LanAdeptData.Model.Settings;
+using LanAdeptData.Model.Maps;
 
 namespace LanAdeptData.DAL
 {

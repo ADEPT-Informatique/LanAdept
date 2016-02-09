@@ -9,8 +9,10 @@ using LanAdeptData.Validation;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Security.Claims;
 using Microsoft.AspNet.Identity;
+using LanAdeptData.Model.Places;
+using LanAdeptData.Model.Tournaments;
 
-namespace LanAdeptData.Model
+namespace LanAdeptData.Model.Users
 {
 	public class User : IdentityUser
 	{

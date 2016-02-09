@@ -4,6 +4,8 @@ namespace LanAdeptData.Migrations
 	using Microsoft.AspNet.Identity;
 	using Microsoft.AspNet.Identity.EntityFramework;
 	using Model;
+	using Model.Settings;
+	using Model.Users;
 	using System;
 	using System.Data.Entity;
 	using System.Data.Entity.Migrations;

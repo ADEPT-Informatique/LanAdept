@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using System.ComponentModel;
+using LanAdeptData.Model.Tournaments;
 
 namespace LanAdeptAdmin.Views.Tournaments.ModelController
 {
@@ -56,7 +57,7 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 
 		#region Navigation properties
 		[Display(Name = "Jeu")]
-		public virtual LanAdeptData.Model.Game Game { get; set; }
+		public virtual Game Game { get; set; }
 
 		public virtual ICollection<Team> Teams { get; set; }
 		#endregion

@@ -11,6 +11,9 @@ using LanAdeptData.DAL;
 using LanAdeptData.Model;
 using PagedList;
 using Microsoft.AspNet.Identity.Owin;
+using LanAdeptData.Model.Maps;
+using LanAdeptData.Model.Places;
+using LanAdeptData.Model.Users;
 
 namespace LanAdeptAdmin.Controllers
 {

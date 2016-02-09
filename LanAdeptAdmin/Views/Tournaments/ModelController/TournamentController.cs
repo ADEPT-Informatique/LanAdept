@@ -11,6 +11,7 @@ using LanAdeptData.Model;
 using LanAdeptAdmin.Views.Tournaments.ModelController;
 using Microsoft.AspNet.Identity.Owin;
 using LanAdeptCore.Attribute.Authorization;
+using LanAdeptData.Model.Tournaments;
 
 namespace LanAdeptAdmin.Views
 {

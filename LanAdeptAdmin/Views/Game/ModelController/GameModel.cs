@@ -1,6 +1,7 @@
-﻿
-using System.ComponentModel;
-namespace LanAdeptAdmin.Views.Game.ModelController
+﻿using System.ComponentModel;
+using LanAdeptData.Model.Tournaments;
+
+namespace LanAdeptAdmin.Views.Games.ModelController
 {
 	public class GameModel
 	{
@@ -13,7 +14,7 @@ namespace LanAdeptAdmin.Views.Game.ModelController
 
 		}
 
-		public GameModel(LanAdeptData.Model.Game game) {
+		public GameModel(Game game) {
 			GameID = game.GameID;
 			Name = game.Name;
 		}
