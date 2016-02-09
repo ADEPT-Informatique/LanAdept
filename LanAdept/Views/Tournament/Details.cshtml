@@ -83,7 +83,7 @@
 								@team.Name
 							</td>
 							<td>
-								@foreach (GamerTag gamerTag in team.Gamertags)
+								@foreach (LanAdeptData.Model.Tournaments.GamerTag gamerTag in team.Gamertags)
 								{
 									<div>
 										@if (gamerTag == team.TeamLeaderTag)

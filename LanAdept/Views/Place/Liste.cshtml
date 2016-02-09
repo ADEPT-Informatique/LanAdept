@@ -1,10 +1,10 @@
-﻿@model LanAdept.Views.Place.ModelController.ListeModel
+﻿@model LanAdept.Views.Places.ModelController.ListeModel
 
 @{
 	ViewBag.Title = "Liste des places";
 	ViewBag.Settings = Model.Settings;
 	
-	User loggedInUser = LanAdeptCore.Service.UserService.GetLoggedInUser();
+ 	LanAdeptData.Model.Users.User loggedInUser = LanAdeptCore.Service.UserService.GetLoggedInUser();
 }
 
 @if (LanAdeptCore.Service.ReservationService.HasUserPlace())
@@ -71,7 +71,7 @@ else
 	</div>
 }
 
-@foreach (LanAdept.Views.Place.ModelController.FastMap fastMap in Model.Maps)
+@foreach (LanAdept.Views.Places.ModelController.FastMap fastMap in Model.Maps)
 {
 	@Html.Partial("SingleMapPartial", fastMap)
 }

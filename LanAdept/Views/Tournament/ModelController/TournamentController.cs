@@ -141,6 +141,7 @@ namespace LanAdept.Controllers
 			return View(tournamentModel);
 		}
 
+		[LanAuthorize]
 		public ActionResult Addteam(int id)
 		{
 			Tournament tournament = uow.TournamentRepository.GetByID(id);
@@ -183,6 +184,7 @@ namespace LanAdept.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[LanAuthorize]
 		public ActionResult Addteam(AddTeamModel teamModel)
 		{
 			Tournament tournament = uow.TournamentRepository.GetByID(teamModel.TournamentID);
@@ -252,6 +254,7 @@ namespace LanAdept.Controllers
 			return View(teamModel);
 		}
 
+		[LanAuthorize]
 		public ActionResult AddGamerTag(string gamertag)
 		{
 			User user = UserService.GetLoggedInUser();
@@ -271,6 +274,7 @@ namespace LanAdept.Controllers
 			return Json(new GamerTagResponse() { HasError = true, ErrorMessage = "Vous avez déja un GamerTag avec ce nom", GamerTagID = 0, Gamertag = gamertag }, JsonRequestBehavior.AllowGet); ;
 		}
 
+		[LanAuthorize]
 		public ActionResult JoinTeam(JoinTeamModel model)
 		{
 			if (model.GamerTagID == null || model.TournamentID == null || model.TeamID == null)

@@ -83,7 +83,7 @@
 					<th></th>
 				</tr>
 
-				@foreach (Team team in Model.Teams)
+				@foreach (LanAdeptData.Model.Tournaments.Team team in Model.Teams)
 				{
 					<tr @("class=clickable-row data-row-url=" + Url.Action("DetailsTeam", new { id = team.TeamID }))>
 						<td>
@@ -149,7 +149,7 @@
 			<div class="modal-body">
 				@if (Model.Teams.Count > 0)
 				{
-					foreach (Team team in Model.Teams)
+					foreach (LanAdeptData.Model.Tournaments.Team team in Model.Teams)
 					{
 						<p>
 							@team.Name
