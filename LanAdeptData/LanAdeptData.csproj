@@ -117,6 +117,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAL\Canteen\ItemRepository.cs" />
+    <Compile Include="DAL\Canteen\OrderRepository.cs" />
+    <Compile Include="DAL\Canteen\ProductRepository.cs" />
     <Compile Include="DAL\Generic\GenericRepository.cs" />
     <Compile Include="DAL\Generic\IRepository.cs" />
     <Compile Include="DAL\Generic\IUnitOfWork.cs" />
@@ -135,6 +138,9 @@
     <Compile Include="DAL\Users\GuestRepository.cs" />
     <Compile Include="DAL\Users\RoleRepository.cs" />
     <Compile Include="DAL\Users\UserRepository.cs" />
+    <Compile Include="Model\Canteen\Item.cs" />
+    <Compile Include="Model\Canteen\Order.cs" />
+    <Compile Include="Model\Canteen\Product.cs" />
     <Compile Include="Model\Tournaments\Demande.cs" />
     <Compile Include="Model\Tournaments\Game.cs" />
     <Compile Include="Model\Tournaments\GamerTag.cs" />

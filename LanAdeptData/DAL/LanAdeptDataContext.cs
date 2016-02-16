@@ -12,6 +12,7 @@ using LanAdeptData.Model.Places;
 using LanAdeptData.Model.Tournaments;
 using LanAdeptData.Model.Settings;
 using LanAdeptData.Model.Maps;
+using LanAdeptData.Model.Canteen;
 
 namespace LanAdeptData.DAL
 {
@@ -37,6 +38,10 @@ namespace LanAdeptData.DAL
 		public DbSet<Map> Maps { get; set; }
 		public DbSet<Tile> Tiles { get; set; }
 		public DbSet<Demande> Demandes { get; set; }
+		public DbSet<Product> Products { get; set; }
+		public DbSet<Order> Orders { get; set; }
+		public DbSet<Item> Items { get; set; }
+
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{

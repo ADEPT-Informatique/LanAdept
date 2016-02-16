@@ -11,6 +11,7 @@ using System.Security.Claims;
 using Microsoft.AspNet.Identity;
 using LanAdeptData.Model.Places;
 using LanAdeptData.Model.Tournaments;
+using LanAdeptData.Model.Canteen;
 
 namespace LanAdeptData.Model.Users
 {
@@ -24,6 +25,8 @@ namespace LanAdeptData.Model.Users
 		public virtual ICollection<Reservation> Reservations { get; set; }
 
 		public virtual ICollection<Team> Teams { get; set; }
+
+		public virtual ICollection<Order> Orders { get; set; }
 
 		#endregion
 

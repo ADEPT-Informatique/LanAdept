@@ -11,6 +11,7 @@ using LanAdeptData.DAL.Tournaments;
 using LanAdeptData.DAL.Settings;
 using LanAdeptData.DAL.Maps;
 using Microsoft.AspNet.Identity.Owin;
+using LanAdeptData.DAL.Canteen;
 
 namespace LanAdeptData.DAL
 {
@@ -209,6 +210,45 @@ namespace LanAdeptData.DAL
 					guestRepository = new GuestRepository(context);
 				}
 				return guestRepository;
+			}
+		}
+
+		private ProductRepository productRepository;
+		public ProductRepository ProductRepository
+		{
+			get
+			{
+				if (productRepository == null)
+				{
+					productRepository = new ProductRepository(context);
+				}
+				return productRepository;
+			}
+		}
+
+		private ItemRepository itemRepository;
+		public ItemRepository ItemRepository
+		{
+			get
+			{
+				if (itemRepository == null)
+				{
+					itemRepository = new ItemRepository(context);
+				}
+				return itemRepository;
+			}
+		}
+
+		private OrderRepository orderRepository;
+		public OrderRepository OrderRepository
+		{
+			get
+			{
+				if (orderRepository == null)
+				{
+					orderRepository = new OrderRepository(context);
+				}
+				return orderRepository;
 			}
 		}
 
