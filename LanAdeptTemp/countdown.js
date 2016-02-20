@@ -9,7 +9,7 @@
         var timeDiff = new Date(dateLan - dateNow);
 
         if (timeDiff < 0) {
-            $("#date").html("Le site sera en ligne dans quelques instants...<br /> Merci de patienter.");
+            $("#date").html("");
             $(".countdown").hide();
             clearTimeout(timer);
             return;
@@ -52,7 +52,7 @@
 
     $(".countdown").show();
 
-    var dateLan = new Date(2015, 9, 7, 12, 0, 0, 0);
+    var dateLan = new Date(2016, 2, 16, 12, 0, 0, 0);
 
     $("#date").text(dateToString(dateLan));
 
