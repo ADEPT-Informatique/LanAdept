@@ -12,7 +12,7 @@
 @Html.ShowMessage()
 
 
-@foreach (Map map in Model.Maps)
+@foreach (LanAdeptData.Model.Maps.Map map in Model.Maps)
 {
 	@Html.Partial("SingleMapPartial", map)
 }

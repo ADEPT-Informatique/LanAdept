@@ -1,11 +1,11 @@
-﻿@model LanAdeptData.Model.Place
+﻿@model LanAdeptData.Model.Places.Place
 @using PagedList.Mvc;
 @using PagedList;
 
 @{
 	ViewBag.Title = "Details";
 	ViewBag.Sidebar = "_Sidebar_Place";
-	PagedList<Reservation> reservations = ViewBag.Reservations;
+	PagedList<LanAdeptData.Model.Places.Reservation> reservations = ViewBag.Reservations;
 
 	string classeEtat = "";
 	string messageEtat = "";
@@ -62,7 +62,7 @@
 					}
 					else
 					{
-						@Html.AuthorizeActionLink(Model.LastReservation.User.CompleteName, "Details", "User", new { id = Model.LastReservation.User.UserID }, true)
+						@Html.AuthorizeActionLink(Model.LastReservation.User.CompleteName, "Details", "User", new { id = Model.LastReservation.User.Id }, true)
 					}
 				</dd>
 
@@ -144,7 +144,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				@foreach (Reservation reservation in reservations)
+				@foreach (LanAdeptData.Model.Places.Reservation reservation in reservations)
 				{
 					<tr>
 						<td>@reservation.CreationDate</td>

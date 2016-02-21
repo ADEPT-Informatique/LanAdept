@@ -171,7 +171,6 @@ namespace LanAdeptAdmin.Controllers
 			{
 				TempData["Warning"] = WARNING_PLACE_OCCUPIED;
 
-				//TODO: Faire marcher ça genre...
 				if (placeAReserver.LastReservation.IsGuest)
 				{
 					model.FullNameNoAccount = placeAReserver.LastReservation.Guest.CompleteName;
@@ -183,7 +182,7 @@ namespace LanAdeptAdmin.Controllers
 				}
 			}
 
-			model.Users = new SelectList(Userlist, "UserID", "CompleteName");
+			model.Users = new SelectList(Userlist, "Id", "CompleteName");
 			model.PlaceID = placeAReserver.PlaceID;
 			model.Place = placeAReserver;
 
