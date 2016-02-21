@@ -92,7 +92,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						@foreach (Reservation reservation in Model.Reservations)
+						@foreach (LanAdeptData.Model.Places.Reservation reservation in Model.Reservations)
 						{
 							<tr>
 								<td>@Html.AuthorizeActionLink(reservation.Place.ToString(), "Details", "Place", new { id = reservation.Place.PlaceID }, true)</td>

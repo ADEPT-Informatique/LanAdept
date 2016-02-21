@@ -19,13 +19,13 @@ namespace LanAdeptAdmin.Controllers
 			get { return UnitOfWork.Current; }
 		}
 
-		[Authorize(Roles = "generalAdmin")]
+		[LanAuthorize(Roles = "generalAdmin")]
 		public ActionResult Index()
 		{
 			return RedirectToAction("Settings");
 		}
 
-		[Authorize(Roles = "generalAdmin")]
+		[LanAuthorize(Roles = "generalAdmin")]
 		public ActionResult Settings()
 		{
 			Setting settings = uow.SettingRepository.GetCurrentSettings();
@@ -35,7 +35,7 @@ namespace LanAdeptAdmin.Controllers
 		}
 
 		[HttpPost]
-		[Authorize(Roles = "generalAdmin")]
+		[LanAuthorize(Roles = "generalAdmin")]
 		public ActionResult Settings(SettingsModel model)
 		{
 			if (ModelState.IsValid)
@@ -55,7 +55,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(model);
 		}
 
-		[Authorize(Roles = "generalAdmin")]
+		[LanAuthorize(Roles = "generalAdmin")]
 		public ActionResult Rules()
 		{
 			Setting settings = uow.SettingRepository.GetCurrentSettings();
@@ -66,7 +66,7 @@ namespace LanAdeptAdmin.Controllers
 		}
 
 		[HttpPost]
-		[Authorize(Roles = "generalAdmin")]
+		[LanAuthorize(Roles = "generalAdmin")]
 		public ActionResult Rules(RulesModel model)
 		{
 			if (ModelState.IsValid)
@@ -83,7 +83,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(model);
 		}
 
-		[Authorize(Roles = "generalAdmin")]
+		[LanAuthorize(Roles = "generalAdmin")]
 		public ActionResult Description()
 		{
 			Setting settings = uow.SettingRepository.GetCurrentSettings();
@@ -94,7 +94,7 @@ namespace LanAdeptAdmin.Controllers
 		}
 
 		[HttpPost]
-		[Authorize(Roles = "generalAdmin")]
+		[LanAuthorize(Roles = "generalAdmin")]
 		public ActionResult Description(DescriptionModel model)
 		{
 			if (ModelState.IsValid)
@@ -111,7 +111,7 @@ namespace LanAdeptAdmin.Controllers
 			return View(model);
 		}
 
-		[Authorize(Roles = "generalAdmin")]
+		[LanAuthorize(Roles = "generalAdmin")]
 		public ActionResult RememberEmail()
 		{
 			Setting settings = uow.SettingRepository.GetCurrentSettings();
@@ -122,7 +122,7 @@ namespace LanAdeptAdmin.Controllers
 		}
 
 		[HttpPost]
-		[Authorize(Roles = "generalAdmin")]
+		[LanAuthorize(Roles = "generalAdmin")]
 		public ActionResult RememberEmail(RememberEmailModel model)
 		{
 			if (ModelState.IsValid)
