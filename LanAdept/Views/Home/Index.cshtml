@@ -136,7 +136,7 @@
     <script>
         $(document).ready(function () {
             var timer;
-            var jourSemaine = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+            var jourSemaine = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
             var mois = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
 
             function setTimer() {
@@ -180,7 +180,7 @@
             function dateToString(date) {
                 var strDate = "";
 
-                strDate += jourSemaine[date.getDay() - 1];
+                strDate += jourSemaine[date.getDay()];
                 strDate += " le " + date.getDate();
                 strDate += " " + mois[date.getMonth()];
                 strDate += " " + date.getFullYear();
