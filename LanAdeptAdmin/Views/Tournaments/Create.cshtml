@@ -1,4 +1,4 @@
-﻿@model  LanAdeptAdmin.Views.Tournaments.ModelController.TournamentModel
+﻿@model LanAdeptAdmin.Views.Tournaments.ModelController.TournamentModel
 
 @{
 	ViewBag.Title = "Ajouter un tournoi";
@@ -18,8 +18,8 @@
 		<div class="form-group">
 			@Html.LabelFor(model => model.Game, htmlAttributes: new { @class = "control-label col-md-3" })
 			<div class="col-md-5">
-				@Html.DropDownList("GameID", null, htmlAttributes: new { @class = "form-control" })
-				@Html.ValidationMessageFor(model => model.Game.GameID, "", new { @class = "text-danger" })
+				@Html.EditorFor(model => model.Game, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.Game, "", new { @class = "text-danger" })
 			</div>
 		</div>
 
@@ -45,4 +45,14 @@
 			</div>
 		</div>
 	</div>
+}
+
+@section Scripts {
+	<script>
+		$(function () {
+			$('#StartTime').datetimepicker({
+				locale: 'fr-ca'
+			});
+		});
+	</script>
 }

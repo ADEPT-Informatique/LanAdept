@@ -1,12 +1,12 @@
 ﻿@model LanAdept.Views.Tournaments.ModelController.TournamentModel
 
 @{
-	ViewBag.Title = "Tournoi de " + Model.Game.Name;
+	ViewBag.Title = "Tournoi de " + Model.Game;
 	LanAdeptData.Model.Settings.Setting settings = ViewBag.Settings;
 }
 
 <div class="page-header clearfix">
-	<h1 class="pull-left">Tournoi de @Html.DisplayFor(model => model.Game.Name)</h1>
+	<h1 class="pull-left">Tournoi de @Html.DisplayFor(model => model.Game)</h1>
 
 	@if (settings.TournamentSubsciptionStarted && Model.IsConnected && !Model.IsStarted && !Model.IsOver && Model.CanAddTeam)
 	{
@@ -159,10 +159,10 @@ else
 {
 	<p>
 		<em>Il n'y a pas encore d'équipe d'inscrite à ce tournois.</em>
-	@if (settings.TournamentSubsciptionStarted && Model.IsConnected && !Model.IsStarted && !Model.IsOver && Model.CanAddTeam)
-	{
-		@Html.ActionLink("Soyez la première!", "AddTeam", new { id = Model.TournamentID })
-	}
+		@if (settings.TournamentSubsciptionStarted && Model.IsConnected && !Model.IsStarted && !Model.IsOver && Model.CanAddTeam)
+		{
+			@Html.ActionLink("Soyez la première!", "AddTeam", new { id = Model.TournamentID })
+		}
 	</p>
 		<br />
 }

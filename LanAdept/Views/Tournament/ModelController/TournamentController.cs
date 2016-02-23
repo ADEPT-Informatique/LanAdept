@@ -47,7 +47,7 @@ namespace LanAdept.Controllers
 
 			ViewBag.Settings = uow.SettingRepository.GetCurrentSettings();
 
-			return View(tournamentModels.OrderBy(t => t.StartTime).ThenBy(t => t.Game.Name));
+			return View(tournamentModels.OrderBy(t => t.StartTime).ThenBy(t => t.Game));
 		}
 
 		[AllowAnonymous]

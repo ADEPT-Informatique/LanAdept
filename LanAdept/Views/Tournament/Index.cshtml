@@ -17,8 +17,6 @@
 	</div>
 }
 
-
-
 @Html.ShowMessage()
 
 @if (Model.Count() > 0)
@@ -33,7 +31,7 @@
 					Nombre d'équipes
 				</th>
 				<th class="text-center">
-					Heure de début
+					@Html.DisplayNameFor(model => model.StartTime)
 				</th>
 				<th></th>
 			</tr>
@@ -43,7 +41,7 @@
 				{
 				<tr @("class=clickable-row data-row-url=" + Url.Action("Details", "Tournament", new { id = tournamentModel.TournamentID }))>
 					<td>
-						@Html.DisplayFor(modelItem => tournamentModel.Game.Name)
+						@Html.DisplayFor(modelItem => tournamentModel.Game)
 					</td>
 					<td class="text-center">
 						@tournamentModel.Teams.Count()
@@ -53,17 +51,17 @@
 					</td>
 					<td>
 						@if (tournamentModel.IsOver)
-					{
+						{
 							<div class="label label-danger">
 								Terminé
 							</div>
-					}
-					else if (tournamentModel.IsStarted)
-					{
+						}
+						else if (tournamentModel.IsStarted)
+						{
 							<div class="label label-success">
 								Commencé
 							</div>
-					}
+						}
 					</td>
 				</tr>
 				}

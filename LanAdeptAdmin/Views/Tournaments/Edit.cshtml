@@ -19,9 +19,8 @@
 		<div class="form-group">
 			@Html.LabelFor(model => model.Game, htmlAttributes: new { @class = "control-label col-md-3" })
 			<div class="col-md-6">
-				<select class="form-control" disabled>
-					<option>@Model.Game.Name</option>
-				</select>
+				@Html.EditorFor(model => model.Game, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.Game, "", new { @class = "text-danger" })
 			</div>
 		</div>
 
@@ -36,7 +35,7 @@
 		<div class="form-group">
 			@Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-3" })
 			<div class="col-md-6">
-				@Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control", @Value = Model.StartTime.Value.ToString("yyyy-MM-dd HH:mm") } })
 				@Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
 			</div>
 		</div>

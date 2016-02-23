@@ -30,15 +30,6 @@
 			</ul>
 		</li>
 	}
-	@if (Html.HasActionPermission("Index", "Game"))
-	{
-		<li class="dropdown">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown">Jeux <b class="caret"></b></a>
-			<ul class="dropdown-menu navmenu-nav">
-				@Html.Partial("_Sidebar_Game")
-			</ul>
-		</li>
-	}
 	@if (Html.HasActionPermission("Index", "Tournaments"))
 	{
 		<li class="dropdown">

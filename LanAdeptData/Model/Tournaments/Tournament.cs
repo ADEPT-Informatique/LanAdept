@@ -27,14 +27,11 @@ namespace LanAdeptData.Model.Tournaments
 
 		public int MaxPlayerPerTeam { get; set; }
 
-		public virtual int GameID { get; set; }
+		public string Game { get; set; }
 
 		public virtual string UserID { get; set; }
 
 		#region Navigation properties
-		[ForeignKey("GameID")]
-		public virtual Game Game { get; set; }
-
 		[ForeignKey("UserID")]
 		public virtual User Organizer { get; set; }
 
