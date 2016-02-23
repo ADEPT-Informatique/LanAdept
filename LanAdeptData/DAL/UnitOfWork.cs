@@ -121,19 +121,6 @@ namespace LanAdeptData.DAL
 			}
 		}
 
-		private GameRepository gameRepository;
-		public GameRepository GameRepository
-		{
-			get
-			{
-				if (gameRepository == null)
-				{
-					gameRepository = new GameRepository(context);
-				}
-				return gameRepository;
-			}
-		}
-
 		private GamerTagRepository gamerTagRepository;
 		public GamerTagRepository GamerTagRepository
 		{

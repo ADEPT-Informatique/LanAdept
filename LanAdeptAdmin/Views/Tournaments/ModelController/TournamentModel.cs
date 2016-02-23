@@ -28,7 +28,8 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 
 		public int Id { get; set; }
 
-		public int GameID { get; set; }
+		[Display(Name = "Jeu")]
+		public string Game { get; set; }
 
 		public MvcHtmlString GetStatus()
 		{
@@ -56,9 +57,6 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 
 
 		#region Navigation properties
-		[Display(Name = "Jeu")]
-		public virtual Game Game { get; set; }
-
 		public virtual ICollection<Team> Teams { get; set; }
 		#endregion
 
@@ -72,7 +70,6 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 			StartTime = tournament.StartTime;
 			MaxPlayerPerTeam = tournament.MaxPlayerPerTeam;
 			Game = tournament.Game;
-			GameID = tournament.GameID;
 			Teams = tournament.Teams;
 			Id = tournament.TournamentID;
 			IsOver = tournament.IsOver;

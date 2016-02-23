@@ -19,7 +19,7 @@
 				Nombre d'équipes
 			</th>
 			<th class="text-center">
-				Heure de début
+				@Html.DisplayNameFor(model => model.StartTime)
 			</th>
 			<th></th>
 		</tr>
@@ -29,7 +29,7 @@
 		{
 			<tr @("class=clickable-row data-row-url=" + Url.Action("Details", "Tournament", new { id = tournamentModel.TournamentID }))>
 				<td>
-					@Html.DisplayFor(modelItem => tournamentModel.Game.Name)
+					@Html.DisplayFor(modelItem => tournamentModel.Game)
 				</td>
 				<td class="text-center">
 					@tournamentModel.Teams.Count()

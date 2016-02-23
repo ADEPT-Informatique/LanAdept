@@ -184,8 +184,6 @@
     <Compile Include="Views\Auth\ModelController\AuthController.cs" />
     <Compile Include="Views\Auth\ModelController\LoginModel.cs" />
     <Compile Include="Views\Error\ModelController\ErrorController.cs" />
-    <Compile Include="Views\Game\ModelController\GameController.cs" />
-    <Compile Include="Views\Game\ModelController\GameModel.cs" />
     <Compile Include="Views\General\ModelController\DescriptionModel.cs" />
     <Compile Include="Views\General\ModelController\GeneralController.cs" />
     <Compile Include="Views\General\ModelController\RememberEmailModel.cs" />
@@ -315,11 +313,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Game\Index.cshtml" />
-    <Content Include="Views\Game\Create.cshtml" />
     <Content Include="Views\Auth\Login.cshtml" />
-    <Content Include="Views\Game\Edit.cshtml" />
-    <Content Include="Views\Game\Delete.cshtml" />
     <Content Include="Views\Tournaments\Delete.cshtml" />
     <Content Include="Views\Tournaments\Details.cshtml" />
     <Content Include="Views\Tournaments\Index.cshtml" />
@@ -333,7 +327,6 @@
     <Content Include="Views\Place\Partial\SinglePlacePartial.cshtml" />
     <Content Include="Views\Place\Partial\SingleSectionPartial.cshtml" />
     <Content Include="Views\Place\Details.cshtml" />
-    <Content Include="Views\Shared\_Sidebar_Game.cshtml" />
     <Content Include="Views\General\Settings.cshtml" />
     <Content Include="Views\Place\Partial\ModalConfirmerAdminAction.cshtml" />
     <Content Include="Views\Place\Search.cshtml" />

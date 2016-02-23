@@ -1,7 +1,7 @@
 ﻿@model LanAdept.Views.Tournaments.ModelController.TournamentModel
 
 @{
-	ViewBag.Title = "Tournoi de " + Model.Game.Name;
+	ViewBag.Title = "Tournoi de " + Model.Game;
 }
 <h1>
 	@ViewBag.test
@@ -23,7 +23,7 @@
 
 
 	<div class="page-header clearfix">
-		<h1 class="pull-left">Tournoi de @Html.DisplayFor(model => model.Game.Name)</h1>
+		<h1 class="pull-left">Tournoi de @Html.DisplayFor(model => model.Game)</h1>
 
 
 		@if (Model.IsConnected && !Model.IsStarted && !Model.IsOver && Model.CanAddTeam)
@@ -115,7 +115,7 @@
 									{
 										if (team.IsMyTeamForTeamLeader)
 										{
-											@Html.IconActionLink("glyphicon-cog", "Details", "Team", new { id = team.TeamID }, new { @class = "btn btn-primary", title="Gérer mon équipe" })
+											@Html.IconActionLink("glyphicon-cog", "Details", "Team", new { id = team.TeamID }, new { @class = "btn btn-primary", title = "Gérer mon équipe" })
 										}
 										else if (team.IsMyTeam)
 										{
@@ -154,7 +154,7 @@
 	else
 	{
 		<p>
-			<em>Il n'y a présentement aucune équipes inscrites à ce tournoi présentement.</em>
+			<em>Il n'y a présentement aucune équipes inscrites à ce tournoi.</em>
 		</p>
 	}
 </div>

@@ -49,7 +49,7 @@ namespace LanAdept.Controllers
 				tournamentModels.Add(tournamentModel);
 			}
 
-			return View(tournamentModels.OrderBy(t => t.StartTime).ThenBy(t => t.Game.Name));
+			return View(tournamentModels.OrderBy(t => t.StartTime).ThenBy(t => t.Game));
 		}
 
 		[AllowAnonymous]

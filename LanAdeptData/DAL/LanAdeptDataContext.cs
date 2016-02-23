@@ -32,7 +32,6 @@ namespace LanAdeptData.DAL
 		public DbSet<Reservation> Reservations { get; set; }
 		public DbSet<Tournament> Tournaments { get; set; }
 		public DbSet<Team> Teams { get; set; }
-		public DbSet<Game> Games { get; set; }
 		public DbSet<GamerTag> Gamertags { get; set; }
 		public DbSet<Setting> Settings { get; set; }
 		public DbSet<Map> Maps { get; set; }

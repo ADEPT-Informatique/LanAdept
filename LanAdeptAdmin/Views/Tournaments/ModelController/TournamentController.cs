@@ -53,20 +53,19 @@ namespace LanAdeptAdmin.Views
 		[LanAuthorize(Roles = "tournamentAdmin")]
 		public ActionResult Create()
 		{
-			ViewBag.GameID = new SelectList(uow.GameRepository.Get(), "GameID", "Name");
 			return View();
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[LanAuthorize(Roles = "tournamentAdmin")]
-		public ActionResult Create([Bind(Include = "GameID, StartTime,MaxPlayerPerTeam")] TournamentModel tournamentModel)
+		public ActionResult Create([Bind(Include = "Game, StartTime, MaxPlayerPerTeam")] TournamentModel tournamentModel)
 		{
 			if (ModelState.IsValid)
 			{
 				Tournament tournament = new Tournament();
 
-				tournament.GameID = tournamentModel.GameID;
+				tournament.Game = tournamentModel.Game;
 				tournament.StartTime = tournamentModel.StartTime;
 				tournament.MaxPlayerPerTeam = tournamentModel.MaxPlayerPerTeam;
 
@@ -76,7 +75,6 @@ namespace LanAdeptAdmin.Views
 				uow.Save();
 				return RedirectToAction("Index");
 			}
-			ViewBag.GameID = new SelectList(uow.GameRepository.Get(), "GameID", "Name", tournamentModel.GameID);
 			return View(tournamentModel);
 		}
 
@@ -92,19 +90,19 @@ namespace LanAdeptAdmin.Views
 			{
 				return HttpNotFound();
 			}
-
 			return View(tournament);
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[LanAuthorize(Roles = "tournamentAdmin")]
-		public ActionResult Edit([Bind(Include = "MaxPlayerPerTeam, StartTime, Id, IsStarted, IsOver, Info")] TournamentModel tournamentModel)
+		public ActionResult Edit([Bind(Include = "Game, MaxPlayerPerTeam, StartTime, Id, IsStarted, IsOver, Info")] TournamentModel tournamentModel)
 		{
 			if (ModelState.IsValid)
 			{
 				Tournament tournament = uow.TournamentRepository.GetByID(tournamentModel.Id);
 
+				tournament.Game = tournamentModel.Game;
 				tournament.MaxPlayerPerTeam = tournamentModel.MaxPlayerPerTeam;
 				tournament.StartTime = tournamentModel.StartTime;
 				tournament.IsStarted = tournamentModel.IsStarted;
