@@ -14,6 +14,7 @@ using System.Linq;
 using System.Security.Claims;
 using LanAdept.Emails;
 using LanAdeptData.Model.Users;
+using System.Security.Cryptography;
 
 namespace LanAdept.Controllers
 {
@@ -172,7 +173,14 @@ namespace LanAdept.Controllers
 				{
 					return View("ExternalLoginFailure");
 				}
-				var user = new User { UserName = model.Email, Email = model.Email, CompleteName = model.CompleteName };
+
+				var user = new User {
+					UserName = model.Email,
+					Email = model.Email,
+					CompleteName = model.CompleteName,
+					Barcode = GetNewBarcode()
+				};
+
 				var result = await UserManager.CreateAsync(user);
 				if (result.Succeeded)
 				{
@@ -223,7 +231,8 @@ namespace LanAdept.Controllers
 				{
 					UserName = model.Email,
 					Email = model.Email,
-					CompleteName = model.CompleteName
+					CompleteName = model.CompleteName,
+					Barcode = GetNewBarcode()
 				};
 
 				var result = await UserManager.CreateAsync(user, model.Password);
@@ -329,6 +338,15 @@ namespace LanAdept.Controllers
 			{
 				ModelState.AddModelError("", error);
 			}
+		}
+
+		private string GetNewBarcode()
+		{
+			RandomNumberGenerator rng = RandomNumberGenerator.Create();
+			Byte[] barcodeBytes = new Byte[6];
+			rng.GetBytes(barcodeBytes);
+
+			return BitConverter.ToString(barcodeBytes).Replace("-", "");
 		}
 	}
 }

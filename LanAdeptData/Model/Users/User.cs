@@ -20,6 +20,8 @@ namespace LanAdeptData.Model.Users
 		[Required]
 		public string CompleteName { get; set; }
 
+		public string Barcode { get; set; }
+
 		#region Navigation properties
 
 		public virtual ICollection<Reservation> Reservations { get; set; }
@@ -39,15 +41,6 @@ namespace LanAdeptData.Model.Users
 				return Reservations.LastOrDefault();
 			}
 		}
-
-        public string Barcode
-        {
-            get 
-            {
-                UInt32 hashCode = (UInt32)Email.GetHashCode();
-                return hashCode.ToString("00000000") + Id;
-            }
-        }
 
 		#endregion
 
