@@ -2,162 +2,170 @@
 
 @{
 	ViewBag.Title = "Tournoi de " + Model.Game.Name;
+	LanAdeptData.Model.Settings.Setting settings = ViewBag.Settings;
 }
-<h1>
-	@ViewBag.test
-</h1>
 
+<div class="page-header clearfix">
+	<h1 class="pull-left">Tournoi de @Html.DisplayFor(model => model.Game.Name)</h1>
 
-<div>
-
-	@Html.ShowMessage()
-
-	@if (Model.IsOver)
+	@if (settings.TournamentSubsciptionStarted && Model.IsConnected && !Model.IsStarted && !Model.IsOver && Model.CanAddTeam)
 	{
-		<div class="alert alert-danger">Le tournoi est présentement terminé</div>
-	}
-	else if (Model.IsStarted)
-	{
-		<div class="alert alert-success">Le tournoi est présentement commencé</div>
-	}
-
-
-	<div class="page-header clearfix">
-		<h1 class="pull-left">Tournoi de @Html.DisplayFor(model => model.Game.Name)</h1>
-
-
-		@if (Model.IsConnected && !Model.IsStarted && !Model.IsOver && Model.CanAddTeam)
-		{
-			<br />
-			<div class="btn-toolbar pull-right">
-				<div class="btn-group">
-					@Html.ActionLink("Créer mon équipe", "AddTeam", new { id = Model.TournamentID }, new { @class = "btn btn-success" })
-				</div>
+		<br />
+		<div class="btn-toolbar pull-right">
+			<div class="btn-group">
+				@Html.ActionLink("Créer mon équipe", "AddTeam", new { id = Model.TournamentID }, new { @class = "btn btn-success" })
 			</div>
-		}
+		</div>
+	}
+</div>
+
+
+@Html.ShowMessage()
+
+@if (!settings.TournamentSubsciptionStarted)
+{
+	<div class="alert alert-info">
+		Les inscriptions aux tournois ne sont pas encore débutées. Elles débuteront
+		@settings.TournamentSubsciptionStartDate.ToString("dddd le d MMMM à H\\hm", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA")) @* Jour *@
 	</div>
-	@if (Model.Info != null)
-	{
-		<h3>Informations et règlements</h3>
+}
+
+@if (Model.IsOver)
+{
+	<div class="alert alert-danger">Le tournoi est présentement terminé</div>
+}
+else if (Model.IsStarted)
+{
+	<div class="alert alert-success">Le tournoi est présentement commencé</div>
+}
+
+
+@if (Model.Info != null)
+{
+	<h3>Informations et règlements</h3>
 		<div>
 			@Html.Markdown(Model.Info)
 		</div>
 		<hr />
 		<h4>Équipes</h4>
-	}
+}
 
-	@if (Model.Teams.Count() > 0)
+@if (Model.Teams.Count() > 0)
+{
+
+	using (Html.BeginForm("JoinTeam", "Tournament", new LanAdept.Views.Tournaments.ModelController.JoinTeamModel() { TournamentID = Model.TournamentID }))
 	{
+		@Html.Hidden("GamerTagID", 0, new { id = "tagInput" })
+		@Html.Hidden("TeamID", 0, new { id = "teamInput" })
 
-		using (Html.BeginForm("JoinTeam", "Tournament", new LanAdept.Views.Tournaments.ModelController.JoinTeamModel() { TournamentID = Model.TournamentID }))
+		if (Model.IsConnected)
 		{
-			@Html.Hidden("GamerTagID", 0, new { id = "tagInput" })
-			@Html.Hidden("TeamID", 0, new { id = "teamInput" })
+			@Html.Partial("ModalChoisirGamerTag", Model.GamerTags)
+			@Html.Partial("ModalChoisirGamerTagFooterRejoindre")
+		}
 
-			if (Model.IsConnected)
-			{
-				@Html.Partial("ModalChoisirGamerTag", Model.GamerTags)
-				@Html.Partial("ModalChoisirGamerTagFooterRejoindre")
-			}
-
-			<div class="table-responsive">
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>Équipes</th>
-							<th>Membres</th>
-							<th class="text-center">Nombre de joueur</th>
-							<th></th>
-						</tr>
-					</thead>
-					@foreach (LanAdept.Views.Tournaments.ModelController.TeamModel team in Model.Teams)
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Équipes</th>
+						<th>Membres</th>
+						<th class="text-center">Nombre de joueur</th>
+						<th></th>
+					</tr>
+				</thead>
+				@foreach (LanAdept.Views.Tournaments.ModelController.TeamModel team in Model.Teams)
 					{
 						string hash = team.GetSeeTeamOnMapHash();
 
-						<tr>
-							<td>
-								@if (!string.IsNullOrWhiteSpace(team.Tag))
-								{
-									<span class="text-muted">[@team.Tag.ToUpper()]</span>
-								}
-								@team.Name
-							</td>
-							<td>
-								@foreach (LanAdeptData.Model.Tournaments.GamerTag gamerTag in team.Gamertags)
-								{
-									<div>
-										@if (gamerTag == team.TeamLeaderTag)
-										{
-											@gamerTag.Gamertag <span class="glyphicon glyphicon-star"></span>
-										}
-										else
-										{
-											@gamerTag.Gamertag
-										}
-									</div>
-								}
-							</td>
-							<td class="text-center">
-								@if (team.Gamertags.Count() == Model.MaxPlayerPerTeam)
-								{
-									<span class="text-success">
-										@team.Gamertags.Count() / @Model.MaxPlayerPerTeam
-									</span>
-								}
-								else
-								{
-									@team.Gamertags.Count() <text>/</text> @Model.MaxPlayerPerTeam
-								}
-							</td>
-							<td>
-								<div class="pull-right">
-									@if (Model.IsConnected && !Model.IsOver && !Model.IsStarted)
+					<tr>
+						<td>
+							@if (!string.IsNullOrWhiteSpace(team.Tag))
+							{
+								<span class="text-muted">[@team.Tag.ToUpper()]</span>
+							}
+							@team.Name
+						</td>
+						<td>
+							@foreach (LanAdeptData.Model.Tournaments.GamerTag gamerTag in team.Gamertags)
+							{
+								<div>
+									@if (gamerTag == team.TeamLeaderTag)
 									{
-										if (team.IsMyTeamForTeamLeader)
-										{
-											@Html.IconActionLink("glyphicon-cog", "Details", "Team", new { id = team.TeamID }, new { @class = "btn btn-primary", title="Gérer mon équipe" })
-										}
-										else if (team.IsMyTeam)
-										{
-											@Html.IconActionLink("glyphicon-log-out", "LeaveTeam", "Team", new { id = team.TeamID }, new { @class = "btn btn-danger", title = "Quitter l'équipe" })
-										}
-										else if (team.IsTeamDemande)
-										{
-											@Html.ActionLink("Annuler", "CancelDemande", "Team", new { id = team.TeamID }, new { @class = "btn btn-danger", title = "Annuler ma demande" })
-										}
-										else if (team.Gamertags.Count() < Model.MaxPlayerPerTeam && !Model.IsTeamLeader && Model.UserTeam == null)
-										{
-											<button class="teamButton hover btn btn-default" type="button" data-toggle="modal" data-team-id="@team.TeamID" data-target="#ModalChoisirGamerTag">Rejoindre</button>
-										}
-									}
-									@if (hash != "#")
-									{
-										<a href="@(Url.Action("Liste", "Place") + hash)" class="btn btn-success" title="Voir sur la carte">
-											<span class="glyphicon glyphicon-eye-open"></span>
-										</a>
+										@gamerTag.Gamertag <span class="glyphicon glyphicon-star"></span>
 									}
 									else
 									{
-										<div class="btn not-visible" style="visibility:hidden;">
-											<span class="glyphicon glyphicon-eye-open"></span>
-										</div>
+										@gamerTag.Gamertag
 									}
-
 								</div>
-							</td>
-						</tr>
+							}
+						</td>
+						<td class="text-center">
+							@if (team.Gamertags.Count() == Model.MaxPlayerPerTeam)
+							{
+								<span class="text-success">
+									@team.Gamertags.Count() / @Model.MaxPlayerPerTeam
+								</span>
+							}
+							else
+							{
+								@team.Gamertags.Count() <text>/</text> @Model.MaxPlayerPerTeam
+							}
+						</td>
+						<td>
+							<div class="pull-right">
+								@if (Model.IsConnected && !Model.IsOver && !Model.IsStarted)
+								{
+									if (team.IsMyTeamForTeamLeader)
+									{
+										@Html.IconActionLink("glyphicon-cog", "Details", "Team", new { id = team.TeamID }, new { @class = "btn btn-primary", title = "Gérer mon équipe" })
+									}
+									else if (team.IsMyTeam)
+									{
+										@Html.IconActionLink("glyphicon-log-out", "LeaveTeam", "Team", new { id = team.TeamID }, new { @class = "btn btn-danger", title = "Quitter l'équipe" })
+									}
+									else if (team.IsTeamDemande)
+									{
+										@Html.ActionLink("Annuler", "CancelDemande", "Team", new { id = team.TeamID }, new { @class = "btn btn-danger", title = "Annuler ma demande" })
+									}
+									else if (team.Gamertags.Count() < Model.MaxPlayerPerTeam && !Model.IsTeamLeader && Model.UserTeam == null)
+									{
+										<button class="teamButton hover btn btn-default" type="button" data-toggle="modal" data-team-id="@team.TeamID" data-target="#ModalChoisirGamerTag">Rejoindre</button>
+									}
+								}
+								@if (hash != "#")
+								{
+									<a href="@(Url.Action("Liste", "Place") + hash)" class="btn btn-success" title="Voir sur la carte">
+										<span class="glyphicon glyphicon-eye-open"></span>
+									</a>
+								}
+								else
+								{
+									<div class="btn not-visible" style="visibility:hidden;">
+										<span class="glyphicon glyphicon-eye-open"></span>
+									</div>
+								}
+
+							</div>
+						</td>
+					</tr>
 					}
-				</table>
-			</div>
-		}
+			</table>
+		</div>
 	}
-	else
+}
+else
+{
+	<p>
+		<em>Il n'y a pas encore d'équipe d'inscrite à ce tournois.</em>
+	@if (settings.TournamentSubsciptionStarted && Model.IsConnected && !Model.IsStarted && !Model.IsOver && Model.CanAddTeam)
 	{
-		<p>
-			<em>Il n'y a présentement aucune équipes inscrites à ce tournoi présentement.</em>
-		</p>
+		@Html.ActionLink("Soyez la première!", "AddTeam", new { id = Model.TournamentID })
 	}
-</div>
+	</p>
+		<br />
+}
 
 @Html.TextIconActionLink("Retour", "glyphicon-arrow-left", "Index", null, null, new { @class = "btn btn-default" })
 

@@ -24,10 +24,11 @@ namespace LanAdept.Controllers
 {
 	public class PlaceController : Controller
 	{
-		private const string ERROR_INVALID_ID = "Désolé, une erreur est survenue. Merci de réessayer dans quelques instants";
+		private const string ERROR_INVALID_ID = "Désolé, une erreur est survenue. Merci de réessayer dans quelques instants.";
+		private const string ERROR_RESERVE_NOT_STARTED = "Les réservations de places n'ont pas encore débuté. Merci de réessayer à nouveau lorsque ceux-ci seront débutés.";
 		private const string ERROR_RESERVE_LAN_STARTED = "Désolé, il est impossible de réserver une place lorsque le LAN est déjà commencé. Vous devrez vous présenter à l'accueil du LAN pour obtenir une place.";
 		private const string ERROR_CANCEL_LAN_NO_RESERVATION = "Vous devez avoir une réservation pour pouvoir l'annuler.";
-		private const string ERROR_CANCEL_LAN_STARTED = "Désolé, il est impossible d'annler une réservation lorsque le LAN est déjà terminé.";
+		private const string ERROR_CANCEL_LAN_STARTED = "Désolé, il est impossible d'annuler une réservation lorsque le LAN est déjà terminé.";
 		private const string ERROR_CANCEL_LAN_OVER = "Désolé, il est impossible d'annuler une réservation lorsque le LAN est déjà terminé.";
 
 		private UnitOfWork uow
@@ -71,6 +72,12 @@ namespace LanAdept.Controllers
 			}
 
 			Setting settings = uow.SettingRepository.GetCurrentSettings();
+
+			if(!settings.IsPlaceReservationStarted)
+			{
+				TempData["Error"] = ERROR_RESERVE_NOT_STARTED;
+				return RedirectToAction("Liste");
+			}
 
 			if (settings.IsLanStarted)
 			{

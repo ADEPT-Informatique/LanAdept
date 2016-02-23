@@ -17,7 +17,7 @@ else
 }
 <div class="page-header clearfix">
 	<h1 class="pull-left">
-		Liste des places
+		Carte des places
 		@if (loggedInUser != null && !LanAdeptCore.Service.ReservationService.HasUserPlace())
 		{
 			<span class="glyphicon glyphicon-question-sign info" data-toggle="tooltip" data-placement="bottom" title="Pour réserver une place, cliquez sur la place qui vous intéresse dans le plan ci-dessous."></span>
@@ -37,6 +37,15 @@ else
 
 @Html.ShowMessage()
 
+@if (!Model.Settings.IsPlaceReservationStarted)
+{
+	<div class="alert alert-info">
+		Les réservations de places ne sont pas encore débutées! Elles débuteront 
+		@Model.Settings.PlaceReservationStartDate.ToString("dddd le d MMMM à H\\hm", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA")) @* Jour *@
+	</div>
+}
+
+
 @if (Model.Settings.IsLanOver)
 {
 	<div class="alert alert-warning" role="alert">
@@ -53,7 +62,7 @@ else if (Model.Settings.IsLanStarted)
 }
 else
 {
-	if (loggedInUser == null)
+	if (Model.Settings.IsPlaceReservationStarted && loggedInUser == null)
 	{
 		<div class="alert alert-info" role="alert">
 			Pour réserver une place, vous devez d'abord @Html.AuthorizeActionLink("vous connecter", "Login", "Auth", new { returnUrl = HttpContext.Current.Request.RawUrl }, new { @class = "alert-link" }).

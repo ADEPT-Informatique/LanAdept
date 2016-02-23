@@ -1,21 +1,26 @@
 ﻿@model LanAdeptAdmin.Views.General.ModelController.DescriptionModel
 
 @{
-    ViewBag.Title = "Description";
-    ViewBag.Sidebar = "_Sidebar_General";
+	ViewBag.Title = "Description";
+	ViewBag.Sidebar = "_Sidebar_General";
 }
 
-<h2>Description</h2>
+<div class="page-header clearfix">
+	<h2>Description</h2>
+</div>
 
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
+<p class="help-block">La description est le bloc de texte affiché sur la page d'accueil du site qui permet de décrire brièvement ce qu'est le LAN de l'Adept.</p>
 
-    <div class="form-horizontal">
-        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", style = "height:400px;" } })
-        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-        <br />
-        <input type="submit" value="Enregistrer" class="btn btn-primary pull-right" />
-    </div>
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+	<div class="form-horizontal">
+		@Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", style = "height:250px;" } })
+		@Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+		<br />
+		<input type="submit" value="Enregistrer" class="btn btn-primary pull-right" />
+	</div>
 }
 <h2>Prévisualisation:</h2>
 <pre id="prev">
@@ -23,9 +28,9 @@
 </pre>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/markdown")
+	@Scripts.Render("~/bundles/markdown")
 
-    <script>
+	<script>
 		$(function () {
 			var markdown = new MarkdownDeep.Markdown();
 			markdown.ExtraMode = true;
@@ -35,5 +40,5 @@
 				$("#prev").html(markdown.Transform($("#Description").val()));
 			});
 		});
-    </script>
+	</script>
 }

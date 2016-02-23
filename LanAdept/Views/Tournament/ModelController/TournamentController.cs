@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity.Owin;
 using System.Web;
 using LanAdeptData.Model.Users;
 using LanAdeptData.Model.Tournaments;
+using LanAdeptData.Model.Settings;
 
 namespace LanAdept.Controllers
 {
@@ -31,11 +32,6 @@ namespace LanAdept.Controllers
 			List<TournamentModel> tournamentModels = new List<TournamentModel>();
 			IEnumerable<Tournament> tournaments = uow.TournamentRepository.Get();
 
-			if (tournaments.Count() == 0)
-			{
-				return View("TournamentComing");
-			}
-
 			foreach (Tournament tournament in tournaments)
 			{
 				TournamentModel tournamentModel = new TournamentModel(tournament);
@@ -48,6 +44,8 @@ namespace LanAdept.Controllers
 				tournamentModel.Teams = teamModels;
 				tournamentModels.Add(tournamentModel);
 			}
+
+			ViewBag.Settings = uow.SettingRepository.GetCurrentSettings();
 
 			return View(tournamentModels.OrderBy(t => t.StartTime).ThenBy(t => t.Game.Name));
 		}
@@ -138,6 +136,8 @@ namespace LanAdept.Controllers
 				tournamentModel.UserTeam = uow.TeamRepository.UserTeamInTournament(user, tournament);
 			}
 
+			ViewBag.Settings = uow.SettingRepository.GetCurrentSettings();
+
 			return View(tournamentModel);
 		}
 
@@ -145,8 +145,9 @@ namespace LanAdept.Controllers
 		public ActionResult Addteam(int id)
 		{
 			Tournament tournament = uow.TournamentRepository.GetByID(id);
+			Setting settings = uow.SettingRepository.GetCurrentSettings();
 
-			if (tournament.IsStarted || tournament.IsOver)
+			if (!settings.TournamentSubsciptionStarted || tournament.IsStarted || tournament.IsOver)
 			{
 				TempData["Error"] = "Il n'est pas possible d'ajouter une équipe pour le moment";
 				return RedirectToAction("Details", new { id = tournament.TournamentID });
