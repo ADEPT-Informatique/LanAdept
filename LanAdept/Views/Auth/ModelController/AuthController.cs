@@ -149,6 +149,7 @@ namespace LanAdept.Controllers
 					ViewBag.ReturnUrl = returnUrl;
 					ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
 
+					ViewBag.Rules = uow.SettingRepository.GetCurrentSettings().Rules;
 					return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email, CompleteName = loginInfo.ExternalIdentity.Name });
 			}
 		}
