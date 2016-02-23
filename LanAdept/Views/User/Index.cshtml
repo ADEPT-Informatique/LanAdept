@@ -1,0 +1,10 @@
+﻿@model LanAdept.Views.User.ModelController.UserModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Mon profil</h2>
+
+@Html.DisplayFor(model => model.CompleteName)
+@Html.DisplayFor(model => model.Email)

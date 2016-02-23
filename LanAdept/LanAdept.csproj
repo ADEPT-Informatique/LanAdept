@@ -202,6 +202,8 @@
     <Compile Include="Views\Tournament\ModelController\TeamModel.cs" />
     <Compile Include="Views\Tournament\ModelController\TournamentController.cs" />
     <Compile Include="Views\Tournament\ModelController\TournamentModel.cs" />
+    <Compile Include="Views\User\ModelController\UserController.cs" />
+    <Compile Include="Views\User\ModelController\UserModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-lan.css" />
@@ -354,6 +356,7 @@
     <Content Include="Views\Auth\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Emails\Confirmation.Text.cshtml" />
     <Content Include="Views\Emails\Confirmation.Html.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -12,6 +12,8 @@ using LanAdeptAdmin.Views.Tournaments.ModelController;
 using Microsoft.AspNet.Identity.Owin;
 using LanAdeptCore.Attribute.Authorization;
 using LanAdeptData.Model.Tournaments;
+using LanAdeptData.Model.Users;
+using LanAdeptCore.Service;
 
 namespace LanAdeptAdmin.Views
 {
@@ -222,6 +224,30 @@ namespace LanAdeptAdmin.Views
 			else
 			{
 				team.GamerTags.Remove(gamerTag);
+
+				uow.TeamRepository.Update(team);
+				uow.GamerTagRepository.Update(gamerTag);
+				uow.Save();
+			}
+
+			return RedirectToAction("DetailsTeam", new { id = teamId });
+		}
+
+		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
+		public ActionResult PromotePlayer(int? gamerTagId, int? teamId)
+		{
+			GamerTag gamerTag = uow.GamerTagRepository.GetByID(gamerTagId);
+			Team team = uow.TeamRepository.GetByID(teamId);
+
+			if (team.TeamLeaderTag == gamerTag || team.GamerTags.Count == 1)
+			{
+				TempData["ErrorMessage"] = "Vous ne pouvez pas promouvoir le team leader.";
+				return RedirectToAction("DetailsTeam", new { id = teamId });
+			}
+			else
+			{
+
+				team.TeamLeaderTag = gamerTag;
 
 				uow.TeamRepository.Update(team);
 				uow.GamerTagRepository.Update(gamerTag);

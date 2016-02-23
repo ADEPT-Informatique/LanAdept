@@ -89,6 +89,9 @@
 						<td class="text-right">
 							@if (Model.TeamLeaderTag != gamerTag)
 							{
+								<button type="button" class="btn btn-success" data-toggle="modal" data-target="#promoteModal" data-gamertag="@gamerTag.Gamertag" data-gamertag-id="@gamerTag.GamerTagID">
+									Promote
+								</button>
 								<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#kickModal" data-gamertag="@gamerTag.Gamertag" data-gamertag-id="@gamerTag.GamerTagID">
 									Exclure
 								</button>
@@ -122,6 +125,24 @@
 	</div>
 </div>
 
+<div class="modal fade" id="promoteModal" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Exclure un joueur</h4>
+			</div>
+			<div class="modal-body">
+				<p>Voulez-vous vraiment promouvoir le joueur "<span id="modal-gamertag"></span>"?</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+				<a href="#" class="btn btn-success" id="modal-link">Promouvoir</a>
+			</div>
+		</div>
+	</div>
+</div>
+
 @section Scripts {
 	<script>
 		$('#kickModal').on('show.bs.modal', function (event) {
@@ -132,6 +153,16 @@
 			var modal = $(this);
 			modal.find('#modal-gamertag').text(gamertag);
 			modal.find('#modal-link').attr("href", "@Url.Action("KickPlayer", new { teamId = Model.TeamID })" + "&GamerTagId=" + gamertagId)
+		});
+
+		$('#promoteModal').on('show.bs.modal', function (event) {
+			var button = $(event.relatedTarget);
+			var gamertagId = button.data('gamertagId');
+			var gamertag = button.data('gamertag');
+
+			var modal = $(this);
+			modal.find('#modal-gamertag').text(gamertag);
+			modal.find('#modal-link').attr("href", "@Url.Action("PromotePlayer", new { teamId = Model.TeamID })" + "&GamerTagId=" + gamertagId)
 		});
 	</script>
 }

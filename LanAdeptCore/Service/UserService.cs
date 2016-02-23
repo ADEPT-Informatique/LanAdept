@@ -73,5 +73,15 @@ namespace LanAdeptCore.Service
 
 			return nbDemands;
 		}
+
+		public static int GetNbTeams()
+		{
+			if (!IsTeamLeader())
+				return 0;
+
+			IEnumerable<Team> teams = uow.TeamRepository.GetByTeamLeaderID(GetLoggedInUser().Id);
+
+			return teams.Count();
+		}
 	}
 }

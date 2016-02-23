@@ -58,27 +58,49 @@
 					@Html.ListItemAction("Connexion", "Login", "Auth", new { ReturnUrl = Request.Url.AbsolutePath })
 					@Html.ListItemAction("Inscription", "Register", "Auth")
 
-					@if (LanAdeptCore.Service.UserService.IsTeamLeader())
+					@if (LanAdeptCore.Service.UserService.IsUserLoggedIn())
 					{
-						int nbDemandes = @LanAdeptCore.Service.UserService.GetNbTeamDemand();
-
-						<li>
-							<a href="@Url.Action("Index", "Team")" class="hidden-sm">
-								Mes équipes
-								@if (nbDemandes > 0)
+						<li class="dropdown">
+							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+								<span class="glyphicon glyphicon-user"></span>
+								@if (LanAdeptCore.Service.UserService.IsTeamLeader() && LanAdeptCore.Service.UserService.GetNbTeamDemand() > 0)
 								{
-									<span class="label label-danger">@nbDemandes</span>
+									<span class="label label-danger">@LanAdeptCore.Service.UserService.GetNbTeamDemand()</span>
 								}
-							</a>
-						</li>
-						@*@Html.ListItemAction("Mes équipes", "Index", "Team", null, new { @class = "hidden-sm" })*@
-					}
+							</button>
+							<ul class="dropdown-menu">
+								@Html.ListItemAction("Mon profil", "Index", "User")
+								@if (LanAdeptCore.Service.UserService.IsTeamLeader())
+								{
+									int nbDemandes = @LanAdeptCore.Service.UserService.GetNbTeamDemand();
 
-					@if (LanAdeptCore.Service.ReservationService.HasUserPlace())
-					{
-						@Html.ListItemAction("Ma place", "MaPlace", "Place")
+									<li>
+										<a href="@Url.Action("Index", "Team")" class="hidden-sm">
+											@if (LanAdeptCore.Service.UserService.GetNbTeams() > 1)
+											{
+												<span>Mes équipes</span>
+											}
+											else if (LanAdeptCore.Service.UserService.GetNbTeams() == 1)
+											{
+												<span>Mon équipe</span>
+											}
+											@if (nbDemandes > 0)
+											{
+												<span class="label label-danger">@nbDemandes</span>
+											}
+										</a>
+									</li>
+									@*@Html.ListItemAction("Mes équipes", "Index", "Team", null, new { @class = "hidden-sm" })*@
+								}
+
+								@if (LanAdeptCore.Service.ReservationService.HasUserPlace())
+								{
+									@Html.ListItemAction("Ma place", "MaPlace", "Place")
+								}
+								@Html.ListItemAction("Déconnexion", "Logout", "Auth")
+							</ul>
+						</li>
 					}
-					@Html.ListItemAction("Déconnexion", "Logout", "Auth")
 				</ul>
 			</div>
 		</div>
@@ -92,15 +114,15 @@
 	</div>
 
 	<script>
-	(function (i, s, o, g, r, a, m) {
-		i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-			(i[r].q = i[r].q || []).push(arguments)
-		}, i[r].l = 1 * new Date(); a = s.createElement(o),
-		m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-	})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+		(function (i, s, o, g, r, a, m) {
+			i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+				(i[r].q = i[r].q || []).push(arguments)
+			}, i[r].l = 1 * new Date(); a = s.createElement(o),
+			m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+		})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-	ga('create', 'UA-32262555-4', 'auto');
-	ga('send', 'pageview');
+		ga('create', 'UA-32262555-4', 'auto');
+		ga('send', 'pageview');
 
 	</script>
 	@Scripts.Render("~/bundles/jquery")
