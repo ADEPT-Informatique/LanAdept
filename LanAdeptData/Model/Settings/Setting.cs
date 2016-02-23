@@ -14,6 +14,10 @@ namespace LanAdeptData.Model.Settings
 
 		public DateTime EndDate { get; set; }
 
+		public DateTime PlaceReservationStartDate { get; set; }
+
+		public DateTime TournamentSubsciptionStartDate { get; set; }
+
 		public string Rules { get; set; }
 
         public string Description { get; set; }
@@ -30,6 +34,10 @@ namespace LanAdeptData.Model.Settings
 		public bool IsLanStarted { get { return DateTime.Now > StartDate; } }
 
 		public bool IsLanOver { get { return DateTime.Now > EndDate; } }
+
+		public bool IsPlaceReservationStarted { get { return DateTime.Now > PlaceReservationStartDate; } }
+
+		public bool TournamentSubsciptionStarted { get { return DateTime.Now > TournamentSubsciptionStartDate; } }
 
 		#endregion
 	}

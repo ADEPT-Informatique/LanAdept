@@ -343,7 +343,6 @@
     <Content Include="Views\Emails\Web.config" />
     <Content Include="Views\Tournament\Partial\ModalChoisirGamerTag.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Tournament\TournamentComing.cshtml" />
     <Content Include="Views\Error\PageNotFound.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Error\Forbidden.cshtml" />

@@ -2,59 +2,79 @@
 
 @{
 	ViewBag.Title = "Liste des tournois";
+	LanAdeptData.Model.Settings.Setting settings = ViewBag.Settings;
 }
 
-<h1>Liste des tournois</h1>
-<hr />
+<div class="page-header clearfix">
+	<h1>Tournois</h1>
+</div>
+
+@if (!settings.TournamentSubsciptionStarted)
+{
+	<div class="alert alert-info">
+		Les inscriptions aux tournois ne sont pas encore débutées. Elles débuteront
+		@settings.TournamentSubsciptionStartDate.ToString("dddd le d MMMM à H\\hm", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA")) @* Jour *@
+	</div>
+}
 
 @Html.ShowMessage()
 
-<table class="table table-striped table-hover">
-	<thead>
-		<tr>
-			<th class="col-sm-6">
-				@Html.DisplayNameFor(model => model.Game)
-			</th>
-			<th class="text-center">
-				Nombre d'équipes
-			</th>
-			<th class="text-center">
-				@Html.DisplayNameFor(model => model.StartTime)
-			</th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (LanAdept.Views.Tournaments.ModelController.TournamentModel tournamentModel in Model)
-		{
-			<tr @("class=clickable-row data-row-url=" + Url.Action("Details", "Tournament", new { id = tournamentModel.TournamentID }))>
-				<td>
-					@Html.DisplayFor(modelItem => tournamentModel.Game)
-				</td>
-				<td class="text-center">
-					@tournamentModel.Teams.Count()
-				</td>
-				<td class="text-center">
-					@Html.DisplayFor(modelItem => tournamentModel.StartTime)
-				</td>
-				<td>
-					@if (tournamentModel.IsOver)
-					{
-						<div class="label label-danger">
-							Terminé
-						</div>
-					}
-					else if (tournamentModel.IsStarted)
-					{
-						<div class="label label-success">
-							Commencé
-						</div>
-					}
-				</td>
+@if (Model.Count() > 0)
+{
+	<table class="table table-striped table-hover">
+		<thead>
+			<tr>
+				<th class="col-sm-6">
+					@Html.DisplayNameFor(model => model.Game)
+				</th>
+				<th class="text-center">
+					Nombre d'équipes
+				</th>
+				<th class="text-center">
+					@Html.DisplayNameFor(model => model.StartTime)
+				</th>
+				<th></th>
 			</tr>
-		}
-	</tbody>
-</table>
+		</thead>
+		<tbody>
+			@foreach (LanAdept.Views.Tournaments.ModelController.TournamentModel tournamentModel in Model)
+				{
+				<tr @("class=clickable-row data-row-url=" + Url.Action("Details", "Tournament", new { id = tournamentModel.TournamentID }))>
+					<td>
+						@Html.DisplayFor(modelItem => tournamentModel.Game.Name)
+					</td>
+					<td class="text-center">
+						@tournamentModel.Teams.Count()
+					</td>
+					<td class="text-center">
+						@Html.DisplayFor(modelItem => tournamentModel.StartTime)
+					</td>
+					<td>
+						@if (tournamentModel.IsOver)
+						{
+							<div class="label label-danger">
+								Terminé
+							</div>
+						}
+						else if (tournamentModel.IsStarted)
+						{
+							<div class="label label-success">
+								Commencé
+							</div>
+						}
+					</td>
+				</tr>
+				}
+		</tbody>
+	</table>
+}
+else
+{
+	<text>
+		Il n'y a pas encore de tournois d'organisé pour le moment.<br />
+		Cepependant, nous vous conseillons de visiter cette page régulièrement, car plusieurs tournois risque de s'y rajouter bientôt!
+	</text>
+}
 
 @section Styles {
 	@Styles.Render("~/Content/Tournois.css")

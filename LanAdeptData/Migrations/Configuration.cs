@@ -113,6 +113,8 @@ namespace LanAdeptData.Migrations
 					Rules = "Règlements à écrire",
 					StartDate = DateTime.Now.AddMonths(1),
 					EndDate = DateTime.Now.AddMonths(2),
+					PlaceReservationStartDate = DateTime.Now.AddMonths(1).AddDays(-14),
+					TournamentSubsciptionStartDate = DateTime.Now.AddMonths(1).AddDays(-7),
 					NbDaysBeforeRemember = 5,
 					RememberEmailContent = "Non utilisé pour le moment",
 					SendRememberEmail = false

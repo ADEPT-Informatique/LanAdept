@@ -17,6 +17,8 @@ namespace LanAdeptData.Model.Tournaments
 
 		public DateTime CreationDate { get; set; }
 
+		public bool IsPublished { get; set; }
+
 		public bool IsStarted { get; set; }
 
 		public bool IsOver { get; set; }

@@ -15,6 +15,8 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 		[DisplayFormat(DataFormatString = @"{0:HH\hmm}")]
 		public DateTime? StartTime { get; set; }
 
+		public bool IsPublished { get; set; }
+
 		public bool IsStarted { get; set; }
 
 		public bool IsOver { get; set; }
@@ -36,9 +38,14 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 			string classeEtat = "";
 			string messageEtat = "";
 
-			if (!IsStarted && !IsOver)
+			if(!IsPublished)
 			{
 				classeEtat = "label-default";
+				messageEtat = "Caché";
+			}
+			else if (!IsStarted && !IsOver)
+			{
+				classeEtat = "label-warning";
 				messageEtat = "Préparation";
 			}
 			else if (!IsOver)
@@ -74,6 +81,7 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 			Id = tournament.TournamentID;
 			IsOver = tournament.IsOver;
 			IsStarted = tournament.IsStarted;
+			IsPublished = tournament.IsPublished;
 			Info = tournament.Info;
 		}
 
