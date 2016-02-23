@@ -15,6 +15,7 @@ using System.Security.Claims;
 using LanAdept.Emails;
 using LanAdeptData.Model.Users;
 using System.Security.Cryptography;
+using Postal;
 
 namespace LanAdept.Controllers
 {
@@ -175,7 +176,8 @@ namespace LanAdept.Controllers
 					return View("ExternalLoginFailure");
 				}
 
-				var user = new User {
+				var user = new User
+				{
 					UserName = model.Email,
 					Email = model.Email,
 					CompleteName = model.CompleteName,
@@ -268,12 +270,29 @@ namespace LanAdept.Controllers
 			return View(model);
 		}
 
+#if DEBUG
+		[AllowAnonymous]
+		public ActionResult FakeConfirmSend()
+		{
+			User user = uow.UserRepository.Get().First();
+			string code = "Testing 1212";
+
+			ConfirmationEmail email = new ConfirmationEmail();
+			email.User = user;
+			email.ConfirmationToken = code;
+			email.Send();
+
+			return new EmailViewResult(email);
+		}
+#endif
+
 		[AuthorizeGuestOnly]
 		public async Task<ActionResult> Confirm(string id, string code)
 		{
 			User user = uow.UserRepository.GetByID(id);
 
-			try {
+			try
+			{
 				var result = await UserManager.ConfirmEmailAsync(id, code);
 
 				if (result.Succeeded)
@@ -281,7 +300,7 @@ namespace LanAdept.Controllers
 					return View("Message", new MessageModel() { Title = "Félicitation, " + user.CompleteName, Content = "Votre compte est activé! Vous pouvez maintenant vous connecter et réserver une place.", Type = AuthMessageType.Success });
 				}
 			}
-			catch(InvalidOperationException) { }
+			catch (InvalidOperationException) { }
 			return View("Message", new MessageModel() { Title = "Une erreur est survenue", Content = "Ce lien n'est pas valide. Si vous continuez de voir cette erreur, contactez un administrateur.", Type = AuthMessageType.Error });
 		}
 

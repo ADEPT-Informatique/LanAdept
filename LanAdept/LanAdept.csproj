@@ -287,6 +287,7 @@
     <None Include="Properties\PublishProfiles\LanAdept Test.pubxml" />
     <None Include="Properties\PublishProfiles\LanAdept LOCAL.pubxml" />
     <None Include="Properties\PublishProfiles\LanAdeptPRODPROD.pubxml" />
+    <Content Include="Image\LOGO_noir_Transparent_small.png" />
     <Content Include="Image\ready.png" />
     <Content Include="Image\scissors.png" />
     <Content Include="Image\sun-rays.png" />
@@ -351,6 +352,8 @@
     <Content Include="Views\Tournament\Partial\ModalChoisirGamerTagFooterRejoindre.cshtml" />
     <Content Include="Views\Tournament\Partial\ModalChoisirGamerTagFooterAjouter.cshtml" />
     <Content Include="Views\Auth\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Emails\Confirmation.Text.cshtml" />
+    <Content Include="Views\Emails\Confirmation.Html.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
