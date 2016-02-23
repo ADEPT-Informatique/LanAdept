@@ -270,9 +270,55 @@ namespace LanAdeptAdmin.Views
 		}
 
 		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
+		public ActionResult Publish(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			Tournament tournament = uow.TournamentRepository.GetByID(id);
+			if (tournament == null)
+			{
+				return HttpNotFound();
+			}
+
+			tournament.IsPublished = true;
+			tournament.IsStarted = false;
+			tournament.IsOver = false;
+
+			uow.TournamentRepository.Update(tournament);
+			uow.Save();
+
+			return RedirectToAction("Details", new { id = id });
+		}
+
+		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
+		public ActionResult CancelPublish(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			Tournament tournament = uow.TournamentRepository.GetByID(id);
+			if (tournament == null)
+			{
+				return HttpNotFound();
+			}
+
+			tournament.IsPublished = false;
+			tournament.IsStarted = false;
+			tournament.IsOver = false;
+
+			uow.TournamentRepository.Update(tournament);
+			uow.Save();
+
+			return RedirectToAction("Details", new { id = id });
+		}
+
+		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
 		public ActionResult Start(int? id)
 		{
-			if(id == null)
+			if (id == null)
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}

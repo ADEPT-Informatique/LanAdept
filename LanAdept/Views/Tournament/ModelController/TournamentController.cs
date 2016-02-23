@@ -30,7 +30,7 @@ namespace LanAdept.Controllers
 		public ActionResult Index()
 		{
 			List<TournamentModel> tournamentModels = new List<TournamentModel>();
-			IEnumerable<Tournament> tournaments = uow.TournamentRepository.Get();
+			IEnumerable<Tournament> tournaments = uow.TournamentRepository.Get(x => x.IsPublished);
 
 			foreach (Tournament tournament in tournaments)
 			{
@@ -62,7 +62,7 @@ namespace LanAdept.Controllers
 			Tournament tournament = uow.TournamentRepository.GetByID(id);
 
 
-			if (tournament == null)
+			if (tournament == null || !tournament.IsPublished)
 			{
 				TempData["Error"] = ERROR_INVALID_ID;
 				return RedirectToAction("Index");
@@ -145,6 +145,12 @@ namespace LanAdept.Controllers
 		public ActionResult Addteam(int id)
 		{
 			Tournament tournament = uow.TournamentRepository.GetByID(id);
+			if (tournament == null || !tournament.IsPublished)
+			{
+				TempData["Error"] = ERROR_INVALID_ID;
+				return RedirectToAction("Index");
+			}
+
 			Setting settings = uow.SettingRepository.GetCurrentSettings();
 
 			if (!settings.TournamentSubsciptionStarted || tournament.IsStarted || tournament.IsOver)

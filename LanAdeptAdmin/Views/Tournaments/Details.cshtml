@@ -33,9 +33,16 @@
 		</dl>
 	</div>
 	<div class="col-md-9 col-lg-8 text-right">
-		@if (!Model.IsStarted && !Model.IsOver)
+		
+		@if (!Model.IsPublished)
+		{
+			@Html.TextIconActionLink("Publier", "glyphicon-eye-open", "Publish", "Tournaments", new { id = Model.Id }, new { @class = "btn btn-info btn-mobile-full", title = "Rend le tournois visible aux visiteurs" })
+		}
+		else if (!Model.IsStarted && !Model.IsOver)
 		{
 			@Html.TextIconActionLink("Démarrer", "glyphicon-play", "Start", "Tournaments", new { id = Model.Id }, new { @class = "btn btn-success btn-mobile-full" })
+			<text> </text>
+			@Html.TextIconActionLink("Cacher", "glyphicon-eye-close", "CancelPublish", "Tournaments", new { id = Model.Id }, new { @class = "btn btn-info btn-mobile-full", title = "Rend le tournois invisible aux visiteurs" })
 		}
 		else if (Model.IsStarted && !Model.IsOver)
 		{
