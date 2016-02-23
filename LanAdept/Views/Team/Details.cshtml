@@ -1,4 +1,5 @@
-﻿@model LanAdept.Views.Teams.ModelController.DetailsModel
+﻿@using LanAdeptData.Model.Tournaments
+@model LanAdept.Views.Teams.ModelController.DetailsModel
 
 @{
 	bool isConnected = LanAdeptCore.Service.UserService.IsUserLoggedIn();
@@ -19,6 +20,24 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
 				<a href="#" class="btn btn-danger" id="modal-link">Exclure</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="promoteModal" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Promouvoir un joueur</h4>
+			</div>
+			<div class="modal-body">
+				<p>Voulez-vous vraiment promouvoir le joueur "<span id="modal-gamertag"></span>"?</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+				<a href="#" class="btn btn-success" id="modal-link">Promouvoir</a>
 			</div>
 		</div>
 	</div>
@@ -48,11 +67,11 @@
 		@(String.IsNullOrWhiteSpace(Model.Tag) ? "" : "[" + Model.Tag + "]")
 		@Model.Name
 
-		<div class="pull-right">
+		<span class="pull-right">
 			<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
 				Supprimer l'équipe
 			</button>
-		</div>
+		</span>
 	</h1>
 
 </div>
@@ -88,6 +107,9 @@
 						<td class="text-right">
 							@if (gamerTag != Model.TeamLeaderTag && !Model.Tournament.IsOver && !Model.Tournament.IsStarted)
 							{
+								<button type="button" class="btn btn-success" data-toggle="modal" data-target="#promoteModal" data-gamertag="@gamerTag.Gamertag" data-gamertag-id="@gamerTag.GamerTagID">
+									Promote
+								</button>
 								<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#kickModal" data-gamertag="@gamerTag.Gamertag" data-gamertag-id="@gamerTag.GamerTagID">
 									Exclure
 								</button>
@@ -154,6 +176,16 @@
 			var modal = $(this);
 			modal.find('#modal-gamertag').text(gamertag);
 			modal.find('#modal-link').attr("href", "@Url.Action("KickPlayer", "Team", new { Id = Model.TeamID })" + "/?gamerTagId=" + gamertagId)
+		});
+
+		$('#promoteModal').on('show.bs.modal', function (event) {
+			var button = $(event.relatedTarget);
+			var gamertagId = button.data('gamertagId');
+			var gamertag = button.data('gamertag');
+
+			var modal = $(this);
+			modal.find('#modal-gamertag').text(gamertag);
+			modal.find('#modal-link').attr("href", "@Url.Action("PromotePlayer", "Team", new { Id = Model.TeamID })" + "/?gamerTagId=" + gamertagId)
 		});
 	</script>
 }
