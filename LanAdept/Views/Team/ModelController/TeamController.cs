@@ -54,6 +54,7 @@ namespace LanAdept.Controllers
 			return View(model);
 		}
 
+		[LanAuthorize]
 		public ActionResult Details(int? id)
 		{
 			if (id == null)
@@ -101,6 +102,7 @@ namespace LanAdept.Controllers
 			return View(teamModel);
 		}
 
+		[LanAuthorize]
 		public ActionResult KickPlayer(int? id, int? gamerTagId)
 		{
 			if (id == null)
@@ -116,7 +118,6 @@ namespace LanAdept.Controllers
 
 			if (gamerTagId == null)
 			{
-				TempData["ErrorMessage"] = "Vous ne pouvez pas kicker le team leader.";
 				return RedirectToAction("Details", new { id = team.TeamID });
 			}
 
@@ -140,6 +141,48 @@ namespace LanAdept.Controllers
 			uow.Save();
 
 			return RedirectToAction("Details", new { id = id });
+		}
+
+		[LanAuthorize]
+		public ActionResult PromotePlayer(int? id, int? gamerTagId)
+		{
+			if (id == null)
+			{
+				return RedirectToAction("Index");
+			}
+
+			Team team = uow.TeamRepository.GetByID(id);
+			if (team == null)
+			{
+				return RedirectToAction("Index");
+			}
+
+			if (gamerTagId == null)
+			{
+				return RedirectToAction("Details", new { id = team.TeamID });
+			}
+
+			GamerTag gamerTag = uow.GamerTagRepository.GetByID(gamerTagId);
+
+			User user = UserService.GetLoggedInUser();
+			if (user.Id != team.TeamLeaderTag.UserID)
+			{
+				return RedirectToAction("Index", "Home");
+			}
+
+			if (team.TeamLeaderTag == gamerTag)
+			{
+				TempData["ErrorMessage"] = "Vous ne pouvez pas promouvoir le team leader.";
+				return RedirectToAction("Details", new { id = id });
+			}
+
+			team.TeamLeaderTag = gamerTag;
+
+			uow.TeamRepository.Update(team);
+			uow.GamerTagRepository.Update(gamerTag);
+			uow.Save();
+
+			return RedirectToAction("Details", "Tournament", new { id = team.TournamentID });
 		}
 
 		[LanAuthorize]
