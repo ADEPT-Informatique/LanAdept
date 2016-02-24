@@ -74,25 +74,16 @@
 					{
 						<li class="dropdown">
 							<a class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-								@UserService.GetLoggedInUser().CompleteName <span class="caret"></span>
+								@UserService.GetLoggedInUser().CompleteName
 								@if (isTeamLeader && nbDemandes > 0)
 								{
 									<span class="label label-danger">@nbDemandes</span>
 								}
+								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">
-								@Html.ListItemAction("Mon profil", "Index", "User")
-
-								@if (ReservationService.HasUserPlace())
-								{
-									@Html.ListItemAction("Ma place", "MaPlace", "Place")
-								}
-
-								@Html.ListItemAction("Déconnexion", "Logout", "Auth")
-
 								@if (isTeamLeader)
 								{
-									<li role="separator" class="divider"></li>
 									<li class="dropdown-header">Tournois</li>
 									<li>
 										<a href="@Url.Action("Index", "Team")" class="hidden-sm">
@@ -110,7 +101,16 @@
 											}
 										</a>
 									</li>
+									<li role="separator" class="divider"></li>
 								}
+
+								@if (ReservationService.HasUserPlace())
+								{
+									@Html.ListItemAction("Ma place", "MaPlace", "Place")
+								}
+								@Html.ListItemAction("Mon profil", "Index", "User")
+								<li role="separator" class="divider"></li>
+								@Html.ListItemAction("Déconnexion", "Logout", "Auth")
 							</ul>
 						</li>
 					}
