@@ -9,35 +9,6 @@
 	ViewBag.Title = "Équipe " + Model.Name;
 }
 
-@Html.Partial("ConfirmationModal",
-	new ModalModel()
-	{
-		Id = "promoteModal",
-		Title = "Promouvoir un joueur",
-		Body = "Voulez-vous vraiment promouvoir au rôle de team leader le joueur \" <span id=\"modal-gamertag\"></span> \"?",
-		BtnStyle = "success",
-		BtnText = "Promouvoir"
-	})
-@Html.Partial("ConfirmationModal",
-	new ModalModel()
-	{
-		Id = "kickModal",
-		Title = "Exclure un joueur",
-		Body = "Voulez-vous vraiment exclure le joueur \" <span id=\"modal-gamertag\"></span> \"?",
-		BtnStyle = "danger",
-		BtnText = "Exclure"
-	})
-
-@Html.Partial("ConfirmationModal",
-	new ModalModel()
-	{
-		Id = "deleteModal",
-		Title = "Supprimer l'équipe",
-		Body = "Voulez-vous vraiment supprimer votre équipe \" <span id=\"modal-teamName\"></span> \"?",
-		BtnStyle = "danger",
-		BtnText = "Supprimer"
-	})
-
 <div class="page-header clearfix">
 	<h1>
 		<span class="text-muted">
@@ -137,11 +108,40 @@
 			{
 			<br />
 			<em class="small">
-				Il n'y a aucune demande pour rejoindre votre équipe pour le moment
+				Il n'y a aucune demande pour rejoindre votre équipe
 			</em>
 			}
 	</div>
 </div>
+
+@Html.Partial("ConfirmationModal",
+	new ModalModel()
+	{
+		Id = "promoteModal",
+		Title = "Promouvoir un joueur",
+		Body = "Voulez-vous vraiment promouvoir au rôle de team leader le joueur \" <span id=\"modal-gamertag\"></span> \"?",
+		BtnStyle = "success",
+		BtnText = "Promouvoir"
+	})
+@Html.Partial("ConfirmationModal",
+	new ModalModel()
+	{
+		Id = "kickModal",
+		Title = "Exclure un joueur",
+		Body = "Voulez-vous vraiment exclure le joueur \" <span id=\"modal-gamertag\"></span> \"?",
+		BtnStyle = "danger",
+		BtnText = "Exclure"
+	})
+
+@Html.Partial("ConfirmationModal",
+	new ModalModel()
+	{
+		Id = "deleteModal",
+		Title = "Supprimer l'équipe",
+		Body = "Voulez-vous vraiment supprimer votre équipe \" <span id=\"modal-teamName\"></span> \"?",
+		BtnStyle = "danger",
+		BtnText = "Supprimer"
+	})
 
 @section Scripts {
 	<script>

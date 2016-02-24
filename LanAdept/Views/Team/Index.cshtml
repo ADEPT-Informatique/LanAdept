@@ -29,7 +29,10 @@
 		{
 			<tr @("class=clickable-row data-row-url=" + Url.Action("Details", "Team", new { id = team.Team.TeamID }))>
 				<td>
-					<span class="text-muted">[@Html.DisplayFor(model => team.Team.Tag)]</span>
+					@if (!String.IsNullOrEmpty(team.Team.Tag))
+					{
+						<span class="text-muted">[@Html.DisplayFor(model => team.Team.Tag)]</span>
+					}
 					@Html.DisplayFor(modelItem => team.Team.Name)
 				</td>
 				<td class="text-center">
