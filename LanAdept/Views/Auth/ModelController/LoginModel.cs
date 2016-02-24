@@ -18,7 +18,7 @@ namespace LanAdept.Views.Auth.ModelController
 		[Display(Name = "Mot de passe")]
 		public string Password { get; set; }
 
-		[Display(Name = "Garder ma session active")]
+		[Display(Name = "Rester connecté")]
 		public bool RememberMe { get; set; }
 
 	}

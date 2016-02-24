@@ -3,56 +3,72 @@
 @{
 	ViewBag.Title = "Se connecter";
 }
-<div class="form-login">
-	@using (Html.BeginForm("Login", "Auth", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
-	{
-		<h2 class="form-login-heading">Connexion</h2>
-		@Html.AntiForgeryToken()
-		@Html.ValidationSummary("", new { @class = "text-danger" })
 
-		@Html.LabelFor(model => model.Email, new { @class = "sr-only" })
-		@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", autofocus = true, placeholder = Html.DisplayNameFor(m2 => m2.Email) } })
+<div class="login-container">
 
-		@Html.LabelFor(model => model.Password, new { @class = "sr-only" })
-		@Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(m2 => m2.Password) } })
+	<h2>Se connecter <small class="text-right">Pas de compte? <a href="#">S'inscrire</a></small></h2>
 
-		<div class="form-group remove-bottom-margin">
-			<div class="checkbox">
-				@Html.EditorFor(model => model.RememberMe)
-				@Html.LabelFor(model => model.RememberMe)
-			</div>
-		</div>
-		<div class="forgot-password">
-			@Html.ActionLink("Mot de passe oublié?", "ForgotPassword")
-		</div>
-
-		<button type="submit" class="btn btn-primary btn-block">Se connecter</button>
-		@Html.AuthorizeActionLink("S'inscrire", "Register", "Auth", null, new { @class = "btn btn-primary btn-block", @role = "button" })
-	}
-	<br />
-	@{
-		var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
-		if (loginProviders.Count() > 0)
-		{
-			using (Html.BeginForm("ExternalLogin", "Auth", new { ReturnUrl = ViewBag.ReturnUrl }))
+	<div class="row vertical-divider">
+		<div class="col-sm-6">
+			@using (Html.BeginForm("Login", "Auth", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
 			{
 				@Html.AntiForgeryToken()
-				<div id="socialLoginList">
-					<p>
-						@foreach (AuthenticationDescription p in loginProviders)
-						{
-							<button class="btn btn-block btn-social btn-@p.AuthenticationType.ToLower()" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Connexion avec votre compte @p.Caption">
-								<span class="fa fa-@p.AuthenticationType.ToLower()"></span> Se connecter avec @p.AuthenticationType
-							</button>
-						}
-					</p>
+				@Html.ValidationSummary("", new { @class = "text-danger" })
+
+				<div class="form-group">
+					@Html.LabelFor(model => model.Email, new { @class = "sr-only" })
+					@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", autofocus = true, placeholder = Html.DisplayNameFor(m2 => m2.Email) } })
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(model => model.Password, new { @class = "sr-only" })
+					@Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(m2 => m2.Password) } })
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-block">Se connecter</button>
+				</div>
+				<div class="row login-options">
+					<div class="col-xs-6">
+						@Html.EditorFor(model => model.RememberMe)
+						@Html.LabelFor(model => model.RememberMe)
+					</div>
+					<div class="col-xs-6 text-right small">
+						@Html.ActionLink("Mot de passe oublié?", "ForgotPassword")
+					</div>
 				</div>
 			}
+		</div>
+		<div class="vertical-divider-text">
+			ou
+		</div>
+		<div class="col-sm-6">
+			<hr />
+			@{
+			var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
+			if (loginProviders.Count() > 0)
+			{
+				using (Html.BeginForm("ExternalLogin", "Auth", new { ReturnUrl = ViewBag.ReturnUrl }))
+				{
+						@Html.AntiForgeryToken()
+						<div id="socialLoginList">
+							<p>
+								@foreach (AuthenticationDescription p in loginProviders)
+								{
+									<div class="form-group">
+										<button class="btn btn-block btn-social btn-@p.AuthenticationType.ToLower()" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Connexion avec votre compte @p.Caption">
+											<span class="fa fa-@p.AuthenticationType.ToLower()"></span> Se connecter avec @p.AuthenticationType
+										</button>
+									</div>
+								}
+							</p>
+						</div>
+				}
 
-		}
-	}
+			}
+			}
+
+		</div>
+	</div>
 </div>
-
 
 @section Styles {
 	<link href="@Url.Content("~/Content/login.css")" rel="stylesheet" type="text/css" />
