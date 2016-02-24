@@ -14,6 +14,7 @@ namespace LanAdeptData.Model.Tournaments
 
 		[Required]
 		[StringLength(64)]
+		[Display(Name = "Nom d'équipe")]
 		public string Name { get; set; }
 
 		[StringLength(4)]

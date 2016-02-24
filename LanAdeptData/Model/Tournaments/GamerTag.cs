@@ -1,11 +1,7 @@
 ﻿using LanAdeptData.Model.Users;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LanAdeptData.Model.Tournaments
 {
@@ -16,6 +12,7 @@ namespace LanAdeptData.Model.Tournaments
 		[Required]
 		[StringLength(30)]
 		[MaxLength(30)]
+		[Display(Name = "GamerTag")]
 		public string Gamertag { get; set; }
 
 		public string UserID { get; set; }

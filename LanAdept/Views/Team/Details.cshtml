@@ -1,72 +1,49 @@
 ﻿@using LanAdeptData.Model.Tournaments
-@model LanAdept.Views.Teams.ModelController.DetailsModel
+@using LanAdept.Views.Teams.ModelController
+@using LanAdeptCore.Service
+@model DetailsModel
 
 @{
-	bool isConnected = LanAdeptCore.Service.UserService.IsUserLoggedIn();
-	bool IsTeamLeader = LanAdeptCore.Service.UserService.IsTeamLeader();
+	bool isConnected = UserService.IsUserLoggedIn();
+	bool IsTeamLeader = UserService.IsTeamLeader();
 	ViewBag.Title = "Équipe " + Model.Name;
 }
 
-<div class="modal fade" id="kickModal" role="dialog">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">Retirer un joueur</h4>
-			</div>
-			<div class="modal-body">
-				<p>Voulez-vous vraiment retirer le joueur "<span id="modal-gamertag"></span>"?</p>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-				<a href="#" class="btn btn-danger" id="modal-link">Exclure</a>
-			</div>
-		</div>
-	</div>
-</div>
+@Html.Partial("ConfirmationModal",
+	new ModalModel()
+	{
+		Id = "promoteModal",
+		Title = "Promouvoir un joueur",
+		Body = "Voulez-vous vraiment promouvoir au rôle de team leader le joueur \" <span id=\"modal-gamertag\"></span> \"?",
+		BtnStyle = "success",
+		BtnText = "Promouvoir"
+	})
+@Html.Partial("ConfirmationModal",
+	new ModalModel()
+	{
+		Id = "kickModal",
+		Title = "Exclure un joueur",
+		Body = "Voulez-vous vraiment exclure le joueur \" <span id=\"modal-gamertag\"></span> \"?",
+		BtnStyle = "danger",
+		BtnText = "Exclure"
+	})
 
-<div class="modal fade" id="promoteModal" role="dialog">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">Promouvoir un joueur</h4>
-			</div>
-			<div class="modal-body">
-				<p>Voulez-vous vraiment promouvoir le joueur "<span id="modal-gamertag"></span>"?</p>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-				<a href="#" class="btn btn-success" id="modal-link">Promouvoir</a>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="modal fade" id="deleteModal" role="dialog">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">Supprimer l'équipe</h4>
-			</div>
-			<div class="modal-body">
-				<p>Voulez-vous vraiment supprimer votre équipe "@Model.Name"?</p>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-				@Html.ActionLink("Supprimer", "Delete", new { id = Model.TeamID }, new { @class = "btn btn-danger" })
-			</div>
-		</div>
-	</div>
-</div>
-
+@Html.Partial("ConfirmationModal",
+	new ModalModel()
+	{
+		Id = "deleteModal",
+		Title = "Supprimer l'équipe",
+		Body = "Voulez-vous vraiment supprimer votre équipe \" <span id=\"modal-teamName\"></span> \"?",
+		BtnStyle = "danger",
+		BtnText = "Supprimer"
+	})
 
 <div class="page-header clearfix">
 	<h1>
-		@(String.IsNullOrWhiteSpace(Model.Tag) ? "" : "[" + Model.Tag + "]")
-		@Model.Name
-
+		<span class="text-muted">
+			@(String.IsNullOrWhiteSpace(Model.Tag) ? "" : "[" + Model.Tag + "]")
+		</span>
+		@Html.DisplayFor(model => model.Name)
 		<span class="pull-right">
 			<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
 				Supprimer l'équipe
@@ -107,10 +84,10 @@
 						<td class="text-right">
 							@if (gamerTag != Model.TeamLeaderTag && !Model.Tournament.IsOver && !Model.Tournament.IsStarted)
 							{
-								<button type="button" class="btn btn-success" data-toggle="modal" data-target="#promoteModal" data-gamertag="@gamerTag.Gamertag" data-gamertag-id="@gamerTag.GamerTagID">
-									Promote
+								<button type="button" class="btn btn-success" data-toggle="modal" data-target="#promoteModal" data-gamertag="@gamerTag.Gamertag" data-gamertag-id="@gamerTag.GamerTagID" title="Promouvoir au rôle de team leader">
+									<span class="glyphicon glyphicon-star"></span> Promouvoir
 								</button>
-								<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#kickModal" data-gamertag="@gamerTag.Gamertag" data-gamertag-id="@gamerTag.GamerTagID">
+								<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#kickModal" data-gamertag="@gamerTag.Gamertag" data-gamertag-id="@gamerTag.GamerTagID" title="Exclure le joueur de l'équipe">
 									Exclure
 								</button>
 							}
@@ -127,7 +104,7 @@
 		</h3>
 
 		@if (Model.Demandes.Count() >= 1)
-		{
+			{
 			<div class="table-responsive table-hover">
 				<table class="table table-striped">
 					<thead>
@@ -155,14 +132,14 @@
 					}
 				</table>
 			</div>
-		}
-		else
-		{
+			}
+			else
+			{
 			<br />
 			<em class="small">
 				Il n'y a aucune demande pour rejoindre votre équipe pour le moment
 			</em>
-		}
+			}
 	</div>
 </div>
 
@@ -186,6 +163,12 @@
 			var modal = $(this);
 			modal.find('#modal-gamertag').text(gamertag);
 			modal.find('#modal-link').attr("href", "@Url.Action("PromotePlayer", "Team", new { Id = Model.TeamID })" + "/?gamerTagId=" + gamertagId)
+		});
+
+		$('#deleteModal').on('show.bs.modal', function (event) {
+			var modal = $(this);
+			modal.find('#modal-teamName').text("@Model.Name");
+			modal.find('#modal-link').attr("href", "@Url.Action("Delete", new { Id = Model.TeamID })")
 		});
 	</script>
 }

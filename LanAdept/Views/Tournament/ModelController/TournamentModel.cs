@@ -20,9 +20,11 @@ namespace LanAdept.Views.Tournaments.ModelController
 		[Display(Name = "Jeu")]
 		public string Game { get; set; }
 
-        public IEnumerable<TeamModel> Teams { get; set; }
+		[Display(Name = "Équipes")]
+		public IEnumerable<TeamModel> Teams { get; set; }
 
-        public IEnumerable<GamerTag> GamerTags { get; set; }
+		[Display(Name = "Membres")]
+		public IEnumerable<GamerTag> GamerTags { get; set; }
 
         public bool IsConnected { get; set; }
 
@@ -38,7 +40,7 @@ namespace LanAdept.Views.Tournaments.ModelController
 
 		public bool CanAddTeam { get; set; }
 
-		public Team UserTeam { get; set; }
+		public LanAdeptData.Model.Tournaments.Team UserTeam { get; set; }
 
 		public TournamentModel(Tournament tournament)
 		{

@@ -1,4 +1,6 @@
-﻿@model LanAdept.Views.Tournaments.ModelController.TournamentModel
+﻿@using LanAdept.Views.Tournaments.ModelController
+@using LanAdeptData.Model.Tournaments
+@model TournamentModel
 
 @{
 	ViewBag.Title = "Tournoi de " + Model.Game;
@@ -43,16 +45,15 @@ else if (Model.IsStarted)
 @if (Model.Info != null)
 {
 	<h3>Informations et règlements</h3>
-		<div>
-			@Html.Markdown(Model.Info)
-		</div>
-		<hr />
+	<div>
+		@Html.Markdown(Model.Info)
+	</div>
+	<hr />
 		<h4>Équipes</h4>
 }
 
 @if (Model.Teams.Count() > 0)
 {
-
 	using (Html.BeginForm("JoinTeam", "Tournament", new LanAdept.Views.Tournaments.ModelController.JoinTeamModel() { TournamentID = Model.TournamentID }))
 	{
 		@Html.Hidden("GamerTagID", 0, new { id = "tagInput" })
@@ -68,35 +69,34 @@ else if (Model.IsStarted)
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th>Équipes</th>
-						<th>Membres</th>
+						<th>@Html.DisplayNameFor(model => model.Teams)</th>
+						<th>@Html.DisplayNameFor(model => model.GamerTags)</th>
 						<th class="text-center">Nombre de joueur</th>
 						<th></th>
 					</tr>
 				</thead>
-				@foreach (LanAdept.Views.Tournaments.ModelController.TeamModel team in Model.Teams)
-					{
-						string hash = team.GetSeeTeamOnMapHash();
-
+				@foreach (TeamModel team in Model.Teams)
+				{
+					string hash = team.GetSeeTeamOnMapHash();
 					<tr>
 						<td>
 							@if (!string.IsNullOrWhiteSpace(team.Tag))
 							{
-								<span class="text-muted">[@team.Tag.ToUpper()]</span>
+								<span class="text-muted">[@Html.DisplayFor(model => team.Tag)]</span>
 							}
-							@team.Name
+							@Html.DisplayFor(model => team.Name)
 						</td>
 						<td>
-							@foreach (LanAdeptData.Model.Tournaments.GamerTag gamerTag in team.Gamertags)
+							@foreach (GamerTag gamerTag in team.Gamertags)
 							{
 								<div>
 									@if (gamerTag == team.TeamLeaderTag)
 									{
-										@gamerTag.Gamertag <span class="glyphicon glyphicon-star"></span>
+										@Html.DisplayFor(model => gamerTag.Gamertag) <span class="glyphicon glyphicon-star"></span>
 									}
 									else
 									{
-										@gamerTag.Gamertag
+										@Html.DisplayFor(model => gamerTag.Gamertag)
 									}
 								</div>
 							}
@@ -105,12 +105,12 @@ else if (Model.IsStarted)
 							@if (team.Gamertags.Count() == Model.MaxPlayerPerTeam)
 							{
 								<span class="text-success">
-									@team.Gamertags.Count() / @Model.MaxPlayerPerTeam
+									@team.Gamertags.Count() / @Html.DisplayFor(model => model.MaxPlayerPerTeam)
 								</span>
 							}
 							else
 							{
-								@team.Gamertags.Count() <text>/</text> @Model.MaxPlayerPerTeam
+								@team.Gamertags.Count() <text>/</text> @Html.DisplayFor(model => model.MaxPlayerPerTeam)
 							}
 						</td>
 						<td>
@@ -164,7 +164,7 @@ else
 			@Html.ActionLink("Soyez la première!", "AddTeam", new { id = Model.TournamentID })
 		}
 	</p>
-		<br />
+	<br />
 }
 
 @Html.TextIconActionLink("Retour", "glyphicon-arrow-left", "Index", null, null, new { @class = "btn btn-default" })

@@ -1,0 +1,18 @@
+﻿@model LanAdeptAdmin.Views.Tournaments.ModelController.ModalModel
+<div class="modal fade" id="@Model.Id" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">@Model.Title</h4>
+			</div>
+			<div class="modal-body">
+				<p>@Html.Raw(Model.Body)</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+				<a href="#" class="btn btn-@Model.BtnStyle" id="modal-link">@Model.BtnText</a>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,4 +1,5 @@
-﻿@model  LanAdeptAdmin.Views.Tournaments.ModelController.TournamentModel
+﻿@using LanAdeptData.Model.Tournaments
+@model  LanAdeptAdmin.Views.Tournaments.ModelController.TournamentModel
 
 @{
 	ViewBag.Title = "Details";
@@ -90,7 +91,7 @@
 					<th></th>
 				</tr>
 
-				@foreach (LanAdeptData.Model.Tournaments.Team team in Model.Teams)
+				@foreach (Team team in Model.Teams)
 				{
 					<tr @("class=clickable-row data-row-url=" + Url.Action("DetailsTeam", new { id = team.TeamID }))>
 						<td>

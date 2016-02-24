@@ -199,6 +199,7 @@
     <Compile Include="Views\Place\ModelController\ReserveModel.cs" />
     <Compile Include="Views\Place\ModelController\SearchModel.cs" />
     <Compile Include="Views\Tournaments\ModelController\EmailModel.cs" />
+    <Compile Include="Views\Tournaments\ModelController\ModalModel.cs" />
     <Compile Include="Views\Tournaments\ModelController\TeamModel.cs" />
     <Compile Include="Views\Tournaments\ModelController\TournamentModel.cs" />
     <Compile Include="Views\Tournaments\ModelController\TournamentController.cs" />
@@ -353,6 +354,7 @@
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Error\PageNotFound.cshtml" />
     <Content Include="Scripts\jquery-2.2.0.min.map" />
+    <Content Include="Views\Tournaments\Partial\ConfirmationModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Emails\ModelController\" />

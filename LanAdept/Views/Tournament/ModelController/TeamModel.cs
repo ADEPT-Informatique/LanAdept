@@ -27,7 +27,7 @@ namespace LanAdept.Views.Tournaments.ModelController
 
 		public IEnumerable<GamerTag> Gamertags { get; set; }
 
-		public TeamModel(Team team)
+		public TeamModel(LanAdeptData.Model.Tournaments.Team team)
 		{
 			TeamID = team.TeamID;
 			Name = team.Name;

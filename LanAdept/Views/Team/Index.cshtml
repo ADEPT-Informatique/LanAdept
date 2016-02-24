@@ -29,10 +29,11 @@
 		{
 			<tr @("class=clickable-row data-row-url=" + Url.Action("Details", "Team", new { id = team.Team.TeamID }))>
 				<td>
+					<span class="text-muted">[@Html.DisplayFor(model => team.Team.Tag)]</span>
 					@Html.DisplayFor(modelItem => team.Team.Name)
 				</td>
 				<td class="text-center">
-					@team.Team.GamerTags.Count / @team.Team.Tournament.MaxPlayerPerTeam
+					@team.Team.GamerTags.Count / @Html.DisplayFor(model => team.Team.Tournament.MaxPlayerPerTeam)
 				</td>
 				<td class="text-center">
 					@if (team.Demandes == null)

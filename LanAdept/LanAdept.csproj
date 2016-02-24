@@ -193,6 +193,7 @@
     <Compile Include="Views\Place\ModelController\MaPlaceModel.cs" />
     <Compile Include="Views\Place\ModelController\PlaceController.cs" />
     <Compile Include="Views\Team\ModelController\IndexTeamModel.cs" />
+    <Compile Include="Views\Team\ModelController\ModalModel.cs" />
     <Compile Include="Views\Team\ModelController\TeamController.cs" />
     <Compile Include="Views\Team\ModelController\DetailsModel.cs" />
     <Compile Include="Views\Team\ModelController\TeamDemandeModel.cs" />
@@ -357,6 +358,9 @@
     <Content Include="Views\Emails\Confirmation.Text.cshtml" />
     <Content Include="Views\Emails\Confirmation.Html.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\User\Details.cshtml" />
+    <Content Include="Views\Team\Partial\ConfirmationModal.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

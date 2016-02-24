@@ -1,5 +1,16 @@
 ﻿@using LanAdeptCore.HtmlExtension;
 
+@{
+	bool isTeamLeader = LanAdeptCore.Service.UserService.IsTeamLeader();
+	int nbDemandes = 0;
+	int nbTeams = 0;
+    if (isTeamLeader)
+	{
+		nbDemandes = LanAdeptCore.Service.UserService.GetNbTeamDemand();
+		nbTeams = LanAdeptCore.Service.UserService.GetNbTeams();
+	}
+}
+
 <!DOCTYPE html>
 <html moznomarginboxes="" mozdisallowselectionprint="">
 <head>
@@ -61,26 +72,34 @@
 					@if (LanAdeptCore.Service.UserService.IsUserLoggedIn())
 					{
 						<li class="dropdown">
-							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-								<span class="glyphicon glyphicon-user"></span>
-								@if (LanAdeptCore.Service.UserService.IsTeamLeader() && LanAdeptCore.Service.UserService.GetNbTeamDemand() > 0)
+							<a class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+								<span class="glyphicon glyphicon-menu-hamburger"></span>
+								@if (isTeamLeader && nbDemandes > 0)
 								{
-									<span class="label label-danger">@LanAdeptCore.Service.UserService.GetNbTeamDemand()</span>
+									<span class="label label-danger">@nbDemandes</span>
 								}
-							</button>
+							</a>
 							<ul class="dropdown-menu">
 								@Html.ListItemAction("Mon profil", "Index", "User")
-								@if (LanAdeptCore.Service.UserService.IsTeamLeader())
-								{
-									int nbDemandes = @LanAdeptCore.Service.UserService.GetNbTeamDemand();
 
+								@if (LanAdeptCore.Service.ReservationService.HasUserPlace())
+								{
+									@Html.ListItemAction("Ma place", "MaPlace", "Place")
+								}
+
+								@Html.ListItemAction("Déconnexion", "Logout", "Auth")
+
+								@if (isTeamLeader)
+								{
+									<li role="separator" class="divider"></li>
+									<li class="dropdown-header">Tournois</li>
 									<li>
 										<a href="@Url.Action("Index", "Team")" class="hidden-sm">
-											@if (LanAdeptCore.Service.UserService.GetNbTeams() > 1)
+											@if (nbTeams > 1)
 											{
 												<span>Mes équipes</span>
 											}
-											else if (LanAdeptCore.Service.UserService.GetNbTeams() == 1)
+											else if (nbTeams == 1)
 											{
 												<span>Mon équipe</span>
 											}
@@ -90,14 +109,7 @@
 											}
 										</a>
 									</li>
-									@*@Html.ListItemAction("Mes équipes", "Index", "Team", null, new { @class = "hidden-sm" })*@
 								}
-
-								@if (LanAdeptCore.Service.ReservationService.HasUserPlace())
-								{
-									@Html.ListItemAction("Ma place", "MaPlace", "Place")
-								}
-								@Html.ListItemAction("Déconnexion", "Logout", "Auth")
 							</ul>
 						</li>
 					}

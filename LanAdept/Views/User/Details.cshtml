@@ -1,0 +1,33 @@
+﻿@model LanAdeptData.Model.Users.User
+
+@{
+	ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+	<h4>User</h4>
+	<hr />
+	<dl class="dl-horizontal">
+		<dt>
+			@Html.DisplayNameFor(model => model.CompleteName)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.CompleteName)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.Email)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.Email)
+		</dd>
+	</dl>
+</div>
+<div class="col-md-9 col-lg-8 text-right">
+	@Html.TextIconActionLink("Modifier", "glyphicon-pencil", "Edit", null, new { id = Model.Id }, new { @class = "btn btn-primary btn-mobile-full" })
+	@Html.ActionLink("Back to List", "Index")
+</div>

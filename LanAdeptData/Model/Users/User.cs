@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using LanAdeptData.Validation;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Security.Claims;
 using Microsoft.AspNet.Identity;
@@ -18,6 +14,7 @@ namespace LanAdeptData.Model.Users
 	public class User : IdentityUser
 	{
 		[Required]
+		[Display(Name = "Nom complet")]
 		public string CompleteName { get; set; }
 
 		public string Barcode { get; set; }

@@ -1,4 +1,5 @@
 ﻿using LanAdept.Views.User.ModelController;
+using LanAdeptCore.Attribute.Authorization;
 using LanAdeptCore.Service;
 using LanAdeptData.DAL;
 using LanAdeptData.Model.Users;
@@ -17,7 +18,7 @@ namespace LanAdept.Controllers
 			get { return UnitOfWork.Current; }
 		}
 
-		[AllowAnonymous]
+		[LanAuthorize]
 		public ActionResult Index()
 		{
 			User u = UserService.GetLoggedInUser();
@@ -29,5 +30,38 @@ namespace LanAdept.Controllers
 
 			return View(um);
 		}
+
+		[LanAuthorize]
+		public ActionResult Edit()
+		{
+			User u = UserService.GetLoggedInUser();
+
+			UserModel um = new UserModel();
+			um.CompleteName = u.CompleteName;
+			um.Email = u.Email;
+			um.UserId = u.Id;
+
+			return View(um);
+		}
+
+		[LanAuthorize]
+		[HttpPost]
+		public ActionResult Edit(UserModel um)
+		{
+			if (ModelState.IsValid)
+			{
+				User u = uow.UserRepository.GetByID(um.UserId);
+				u.CompleteName = um.CompleteName;
+				u.Email = um.Email;
+				u.UserName = um.Email;
+
+				uow.UserRepository.Update(u);
+				uow.Save();
+				return RedirectToAction("Index");
+			}
+			return View();
+		}
+
+
 	}
 }

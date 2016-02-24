@@ -1,10 +1,30 @@
 ﻿@model LanAdept.Views.User.ModelController.UserModel
 
 @{
-    ViewBag.Title = "Index";
+	ViewBag.Title = "Index";
 }
 
-<h2>Mon profil</h2>
+<div>
+	<h2>Mon profil</h2>
+	<hr />
+	<dl class="dl-horizontal">
+		<dt>
+			@Html.DisplayNameFor(model => model.CompleteName)
+		</dt>
 
-@Html.DisplayFor(model => model.CompleteName)
-@Html.DisplayFor(model => model.Email)
+		<dd>
+			@Html.DisplayFor(model => model.CompleteName)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.Email)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.Email)
+		</dd>
+	</dl>
+	<div class="text-right">
+		@Html.TextIconActionLink("Modifier", "glyphicon-pencil", "Edit", null, new { id = Model.UserId }, new { @class = "btn btn-primary btn-mobile-full" })
+	</div>
+</div>
