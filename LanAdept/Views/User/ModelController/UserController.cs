@@ -26,7 +26,6 @@ namespace LanAdept.Controllers
 			UserModel um = new UserModel();
 			um.CompleteName = u.CompleteName;
 			um.Email = u.Email;
-			um.UserId = u.Id;
 
 			return View(um);
 		}
