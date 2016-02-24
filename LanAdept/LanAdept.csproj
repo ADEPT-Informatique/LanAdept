@@ -178,10 +178,13 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Views\Auth\ModelController\AuthController.cs" />
     <Compile Include="Views\Auth\ModelController\ExternalLoginConfirmationViewModel.cs" />
+    <Compile Include="Views\Auth\ModelController\ForgotPasswordModel.cs" />
     <Compile Include="Views\Auth\ModelController\LoginModel.cs" />
     <Compile Include="Views\Auth\ModelController\MessageModel.cs" />
     <Compile Include="Views\Auth\ModelController\RegisterModel.cs" />
+    <Compile Include="Views\Emails\ModelController\ResetPasswordEmail.cs" />
     <Compile Include="Views\Emails\ModelController\ConfirmationEmail.cs" />
+    <Compile Include="Views\Auth\ModelController\ResetPasswordModel.cs" />
     <Compile Include="Views\Error\ModelController\ErrorController.cs" />
     <Compile Include="Views\Home\ModelController\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -362,6 +365,11 @@
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\Team\Partial\ConfirmationModal.cshtml" />
     <Content Include="Views\User\ChangePassword.cshtml" />
+    <Content Include="Views\Auth\ForgotPassword.cshtml" />
+    <Content Include="Views\Emails\ResetPassword.cshtml" />
+    <Content Include="Views\Emails\ResetPassword.Html.cshtml" />
+    <Content Include="Views\Emails\ResetPassword.Text.cshtml" />
+    <Content Include="Views\Auth\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

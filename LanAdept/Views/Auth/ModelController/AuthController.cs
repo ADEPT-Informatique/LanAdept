@@ -253,7 +253,7 @@ namespace LanAdept.Controllers
 
 					MessageModel messageView = new MessageModel()
 					{
-						Title = "Vous êtes maintenant inscrit!",
+						Title = "Vous êtes maintenant inscrit",
 						Content = "Vous devez maintenant <strong>confirmer votre email</strong>. Une fois que ce sera fait, vous pourrez réserver une place pour participer au LAN de l'ADEPT.",
 						Type = AuthMessageType.Success
 					};
@@ -269,22 +269,6 @@ namespace LanAdept.Controllers
 			ViewBag.Rules = uow.SettingRepository.GetCurrentSettings().Rules;
 			return View(model);
 		}
-
-#if DEBUG
-		[AllowAnonymous]
-		public ActionResult FakeConfirmSend()
-		{
-			User user = uow.UserRepository.Get().First();
-			string code = "Testing 1212";
-
-			ConfirmationEmail email = new ConfirmationEmail();
-			email.User = user;
-			email.ConfirmationToken = code;
-			email.Send();
-
-			return new EmailViewResult(email);
-		}
-#endif
 
 		[AuthorizeGuestOnly]
 		public async Task<ActionResult> Confirm(string id, string code)
@@ -303,6 +287,115 @@ namespace LanAdept.Controllers
 			catch (InvalidOperationException) { }
 			return View("Message", new MessageModel() { Title = "Une erreur est survenue", Content = "Ce lien n'est pas valide. Si vous continuez de voir cette erreur, contactez un administrateur.", Type = AuthMessageType.Error });
 		}
+
+		[AuthorizeGuestOnly]
+		public ActionResult ForgotPassword()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		[AuthorizeGuestOnly]
+		[ValidateAntiForgeryToken]
+		public async Task<ActionResult> ForgotPassword(ForgotPasswordModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var confirmMessage = new MessageModel()
+				{
+					Content = "Un email contenant un lien de réinitialisation vient de vous être envoyé. Vous pourrez changer votre mot de passe en cliquant sur celui-ci.",
+					Type = AuthMessageType.Success
+				};
+
+				var user = await UserManager.FindByNameAsync(model.Email);
+				if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+				{
+					// Il ne faut pas dire à l'utilisateur que le email n'existe pas ou qu'il n'est pas confirmé
+					return View("Message", confirmMessage);
+				}
+
+				string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+				var callbackUrl = Url.Action("ResetPassword", "Auth", new { id = user.Id, code = code }, protocol: Request.Url.Scheme);
+
+				ResetPasswordEmail email = new ResetPasswordEmail()
+				{
+					User = user,
+					ResetLink = callbackUrl
+				};
+				await email.SendAsync();
+
+				return View("Message", confirmMessage);
+			}
+
+			return View(model);
+		}
+
+		[AllowAnonymous]
+		public ActionResult ResetPassword(string id, string code)
+		{
+			if(string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(code))
+			{
+				return HttpNotFound();
+			}
+
+			return View(new ResetPasswordModel() { Id = id, Code = code });
+		}
+
+		//
+		// POST: /Account/ResetPassword
+		[HttpPost]
+		[AllowAnonymous]
+		[ValidateAntiForgeryToken]
+		public async Task<ActionResult> ResetPassword(ResetPasswordModel model)
+		{
+			if (string.IsNullOrWhiteSpace(model.Id) || string.IsNullOrWhiteSpace(model.Code))
+			{
+				return HttpNotFound();
+			}
+
+			if (!ModelState.IsValid)
+			{
+				return View(model);
+			}
+
+			var confirmMessage = new MessageModel()
+			{
+				Title = "Votre mot de passe a été réinitialisé",
+				Content = "Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.",
+				Type = AuthMessageType.Success
+			};
+
+			var user = await UserManager.FindByNameAsync(model.Id);
+			if (user == null)
+			{
+				// Ne révélez pas que l'utilisateur n'existe pas
+				return View("Message", confirmMessage);
+			}
+			var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+			if (result.Succeeded)
+			{
+				return View("Message", confirmMessage);
+			}
+			AddErrors(result);
+			return View();
+		}
+
+
+#if DEBUG
+		[AllowAnonymous]
+		public ActionResult FakeConfirmSend()
+		{
+			User user = uow.UserRepository.Get().First();
+			string code = "Testing 1212";
+
+			ConfirmationEmail email = new ConfirmationEmail();
+			email.User = user;
+			email.ConfirmationToken = code;
+			email.Send();
+
+			return new EmailViewResult(email);
+		}
+#endif
 
 		internal class ChallengeResult : HttpUnauthorizedResult
 		{

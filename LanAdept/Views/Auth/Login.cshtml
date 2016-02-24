@@ -1,60 +1,63 @@
 ﻿@model LanAdept.Views.Auth.ModelController.LoginModel
 @using Microsoft.Owin.Security
 @{
-    ViewBag.Title = "Se connecter";
+	ViewBag.Title = "Se connecter";
 }
 <div class="form-login">
-    @using (Html.BeginForm("Login", "Auth", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
-    {
-        <h2 class="form-login-heading">Connexion</h2>
-            @Html.AntiForgeryToken()
-            @Html.ValidationSummary("", new { @class = "text-danger" })
+	@using (Html.BeginForm("Login", "Auth", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
+	{
+		<h2 class="form-login-heading">Connexion</h2>
+		@Html.AntiForgeryToken()
+		@Html.ValidationSummary("", new { @class = "text-danger" })
 
-            @Html.LabelFor(model => model.Email, new { @class = "sr-only" })
-            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", autofocus = true, placeholder = Html.DisplayNameFor(m2 => m2.Email) } })
+		@Html.LabelFor(model => model.Email, new { @class = "sr-only" })
+		@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", autofocus = true, placeholder = Html.DisplayNameFor(m2 => m2.Email) } })
 
-            @Html.LabelFor(model => model.Password, new { @class = "sr-only" })
-            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(m2 => m2.Password) } })
+		@Html.LabelFor(model => model.Password, new { @class = "sr-only" })
+		@Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(m2 => m2.Password) } })
 
-            <div class="form-group">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.RememberMe)
-                    @Html.LabelFor(model => model.RememberMe)
-                </div>
-            </div>
+		<div class="form-group remove-bottom-margin">
+			<div class="checkbox">
+				@Html.EditorFor(model => model.RememberMe)
+				@Html.LabelFor(model => model.RememberMe)
+			</div>
+		</div>
+		<div class="forgot-password">
+			@Html.ActionLink("Mot de passe oublié?", "ForgotPassword")
+		</div>
 
-            <button type="submit" class="btn btn-primary btn-block">Se connecter</button>
-			@Html.AuthorizeActionLink("S'inscrire", "Register", "Auth", null, new { @class = "btn btn-primary btn-block", @role = "button" })
+		<button type="submit" class="btn btn-primary btn-block">Se connecter</button>
+		@Html.AuthorizeActionLink("S'inscrire", "Register", "Auth", null, new { @class = "btn btn-primary btn-block", @role = "button" })
 	}
-    <hr />
-    @{
-        var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
-        if (loginProviders.Count() > 0)
-        {
-            using (Html.BeginForm("ExternalLogin", "Auth", new { ReturnUrl = ViewBag.ReturnUrl }))
-            {
-                @Html.AntiForgeryToken()
-                <div id="socialLoginList">
-                    <p>
-                        @foreach (AuthenticationDescription p in loginProviders)
-                        {
-                            <button class="btn btn-block btn-social btn-@p.AuthenticationType.ToLower()" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Connexion avec votre compte @p.Caption">
-                                <span class="fa fa-@p.AuthenticationType.ToLower()"></span> Se connecter avec @p.AuthenticationType
-                            </button>
-}
-                    </p>
-                </div>
-}
+	<br />
+	@{
+		var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
+		if (loginProviders.Count() > 0)
+		{
+			using (Html.BeginForm("ExternalLogin", "Auth", new { ReturnUrl = ViewBag.ReturnUrl }))
+			{
+				@Html.AntiForgeryToken()
+				<div id="socialLoginList">
+					<p>
+						@foreach (AuthenticationDescription p in loginProviders)
+						{
+							<button class="btn btn-block btn-social btn-@p.AuthenticationType.ToLower()" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Connexion avec votre compte @p.Caption">
+								<span class="fa fa-@p.AuthenticationType.ToLower()"></span> Se connecter avec @p.AuthenticationType
+							</button>
+						}
+					</p>
+				</div>
+			}
 
-        }
-    }
+		}
+	}
 </div>
 
 
 @section Styles {
-    <link href="@Url.Content("~/Content/login.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/login.css")" rel="stylesheet" type="text/css" />
 }
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+	@Scripts.Render("~/bundles/jqueryval")
 }
