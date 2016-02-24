@@ -34,7 +34,7 @@
 		</dl>
 	</div>
 	<div class="col-md-9 col-lg-8 text-right">
-		
+
 		@if (!Model.IsPublished)
 		{
 			@Html.TextIconActionLink("Publier", "glyphicon-eye-open", "Publish", "Tournaments", new { id = Model.Id }, new { @class = "btn btn-info btn-mobile-full", title = "Rend le tournois visible aux visiteurs" })
@@ -73,7 +73,14 @@
 			}
 			else
 			{
-				<em>Les règlements n'ont pas encore été définis.</em>
+				<em>
+					Les règlements n'ont pas encore été définis. Pour les définir cliquer sur le bouton "modifier" et remplir le champ "Informations et règlements".
+				</em>
+				<br>
+				<br>
+				<em>
+					Il est à noter que le markdown est supporté. Pour plus d'information cliquer sur le lien qui se trouve sous la zone de texte.
+				</em>
 			}
 		</p>
 	</div>
