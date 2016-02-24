@@ -39,7 +39,6 @@ namespace LanAdept.Controllers
 			UserModel um = new UserModel();
 			um.CompleteName = u.CompleteName;
 			um.Email = u.Email;
-			um.UserId = u.Id;
 
 			return View(um);
 		}
@@ -50,7 +49,7 @@ namespace LanAdept.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				User u = uow.UserRepository.GetByID(um.UserId);
+				User u = UserService.GetLoggedInUser();
 				u.CompleteName = um.CompleteName;
 				u.Email = um.Email;
 				u.UserName = um.Email;
