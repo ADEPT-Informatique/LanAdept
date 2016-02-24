@@ -365,7 +365,7 @@ namespace LanAdept.Controllers
 				Type = AuthMessageType.Success
 			};
 
-			var user = await UserManager.FindByNameAsync(model.Id);
+			var user = await UserManager.FindByIdAsync(model.Id);
 			if (user == null)
 			{
 				// Ne révélez pas que l'utilisateur n'existe pas

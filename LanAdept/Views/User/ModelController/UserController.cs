@@ -86,8 +86,6 @@ namespace LanAdept.Controllers
 			{
 				User u = UserService.GetLoggedInUser();
 				u.CompleteName = um.CompleteName;
-				u.Email = um.Email;
-				u.UserName = um.Email;
 
 				uow.UserRepository.Update(u);
 				uow.Save();
