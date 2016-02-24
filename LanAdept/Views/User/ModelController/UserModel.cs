@@ -8,7 +8,6 @@ namespace LanAdept.Views.User.ModelController
 {
 	public class UserModel
 	{
-		public string UserId { get; set; }
 		[Required]
 		[Display(Name = "Nom complet")]
 		public string CompleteName { get; set; }
