@@ -43,11 +43,8 @@ namespace LanAdept.Controllers
 				foreach (Demande demande in uow.DemandeRepository.Get())
 				{
 					if (demande.Team.TeamID == team.TeamID)
-					{
 						tdm.Demandes.Add(demande);
-					}
 				}
-
 				model.Teams.Add(tdm);
 			}
 
@@ -57,10 +54,11 @@ namespace LanAdept.Controllers
 		[LanAuthorize]
 		public ActionResult Details(int? id)
 		{
+			if (!UserService.IsTeamLeader())
+				return RedirectToAction("Index", "Home");
+
 			if (id == null)
-			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
+				return RedirectToAction("Index");
 
 			DetailsModel teamModel = new DetailsModel();
 
@@ -68,9 +66,7 @@ namespace LanAdept.Controllers
 
 			User user = UserService.GetLoggedInUser();
 			if (user.Id != team.TeamLeaderTag.UserID)
-			{
 				return RedirectToAction("Index", "Home");
-			}
 
 			teamModel.GamerTags = team.GamerTags;
 			teamModel.TeamID = team.TeamID;
@@ -86,18 +82,13 @@ namespace LanAdept.Controllers
 			foreach (Demande demande in uow.DemandeRepository.Get())
 			{
 				if (demande.Team.TeamID == team.TeamID)
-				{
 					demandes.Add(demande);
-				}
 			}
 
 			teamModel.Demandes = demandes;
 
-
 			if (teamModel == null)
-			{
 				return HttpNotFound();
-			}
 
 			return View(teamModel);
 		}
@@ -105,29 +96,24 @@ namespace LanAdept.Controllers
 		[LanAuthorize]
 		public ActionResult KickPlayer(int? id, int? gamerTagId)
 		{
+			if (!UserService.IsTeamLeader())
+				return RedirectToAction("Index", "Home");
+
 			if (id == null)
-			{
 				return RedirectToAction("Index");
-			}
 
 			Team team = uow.TeamRepository.GetByID(id);
 			if (team == null)
-			{
 				return RedirectToAction("Index");
-			}
-
-			if (gamerTagId == null)
-			{
-				return RedirectToAction("Details", new { id = team.TeamID });
-			}
-
-			GamerTag gamerTag = uow.GamerTagRepository.GetByID(gamerTagId);
 
 			User user = UserService.GetLoggedInUser();
 			if (user.Id != team.TeamLeaderTag.UserID)
-			{
 				return RedirectToAction("Index", "Home");
-			}
+
+			if (gamerTagId == null)
+				return RedirectToAction("Details", new { id = team.TeamID });
+
+			GamerTag gamerTag = uow.GamerTagRepository.GetByID(gamerTagId);
 
 			if (team.TeamLeaderTag == gamerTag)
 			{
@@ -146,29 +132,24 @@ namespace LanAdept.Controllers
 		[LanAuthorize]
 		public ActionResult PromotePlayer(int? id, int? gamerTagId)
 		{
+			if (!UserService.IsTeamLeader())
+				return RedirectToAction("Index", "Home");
+
 			if (id == null)
-			{
 				return RedirectToAction("Index");
-			}
 
 			Team team = uow.TeamRepository.GetByID(id);
 			if (team == null)
-			{
 				return RedirectToAction("Index");
-			}
-
-			if (gamerTagId == null)
-			{
-				return RedirectToAction("Details", new { id = team.TeamID });
-			}
-
-			GamerTag gamerTag = uow.GamerTagRepository.GetByID(gamerTagId);
 
 			User user = UserService.GetLoggedInUser();
 			if (user.Id != team.TeamLeaderTag.UserID)
-			{
 				return RedirectToAction("Index", "Home");
-			}
+
+			if (gamerTagId == null)
+				return RedirectToAction("Details", new { id = team.TeamID });
+
+			GamerTag gamerTag = uow.GamerTagRepository.GetByID(gamerTagId);
 
 			if (team.TeamLeaderTag == gamerTag)
 			{
@@ -188,13 +169,14 @@ namespace LanAdept.Controllers
 		[LanAuthorize]
 		public ActionResult AcceptTeamMember(int id, int gamerTagId)
 		{
+			if (!UserService.IsTeamLeader())
+				return RedirectToAction("Index", "Home");
+
 			Team team = uow.TeamRepository.GetByID(id);
 
 			User user = UserService.GetLoggedInUser();
 			if (user.Id != team.TeamLeaderTag.UserID)
-			{
 				return RedirectToAction("Index", "Home");
-			}
 
 			if (team.GamerTags.Count < team.Tournament.MaxPlayerPerTeam)
 			{
@@ -209,9 +191,7 @@ namespace LanAdept.Controllers
 				foreach (Demande demande in demandes)
 				{
 					if (demande.Team.Tournament.TournamentID == team.Tournament.TournamentID)
-					{
 						uow.DemandeRepository.Delete(demande);
-					}
 				}
 
 				uow.Save();
@@ -222,23 +202,22 @@ namespace LanAdept.Controllers
 		[LanAuthorize]
 		public ActionResult RefuseTeamMember(int id, int gamerTagId)
 		{
+			if (!UserService.IsTeamLeader())
+				return RedirectToAction("Index", "Home");
+
 			GamerTag gamer = uow.GamerTagRepository.GetByID(gamerTagId);
 			Team team = uow.TeamRepository.GetByID(id);
 
 			User user = UserService.GetLoggedInUser();
 			if (user.Id != team.TeamLeaderTag.UserID)
-			{
 				return RedirectToAction("Index", "Home");
-			}
 
 			List<Demande> demandes = uow.DemandeRepository.GetByGamerTagId(gamerTagId);
 
 			foreach (Demande demande in demandes)
 			{
 				if (demande.Team.TeamID == id && user.Id == team.TeamLeaderTag.UserID)
-				{
 					uow.DemandeRepository.Delete(demande);
-				}
 			}
 
 			uow.Save();
@@ -268,6 +247,7 @@ namespace LanAdept.Controllers
 				GamerTag tag = team.GamerTags.First(g => g.UserID == user.Id);
 
 				team.GamerTags.Remove(tag);
+
 				uow.TeamRepository.Update(team);
 				uow.Save();
 			}
@@ -299,23 +279,24 @@ namespace LanAdept.Controllers
 		[LanAuthorize]
 		public ActionResult Delete(int id)
 		{
+			if (!UserService.IsTeamLeader())
+				return RedirectToAction("Index", "Home");
+
 			Team team = uow.TeamRepository.GetByID(id);
 
 			User user = UserService.GetLoggedInUser();
 			if (user.Id != team.TeamLeaderTag.UserID)
-			{
 				return RedirectToAction("Index", "Home");
-			}
 
 			List<Demande> demandes = uow.DemandeRepository.GetByTeamId(id);
 			foreach (Demande demande in demandes)
 			{
 				uow.DemandeRepository.Delete(demande);
 			}
+
 			int tournamentID = team.Tournament.TournamentID;
 
 			uow.TeamRepository.Delete(team);
-
 			uow.Save();
 
 			return RedirectToAction("Details", "Tournament", new { id = tournamentID });
