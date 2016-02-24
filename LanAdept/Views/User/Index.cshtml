@@ -6,6 +6,8 @@
 
 <div>
 	<h2>Mon profil</h2>
+
+	@Html.ShowMessage()
 	<hr />
 	<dl class="dl-horizontal">
 		<dt>
@@ -23,8 +25,10 @@
 		<dd>
 			@Html.DisplayFor(model => model.Email)
 		</dd>
-	</dl>
 
+		<dt>Mot de passe</dt>
+		<dd>********** (@Html.ActionLink("Modifier", "ChangePassword"))</dd>
+	</dl>
 </div>
 
 <div class="text-right">
