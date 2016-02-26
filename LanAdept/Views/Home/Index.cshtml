@@ -21,7 +21,7 @@
     <div class="text-center">
         <p id="date">@ViewBag.dateLanHuman.ToString("dddd", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA")) @ViewBag.dateLanHuman.ToString("f", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA"))</p>
         <div class="inscription">
-            @Html.AuthorizeActionLink("Inscrivez-vous dès maintenant!", "Register", "Auth", null, new { @class = "text-center btn btn-primary", @role = "button" })
+            @Html.AuthorizeActionLink("Connectez-vous dès maintenant!", "Login", "Auth", null, new { @class = "text-center btn btn-primary", @role = "button" })
         </div>
     </div>
 </div>
