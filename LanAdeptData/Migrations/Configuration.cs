@@ -82,7 +82,7 @@ namespace LanAdeptData.Migrations
 			{
 				var store = new RoleStore<Role>(context);
 				var manager = new RoleManager<Role>(store);
-				var role = new Role { Name = "tournamentMod", DisplayName = "Mod. tournois", Description = "Permet de gérer les tournois dans lesquels il est autorisé." };
+				var role = new Role { Name = "tournamentMod", DisplayName = "Org. tournois", Description = "Permet d'organiser les tournois dans lesquels il est autorisé." };
 
 				manager.Create(role);
 			}
