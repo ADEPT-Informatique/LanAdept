@@ -31,7 +31,6 @@ namespace LanAdeptData.DAL
 		public DbSet<GamerTag> Gamertags { get; set; }
 		public DbSet<Setting> Settings { get; set; }
 		public DbSet<Map> Maps { get; set; }
-		public DbSet<Tile> Tiles { get; set; }
 		public DbSet<Demande> Demandes { get; set; }
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)

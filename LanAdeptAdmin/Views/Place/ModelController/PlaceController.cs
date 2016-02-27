@@ -381,12 +381,6 @@ namespace LanAdeptAdmin.Controllers
 				uow.ReservationRepository.Delete(reservation);
 			}
 
-			IEnumerable<Tile> tiles = uow.TileRepository.Get();
-			foreach (Tile tile in tiles)
-			{
-				uow.TileRepository.Delete(tile);
-			}
-
 			IEnumerable<Place> places = uow.PlaceRepository.Get();
 			foreach (Place place in places)
 			{
@@ -409,7 +403,7 @@ namespace LanAdeptAdmin.Controllers
 			newMap.MapName = "Caféteria orange";
 			newMap.Width = 18;
 			newMap.Height = 13;
-			newMap.Tiles = new List<Tile>();
+			newMap.Places = new List<Place>();
 
 			int x = 1;
 			int y = 0;
@@ -430,16 +424,12 @@ namespace LanAdeptAdmin.Controllers
 					place.Number = i;
 					place.PlaceSection = section;
 
-					Tile tile = new Tile();
+                    place.PositionX = x;
+                    place.PositionY = y;
 
-					tile.Place = place;
-					tile.PositionX = x;
-					tile.PositionY = y;
-
-					newMap.Tiles.Add(tile);
+					newMap.Places.Add(place);
 
 					uow.PlaceRepository.Insert(place);
-					uow.TileRepository.Insert(tile);
 				}
 				x++;
 				y = 0;
@@ -459,13 +449,10 @@ namespace LanAdeptAdmin.Controllers
 					place.Number = i;
 					place.PlaceSection = section;
 
-					Tile tile = new Tile();
+                    place.PositionX = x;
+                    place.PositionY = 0;
 
-					tile.Place = place;
-					tile.PositionX = x;
-					tile.PositionY = 0;
-
-					newMap.Tiles.Add(tile);
+					newMap.Places.Add(place);
 
 					x++;
 

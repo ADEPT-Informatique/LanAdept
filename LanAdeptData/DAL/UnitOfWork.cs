@@ -198,19 +198,6 @@ namespace LanAdeptData.DAL
 			}
 		}
 
-		private TileRepository tileRepository;
-		public TileRepository TileRepository
-		{
-			get
-			{
-				if (tileRepository == null)
-				{
-					tileRepository = new TileRepository(context);
-				}
-				return tileRepository;
-			}
-		}
-
 		private GuestRepository guestRepository;
 		public GuestRepository GuestRepository
 		{

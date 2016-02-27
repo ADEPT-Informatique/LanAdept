@@ -93,6 +93,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
@@ -142,6 +144,19 @@
     <Compile Include="Manager\ApplicationUserManager.cs" />
     <Compile Include="MVCModification\ViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\Challonge\Data\ChallongeMatch.cs" />
+    <Compile Include="Service\Challonge\Data\ChallongeParticipant.cs" />
+    <Compile Include="Service\Challonge\ChallongeService.cs" />
+    <Compile Include="Service\Challonge\Data\ChallongeTournament.cs" />
+    <Compile Include="Service\Challonge\HttpService.cs" />
+    <Compile Include="Service\Challonge\Response\ChallongeResponse.cs" />
+    <Compile Include="Service\Challonge\Response\ListMatchResponse.cs" />
+    <Compile Include="Service\Challonge\Request\ParticipantRequest.cs" />
+    <Compile Include="Service\Challonge\Response\MatchResponse.cs" />
+    <Compile Include="Service\Challonge\Response\ParticipantResponse.cs" />
+    <Compile Include="Service\Challonge\Response\SimpleResponse.cs" />
+    <Compile Include="Service\Challonge\Request\TournamentRequest.cs" />
+    <Compile Include="Service\Challonge\Response\TournamentResponse.cs" />
     <Compile Include="Service\ReservationService.cs" />
     <Compile Include="Service\ServiceResult\BaseResult.cs" />
     <Compile Include="Service\ServiceResult\TryLoginResult.cs" />

@@ -13,7 +13,7 @@ namespace LanAdeptData.Model
         public int Width { get; set; }
         public int Height { get; set; }
         #region Navigation properties
-        public virtual ICollection<Tile> Tiles { get; set; }
+        public virtual ICollection<Place> Places { get; set; }
         #endregion
     }
 }

@@ -11,6 +11,10 @@ using LanAdeptData.Model;
 using LanAdeptAdmin.Views.Tournaments.ModelController;
 using Microsoft.AspNet.Identity.Owin;
 using LanAdeptCore.Attribute.Authorization;
+using LanAdeptCore.Service;
+using System.Threading.Tasks;
+using LanAdeptCore.Service.Challonge;
+using LanAdeptCore.Service.Challonge.Request;
 
 namespace LanAdeptAdmin.Views
 {
@@ -23,7 +27,14 @@ namespace LanAdeptAdmin.Views
 			get { return UnitOfWork.Current; }
 		}
 
-		public ActionResult Index()
+        public async Task<JsonResult> TestCreate()
+        {
+            var r = await ChallongeService.CreateParticipant(new ParticipantRequest() { Name = "SaltyProgrammerClub", TournamentUrl = "LA1af717b1" });
+            //var r = await ChallongeService.CreateTournament(new TournamentRequest() { Description = "", Name = "Test 1 2 1 2", Type = TounamentType.Single });
+            return Json(r, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Index()
 		{
 			List<TournamentModel> tournamentModelList = new List<TournamentModel>();
 			IEnumerable<Tournament> tournaments = uow.TournamentRepository.Get();
@@ -57,7 +68,7 @@ namespace LanAdeptAdmin.Views
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create([Bind(Include = "GameID, StartTime,MaxPlayerPerTeam")] TournamentModel tournamentModel)
+		public ActionResult Create([Bind(Include = "GameID, StartTime, MaxPlayerPerTeam")] TournamentModel tournamentModel)
 		{
 			if (ModelState.IsValid)
 			{

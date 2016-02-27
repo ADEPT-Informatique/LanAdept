@@ -13,7 +13,11 @@ namespace LanAdeptData.Model
 
 		public int Number { get; set; }
 
-		[ForeignKey("PlaceSection")]
+        public int PositionX { get; set; }
+
+        public int PositionY { get; set; }
+
+        [ForeignKey("PlaceSection")]
 		public virtual int PlaceSectionID { get; set; }
 
 		#region Navigation properties
