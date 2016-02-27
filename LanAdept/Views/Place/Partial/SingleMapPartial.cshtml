@@ -1,23 +1,90 @@
 ﻿@model LanAdept.Views.Places.ModelController.FastMap
 
+@{ 
+	bool foundMyPlace = false;
+}
+
 <div id="map-container">
-    <div id="map">
-        @for (int i = 0; i < Model.Height; i++) {
-            <div class="row">
-                @for (int j = 0; j < Model.Width; j++) {
+	<div id="map">
+		@for (int i = 0; i < Model.Height; i++)
+		{
+			<div class="row">
+				@for (int j = 0; j < Model.Width; j++)
+				{
 					LanAdeptData.Model.Places.Place place = Model.TabPlaces[j, i];
 					if (place == null)
 					{
-                        <div class="place place-none">
-                            <div></div>
-                        </div>
-                    }
-                    else {
-                        @Html.Partial("SinglePlacePartial", place)
-                    }
-                }
-            </div>
-        }
-    </div>
-</div>
+						<div class="place place-none">
+						</div>
+					}
+					else {
+						string classFirstDiv = "place";
 
+						if (ViewBag.Settings.IsPlaceReservationStarted && !place.IsFree)
+						{
+							if (LanAdeptCore.Service.ReservationService.IsUserPlace(place))
+							{
+								classFirstDiv += " place-actuelle";
+							}
+							else if (place.IsOccupied)
+							{
+								classFirstDiv += " place-occupe";
+							}
+							else
+							{
+								classFirstDiv += " place-reserve";
+							}
+						}
+
+						<div class="@classFirstDiv" id="@place.PlaceID">
+							@if (!ViewBag.Settings.IsLanStarted
+								&& ViewBag.Settings.IsPlaceReservationStarted
+								&& Html.HasActionPermission("Reserver")
+								&& place.IsFree
+								&& !ViewBag.userHaveAPlace)
+							{
+								<div class="hover" data-toggle="modal" data-target="#ModalReserverPlace" data-trigger="focus" data-place-text="@place" data-place-id="@place.PlaceID">
+									@place
+								</div>
+							}
+							else if (ViewBag.Settings.IsPlaceReservationStarted
+								&& !ViewBag.Settings.IsLanStarted
+								&& Html.HasActionPermission("Reserver")
+								&& place.IsFree
+								&& ViewBag.userHaveAPlace)
+							{
+								<div class="hover" data-toggle="modal" data-target="#ModalChangerPlace" data-place-text="@place" data-place-id="@place.PlaceID">
+									@place
+								</div>
+							}
+							else if (ViewBag.Settings.IsPlaceReservationStarted
+								&& !foundMyPlace
+								&& LanAdeptCore.Service.ReservationService.IsUserPlace(place))
+							{
+								foundMyPlace = true;
+								<div class="hover">
+									@Html.AuthorizeActionLink(@place.ToString(), "MaPlace", true)
+								</div>
+							}
+							else
+							{
+								if (ViewBag.Settings.IsPlaceReservationStarted && !place.IsFree)
+								{
+									<a data-toggle="popover" data-content="@place.LastReservation.UserCompleteName" href="javascript:void(0);" data-trigger="focus">
+										@place
+									</a>
+								}
+								else
+								{
+									<div>
+										@place
+									</div>
+								}
+							}
+						</div>
+					}
+				}
+			</div>
+		}
+	</div>
+</div>

@@ -92,7 +92,7 @@ namespace LanAdeptAdmin.Controllers
 			{
 				var user = await UserManager.FindByEmailAsync(model.Email);
 
-				if (!await UserManager.IsInRoleAsync(user.Id, "admin"))
+				if (!await UserManager.IsInRoleAsync(user.Id, "admin") && !await UserManager.IsInRoleAsync(user.Id, "owner"))
 					return RedirectToAction("SilentLogout");
 
 				return RedirectToReturnUrl(returnUrl);
@@ -124,7 +124,7 @@ namespace LanAdeptAdmin.Controllers
 			if (result == SignInStatus.Success)
 			{
 				var user = UserManager.Find(loginInfo.Login);
-				if (!await UserManager.IsInRoleAsync(user.Id, "admin"))
+				if (!await UserManager.IsInRoleAsync(user.Id, "admin") && !await UserManager.IsInRoleAsync(user.Id, "owner") )
 					return RedirectToAction("SilentLogout");
 
 				return RedirectToReturnUrl(returnUrl);
