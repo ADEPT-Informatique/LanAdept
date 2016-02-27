@@ -6,6 +6,8 @@ using LanAdeptData.DAL;
 using LanAdeptData.Model;
 using System.Web;
 using Microsoft.AspNet.Identity.Owin;
+using LanAdeptData.Model.Places;
+using LanAdeptData.Model.Users;
 
 namespace LanAdeptCore.Service
 {

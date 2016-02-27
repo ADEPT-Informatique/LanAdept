@@ -132,6 +132,7 @@
     <Compile Include="Attribute\Authorization\AuthorizationRequiredAttribute.cs" />
     <Compile Include="Attribute\Authorization\AuthorizeGuestOnlyAttribute.cs" />
     <Compile Include="Attribute\Authorization\LanAuthorize.cs" />
+    <Compile Include="HtmlExtension\ShowMessageExtension.cs" />
     <Compile Include="HtmlExtension\TextIconActionLinkExtension.cs" />
     <Compile Include="HtmlExtension\IconActionLinkExtension.cs" />
     <Compile Include="HtmlExtension\ListItemIconActionExtension.cs" />

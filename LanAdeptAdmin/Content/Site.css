@@ -161,3 +161,8 @@ textarea {
 .validation-summary-errors {
     clear:both;
 }
+
+.form-group .control-label  {
+	display: inline-block;
+	font-weight: bold;
+}

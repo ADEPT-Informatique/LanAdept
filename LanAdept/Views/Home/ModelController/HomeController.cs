@@ -5,6 +5,7 @@ using LanAdeptData.DAL;
 using LanAdeptData.Model;
 using Microsoft.AspNet.Identity.Owin;
 using System.Web;
+using LanAdeptData.Model.Settings;
 
 namespace LanAdept.Controllers
 {
@@ -19,17 +20,16 @@ namespace LanAdept.Controllers
 		public ActionResult Index()
 		{
 			ViewBag.PlacesReservee = uow.PlaceRepository.Get().Count(x => !x.IsFree);
+			ViewBag.PlacesTotal = uow.PlaceRepository.Get().Count();
 
 			Setting setting = uow.SettingRepository.GetCurrentSettings();
-			
 
-            ViewBag.Description = setting.Description;
+			ViewBag.Description = setting.Description;
 
 			DateTime dateLan = TimeZoneInfo.ConvertTimeToUtc(setting.StartDate);
 			double dateLanMs = dateLan.Subtract(new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds; //Donne le temps en unix time
 			DateTime dateLanEnd = TimeZoneInfo.ConvertTimeToUtc(setting.EndDate);
 			double dateLanEndMs = dateLanEnd.Subtract(new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
-
 
 			ViewBag.dateLan = dateLanMs;
 			ViewBag.dateLanEnd = dateLanEndMs;
@@ -37,9 +37,10 @@ namespace LanAdept.Controllers
 			return View();
 		}
 
-        public ActionResult About() {
+		public ActionResult About()
+		{
 			ViewBag.Rules = uow.SettingRepository.GetCurrentSettings().Rules;
 			return View();
-        }
+		}
 	}
 }

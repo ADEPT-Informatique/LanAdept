@@ -1,0 +1,36 @@
+﻿@model LanAdept.Views.User.ModelController.UserModel
+
+@{
+	ViewBag.Title = "Index";
+}
+
+<div>
+	<h2>Mon profil</h2>
+
+	@Html.ShowMessage()
+	<hr />
+	<dl class="dl-horizontal">
+		<dt>
+			@Html.DisplayNameFor(model => model.CompleteName)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.CompleteName)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.Email)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.Email)
+		</dd>
+
+		<dt>Mot de passe</dt>
+		<dd>********** (@Html.ActionLink("Modifier", "ChangePassword"))</dd>
+	</dl>
+</div>
+
+<div class="text-right">
+	@Html.TextIconActionLink("Modifier", "glyphicon-pencil", "Edit", "User", null, new { @class = "btn btn-primary btn-mobile-full" })
+</div>

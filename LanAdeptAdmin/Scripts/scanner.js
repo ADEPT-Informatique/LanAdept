@@ -7,11 +7,8 @@
 		}
 		if (pressed == false) {
 			setTimeout(function () {
-				console.log("Test: " + chars.join(""));
 				if (chars.length >= 8) {
 					var barcode = chars.join("");
-					console.log("Barcode Scanned: " + barcode);
-
 					window.location = "/Place/Search/?Query=" + barcode;
 				}
 				chars = [];

@@ -11,6 +11,9 @@ using LanAdept.Views.Tournaments.ModelController;
 using System;
 using Microsoft.AspNet.Identity.Owin;
 using System.Web;
+using LanAdeptData.Model.Users;
+using LanAdeptData.Model.Tournaments;
+using LanAdeptData.Model.Settings;
 
 namespace LanAdept.Controllers
 {
@@ -27,12 +30,7 @@ namespace LanAdept.Controllers
 		public ActionResult Index()
 		{
 			List<TournamentModel> tournamentModels = new List<TournamentModel>();
-			IEnumerable<Tournament> tournaments = uow.TournamentRepository.Get();
-
-			if (tournaments.Count() == 0)
-			{
-				return View("TournamentComing");
-			}
+			IEnumerable<Tournament> tournaments = uow.TournamentRepository.Get(x => x.IsPublished);
 
 			foreach (Tournament tournament in tournaments)
 			{
@@ -47,7 +45,9 @@ namespace LanAdept.Controllers
 				tournamentModels.Add(tournamentModel);
 			}
 
-			return View(tournamentModels.OrderBy(t => t.StartTime).ThenBy(t => t.Game.Name));
+			ViewBag.Settings = uow.SettingRepository.GetCurrentSettings();
+
+			return View(tournamentModels.OrderBy(t => t.StartTime).ThenBy(t => t.Game));
 		}
 
 		[AllowAnonymous]
@@ -62,7 +62,7 @@ namespace LanAdept.Controllers
 			Tournament tournament = uow.TournamentRepository.GetByID(id);
 
 
-			if (tournament == null)
+			if (tournament == null || !tournament.IsPublished)
 			{
 				TempData["Error"] = ERROR_INVALID_ID;
 				return RedirectToAction("Index");
@@ -136,14 +136,24 @@ namespace LanAdept.Controllers
 				tournamentModel.UserTeam = uow.TeamRepository.UserTeamInTournament(user, tournament);
 			}
 
+			ViewBag.Settings = uow.SettingRepository.GetCurrentSettings();
+
 			return View(tournamentModel);
 		}
 
+		[LanAuthorize]
 		public ActionResult Addteam(int id)
 		{
-			LanAdeptData.Model.Tournament tournament = uow.TournamentRepository.GetByID(id);
+			Tournament tournament = uow.TournamentRepository.GetByID(id);
+			if (tournament == null || !tournament.IsPublished)
+			{
+				TempData["Error"] = ERROR_INVALID_ID;
+				return RedirectToAction("Index");
+			}
 
-			if (tournament.IsStarted || tournament.IsOver)
+			Setting settings = uow.SettingRepository.GetCurrentSettings();
+
+			if (!settings.TournamentSubsciptionStarted || tournament.IsStarted || tournament.IsOver)
 			{
 				TempData["Error"] = "Il n'est pas possible d'ajouter une équipe pour le moment";
 				return RedirectToAction("Details", new { id = tournament.TournamentID });
@@ -151,7 +161,7 @@ namespace LanAdept.Controllers
 
 			User loggedInUser = UserService.GetLoggedInUser();
 
-			foreach (LanAdeptData.Model.Team team in tournament.Teams)
+			foreach (Team team in tournament.Teams)
 			{
 				if (team.TeamLeaderTag.User.Id == loggedInUser.Id)
 				{
@@ -181,9 +191,10 @@ namespace LanAdept.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[LanAuthorize]
 		public ActionResult Addteam(AddTeamModel teamModel)
 		{
-			LanAdeptData.Model.Tournament tournament = uow.TournamentRepository.GetByID(teamModel.TournamentID);
+			Tournament tournament = uow.TournamentRepository.GetByID(teamModel.TournamentID);
 
 			if (tournament.IsStarted || tournament.IsOver)
 			{
@@ -193,7 +204,7 @@ namespace LanAdept.Controllers
 
 			User loggedInUser = UserService.GetLoggedInUser();
 
-			foreach (LanAdeptData.Model.Team team in tournament.Teams)
+			foreach (Team team in tournament.Teams)
 			{
 				if (team.TeamLeaderTag.User.Id == loggedInUser.Id)
 				{
@@ -216,7 +227,7 @@ namespace LanAdept.Controllers
 
 			if (ModelState.IsValid)
 			{
-				LanAdeptData.Model.Team team = new LanAdeptData.Model.Team();
+				Team team = new Team();
 				team.Name = teamModel.Name;
 				team.Tag = teamModel.Tag;
 				team.TeamLeaderTag = uow.GamerTagRepository.GetByUserAndGamerTagID(loggedInUser, teamModel.GamerTagId);
@@ -230,8 +241,8 @@ namespace LanAdept.Controllers
 
 				if (team.Tournament.Teams == null)
 				{
-					ICollection<LanAdeptData.Model.Team> teamList;
-					teamList = new List<LanAdeptData.Model.Team>();
+					ICollection<Team> teamList;
+					teamList = new List<Team>();
 					teamList.Add(team);
 					team.Tournament.Teams = teamList;
 				}
@@ -250,6 +261,7 @@ namespace LanAdept.Controllers
 			return View(teamModel);
 		}
 
+		[LanAuthorize]
 		public ActionResult AddGamerTag(string gamertag)
 		{
 			User user = UserService.GetLoggedInUser();
@@ -269,6 +281,7 @@ namespace LanAdept.Controllers
 			return Json(new GamerTagResponse() { HasError = true, ErrorMessage = "Vous avez déja un GamerTag avec ce nom", GamerTagID = 0, Gamertag = gamertag }, JsonRequestBehavior.AllowGet); ;
 		}
 
+		[LanAuthorize]
 		public ActionResult JoinTeam(JoinTeamModel model)
 		{
 			if (model.GamerTagID == null || model.TournamentID == null || model.TeamID == null)
@@ -310,7 +323,7 @@ namespace LanAdept.Controllers
 
 			demande.GamerTag = gamerTag;
 
-			LanAdeptData.Model.Team team = uow.TeamRepository.GetByID(model.TeamID);
+			Team team = uow.TeamRepository.GetByID(model.TeamID);
 			if (team == null)
 			{
 				//TODO : Add client error

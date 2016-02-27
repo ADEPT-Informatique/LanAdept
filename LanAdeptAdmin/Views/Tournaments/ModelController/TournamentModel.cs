@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using System.ComponentModel;
+using LanAdeptData.Model.Tournaments;
 
 namespace LanAdeptAdmin.Views.Tournaments.ModelController
 {
@@ -13,6 +14,8 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 		[Required(ErrorMessage="L'heure de début du tournoi est requise")]
 		[DisplayFormat(DataFormatString = @"{0:HH\hmm}")]
 		public DateTime? StartTime { get; set; }
+
+		public bool IsPublished { get; set; }
 
 		public bool IsStarted { get; set; }
 
@@ -27,16 +30,22 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 
 		public int Id { get; set; }
 
-		public int GameID { get; set; }
+		[Display(Name = "Jeu")]
+		public string Game { get; set; }
 
 		public MvcHtmlString GetStatus()
 		{
 			string classeEtat = "";
 			string messageEtat = "";
 
-			if (!IsStarted && !IsOver)
+			if(!IsPublished)
 			{
 				classeEtat = "label-default";
+				messageEtat = "Caché";
+			}
+			else if (!IsStarted && !IsOver)
+			{
+				classeEtat = "label-warning";
 				messageEtat = "Préparation";
 			}
 			else if (!IsOver)
@@ -55,9 +64,6 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 
 
 		#region Navigation properties
-		[Display(Name = "Jeu")]
-		public virtual LanAdeptData.Model.Game Game { get; set; }
-
 		public virtual ICollection<Team> Teams { get; set; }
 		#endregion
 
@@ -71,11 +77,11 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 			StartTime = tournament.StartTime;
 			MaxPlayerPerTeam = tournament.MaxPlayerPerTeam;
 			Game = tournament.Game;
-			GameID = tournament.GameID;
 			Teams = tournament.Teams;
 			Id = tournament.TournamentID;
 			IsOver = tournament.IsOver;
 			IsStarted = tournament.IsStarted;
+			IsPublished = tournament.IsPublished;
 			Info = tournament.Info;
 		}
 

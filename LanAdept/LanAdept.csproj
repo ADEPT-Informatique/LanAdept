@@ -52,6 +52,26 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Glimpse.Ado, Version=1.7.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.Ado.1.7.3\lib\net45\Glimpse.Ado.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Glimpse.AspNet, Version=1.9.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.AspNet.1.9.2\lib\net45\Glimpse.AspNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Glimpse.Core, Version=1.8.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.1.8.6\lib\net45\Glimpse.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Glimpse.EF6, Version=1.6.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.EF6.1.6.5\lib\net45\Glimpse.EF6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Glimpse.Mvc5, Version=1.5.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.Mvc5.1.5.3\lib\net45\Glimpse.Mvc5.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
       <Private>True</Private>
@@ -175,13 +195,17 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Views\Auth\ModelController\AuthController.cs" />
     <Compile Include="Views\Auth\ModelController\ExternalLoginConfirmationViewModel.cs" />
+    <Compile Include="Views\Auth\ModelController\ForgotPasswordModel.cs" />
     <Compile Include="Views\Auth\ModelController\LoginModel.cs" />
     <Compile Include="Views\Auth\ModelController\MessageModel.cs" />
     <Compile Include="Views\Auth\ModelController\RegisterModel.cs" />
+    <Compile Include="Views\Emails\ModelController\ResetPasswordEmail.cs" />
     <Compile Include="Views\Emails\ModelController\ConfirmationEmail.cs" />
+    <Compile Include="Views\Auth\ModelController\ResetPasswordModel.cs" />
     <Compile Include="Views\Error\ModelController\ErrorController.cs" />
     <Compile Include="Views\Home\ModelController\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -193,6 +217,7 @@
     <Compile Include="Views\Place\ModelController\MaPlaceModel.cs" />
     <Compile Include="Views\Place\ModelController\PlaceController.cs" />
     <Compile Include="Views\Team\ModelController\IndexTeamModel.cs" />
+    <Compile Include="Views\Team\ModelController\ModalModel.cs" />
     <Compile Include="Views\Team\ModelController\TeamController.cs" />
     <Compile Include="Views\Team\ModelController\DetailsModel.cs" />
     <Compile Include="Views\Team\ModelController\TeamDemandeModel.cs" />
@@ -202,6 +227,9 @@
     <Compile Include="Views\Tournament\ModelController\TeamModel.cs" />
     <Compile Include="Views\Tournament\ModelController\TournamentController.cs" />
     <Compile Include="Views\Tournament\ModelController\TournamentModel.cs" />
+    <Compile Include="Views\User\ModelController\ChangePasswordModel.cs" />
+    <Compile Include="Views\User\ModelController\UserController.cs" />
+    <Compile Include="Views\User\ModelController\UserModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-lan.css" />
@@ -287,6 +315,7 @@
     <None Include="Properties\PublishProfiles\LanAdept Test.pubxml" />
     <None Include="Properties\PublishProfiles\LanAdept LOCAL.pubxml" />
     <None Include="Properties\PublishProfiles\LanAdeptPRODPROD.pubxml" />
+    <Content Include="Image\LOGO_noir_Transparent_small.png" />
     <Content Include="Image\ready.png" />
     <Content Include="Image\scissors.png" />
     <Content Include="Image\sun-rays.png" />
@@ -327,7 +356,6 @@
     <Content Include="Views\Auth\Login.cshtml" />
     <Content Include="Views\Auth\Register.cshtml" />
     <Content Include="Views\Auth\Message.cshtml" />
-    <Content Include="Views\Place\Partial\SinglePlacePartial.cshtml" />
     <Content Include="Views\Place\Partial\SingleSectionPartial.cshtml" />
     <Content Include="Views\Place\Liste.cshtml" />
     <Content Include="Views\Place\Partial\ModalReserverPlacePartial.cshtml" />
@@ -343,7 +371,6 @@
     <Content Include="Views\Emails\Web.config" />
     <Content Include="Views\Tournament\Partial\ModalChoisirGamerTag.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Tournament\TournamentComing.cshtml" />
     <Content Include="Views\Error\PageNotFound.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Error\Forbidden.cshtml" />
@@ -352,6 +379,17 @@
     <Content Include="Views\Tournament\Partial\ModalChoisirGamerTagFooterRejoindre.cshtml" />
     <Content Include="Views\Tournament\Partial\ModalChoisirGamerTagFooterAjouter.cshtml" />
     <Content Include="Views\Auth\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Emails\Confirmation.Text.cshtml" />
+    <Content Include="Views\Emails\Confirmation.Html.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\Team\Partial\ConfirmationModal.cshtml" />
+    <Content Include="Views\User\ChangePassword.cshtml" />
+    <Content Include="Views\Auth\ForgotPassword.cshtml" />
+    <Content Include="Views\Emails\ResetPassword.cshtml" />
+    <Content Include="Views\Emails\ResetPassword.Html.cshtml" />
+    <Content Include="Views\Emails\ResetPassword.Text.cshtml" />
+    <Content Include="Views\Auth\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

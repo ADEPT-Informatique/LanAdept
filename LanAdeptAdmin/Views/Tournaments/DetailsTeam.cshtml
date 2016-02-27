@@ -1,11 +1,10 @@
-﻿@model LanAdeptAdmin.Views.Tournaments.ModelController.TeamModel
+﻿@using LanAdeptAdmin.Views.Tournaments.ModelController
+@model TeamModel
 
 @{
 	ViewBag.Title = Model.Name;
 	ViewBag.Sidebar = "_Sidebar_Tournament";
 }
-
-
 
 @if (TempData["ErrorMessage"] != null)
 {
@@ -23,21 +22,25 @@
 	{
 		<span class="label label-danger"><span class="glyphicon glyphicon-hourglass"></span></span>
 	}
+	@if (!String.IsNullOrEmpty(Model.Tag))
+	{
+		<span class="text-muted">[@Html.DisplayFor(model => model.Tag)]</span>
+	}
+	@Html.DisplayFor(model => model.Name)
 
-	@Model.Name
-
-    <div class="pull-right">
-        @if (Model.IsConfirmed)
-        {
-            @Html.TextIconActionLink("Non confirmé", "glyphicon-remove", "TeamNotReady", "Tournaments", new { Id = Model.TeamID }, new { @class = "btn btn-danger" })
-        }
-        else
-        {
-            @Html.TextIconActionLink("Confirmer l'équipe", "glyphicon-ok", "TeamReady", "Tournaments", new { Id = Model.TeamID }, new { @class = "btn btn-success" })
-        }
-        <text> </text>
-        @Html.TextIconActionLink("Modifier", "glyphicon-pencil", "EditTeam", "Tournaments", new { teamId = Model.TeamID }, new { @class = "btn btn-primary" })
-    </div>
+	<span class="pull-right">
+		@if (Model.IsConfirmed)
+		{
+			@Html.TextIconActionLink("Non confirmé", "glyphicon-remove", "TeamNotReady", "Tournaments", new { Id = Model.TeamID }, new { @class = "btn btn-danger" })
+		}
+		else
+		{
+			@Html.TextIconActionLink("Confirmer l'équipe", "glyphicon-ok", "TeamReady", "Tournaments", new { Id = Model.TeamID }, new { @class = "btn btn-success" })
+		}
+		<text> </text>
+		@Html.TextIconActionLink("Modifier", "glyphicon-pencil", "EditTeam", "Tournaments", new { teamId = Model.TeamID }, new { @class = "btn btn-primary" })
+		@Html.TextIconActionLink("Supprimer","glyphicon-trash", "DeleteTeam", null, new { id = Model.TeamID }, new { @class = "btn btn-danger" })
+	</span>
 </h2>
 <hr />
 
@@ -60,11 +63,11 @@
 	</h3>
 
 	<div class="table-responsive">
-		<table class="table table-striped">
+		<table class="table table-hover">
 			<thead>
 				<tr>
 					<th>
-						Nom complet
+						@Html.DisplayNameFor(model => model.TeamGamerTags.First().User.CompleteName)
 					</th>
 					<th>
 						@Html.DisplayNameFor(model => model.TeamGamerTags.First().Gamertag)
@@ -73,23 +76,27 @@
 				</tr>
 			</thead>
 			<tbody>
-				@foreach (GamerTag gamerTag in Model.TeamGamerTags)
+				@foreach (var gamerTag in Model.TeamGamerTags)
 				{
 					<tr>
 						<td>
-							@gamerTag.User.CompleteName.ToString()
+							@Html.DisplayFor(model => gamerTag.User.CompleteName)
 							@if (Model.TeamLeaderTag == gamerTag)
 							{
 								<span class="glyphicon glyphicon-star"></span>
 							}
 						</td>
 						<td>
-							@gamerTag.Gamertag
+							@Html.DisplayFor(model => gamerTag.Gamertag)
 						</td>
 						<td class="text-right">
+							@Html.ActionLink("Details", "Details", "User", new { id = gamerTag.UserID }, new { @class = "btn btn-primary" })
 							@if (Model.TeamLeaderTag != gamerTag)
 							{
-								<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#kickModal" data-gamertag="@gamerTag.Gamertag" data-gamertag-id="@gamerTag.GamerTagID">
+								<button type="button" class="btn btn-success" data-toggle="modal" data-target="#promoteModal" data-gamertag="@gamerTag.Gamertag" data-gamertag-id="@gamerTag.GamerTagID" title="Promouvoir au rôle de team leader">
+									<span class="glyphicon glyphicon-star"></span> Promouvoir
+								</button>
+								<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#kickModal" data-gamertag="@gamerTag.Gamertag" data-gamertag-id="@gamerTag.GamerTagID" title="Exclure le joueur de l'équipe">
 									Exclure
 								</button>
 							}
@@ -104,23 +111,24 @@
 	@Html.TextIconActionLink("Retour", "glyphicon-arrow-left", "Details", "Tournaments", new { id = Model.TournamentID }, new { @class = "btn btn-default" })
 </p>
 
-<div class="modal fade" id="kickModal" role="dialog">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">Exclure un joueur</h4>
-			</div>
-			<div class="modal-body">
-				<p>Voulez-vous vraiment exclure le joueur "<span id="modal-gamertag"></span>"?</p>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-				<a href="#" class="btn btn-danger" id="modal-link">Exclure</a>
-			</div>
-		</div>
-	</div>
-</div>
+@Html.Partial("ConfirmationModal",
+	new ModalModel()
+	{
+		Id = "promoteModal",
+		Title = "Promouvoir un joueur",
+		Body = "Voulez-vous vraiment promouvoir au rôle de team leader le joueur \" <span id=\"modal-gamertag\"></span> \"?",
+		BtnStyle = "success",
+		BtnText = "Promouvoir"
+	})
+@Html.Partial("ConfirmationModal",
+	new ModalModel()
+	{
+		Id = "kickModal",
+		Title = "Exclure un joueur",
+		Body = "Voulez-vous vraiment exclure le joueur \" <span id=\"modal-gamertag\"></span> \"?",
+		BtnStyle = "danger",
+		BtnText = "Exclure"
+	})
 
 @section Scripts {
 	<script>
@@ -132,6 +140,16 @@
 			var modal = $(this);
 			modal.find('#modal-gamertag').text(gamertag);
 			modal.find('#modal-link').attr("href", "@Url.Action("KickPlayer", new { teamId = Model.TeamID })" + "&GamerTagId=" + gamertagId)
+		});
+
+		$('#promoteModal').on('show.bs.modal', function (event) {
+			var button = $(event.relatedTarget);
+			var gamertagId = button.data('gamertagId');
+			var gamertag = button.data('gamertag');
+
+			var modal = $(this);
+			modal.find('#modal-gamertag').text(gamertag);
+			modal.find('#modal-link').attr("href", "@Url.Action("PromotePlayer", new { teamId = Model.TeamID })" + "&GamerTagId=" + gamertagId)
 		});
 	</script>
 }

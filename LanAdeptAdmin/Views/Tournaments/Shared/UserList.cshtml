@@ -1,4 +1,5 @@
-﻿@model LanAdeptAdmin.Views.Tournaments.ModelController.TeamModel
+﻿@using LanAdeptData.Model.Tournaments
+@model LanAdeptAdmin.Views.Tournaments.ModelController.TeamModel
 
 <h4>Liste des joueurs de l'équipe</h4>
 
@@ -9,6 +10,9 @@
 				<th>
 					Nom complet
 				</th>
+				<th>
+					Gamertag
+				</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -17,6 +21,9 @@
 				<tr>
 					<td>
 						@gamerTag.User.CompleteName.ToString()
+					</td>
+					<td>
+						@gamerTag.Gamertag
 					</td>
 				</tr>
 			}

@@ -11,6 +11,7 @@ using LanAdeptData.DAL.Tournaments;
 using LanAdeptData.DAL.Settings;
 using LanAdeptData.DAL.Maps;
 using Microsoft.AspNet.Identity.Owin;
+using LanAdeptData.DAL.Canteen;
 
 namespace LanAdeptData.DAL
 {
@@ -54,18 +55,6 @@ namespace LanAdeptData.DAL
 					roleRepository = new RoleRepository(context);
 
 				return roleRepository;
-			}
-		}
-
-		private PermissionRepository permissionRepository;
-		public PermissionRepository PermissionRepository
-		{
-			get
-			{
-				if (permissionRepository == null)
-					permissionRepository = new PermissionRepository(context);
-
-				return permissionRepository;
 			}
 		}
 
@@ -132,19 +121,6 @@ namespace LanAdeptData.DAL
 			}
 		}
 
-		private GameRepository gameRepository;
-		public GameRepository GameRepository
-		{
-			get
-			{
-				if (gameRepository == null)
-				{
-					gameRepository = new GameRepository(context);
-				}
-				return gameRepository;
-			}
-		}
-
 		private GamerTagRepository gamerTagRepository;
 		public GamerTagRepository GamerTagRepository
 		{
@@ -208,6 +184,45 @@ namespace LanAdeptData.DAL
 					guestRepository = new GuestRepository(context);
 				}
 				return guestRepository;
+			}
+		}
+
+		private ProductRepository productRepository;
+		public ProductRepository ProductRepository
+		{
+			get
+			{
+				if (productRepository == null)
+				{
+					productRepository = new ProductRepository(context);
+				}
+				return productRepository;
+			}
+		}
+
+		private ItemRepository itemRepository;
+		public ItemRepository ItemRepository
+		{
+			get
+			{
+				if (itemRepository == null)
+				{
+					itemRepository = new ItemRepository(context);
+				}
+				return itemRepository;
+			}
+		}
+
+		private OrderRepository orderRepository;
+		public OrderRepository OrderRepository
+		{
+			get
+			{
+				if (orderRepository == null)
+				{
+					orderRepository = new OrderRepository(context);
+				}
+				return orderRepository;
 			}
 		}
 

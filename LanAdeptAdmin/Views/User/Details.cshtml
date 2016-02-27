@@ -1,4 +1,4 @@
-﻿@model LanAdeptData.Model.User
+﻿@model LanAdeptData.Model.Users.User
 
 @{
 	ViewBag.Title = "Détails d'un utilisateur";
@@ -8,27 +8,16 @@
 <h2>
 	Détails - @Model.CompleteName
 	<div class="pull-right">
-		@Html.ActionLink("Modifier", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })
+		@Html.TextIconActionLink("Modifier", "glyphicon-pencil", "Edit", null, new { id = Model.Id }, new { @class = "btn btn-primary" })
 	</div>
 
 </h2>
 <hr />
 
-@if (!string.IsNullOrWhiteSpace(TempData["Error"] as string))
-{
-	<div class="alert alert-danger" role="alert">
-		@Html.Raw(TempData["Error"])
-	</div>
-}
-@if (!string.IsNullOrWhiteSpace(TempData["Success"] as string))
-{
-	<div class="alert alert-success" role="alert">
-		@Html.Raw(TempData["Success"])
-	</div>
-}
+@Html.ShowMessage()
 
 <div>
-	<dl class="dl-horizontal">
+	<dl class="dl-horizontal clearfix">
 
 		<dt>
 			Nom complet
@@ -103,7 +92,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						@foreach (Reservation reservation in Model.Reservations)
+						@foreach (LanAdeptData.Model.Places.Reservation reservation in Model.Reservations)
 						{
 							<tr>
 								<td>@Html.AuthorizeActionLink(reservation.Place.ToString(), "Details", "Place", new { id = reservation.Place.PlaceID }, true)</td>

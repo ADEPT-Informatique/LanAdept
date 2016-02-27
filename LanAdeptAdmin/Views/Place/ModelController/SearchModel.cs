@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using LanAdeptData.Model;
+using LanAdeptData.Model.Places;
 
 namespace LanAdeptAdmin.Views.Places.ModelController
 {

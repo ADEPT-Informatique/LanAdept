@@ -1,4 +1,5 @@
 ﻿using LanAdeptData.Model;
+using LanAdeptData.Model.Tournaments;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -24,6 +25,6 @@ namespace LanAdept.Views.Tournaments.ModelController
 
         public IEnumerable<GamerTag> GamerTags { get; set; }
 
-		public LanAdeptData.Model.Tournament Tournament { get; set; }
+		public Tournament Tournament { get; set; }
 	}
 }

@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace LanAdeptCore.Attribute.Authorization
 {
@@ -13,6 +15,11 @@ namespace LanAdeptCore.Attribute.Authorization
 		{
 			if (filterContext.HttpContext.Request.IsAuthenticated)
 			{
+				if (HttpContext.Current.User.IsInRole("owner"))
+				{
+					return;
+				}
+
 				filterContext.Result = new System.Web.Mvc.HttpStatusCodeResult(System.Net.HttpStatusCode.Forbidden);
 			}
 			else

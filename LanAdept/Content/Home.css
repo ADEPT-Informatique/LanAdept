@@ -1,61 +1,64 @@
 ﻿#carousel-container {
-    width: 89%;
-    margin:auto;
-    text-align: center;
-    padding: 30px 0;
+	width: 89%;
+	margin: auto;
+	text-align: center;
+	padding: 30px 0;
 }
 
 #description {
-	text-align:center;
+	text-align: center;
 }
 
 #places-disponibles {
-    font-size: 200%;
-    text-align: center;
+	font-size: 200%;
+	text-align: center;
 }
 
 #map {
-    width: 87%;
-    margin: 30px auto;
-	text-align:center;
-	float:none;
+	width: 87%;
+	margin: 30px auto;
+	text-align: center;
+	float: none;
 }
 
-#map h2 {
-    margin-bottom: 20px;
-    margin-top: 0;
-    padding-top: 0;
-}
+	#map h2 {
+		margin-bottom: 20px;
+		margin-top: 0;
+		padding-top: 0;
+	}
 
-#map p {
-    margin-bottom: 30px;
-}
+	#map p {
+		margin-bottom: 30px;
+	}
 
 #map-container {
-    position: relative;
-    padding-bottom: 40%; /* Aspect ratio de la map */
-    height: 0;
-    overflow: hidden;
+	position: relative;
+	padding-bottom: 40%; /* Aspect ratio de la map */
+	height: 0;
+	overflow: hidden;
 }
 
-#map-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100% !important;
-    height: 100% !important;
-}
+	#map-container iframe {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100% !important;
+		height: 100% !important;
+	}
 
 #date {
-    font-size: 150%;
-    margin-top: 30px;
+	font-size: 150%;
+	margin-top: 30px;
 }
 
 .home-image {
-    width: 65%;
+	width: 65%;
 }
 
 .jumbotron {
 	margin-bottom: 0;
 }
 
+#messageInfo {
+	padding-top: 30px;
+}

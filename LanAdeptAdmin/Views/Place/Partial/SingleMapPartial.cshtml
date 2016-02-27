@@ -1,22 +1,48 @@
-﻿@model LanAdeptData.Model.Map
+﻿@model LanAdeptData.Model.Maps.Map
 
 <div id="map-container">
-    <div id="map">
-        @for (int i = 0; i < Model.Height; i++) {
-            <div class="row">
-                @for (int j = 0; j < Model.Width; j++) {
-                    Tile tile = Model.Tiles.Where(x => x.PositionX == j && x.PositionY == i).FirstOrDefault();
-                    if (tile == null) {
-                        <div class="place place-none">
-                            <div></div>
-                        </div>
-                    }
-                    else {
-                        @Html.Partial("SinglePlacePartial", tile.Place)
-                    }
-                }
-            </div>
-        }
-    </div>
+	<div id="map">
+		@for (int i = 0; i < Model.Height; i++)
+		{
+			<div class="row">
+				@for (int j = 0; j < Model.Width; j++)
+				{
+					LanAdeptData.Model.Maps.Tile tile = Model.Tiles.Where(x => x.PositionX == j && x.PositionY == i).FirstOrDefault();
+					if (tile == null)
+					{
+						<div class="place place-none">
+							<div></div>
+						</div>
+					}
+					else {
+						LanAdeptData.Model.Places.Place place = tile.Place;
+						string classFirstDiv = "place";
+
+						if (!place.IsFree)
+						{
+							if (LanAdeptCore.Service.ReservationService.IsUserPlace(place))
+							{
+								classFirstDiv += " place-actuelle";
+							}
+							else if (place.IsOccupied)
+							{
+								classFirstDiv += " place-occupe";
+							}
+							else
+							{
+								classFirstDiv += " place-reserve";
+							}
+						}
+
+						<div class="col-md-1 col-sm-2 col-xs-4 @classFirstDiv">
+							<div class="hover">
+								@Html.AuthorizeActionLink(@place.ToString(), "Details", "Place", new { id = @place.PlaceID }, true)
+							</div>
+						</div>
+					}
+				}
+			</div>
+		}
+	</div>
 </div>
 

@@ -1,4 +1,5 @@
-﻿@model  LanAdeptAdmin.Views.Tournaments.ModelController.TournamentModel
+﻿@using LanAdeptData.Model.Tournaments
+@model  LanAdeptAdmin.Views.Tournaments.ModelController.TournamentModel
 
 @{
 	ViewBag.Title = "Details";
@@ -6,7 +7,7 @@
 }
 
 <h2>
-	@Html.DisplayFor(model => model.Game.Name)
+	@Html.DisplayFor(model => model.Game)
 	<div class="pull-right">@Model.GetStatus()</div>
 </h2>
 <hr />
@@ -33,9 +34,16 @@
 		</dl>
 	</div>
 	<div class="col-md-9 col-lg-8 text-right">
-		@if (!Model.IsStarted && !Model.IsOver)
+
+		@if (!Model.IsPublished)
+		{
+			@Html.TextIconActionLink("Publier", "glyphicon-eye-open", "Publish", "Tournaments", new { id = Model.Id }, new { @class = "btn btn-info btn-mobile-full", title = "Rend le tournois visible aux visiteurs" })
+		}
+		else if (!Model.IsStarted && !Model.IsOver)
 		{
 			@Html.TextIconActionLink("Démarrer", "glyphicon-play", "Start", "Tournaments", new { id = Model.Id }, new { @class = "btn btn-success btn-mobile-full" })
+			<text> </text>
+			@Html.TextIconActionLink("Cacher", "glyphicon-eye-close", "CancelPublish", "Tournaments", new { id = Model.Id }, new { @class = "btn btn-info btn-mobile-full", title = "Rend le tournois invisible aux visiteurs" })
 		}
 		else if (Model.IsStarted && !Model.IsOver)
 		{
@@ -57,7 +65,7 @@
 </div>
 <div class="row">
 	<div class="col-xs-12">
-		<h3>Informations et reglements</h3>
+		<h3>Informations et règlements</h3>
 		<p>
 			@if (!string.IsNullOrWhiteSpace(Model.Info))
 			{
@@ -65,7 +73,14 @@
 			}
 			else
 			{
-				<em>Les règlements n'ont pas encore été définis.</em>
+				<em>
+					Les informations et règlements n'ont pas encore été définis.
+				</em>
+				<br>
+				<br>
+				<em>
+					Pour les définirs cliquer sur le bouton "modifier" et remplir le champ "Informations et règlements". (Il est à noter que le markdown est supporté.)
+				</em>
 			}
 		</p>
 	</div>
@@ -127,7 +142,7 @@
 		}
 		else
 		{
-			<em>Il n'y a pas encore d'équipe inscrite à ce tournoi.</em>
+			<em>Il n'y a pas d'équipe inscrite à ce tournoi.</em>
 		}
 	</div>
 </div>
@@ -149,7 +164,7 @@
 			<div class="modal-body">
 				@if (Model.Teams.Count > 0)
 				{
-					foreach (Team team in Model.Teams)
+					foreach (LanAdeptData.Model.Tournaments.Team team in Model.Teams)
 					{
 						<p>
 							@team.Name
@@ -158,7 +173,7 @@
 				}
 				else
 				{
-					<em>Il n'y a pas encore d'équipe inscrite à ce tournoi.</em>
+					<em>Il n'y a pas d'équipe inscrite à ce tournoi.</em>
 				}
 			</div>
 			<div class="modal-footer">

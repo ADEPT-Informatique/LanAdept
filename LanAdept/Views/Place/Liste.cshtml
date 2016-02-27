@@ -1,10 +1,11 @@
-﻿@model LanAdept.Views.Place.ModelController.ListeModel
+﻿@model LanAdept.Views.Places.ModelController.ListeModel
 
 @{
-	ViewBag.Title = "Liste des places";
+	ViewBag.Title = "Places";
 	ViewBag.Settings = Model.Settings;
-	
-	User loggedInUser = LanAdeptCore.Service.UserService.GetLoggedInUser();
+	ViewBag.userHaveAPlace = LanAdeptCore.Service.ReservationService.HasUserPlace();
+
+	bool isLoggedIn = LanAdeptCore.Service.UserService.IsUserLoggedIn();
 }
 
 @if (LanAdeptCore.Service.ReservationService.HasUserPlace())
@@ -17,8 +18,8 @@ else
 }
 <div class="page-header clearfix">
 	<h1 class="pull-left">
-		Liste des places
-		@if (loggedInUser != null && !LanAdeptCore.Service.ReservationService.HasUserPlace())
+		Places
+		@if (isLoggedIn && !LanAdeptCore.Service.ReservationService.HasUserPlace())
 		{
 			<span class="glyphicon glyphicon-question-sign info" data-toggle="tooltip" data-placement="bottom" title="Pour réserver une place, cliquez sur la place qui vous intéresse dans le plan ci-dessous."></span>
 		}
@@ -35,18 +36,16 @@ else
 
 </div>
 
-@if (!string.IsNullOrWhiteSpace(TempData["Error"] as string))
+@Html.ShowMessage()
+
+@if (!Model.Settings.IsPlaceReservationStarted)
 {
-	<div class="alert alert-danger" role="alert">
-		@Html.Raw(TempData["Error"])
+	<div class="alert alert-info">
+		Les réservations de places ne sont pas encore débutées! Elles débuteront 
+		@Model.Settings.PlaceReservationStartDate.ToString("dddd le d MMMM à H\\hmm", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA")) @* Jour *@
 	</div>
 }
-@if (!string.IsNullOrWhiteSpace(TempData["Success"] as string))
-{
-	<div class="alert alert-success" role="alert">
-		@Html.Raw(TempData["Success"])
-	</div>
-}
+
 
 @if (Model.Settings.IsLanOver)
 {
@@ -64,7 +63,7 @@ else if (Model.Settings.IsLanStarted)
 }
 else
 {
-	if (loggedInUser == null)
+	if (!isLoggedIn && Model.Settings.IsPlaceReservationStarted)
 	{
 		<div class="alert alert-info" role="alert">
 			Pour réserver une place, vous devez d'abord @Html.AuthorizeActionLink("vous connecter", "Login", "Auth", new { returnUrl = HttpContext.Current.Request.RawUrl }, new { @class = "alert-link" }).
@@ -82,7 +81,7 @@ else
 	</div>
 }
 
-@foreach (LanAdept.Views.Place.ModelController.FastMap fastMap in Model.Maps)
+@foreach (LanAdept.Views.Places.ModelController.FastMap fastMap in Model.Maps)
 {
 	@Html.Partial("SingleMapPartial", fastMap)
 }
@@ -129,7 +128,6 @@ else
 
 			var placesToHighlight = window.location.hash.replace("#", "").split(";");
 
-			console.log(placesToHighlight);
 			highlightPlaces(placesToHighlight);
 		});
 

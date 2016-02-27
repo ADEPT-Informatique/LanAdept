@@ -12,6 +12,8 @@ using LanAdeptData.Model;
 using Microsoft.AspNet.Identity.Owin;
 using LanAdeptCore.Manager;
 using Microsoft.AspNet.Identity;
+using LanAdeptData.Model.Users;
+using LanAdeptData.Model.Tournaments;
 
 namespace LanAdeptCore.Service
 {
@@ -70,6 +72,16 @@ namespace LanAdeptCore.Service
 			}
 
 			return nbDemands;
+		}
+
+		public static int GetNbTeams()
+		{
+			if (!IsTeamLeader())
+				return 0;
+
+			IEnumerable<Team> teams = uow.TeamRepository.GetByTeamLeaderID(GetLoggedInUser().Id);
+
+			return teams.Count();
 		}
 	}
 }

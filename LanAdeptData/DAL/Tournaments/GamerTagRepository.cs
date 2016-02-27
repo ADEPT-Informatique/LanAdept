@@ -1,5 +1,7 @@
 ﻿using LanAdeptData.DAL.Generic;
 using LanAdeptData.Model;
+using LanAdeptData.Model.Tournaments;
+using LanAdeptData.Model.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;

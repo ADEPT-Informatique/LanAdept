@@ -1,0 +1,31 @@
+﻿@model LanAdept.Emails.ConfirmationEmail
+
+Content-Type: text/html; charset=utf-8
+
+<html>
+<body style="font-family: Helvetica, Arial, sans-serif; background-color: #eee;">
+
+	<table cellpadding="0" cellspacing="0" border="0" style="table-layout: fixed; max-width: 750px; font-family: Helvetica, Arial, sans-serif;padding: 25px; margin-top:20px;background-color: #fff; box-shadow: 2px 2px 3px rgba(0,0,0,0.4)" align="center">
+		<tr>
+			<td>
+				<div style="text-align:center">
+					<a href="@string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"))">
+						<img src="@string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~/Image/LOGO_noir_Transparent_small.png"))" style="max-width:100%;" alt="LAN de l'ADEPT" title="LAN de l'ADEPT" />
+					</a>
+				</div>
+
+				<h1 style="font-size: 20px">Bonjour, @Html.Raw(Model.User.CompleteName)</h1>
+
+				<p>Merci pour votre inscription au LAN de l'Adept!</p>
+
+				<p>Pour terminer votre inscription, vous devez confirmer votre compte <a href="@Url.Action("Confirm", "Auth", new { id = Model.User.Id, code = Model.ConfirmationToken }, "http")">en cliquant ici</a>.</p>
+
+				<p>Par la suite, vous pourrez réserver une place en cliquant sur celle-ci dans le plan de la salle.</p>
+				
+				<br />
+				<h2 style="font-size: 18px">Bon LAN!</h2>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

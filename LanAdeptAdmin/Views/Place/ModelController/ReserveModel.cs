@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using LanAdeptData.Model;
+using LanAdeptData.Model.Places;
 
 namespace LanAdeptAdmin.Views.Places.ModelController
 {

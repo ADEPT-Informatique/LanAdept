@@ -8,11 +8,10 @@ using LanAdeptData.DAL;
 using LanAdeptData.Model;
 using Microsoft.AspNet.Identity.Owin;
 using LanAdeptCore.Attribute.Authorization;
+using LanAdeptData.Model.Settings;
 
 namespace LanAdeptAdmin.Controllers
 {
-	//TODO: Autorisation plus précise
-	[LanAuthorize]
 	public class GeneralController : Controller
 	{
 		private UnitOfWork uow
@@ -20,12 +19,13 @@ namespace LanAdeptAdmin.Controllers
 			get { return UnitOfWork.Current; }
 		}
 
-		[Authorize(Roles = "admin")]
+		[LanAuthorize(Roles = "generalAdmin")]
 		public ActionResult Index()
 		{
 			return RedirectToAction("Settings");
 		}
 
+		[LanAuthorize(Roles = "generalAdmin")]
 		public ActionResult Settings()
 		{
 			Setting settings = uow.SettingRepository.GetCurrentSettings();
@@ -35,6 +35,7 @@ namespace LanAdeptAdmin.Controllers
 		}
 
 		[HttpPost]
+		[LanAuthorize(Roles = "generalAdmin")]
 		public ActionResult Settings(SettingsModel model)
 		{
 			if (ModelState.IsValid)
@@ -42,18 +43,21 @@ namespace LanAdeptAdmin.Controllers
 				Setting settings = uow.SettingRepository.GetCurrentSettings();
 				settings.StartDate = model.StartDate;
 				settings.EndDate = model.EndDate;
+				settings.PlaceReservationStartDate = model.PlaceReservationStartDate;
+				settings.TournamentSubsciptionStartDate = model.TournamentSubsciptionStartDate;
 				settings.SendRememberEmail = model.SendRememberEmail;
 				settings.NbDaysBeforeRemember = model.NbDaysBeforeRemember;
 
 				uow.SettingRepository.Update(settings);
 				uow.Save();
 
-				TempData["Success"] = "Les changements ont été enregistré";
+				TempData["Success"] = "Les modifications ont bien été enregistrées";
 			}
 
 			return View(model);
 		}
 
+		[LanAuthorize(Roles = "generalAdmin")]
 		public ActionResult Rules()
 		{
 			Setting settings = uow.SettingRepository.GetCurrentSettings();
@@ -64,6 +68,7 @@ namespace LanAdeptAdmin.Controllers
 		}
 
 		[HttpPost]
+		[LanAuthorize(Roles = "generalAdmin")]
 		public ActionResult Rules(RulesModel model)
 		{
 			if (ModelState.IsValid)
@@ -74,12 +79,13 @@ namespace LanAdeptAdmin.Controllers
 				uow.SettingRepository.Update(settings);
 				uow.Save();
 
-				TempData["Success"] = "Les changements ont été enregistré";
+				TempData["Success"] = "Les modifications ont bien été enregistrées";
 			}
 
 			return View(model);
 		}
 
+		[LanAuthorize(Roles = "generalAdmin")]
 		public ActionResult Description()
 		{
 			Setting settings = uow.SettingRepository.GetCurrentSettings();
@@ -90,6 +96,7 @@ namespace LanAdeptAdmin.Controllers
 		}
 
 		[HttpPost]
+		[LanAuthorize(Roles = "generalAdmin")]
 		public ActionResult Description(DescriptionModel model)
 		{
 			if (ModelState.IsValid)
@@ -100,36 +107,38 @@ namespace LanAdeptAdmin.Controllers
 				uow.SettingRepository.Update(settings);
 				uow.Save();
 
-				TempData["Success"] = "Les changements ont été enregistré";
+				TempData["Success"] = "Les modifications ont bien été enregistrées";
 			}
 
 			return View(model);
 		}
 
-		public ActionResult RememberEmail()
-		{
-			Setting settings = uow.SettingRepository.GetCurrentSettings();
-			RememberEmailModel rememberMailModel = new RememberEmailModel();
-			rememberMailModel.RememberEmailContent = settings.RememberEmailContent;
+		//[LanAuthorize(Roles = "generalAdmin")]
+		//public ActionResult RememberEmail()
+		//{
+		//	Setting settings = uow.SettingRepository.GetCurrentSettings();
+		//	RememberEmailModel rememberMailModel = new RememberEmailModel();
+		//	rememberMailModel.RememberEmailContent = settings.RememberEmailContent;
 
-			return View(rememberMailModel);
-		}
+		//	return View(rememberMailModel);
+		//}
 
-		[HttpPost]
-		public ActionResult RememberEmail(RememberEmailModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				Setting settings = uow.SettingRepository.GetCurrentSettings();
-				settings.RememberEmailContent = model.RememberEmailContent;
+		//[HttpPost]
+		//[LanAuthorize(Roles = "generalAdmin")]
+		//public ActionResult RememberEmail(RememberEmailModel model)
+		//{
+		//	if (ModelState.IsValid)
+		//	{
+		//		Setting settings = uow.SettingRepository.GetCurrentSettings();
+		//		settings.RememberEmailContent = model.RememberEmailContent;
 
-				uow.SettingRepository.Update(settings);
-				uow.Save();
+		//		uow.SettingRepository.Update(settings);
+		//		uow.Save();
 
-				TempData["Success"] = "Les changements ont été enregistré";
-			}
+		//		TempData["Success"] = "Les modifications ont bien été enregistrées";
+		//	}
 
-			return View(model);
-		}
+		//	return View(model);
+		//}
 	}
 }
