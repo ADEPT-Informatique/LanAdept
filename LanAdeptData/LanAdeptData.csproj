@@ -150,13 +150,8 @@
     <Compile Include="Model\Users\Role.cs" />
     <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Model\Setting.cs" />
-    <Compile Include="Model\Team.cs" />
-    <Compile Include="Model\Tournament.cs" />
-    <Compile Include="Model\User.cs" />
     <Compile Include="Model\Settings\Setting.cs" />
     <Compile Include="Model\Tournaments\Team.cs" />
-    <Compile Include="Model\Maps\Tile.cs" />
     <Compile Include="Model\Tournaments\Tournament.cs" />
     <Compile Include="Model\Users\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

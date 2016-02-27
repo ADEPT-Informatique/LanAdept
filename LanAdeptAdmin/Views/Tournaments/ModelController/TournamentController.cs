@@ -11,16 +11,13 @@ using LanAdeptData.Model;
 using LanAdeptAdmin.Views.Tournaments.ModelController;
 using Microsoft.AspNet.Identity.Owin;
 using LanAdeptCore.Attribute.Authorization;
-<<<<<<< HEAD
 using LanAdeptCore.Service;
 using System.Threading.Tasks;
 using LanAdeptCore.Service.Challonge;
 using LanAdeptCore.Service.Challonge.Request;
-=======
 using LanAdeptData.Model.Tournaments;
 using LanAdeptData.Model.Users;
 using LanAdeptCore.Service;
->>>>>>> origin/master
 
 namespace LanAdeptAdmin.Views
 {
@@ -65,14 +62,8 @@ namespace LanAdeptAdmin.Views
 			return View();
 		}
 
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-<<<<<<< HEAD
-		public ActionResult Create([Bind(Include = "GameID, StartTime, MaxPlayerPerTeam")] TournamentModel tournamentModel)
-=======
 		[LanAuthorize(Roles = "tournamentAdmin")]
 		public ActionResult Create([Bind(Include = "Game, StartTime, MaxPlayerPerTeam")] TournamentModel tournamentModel)
->>>>>>> origin/master
 		{
 			if (ModelState.IsValid)
 			{

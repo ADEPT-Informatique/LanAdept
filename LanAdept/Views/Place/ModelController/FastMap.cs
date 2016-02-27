@@ -25,8 +25,8 @@ namespace LanAdept.Views.Places.ModelController
             Width = map.Width;
             Height = map.Height;
 
-            TabPlaces = new LanAdeptData.Model.Place[Width, Height];
-            foreach (LanAdeptData.Model.Place place in map.Places)
+            TabPlaces = new Place[Width, Height];
+            foreach (Place place in map.Places)
             {
                 TabPlaces[place.PositionX, place.PositionY] = place;
             }
