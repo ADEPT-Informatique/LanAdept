@@ -1,7 +1,7 @@
 ﻿@model LanAdept.Views.Places.ModelController.ListeModel
 
 @{
-	ViewBag.Title = "Carte des places";
+	ViewBag.Title = "Places";
 	ViewBag.Settings = Model.Settings;
 	
  	LanAdeptData.Model.Users.User loggedInUser = LanAdeptCore.Service.UserService.GetLoggedInUser();
@@ -17,7 +17,7 @@ else
 }
 <div class="page-header clearfix">
 	<h1 class="pull-left">
-		Carte des places
+		Places
 		@if (loggedInUser != null && !LanAdeptCore.Service.ReservationService.HasUserPlace())
 		{
 			<span class="glyphicon glyphicon-question-sign info" data-toggle="tooltip" data-placement="bottom" title="Pour réserver une place, cliquez sur la place qui vous intéresse dans le plan ci-dessous."></span>
