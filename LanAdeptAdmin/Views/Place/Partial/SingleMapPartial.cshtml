@@ -7,15 +7,14 @@
 			<div class="row">
 				@for (int j = 0; j < Model.Width; j++)
 				{
-					LanAdeptData.Model.Maps.Tile tile = Model.Tiles.Where(x => x.PositionX == j && x.PositionY == i).FirstOrDefault();
-					if (tile == null)
+					LanAdeptData.Model.Places.Place place = Model.Places.Where(x => x.PositionX == j && x.PositionY == i).FirstOrDefault();
+					if (place == null)
 					{
 						<div class="place place-none">
 							<div></div>
 						</div>
 					}
 					else {
-						LanAdeptData.Model.Places.Place place = tile.Place;
 						string classFirstDiv = "place";
 
 						if (!place.IsFree)

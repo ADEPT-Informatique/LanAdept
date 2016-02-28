@@ -62,6 +62,8 @@ namespace LanAdeptAdmin.Views
 			return View();
 		}
 
+		[HttpPost]
+		[ValidateAntiForgeryToken]
 		[LanAuthorize(Roles = "tournamentAdmin")]
 		public ActionResult Create([Bind(Include = "Game, StartTime, MaxPlayerPerTeam")] TournamentModel tournamentModel)
 		{
