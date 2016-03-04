@@ -121,6 +121,8 @@ namespace LanAdept.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult ExternalLogin(string provider, string returnUrl)
 		{
+			ControllerContext.HttpContext.Session.RemoveAll();
+
 			// Demandez une redirection vers le fournisseur de connexions externe
 			return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Auth", new { ReturnUrl = returnUrl }));
 		}
@@ -131,7 +133,7 @@ namespace LanAdept.Controllers
 			var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
 			if (loginInfo == null)
 			{
-				return RedirectToAction("Login");
+				return RedirectToAction("Login", new { errorWithExternal = true });
 			}
 
 			// Connecter cet utilisateur à ce fournisseur de connexion externe si l'utilisateur possède déjà une connexion

@@ -71,7 +71,7 @@ namespace LanAdeptAdmin
 			var facebookAuthenticationOptions = new FacebookAuthenticationOptions()
 			{
 			   AppId = "108479299536053",
-			   AppSecret = "f22dc9d817e355d8ef619e9bb6c9c138"
+			   AppSecret = "0c0bd86e39ed4cdfc5eca6397e37311f"
 			};
 
 			facebookAuthenticationOptions.Scope.Add("email");
@@ -81,7 +81,7 @@ namespace LanAdeptAdmin
 			app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
 			{
 				ClientId = "416838099642-759uqgsrh4aboil99n7ufrpru2lk28hm.apps.googleusercontent.com",
-				ClientSecret = "LVOJIvxLrQg_-1cFrqEoSKPy"
+				ClientSecret = "LtHbk-EwRp5lblApjzBAm_h3"
 			});
 
 #endif

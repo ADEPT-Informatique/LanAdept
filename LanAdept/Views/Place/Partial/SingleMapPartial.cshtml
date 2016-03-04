@@ -2,6 +2,8 @@
 
 @{ 
 	bool foundMyPlace = false;
+	bool userHasPlace = ViewBag.userHaveAPlace;
+	var isPlaceReservationStarted = ViewBag.Settings.IsPlaceReservationStarted;
 }
 
 <div id="map-container">
@@ -19,11 +21,13 @@
 					}
 					else {
 						string classFirstDiv = "place";
+						bool isUserPlace = false;
 
-						if (ViewBag.Settings.IsPlaceReservationStarted && !place.IsFree)
+						if (isPlaceReservationStarted && !place.IsFree)
 						{
-							if (LanAdeptCore.Service.ReservationService.IsUserPlace(place))
+							if (userHasPlace && LanAdeptCore.Service.ReservationService.IsUserPlace(place))
 							{
+								isUserPlace = true;
 								classFirstDiv += " place-actuelle";
 							}
 							else if (place.IsOccupied)
@@ -38,28 +42,29 @@
 
 						<div class="@classFirstDiv" id="@place.PlaceID">
 							@if (!ViewBag.Settings.IsLanStarted
-								&& ViewBag.Settings.IsPlaceReservationStarted
+								&& isPlaceReservationStarted
+								&& !userHasPlace
 								&& Html.HasActionPermission("Reserver")
-								&& place.IsFree
-								&& !ViewBag.userHaveAPlace)
+								&& place.IsFree)
 							{
 								<div class="hover" data-toggle="modal" data-target="#ModalReserverPlace" data-trigger="focus" data-place-text="@place" data-place-id="@place.PlaceID">
 									@place
 								</div>
 							}
-							else if (ViewBag.Settings.IsPlaceReservationStarted
+							else if (isPlaceReservationStarted
 								&& !ViewBag.Settings.IsLanStarted
+								&& userHasPlace
 								&& Html.HasActionPermission("Reserver")
-								&& place.IsFree
-								&& ViewBag.userHaveAPlace)
+								&& place.IsFree)
 							{
 								<div class="hover" data-toggle="modal" data-target="#ModalChangerPlace" data-place-text="@place" data-place-id="@place.PlaceID">
 									@place
 								</div>
 							}
-							else if (ViewBag.Settings.IsPlaceReservationStarted
+							else if (isPlaceReservationStarted
+								&& userHasPlace
 								&& !foundMyPlace
-								&& LanAdeptCore.Service.ReservationService.IsUserPlace(place))
+								&& isUserPlace)
 							{
 								foundMyPlace = true;
 								<div class="hover">
@@ -68,7 +73,7 @@
 							}
 							else
 							{
-								if (ViewBag.Settings.IsPlaceReservationStarted && !place.IsFree)
+								if (isPlaceReservationStarted && !place.IsFree)
 								{
 									<a data-toggle="popover" data-content="@place.LastReservation.UserCompleteName" href="javascript:void(0);" data-trigger="focus">
 										@place

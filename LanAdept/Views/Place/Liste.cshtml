@@ -3,12 +3,13 @@
 @{
 	ViewBag.Title = "Places";
 	ViewBag.Settings = Model.Settings;
-	ViewBag.userHaveAPlace = LanAdeptCore.Service.ReservationService.HasUserPlace();
+	var userHaveAPlace = LanAdeptCore.Service.ReservationService.HasUserPlace();
+	ViewBag.userHaveAPlace = userHaveAPlace;
 
 	bool isLoggedIn = LanAdeptCore.Service.UserService.IsUserLoggedIn();
 }
 
-@if (LanAdeptCore.Service.ReservationService.HasUserPlace())
+@if (userHaveAPlace)
 {
 	@Html.Partial("ModalChangerPlacePartial")
 }
@@ -19,13 +20,13 @@ else
 <div class="page-header clearfix">
 	<h1 class="pull-left">
 		Places
-		@if (isLoggedIn && !LanAdeptCore.Service.ReservationService.HasUserPlace())
+		@if (isLoggedIn && !userHaveAPlace)
 		{
 			<span class="glyphicon glyphicon-question-sign info" data-toggle="tooltip" data-placement="bottom" title="Pour réserver une place, cliquez sur la place qui vous intéresse dans le plan ci-dessous."></span>
 		}
 	</h1>
 
-	@if (LanAdeptCore.Service.ReservationService.HasUserPlace())
+	@if (userHaveAPlace)
 	{
 		<div class="btn-toolbar pull-right">
 			<div class="btn-group">
