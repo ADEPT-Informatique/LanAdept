@@ -4,6 +4,7 @@
 	bool foundMyPlace = false;
 	bool userHasPlace = ViewBag.userHaveAPlace;
 	var isPlaceReservationStarted = ViewBag.Settings.IsPlaceReservationStarted;
+	var userPlace = LanAdeptCore.Service.ReservationService.GetUserPlace();
 }
 
 <div id="map-container">
@@ -25,7 +26,7 @@
 
 						if (isPlaceReservationStarted && !place.IsFree)
 						{
-							if (userHasPlace && LanAdeptCore.Service.ReservationService.IsUserPlace(place))
+							if (userHasPlace && !foundMyPlace && userPlace.PlaceID == place.PlaceID)
 							{
 								isUserPlace = true;
 								classFirstDiv += " place-actuelle";

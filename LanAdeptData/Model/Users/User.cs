@@ -35,7 +35,7 @@ namespace LanAdeptData.Model.Users
 		{
 			get
 			{
-				return Reservations.LastOrDefault();
+				return Reservations.OrderBy(r => r.CreationDate).LastOrDefault();
 			}
 		}
 

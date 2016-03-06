@@ -64,6 +64,33 @@ namespace LanAdeptCore.Service
 		}
 
 		/// <summary>
+		/// Get the currently logged in user's place
+		/// </summary>
+		/// <returns>The place of the user, or null if he doesn't have one</returns>
+		public static Place GetUserPlace()
+		{
+			return GetUserPlace(UserService.GetLoggedInUser());
+		}
+
+		/// <summary>
+		/// Get the user's place
+		/// </summary>
+		/// <param name="user">User to verify</param>
+		/// <returns>The place of the user, or null if he doesn't have one</returns>
+		public static Place GetUserPlace(User user)
+		{
+			if (user == null || user.LastReservation == null)
+				return null;
+
+			if (HasUserPlace(user))
+			{
+				return user.LastReservation.Place;
+			}
+
+			return null;
+		}
+
+		/// <summary>
 		/// Reserve a place for the currently connected user. If the user already has a place reserved,
 		/// this method will cancel his reservation and change it for the selected place
 		/// </summary>

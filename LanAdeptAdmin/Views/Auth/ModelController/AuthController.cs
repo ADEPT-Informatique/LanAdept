@@ -107,6 +107,8 @@ namespace LanAdeptAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult ExternalLogin(string provider, string returnUrl)
 		{
+			ControllerContext.HttpContext.Session.RemoveAll();
+
 			// Demandez une redirection vers le fournisseur de connexions externe
 			return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Auth", new { ReturnUrl = returnUrl }));
 		}
