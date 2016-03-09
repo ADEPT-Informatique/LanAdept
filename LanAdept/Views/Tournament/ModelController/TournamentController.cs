@@ -14,6 +14,10 @@ using System.Web;
 using LanAdeptData.Model.Users;
 using LanAdeptData.Model.Tournaments;
 using LanAdeptData.Model.Settings;
+using LanAdeptCore.Service.Challonge.Response;
+using LanAdeptCore.Service.Challonge;
+using LanAdeptCore.Service.Challonge.Request;
+using System.Threading.Tasks;
 
 namespace LanAdept.Controllers
 {
@@ -192,7 +196,7 @@ namespace LanAdept.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[LanAuthorize]
-		public ActionResult Addteam(AddTeamModel teamModel)
+		public async Task<ActionResult> Addteam(AddTeamModel teamModel)
 		{
 			Tournament tournament = uow.TournamentRepository.GetByID(teamModel.TournamentID);
 
@@ -230,6 +234,23 @@ namespace LanAdept.Controllers
 				Team team = new Team();
 				team.Name = teamModel.Name;
 				team.Tag = teamModel.Tag;
+
+                if (tournament.ChallongeUrl != null)
+                {
+                    ParticipantRequest request = new ParticipantRequest();
+                    request.Name = teamModel.Name;
+                    request.TournamentUrl = tournament.ChallongeUrl;
+                    ParticipantResponse response = await ChallongeService.CreateParticipant(request);
+
+                    if (response.HasError)
+                    {
+                        TempData["Error"] = "Il existe déja une équipe qui se nomme " + teamModel.Name + ".";
+                        return RedirectToAction("Details", new { id = tournament.TournamentID });
+                    }
+
+                    team.ChallongeID = response.Participant.ParticipantId;
+                }
+
 				team.TeamLeaderTag = uow.GamerTagRepository.GetByUserAndGamerTagID(loggedInUser, teamModel.GamerTagId);
 
 				List<GamerTag> listGamerTags = new List<GamerTag>();
@@ -252,8 +273,8 @@ namespace LanAdept.Controllers
 				}
 
 				uow.TournamentRepository.Update(team.Tournament);
-
 				uow.Save();
+
 				return RedirectToAction("Details", new { id = team.Tournament.TournamentID });
 			}
 

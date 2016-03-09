@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using System.ComponentModel;
 using LanAdeptData.Model.Tournaments;
+using LanAdeptCore.Service.Challonge;
 
 namespace LanAdeptAdmin.Views.Tournaments.ModelController
 {
@@ -29,6 +30,8 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 		public int MaxPlayerPerTeam { get; set; }
 
 		public int Id { get; set; }
+
+        public bool IsChallonge { get; set; }
 
 		[Display(Name = "Jeu")]
 		public string Game { get; set; }
@@ -83,6 +86,7 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 			IsStarted = tournament.IsStarted;
 			IsPublished = tournament.IsPublished;
 			Info = tournament.Info;
+            IsChallonge = tournament.ChallongeUrl != null;
 		}
 
 		#endregion

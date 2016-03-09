@@ -5,3 +5,9 @@
 .not-visible {
 	visibility: hidden;
 }
+
+#challonge iframe {
+    border: 5px solid #444444;
+    border-radius: 8px;
+    margin-bottom: 24px;
+}

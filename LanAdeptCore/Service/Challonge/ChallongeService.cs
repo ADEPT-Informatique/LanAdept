@@ -20,50 +20,38 @@ namespace LanAdeptCore.Service.Challonge
         {
             JObject jsonObject = new JObject();
             jsonObject.Add("name", "[LanAdept] " + tournament.Name);
-            string tournamentType = "single elimination";
             switch (tournament.Type)
             {
+                case TounamentType.Single:
+                    jsonObject.Add("tournament_type", "single elimination");
+                    jsonObject.Add("show_rounds", true);
+                    break;
                 case TounamentType.Double:
-                    tournamentType = "double elimination";
+                    jsonObject.Add("tournament_type", "double elimination");
+                    jsonObject.Add("show_rounds", true);
                     break;
                 case TounamentType.RoundRobin:
-                    tournamentType = "round robin";
+                    jsonObject.Add("tournament_type", "round robin");
                     break;
                 case TounamentType.Swiss:
-                    tournamentType = "swiss";
+                    jsonObject.Add("tournament_type", "swiss");
                     break;
             }
-            jsonObject.Add("tournament_type", tournamentType);
             jsonObject.Add("description", tournament.Description);
             jsonObject.Add("private", true);
-            //^http:\/\/challonge\.com\/[a-zA-Z0-9]{1,20}$
+
             string url = "LA" + DateTime.Now.Year + Guid.NewGuid().ToString().Substring(0, 8);
             jsonObject.Add("url", url);
 
             return new TournamentResponse(await HttpService.Post("tournaments.json", jsonObject));
         }
 
-        public static async Task<SimpleResponse> UpdateTournament(string tournamentUrl, TournamentRequest tournament)
+        public static async Task<SimpleResponse> UpdateTournament(string url, string name)
         {
             JObject jsonObject = new JObject();
-            jsonObject.Add("name", tournament.Name);
-            string tournamentType = "single elimination";
-            switch (tournament.Type)
-            {
-                case TounamentType.Double:
-                    tournamentType = "double elimination";
-                    break;
-                case TounamentType.RoundRobin:
-                    tournamentType = "round robin";
-                    break;
-                case TounamentType.Swiss:
-                    tournamentType = "swiss";
-                    break;
-            }
-            jsonObject.Add("tournament_type", tournamentType);
-            jsonObject.Add("description", tournament.Description);
+            jsonObject.Add("name", name);
 
-            return new SimpleResponse(await HttpService.Put("tournaments/" + tournamentUrl + ".json", jsonObject));
+            return new SimpleResponse(await HttpService.Put("tournaments/" + url + ".json", jsonObject));
         }
 
         public static async Task<SimpleResponse> DeleteTournament(string tournamentUrl)
@@ -105,12 +93,12 @@ namespace LanAdeptCore.Service.Challonge
             return new ParticipantResponse(await HttpService.Post(requestUrl, jsonObject));
         }
 
-        public static async Task<SimpleResponse> UpdateParticipant(int participantID, ParticipantRequest request)
+        public static async Task<SimpleResponse> UpdateParticipant(int participantID, string tournamentUrl, string name)
         {
             JObject jsonObject = new JObject();
-            jsonObject.Add("name", request.Name);
+            jsonObject.Add("name", name);
 
-            string requestUrl = "tournaments/" + request.TournamentUrl + "/participants/" + participantID + ".json";
+            string requestUrl = "tournaments/" + tournamentUrl + "/participants/" + participantID + ".json";
             return new SimpleResponse(await HttpService.Put(requestUrl, jsonObject));
         }
 

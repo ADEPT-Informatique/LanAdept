@@ -29,13 +29,17 @@ namespace LanAdeptData.Model.Tournaments
 
 		public string Game { get; set; }
 
-		public virtual string UserID { get; set; }
+        public string ChallongeUrl { get; set; }
 
-		#region Navigation properties
-		[ForeignKey("UserID")]
+        #region Navigation properties
+
+        public virtual string UserID { get; set; }
+
+        [ForeignKey("UserID")]
 		public virtual User Organizer { get; set; }
 
 		public virtual ICollection<Team> Teams { get; set; }
+
 		#endregion
 	}
 }

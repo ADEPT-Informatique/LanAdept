@@ -20,12 +20,18 @@ namespace LanAdeptCore.Service.Challonge
         /// <summary>
         /// Gets or sets the authentication key of api
         /// </summary>
-        public static string ApiKey { get; set; } = "inCAIwtB66oQ7TQfB0GU8aeMdzoUzZXSWEt8VJ7X";
+        public static string ApiKey { get; set; }
 
         /// <summary>
         /// Gets or sets the base address of api
         /// </summary>
-        public static Uri BaseAddress { get; set; } = new Uri("https://api.challonge.com/v1/");
+        public static Uri BaseAddress { get; set; }
+
+        static HttpService()
+        {
+            ApiKey = "IzhNqaRgUvjHbQb4iiXCk3f76AsTyFwZod4R6eeM";
+            BaseAddress = new Uri("https://api.challonge.com/v1/");
+        }
 
         /// <summary>
         /// Send a Get query 

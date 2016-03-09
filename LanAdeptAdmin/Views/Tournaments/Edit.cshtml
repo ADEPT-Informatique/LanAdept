@@ -40,6 +40,14 @@
 			</div>
 		</div>
 
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsChallonge, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                @Html.EditorFor(model => model.IsChallonge, new { htmlAttributes = new { @class = "" } })
+                @Html.ValidationMessageFor(model => model.IsChallonge, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
 		<div class="form-group">
 			@Html.LabelFor(model => model.Info, htmlAttributes: new { @class = "control-label col-md-3" })
 			<div class="col-md-6">

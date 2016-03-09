@@ -40,6 +40,8 @@ namespace LanAdept.Views.Tournaments.ModelController
 
 		public bool CanAddTeam { get; set; }
 
+        public string ChallongeURL { get; set; }
+
 		public LanAdeptData.Model.Tournaments.Team UserTeam { get; set; }
 
 		public TournamentModel(Tournament tournament)
@@ -51,6 +53,7 @@ namespace LanAdept.Views.Tournaments.ModelController
 			IsStarted = tournament.IsStarted;
 			IsOver = tournament.IsOver;
 			MaxPlayerPerTeam = tournament.MaxPlayerPerTeam;
+            ChallongeURL = tournament.ChallongeUrl;
 		}
 	}
 }

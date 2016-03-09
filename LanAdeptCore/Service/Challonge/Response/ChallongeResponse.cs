@@ -15,11 +15,12 @@ namespace LanAdeptCore.Service.Challonge.Response
 
         public string ResponseMessage { get; private set; }
 
-        public abstract void SuccessResponse(JObject result);
+        public abstract void SuccessResponse(JArray result);
 
         public async void Parse(HttpResponseMessage response)
         {
-            JObject jsonObject = JObject.Parse(await response.Content.ReadAsStringAsync());
+            string responseData = await response.Content.ReadAsStringAsync();
+            JArray jsonObject = responseData[0] == '[' ? JArray.Parse(responseData) : new JArray(JObject.Parse(responseData));
 
             HasError = !response.IsSuccessStatusCode;
 
@@ -32,7 +33,12 @@ namespace LanAdeptCore.Service.Challonge.Response
                 switch (response.StatusCode)
                 {
                     case (HttpStatusCode)422:
-                        ResponseMessage = (string)jsonObject.SelectToken("errors");
+                        var errors = jsonObject[0].SelectToken("errors");
+                        string message = string.Empty;
+                        foreach (var error in errors)
+                            message += error + "\n";
+
+                        ResponseMessage = message;
                         break;
                     case HttpStatusCode.NotFound:
                     case HttpStatusCode.NotAcceptable:

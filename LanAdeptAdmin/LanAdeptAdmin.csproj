@@ -222,6 +222,7 @@
     <Compile Include="Views\Tournaments\ModelController\EmailModel.cs" />
     <Compile Include="Views\Tournaments\ModelController\ModalModel.cs" />
     <Compile Include="Views\Tournaments\ModelController\TeamModel.cs" />
+    <Compile Include="Views\Tournaments\ModelController\TournamentCreateModel.cs" />
     <Compile Include="Views\Tournaments\ModelController\TournamentModel.cs" />
     <Compile Include="Views\Tournaments\ModelController\TournamentController.cs" />
     <Compile Include="Views\User\ModelController\EditModel.cs" />

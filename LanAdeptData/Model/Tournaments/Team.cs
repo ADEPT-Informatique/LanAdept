@@ -26,11 +26,13 @@ namespace LanAdeptData.Model.Tournaments
 
 		public bool IsConfirmed { get; set; }
 
-		public int TournamentID { get; set; }
+        public int? ChallongeID { get; set; }
 
 		#region Navigation properties
 
         public virtual GamerTag TeamLeaderTag { get; set; }
+
+        public int TournamentID { get; set; }
 
 		[ForeignKey("TournamentID")]
 		public virtual Tournament Tournament { get; set; }

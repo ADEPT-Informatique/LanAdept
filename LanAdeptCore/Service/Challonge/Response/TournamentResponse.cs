@@ -16,10 +16,12 @@ namespace LanAdeptCore.Service.Challonge.Response
             Parse(response);
         }
 
-        public override void SuccessResponse(JObject result)
+        public override void SuccessResponse(JArray result)
         {
             //TODO la creation de l'objet
-            throw new NotImplementedException();
+            Tournament = new ChallongeTournament();
+            var tournament = result[0].SelectToken("tournament");
+            Tournament.Url = (string)tournament.SelectToken("url");
         }
     }
 }

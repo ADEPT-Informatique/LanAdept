@@ -12,6 +12,6 @@ namespace LanAdeptCore.Service.Challonge.Response
             Parse(response);
         }
 
-        public override void SuccessResponse(JObject result) { }
+        public override void SuccessResponse(JArray result) { }
     }
 }

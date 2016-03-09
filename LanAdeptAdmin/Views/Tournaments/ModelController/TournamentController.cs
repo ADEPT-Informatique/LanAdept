@@ -18,6 +18,7 @@ using LanAdeptCore.Service.Challonge.Request;
 using LanAdeptData.Model.Tournaments;
 using LanAdeptData.Model.Users;
 using LanAdeptCore.Service;
+using LanAdeptCore.Service.Challonge.Response;
 
 namespace LanAdeptAdmin.Views
 {
@@ -28,7 +29,22 @@ namespace LanAdeptAdmin.Views
 			get { return UnitOfWork.Current; }
 		}
 
-		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
+        private IEnumerable<SelectListItem> TournamentTypes
+        {
+            get 
+            {
+                List<SelectListItem> types = new List<SelectListItem>();
+                types.Add(new SelectListItem() { Value = ((int)TounamentType.Single).ToString(), Text = TounamentType.Single.ToString() });
+                types.Add(new SelectListItem() { Value = ((int)TounamentType.Double).ToString(), Text = TounamentType.Double.ToString(), Selected = true });
+                types.Add(new SelectListItem() { Value = ((int)TounamentType.RoundRobin).ToString(), Text = TounamentType.RoundRobin.ToString() });
+                types.Add(new SelectListItem() { Value = ((int)TounamentType.Swiss).ToString(), Text = TounamentType.Swiss.ToString() });
+                return types;
+            }
+        }
+
+        #region Tournament
+
+        [LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
 		public ActionResult Index()
 		{
 			List<TournamentModel> tournamentModelList = new List<TournamentModel>();
@@ -59,32 +75,50 @@ namespace LanAdeptAdmin.Views
 		[LanAuthorize(Roles = "tournamentAdmin")]
 		public ActionResult Create()
 		{
+            ViewBag.Types = TournamentTypes;
 			return View();
 		}
 
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		[LanAuthorize(Roles = "tournamentAdmin")]
-		public ActionResult Create([Bind(Include = "Game, StartTime, MaxPlayerPerTeam")] TournamentModel tournamentModel)
-		{
-			if (ModelState.IsValid)
-			{
-				Tournament tournament = new Tournament();
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [LanAuthorize(Roles = "tournamentAdmin")]
+        public async Task<ActionResult> Create([Bind(Include = "Game, StartTime, MaxPlayerPerTeam, IsChallonge, Type")] TournamentCreateModel tournamentModel)
+        {
+            if (ModelState.IsValid)
+            {
+                Tournament tournament = new Tournament();
 
-				tournament.Game = tournamentModel.Game;
-				tournament.StartTime = tournamentModel.StartTime;
-				tournament.MaxPlayerPerTeam = tournamentModel.MaxPlayerPerTeam;
+                tournament.Game = tournamentModel.Game;
+                tournament.StartTime = tournamentModel.StartTime;
+                tournament.MaxPlayerPerTeam = tournamentModel.MaxPlayerPerTeam;
 
-				tournament.CreationDate = DateTime.Now;
+                tournament.CreationDate = DateTime.Now;
 
-				uow.TournamentRepository.Insert(tournament);
-				uow.Save();
-				return RedirectToAction("Index");
-			}
-			return View(tournamentModel);
-		}
+                if (tournamentModel.IsChallonge)
+                {
+                    TournamentRequest request = new TournamentRequest();
+                    request.Name = tournamentModel.Game;
+                    request.Type = tournamentModel.Type;
+                    request.Description = "Tournoi du lan de l'adept " + DateTime.Now.Year + " pour le jeu " + tournamentModel.Game;
+                    TournamentResponse response = await ChallongeService.CreateTournament(request);
 
-		[LanAuthorize(Roles = "tournamentAdmin")]
+                    if (response.HasError)
+                    {
+                        return View(tournamentModel);
+                    }
+
+                    tournament.ChallongeUrl = response.Tournament.Url;   
+                }
+
+                uow.TournamentRepository.Insert(tournament);
+                uow.Save();
+
+                return RedirectToAction("Index");
+            }
+            return View(tournamentModel);
+        }
+
+        [LanAuthorize(Roles = "tournamentAdmin")]
 		public ActionResult Edit(int? id)
 		{
 			if (id == null)
@@ -96,13 +130,14 @@ namespace LanAdeptAdmin.Views
 			{
 				return HttpNotFound();
 			}
+            ViewBag.Types = TournamentTypes;
 			return View(tournament);
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[LanAuthorize(Roles = "tournamentAdmin")]
-		public ActionResult Edit([Bind(Include = "Game, MaxPlayerPerTeam, StartTime, Id, IsStarted, IsOver, Info")] TournamentModel tournamentModel)
+		public async Task<ActionResult> Edit([Bind(Include = "Game, MaxPlayerPerTeam, StartTime, Id, IsStarted, IsOver, Info, IsChallonge, Type")] TournamentModel tournamentModel)
 		{
 			if (ModelState.IsValid)
 			{
@@ -114,6 +149,60 @@ namespace LanAdeptAdmin.Views
 				tournament.IsStarted = tournamentModel.IsStarted;
 				tournament.IsOver = tournamentModel.IsOver;
 				tournament.Info = tournamentModel.Info;
+
+                if (tournamentModel.IsChallonge)
+                {
+                    if (tournament.ChallongeUrl == null)
+                    {
+                        TournamentRequest request = new TournamentRequest();
+                        request.Name = tournamentModel.Game;
+                        request.Type = TounamentType.Double;
+                        request.Description = "Tournoi du lan de l'adept " + DateTime.Now.Year + " pour le jeu " + tournamentModel.Game;
+                        TournamentResponse response = await ChallongeService.CreateTournament(request);
+
+                        if (response.HasError)
+                        {
+                            return RedirectToAction("Details", new { id = tournament.TournamentID });
+                        }
+
+                        tournament.ChallongeUrl = response.Tournament.Url;
+
+                        foreach (var team in tournament.Teams)
+                        {
+                            ParticipantRequest partRequest = new ParticipantRequest();
+                            partRequest.TournamentUrl = tournament.ChallongeUrl;
+                            partRequest.Name = team.Name;
+                            partRequest.Misc = team.TeamLeaderTag.Gamertag;
+
+                            ParticipantResponse partResponse = await ChallongeService.CreateParticipant(partRequest);
+
+                            if (partResponse.HasError)
+                            {
+                                return RedirectToAction("Details", new { id = tournament.TournamentID });
+                            }
+
+                            team.ChallongeID = partResponse.Participant.ParticipantId;
+                        }
+                    }
+                    else if(tournament.Game != tournamentModel.Game)
+                    {
+                        SimpleResponse response = await ChallongeService.UpdateTournament(tournament.ChallongeUrl, tournamentModel.Game);
+
+                        if (response.HasError)
+                        {
+                            return RedirectToAction("Details", new { id = tournament.TournamentID });
+                        }
+                    }
+                }
+                else if(tournament.ChallongeUrl != null)
+                {
+                    SimpleResponse response = await ChallongeService.DeleteTournament(tournament.ChallongeUrl);
+                    if (response.HasError)
+                    {
+                        return RedirectToAction("Details", new { id = tournament.TournamentID });
+                    }
+                    tournament.ChallongeUrl = null;
+                }
 
 				uow.TournamentRepository.Update(tournament);
 				uow.Save();
@@ -130,20 +219,27 @@ namespace LanAdeptAdmin.Views
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
-			TournamentModel tournament = new TournamentModel(uow.TournamentRepository.GetByID(id));
+
+			Tournament tournament = uow.TournamentRepository.GetByID(id);
 			if (tournament == null)
 			{
 				return HttpNotFound();
 			}
-			return View(tournament);
+
+            return View(new TournamentModel(tournament));
 		}
 
 		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
 		[LanAuthorize(Roles = "tournamentAdmin")]
-		public ActionResult DeleteConfirmed(int id)
+		public async Task<ActionResult> DeleteConfirmed(int id)
 		{
 			Tournament tournament = uow.TournamentRepository.GetByID(id);
+
+            if (tournament == null)
+            {
+                return HttpNotFound();
+            }
 
 			while (tournament.Teams.Count != 0)
 			{
@@ -152,12 +248,25 @@ namespace LanAdeptAdmin.Views
                 uow.TeamRepository.Delete(team);
 			}
 
+            if (tournament.ChallongeUrl != null)
+            {
+                SimpleResponse response = await ChallongeService.DeleteTournament(tournament.ChallongeUrl);
+                if (response.HasError)
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+
 			uow.TournamentRepository.Delete(tournament);
 			uow.Save();
 			return RedirectToAction("Index");
 		}
 
-		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
+        #endregion
+
+        #region Team
+
+        [LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
 		public ActionResult DeleteTeam(int? id)
 		{
 			if (id == null)
@@ -175,11 +284,19 @@ namespace LanAdeptAdmin.Views
 		[HttpPost, ActionName("DeleteTeam")]
 		[ValidateAntiForgeryToken]
 		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
-		public ActionResult DeleteTeamConfirmed(int id)
+		public async Task<ActionResult> DeleteTeamConfirmed(int id)
 		{
 			Team team = uow.TeamRepository.GetByID(id);
 
-			int tournamentID = team.TournamentID;
+            if (team.ChallongeID != null)
+            {
+                SimpleResponse response = await ChallongeService.DeleteParticipant(team.Tournament.ChallongeUrl, team.ChallongeID.Value);
+
+                if (response.HasError)
+                {
+                    return RedirectToAction("Details", new { id = team.TournamentID });
+                }
+            }
 
 			team.GamerTags.Clear();
 
@@ -196,7 +313,7 @@ namespace LanAdeptAdmin.Views
 			uow.TeamRepository.Delete(uow.TeamRepository.GetByID(id));
 
 			uow.Save();
-			return RedirectToAction("Details", new { id = tournamentID });
+			return RedirectToAction("Details", new { id = team.TournamentID });
 		}
 
 		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
@@ -206,6 +323,7 @@ namespace LanAdeptAdmin.Views
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
+
 			TeamModel team = new TeamModel(uow.TeamRepository.GetByID(id));
 			if (team == null)
 			{
@@ -279,11 +397,21 @@ namespace LanAdeptAdmin.Views
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
-		public ActionResult EditTeam([Bind(Include = "TeamId,Name,Tag,StartTime,IsConfirmed")] TeamModel teamModel)
+		public async  Task<ActionResult> EditTeam([Bind(Include = "TeamId,Name,Tag,StartTime,IsConfirmed")] TeamModel teamModel)
 		{
 			if (ModelState.IsValid)
 			{
 				Team team = (uow.TeamRepository.GetByID(teamModel.TeamID));
+
+                if (team.ChallongeID != null && team.Name != teamModel.Name)
+                {
+                    SimpleResponse response = await ChallongeService.UpdateParticipant(team.ChallongeID.Value, team.Tournament.ChallongeUrl, teamModel.Name);
+
+                    if (response.HasError)
+                    {
+                        return RedirectToAction("DetailsTeam", new { id = teamModel.TeamID });
+                    }
+                }
 
 				team.Name = teamModel.Name;
 				team.Tag = teamModel.Tag;
@@ -297,7 +425,11 @@ namespace LanAdeptAdmin.Views
 			return View(teamModel);
 		}
 
-		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
+        #endregion
+
+        #region Setting
+
+        [LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
 		public ActionResult Publish(int? id)
 		{
 			if (id == null)
@@ -344,7 +476,7 @@ namespace LanAdeptAdmin.Views
 		}
 
 		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
-		public ActionResult Start(int? id)
+		public async Task<ActionResult> Start(int? id)
 		{
 			if (id == null)
 			{
@@ -355,6 +487,28 @@ namespace LanAdeptAdmin.Views
 			{
 				return HttpNotFound();
 			}
+
+            if (tournament.ChallongeUrl != null)
+            {
+                if (tournament.Teams.Count < 2)
+                {
+                    return RedirectToAction("Details", new { id = id });
+                }
+
+                SimpleResponse responseRand = await ChallongeService.RandomizeTournament(tournament.ChallongeUrl);
+
+                if (responseRand.HasError)
+                {
+                    return RedirectToAction("Details", new { id = id });
+                }
+
+                SimpleResponse responseStart = await ChallongeService.StartTournament(tournament.ChallongeUrl);
+
+                if (responseStart.HasError)
+                {
+                    return RedirectToAction("Details", new { id = id });
+                }
+            }
 
 			tournament.IsStarted = true;
 			tournament.IsOver = false;
@@ -366,7 +520,7 @@ namespace LanAdeptAdmin.Views
 		}
 
 		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
-		public ActionResult Stop(int? id)
+		public async Task<ActionResult> Stop(int? id)
 		{
 			if (id == null)
 			{
@@ -378,6 +532,16 @@ namespace LanAdeptAdmin.Views
 				return HttpNotFound();
 			}
 
+            if (tournament.ChallongeUrl != null)
+            {
+                SimpleResponse response = await ChallongeService.FinalizeTournament(tournament.ChallongeUrl);
+
+                if (response.HasError)
+                {
+                    return RedirectToAction("Details", new { id = id });
+                }
+            }
+
 			tournament.IsStarted = false;
 			tournament.IsOver = true;
 
@@ -388,7 +552,7 @@ namespace LanAdeptAdmin.Views
 		}
 
 		[LanAuthorize(Roles = "tournamentAdmin, tournamentMod")]
-		public ActionResult CancelStart(int? id)
+		public async Task<ActionResult> CancelStart(int? id)
 		{
 			if (id == null)
 			{
@@ -402,6 +566,16 @@ namespace LanAdeptAdmin.Views
 
 			tournament.IsStarted = false;
 			tournament.IsOver = false;
+
+            if (tournament.ChallongeUrl != null)
+            {
+                SimpleResponse response = await ChallongeService.ResetTournament(tournament.ChallongeUrl);
+
+                if (response.HasError)
+                {
+                    return RedirectToAction("Details", new { id = id });
+                }
+            }
 
 			uow.TournamentRepository.Update(tournament);
 			uow.Save();
@@ -448,5 +622,7 @@ namespace LanAdeptAdmin.Views
 
             return RedirectToAction("DetailsTeam", new { id = team.TeamID });
         }
+
+        #endregion
     }
 }
