@@ -57,7 +57,11 @@
 			<text> </text>
 			@Html.TextIconActionLink("Revenir", "glyphicon-fast-backward", "CancelStart", "Tournaments", new { id = Model.Id }, new { @class = "btn btn-warning btn-mobile-full", title = "Remettre le tournoi à l'étape de préparation" })
 		}
-		@Html.TextIconActionLink("Modifier", "glyphicon-pencil", "Edit", null, new { id = Model.Id }, new { @class = "btn btn-primary btn-mobile-full" })
+
+        @if(!Model.IsStarted)
+        {
+            @Html.TextIconActionLink("Modifier", "glyphicon-pencil", "Edit", null, new { id = Model.Id }, new { @class = "btn btn-primary btn-mobile-full" })
+        }
 		<button type="button" class="btn btn-default btn-mobile-full" data-toggle="modal" data-target="#teamList">
 			<span class="glyphicon glyphicon-copy"></span> liste copiable
 		</button>

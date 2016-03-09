@@ -31,6 +31,7 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 
 		public int Id { get; set; }
 
+        [Display(Name = "Utiliser Challonge")]
         public bool IsChallonge { get; set; }
 
 		[Display(Name = "Jeu")]

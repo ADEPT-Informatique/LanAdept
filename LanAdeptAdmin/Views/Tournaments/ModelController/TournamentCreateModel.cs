@@ -21,6 +21,7 @@ namespace LanAdeptAdmin.Views.Tournaments.ModelController
 		[Display(Name = "Jeu")]
 		public string Game { get; set; }
 
+        [Display(Name = "Utiliser Challonge")]
         public bool IsChallonge { get; set; }
 
         public TounamentType Type { get; set; }
