@@ -13,6 +13,9 @@ using LanAdept.Views.Teams.ModelController;
 using Microsoft.AspNet.Identity.Owin;
 using LanAdeptData.Model.Users;
 using LanAdeptData.Model.Tournaments;
+using LanAdeptCore.Service.Challonge.Response;
+using LanAdeptCore.Service.Challonge;
+using System.Threading.Tasks;
 
 namespace LanAdept.Controllers
 {
@@ -277,7 +280,7 @@ namespace LanAdept.Controllers
 		}
 
 		[LanAuthorize]
-		public ActionResult Delete(int id)
+		public async Task<ActionResult> Delete(int id)
 		{
 			if (!UserService.IsTeamLeader())
 				return RedirectToAction("Index", "Home");
@@ -287,6 +290,16 @@ namespace LanAdept.Controllers
 			User user = UserService.GetLoggedInUser();
 			if (user.Id != team.TeamLeaderTag.UserID)
 				return RedirectToAction("Index", "Home");
+
+            if (team.Tournament.ChallongeUrl != null)
+            {
+                SimpleResponse response = await ChallongeService.DeleteParticipant(team.Tournament.ChallongeUrl, team.ChallongeID.Value);
+
+                if (response.HasError)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
 
 			List<Demande> demandes = uow.DemandeRepository.GetByTeamId(id);
 			foreach (Demande demande in demandes)
