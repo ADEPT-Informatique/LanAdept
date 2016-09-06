@@ -15,7 +15,7 @@
     <AssemblyName>LanAdeptAdmin</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -263,6 +263,7 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
+    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <None Include="Properties\PublishProfiles\LanAdeptAdmin ProdProd.pubxml" />
     <None Include="Properties\PublishProfiles\LanAdeptAdmin.pubxml" />
     <Content Include="Images\Favicon\android-chrome-144x144.png" />
@@ -411,7 +412,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>11862</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://admin.localhost/</IISUrl>
+          <IISUrl>http://localhost:6261/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
