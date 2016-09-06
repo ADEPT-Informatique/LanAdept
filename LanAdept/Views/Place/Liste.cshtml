@@ -59,7 +59,7 @@ else if (Model.Settings.IsLanStarted)
 	<div class="alert alert-warning" role="alert">
 		Le LAN a déjà débuté. Il n'est donc plus possible de réserver une place. Si vous désirez obtenir une place ou changer de place, veuillez vous rendre à l'accueil du LAN.
 		<br /><br />
-		Plusieurs places sont aussi disponible sans réservation dès 16h et ne sont donc pas affiché sur ce plan.
+		
 	</div>
 }
 else
@@ -72,15 +72,7 @@ else
 		</div>
 	}
 }
-@if (!Model.Settings.IsLanStarted && Model.NbPlacesLibres < 25)
-{
-	<div class="alert alert-warning" role="alert">
-		Advenant le cas où toutes les places seraient épuisées, il est à noter que d'autres places
-		seront disponibles <strong>sans réservation</strong> à partir de 16h le 14 octobre (mercredi),
-		vous n'avez qu'à vous présenter à la table d'accueil dès votre arrivée.
-		Il est à noter que ces places seront disponibles en quantité limitée, donc premier arrivé, premier servi.
-	</div>
-}
+
 
 @foreach (LanAdept.Views.Places.ModelController.FastMap fastMap in Model.Maps)
 {
