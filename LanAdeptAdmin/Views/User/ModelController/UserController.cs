@@ -73,6 +73,8 @@ namespace LanAdeptAdmin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             User user = uow.UserRepository.GetByID(id);
+            ViewBag.Teams = uow.TeamRepository.GetTeamByUser(user).ToList();
+            
             if (user == null)
             {
                 return HttpNotFound();

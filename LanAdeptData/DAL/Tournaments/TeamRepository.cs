@@ -49,5 +49,9 @@ namespace LanAdeptData.DAL.Tournaments
 
 			return teams;
 		}
+        public IEnumerable<Team> GetTeamByUser(User user)
+        {
+            return Get().Where(x => x.GamerTags.Where(y => y.UserID == user.Id).FirstOrDefault() != null);
+        }
     }
 }
