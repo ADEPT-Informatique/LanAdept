@@ -9,6 +9,18 @@
 	bool isLoggedIn = LanAdeptCore.Service.UserService.IsUserLoggedIn();
 }
 
+<div id="chart" style="margin:10px"></div>
+@{
+    <script>
+    new seatsio.SeatingChart({
+        divId: 'chart',
+        publicKey: 'fcdf0b02-b84a-45ae-bde6-8df79812adc3',
+        event: 'f1ad5f1e-c02c-46c8-aad2-e00c07a23e07'
+    }).render();
+    </script>
+}
+
+@*
 @if (userHaveAPlace)
 {
 	@Html.Partial("ModalChangerPlacePartial")
@@ -43,7 +55,7 @@ else
 {
 	<div class="alert alert-info">
 		Les réservations de places ne sont pas encore débutées! Elles débuteront 
-		@Model.Settings.PlaceReservationStartDate.ToString("dddd le d MMMM à H\\hmm", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA")) @* Jour *@
+		@Model.Settings.PlaceReservationStartDate.ToString("dddd le d MMMM à H\\hmm", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA")) @* Jour *@@*
 	</div>
 }
 
@@ -143,7 +155,8 @@ else
 
 	</script>
 }
-
+-->*@
 @section Styles {
 	<link href="@Url.Content("~/Content/Map.css")" rel="stylesheet" type="text/css" />
+    <script src="https://app.seats.io/chart.js" type="text/javascript"></script>
 }
