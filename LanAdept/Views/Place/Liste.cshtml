@@ -14,10 +14,14 @@
     <script>
     new seatsio.SeatingChart({
         divId: 'chart',
-        publicKey: 'fcdf0b02-b84a-45ae-bde6-8df79812adc3',
-        event: 'f1ad5f1e-c02c-46c8-aad2-e00c07a23e07'
+        publicKey: '3788b701-1b85-4864-bc58-49ff85ca2c14',
+        event: 'cd826557-5c7e-48d2-96e2-2523128a6e25'
     }).render();
     </script>
+}
+@if (isLoggedIn)
+{
+  
 }
 
 @*
@@ -124,9 +128,10 @@ else
 		</div>
 	</div>
 </div>
-
+*@
 @section scripts {
 	<script>
+        @*
 		$(function () {
 			$('[data-toggle="tooltip"]').tooltip();
 			$('[data-toggle="popover"]').popover();
@@ -152,10 +157,10 @@ else
 				$("#" + placeArray[i]).addClass("place-highlight");
 			}
 		}
+        *@
 
 	</script>
 }
--->*@
 @section Styles {
 	<link href="@Url.Content("~/Content/Map.css")" rel="stylesheet" type="text/css" />
     <script src="https://app.seats.io/chart.js" type="text/javascript"></script>
