@@ -12,19 +12,34 @@
 <div id="chart" style="margin:10px"></div>
 @{
     <script>
-    new seatsio.SeatingChart({
+    var chart = new seatsio.SeatingChart({
         divId: 'chart',
         publicKey: '3788b701-1b85-4864-bc58-49ff85ca2c14',
-        event: 'cd826557-5c7e-48d2-96e2-2523128a6e25'
+        event: 'cd826557-5c7e-48d2-96e2-2523128a6e25',
+        onObjectSelected: function (object) {
+            $.ajax({
+                method: "POST",
+                url: "https://app.seats.io/api/book",
+                data: {
+                    'objects': "'" + object.id + "'",
+                    'publicKey': '3788b701-1b85-4864-bc58-49ff85ca2c14',
+                    'eventKey': 'cd826557-5c7e-48d2-96e2-2523128a6e25'
+                },
+                contentType: 'application/json',
+                dataType: 'json'
+            }).done(function (msg) {
+                console.log(msg);
+            })
+        },
+        onObjectDeselected: function (object) {
+            $("#lastAction").html("deselected " + object.id);
+        }
     }).render();
     </script>
 }
-@if (isLoggedIn)
-{
-  
-}
 
-@*
+
+
 @if (userHaveAPlace)
 {
 	@Html.Partial("ModalChangerPlacePartial")
@@ -54,12 +69,12 @@ else
 </div>
 
 @Html.ShowMessage()
-
-@if (!Model.Settings.IsPlaceReservationStarted)
-{
-	<div class="alert alert-info">
-		Les réservations de places ne sont pas encore débutées! Elles débuteront 
-		@Model.Settings.PlaceReservationStartDate.ToString("dddd le d MMMM à H\\hmm", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA")) @* Jour *@@*
+@*
+    @if (!Model.Settings.IsPlaceReservationStarted)
+    {
+        <div class="alert alert-info">
+            Les réservations de places ne sont pas encore débutées! Elles débuteront
+            @Model.Settings.PlaceReservationStartDate.ToString("dddd le d MMMM à H\\hmm", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA")) @* Jour *@@*
 	</div>
 }
 
