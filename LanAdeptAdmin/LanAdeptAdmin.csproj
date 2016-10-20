@@ -304,11 +304,9 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\general.js" />
     <None Include="Scripts\jquery-2.2.0.intellisense.js" />
-    <None Include="Scripts\jquery-3.1.1-vsdoc.js" />
-    <Content Include="Scripts\jquery-3.1.1.js" />
-    <Content Include="Scripts\jquery-3.1.1.min.js" />
-    <Content Include="Scripts\jquery-3.1.1.slim.js" />
-    <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
+    <Content Include="Scripts\jquery-2.2.0.js" />
+    <Content Include="Scripts\jquery-2.2.0.min.js" />
+    <Content Include="Scripts\jquery-2.2.0.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -380,8 +378,6 @@
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Error\PageNotFound.cshtml" />
     <Content Include="Views\Tournaments\Partial\ConfirmationModal.cshtml" />
-    <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.1.1.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Emails\ModelController\" />

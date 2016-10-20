@@ -17,6 +17,7 @@
                 divId: 'chart',
                 publicKey: '3788b701-1b85-4864-bc58-49ff85ca2c14',
                 event: 'cd826557-5c7e-48d2-96e2-2523128a6e25',
+                maxSelectedObjects: 1,
                 onObjectSelected: function (object) {
                     @*  $.ajax({
                     method: "POST",
@@ -33,12 +34,16 @@
                 })*@
                     seatId = object.id
                     console.log(seatId);
-                    reserver();
+                    console.log(object);
+                    var elem = $('#ModalReserverPlace, #ModalChangerPlace')[0].open();
+
                 },
                 onObjectDeselected: function (object) {
                     $("#lastAction").html("deselected " + object.id);
-                }
-            }).render()
+                },
+               
+            }).render();
+          
         });
 
     </script>
@@ -51,7 +56,8 @@ else
                 divId: 'chart',
                 publicKey: '3788b701-1b85-4864-bc58-49ff85ca2c14',
                 event: 'cd826557-5c7e-48d2-96e2-2523128a6e25',
-            }).render()
+                maxSelectedObjects: 0,             
+            }).render();
         });
 
     </script>
@@ -129,6 +135,7 @@ else
         @Html.Partial("SingleMapPartial", fastMap)
     }
 *@
+@*
 <div id="legende-container">
     <div id="legende">
         <div class="row">
@@ -162,7 +169,7 @@ else
         </div>
     </div>
 </div>
-
+*@
 @section scripts {
     <script>
         @*
@@ -176,7 +183,7 @@ else
 		});
 
 *@
-        var reserver = function () {
+
             $('#ModalReserverPlace, #ModalChangerPlace').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget);
                 var placeID = seatId;
@@ -186,7 +193,7 @@ else
                 modal.find('.modal-place-text').text(text);
                 modal.find('.btnReserver').attr("href", "@Url.Action("Reserver")/" + placeID)
             });
-        };
+        
         @*
 		function highlightPlaces(placeArray) {
 			for (var i = 0; i < placeArray.length; i++) {
