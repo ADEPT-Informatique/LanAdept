@@ -24,8 +24,10 @@ namespace LanAdeptData.Migrations
 			SeedRoles(context);
 			SeedUsers(context);
 			SeedGlobalSettings(context);
+            SeedPlaces(context);
 
-			context.SaveChanges();
+
+            context.SaveChanges();
 		}
 
 		private void SeedRoles(LanAdeptDataContext context)
@@ -123,5 +125,17 @@ namespace LanAdeptData.Migrations
 				context.Settings.Add(settings);
 			}
 		}
+        private void SeedPlaces(LanAdeptDataContext context)
+        {
+            for(char i = 'A'; i <= 'I'; i++)
+            {
+                for (int y = 1; y < 25; y++)
+                {
+                    Model.Places.Place place = new Model.Places.Place();
+                    place.SeatsId = i + "-" + y.ToString();
+                    context.Places.Add(place);
+                }
+            }
+        }
 	}
 }

@@ -18,7 +18,7 @@ using Microsoft.AspNet.Identity.Owin;
 using LanAdeptCore.Attribute.Authorization;
 using LanAdeptData.Model.Settings;
 using LanAdeptData.Model.Places;
-using LanAdeptData.Model.Maps;
+using LanAdept.Views.Place.ModelController;
 
 namespace LanAdept.Controllers
 {
@@ -45,27 +45,19 @@ namespace LanAdept.Controllers
 		[AllowAnonymous]
 		public ActionResult Liste()
 		{
-			ListeModel listeModel = new ListeModel();
-			listeModel.Settings = uow.SettingRepository.GetCurrentSettings();
-
-            List<FastMap> fastMaps = new List<FastMap>();
-            foreach (Map map in uow.MapRepository.Get())
-                fastMaps.Add(new FastMap(map));
-
-            listeModel.Maps = fastMaps;
-
-			if (!listeModel.Settings.IsLanStarted)
-			{
-				listeModel.NbPlacesLibres = uow.PlaceRepository.Get().Count(x => x.IsFree);
-			}
-
-			return View(listeModel);
+            ListeModel listeModel = new ListeModel();
+            listeModel.Settings = uow.SettingRepository.GetCurrentSettings();
+            if (!listeModel.Settings.IsLanStarted)
+            {
+                listeModel.NbPlacesLibres = uow.PlaceRepository.Get().Count(x => x.IsFree);
+            }
+            return View(listeModel);
 		}
 
 		[LanAuthorize]
-		public ActionResult Reserver(int? id)
+		public ActionResult Reserver(string id)
 		{
-			if (id == null || id < 1)
+			if (id.Equals(""))
 			{
 				TempData["Error"] = ERROR_INVALID_ID;
 				return RedirectToAction("Liste");
@@ -85,7 +77,7 @@ namespace LanAdept.Controllers
 				return RedirectToAction("Liste");
 			}
 
-			Place placeAReserver = uow.PlaceRepository.GetByID(id.Value);
+            Place placeAReserver = uow.PlaceRepository.GetBySteatsId(id).First();
 
 			if (placeAReserver == null)
 			{
@@ -102,7 +94,7 @@ namespace LanAdept.Controllers
 			}
 			else
 			{
-				TempData["Success"] = "La place <strong>" + placeAReserver + "</strong> a bien été réservée.";
+				TempData["Success"] = "La place <strong>" + placeAReserver.SeatsId + "</strong> a bien été réservée.";
 				return RedirectToAction("MaPlace");
 			}
 		}

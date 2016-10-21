@@ -11,7 +11,6 @@ using LanAdeptData.DAL;
 using LanAdeptData.Model;
 using PagedList;
 using Microsoft.AspNet.Identity.Owin;
-using LanAdeptData.Model.Maps;
 using LanAdeptData.Model.Places;
 using LanAdeptData.Model.Users;
 
@@ -37,11 +36,10 @@ namespace LanAdeptAdmin.Controllers
 		[LanAuthorize(Roles = "placeAdmin")]
 		public ActionResult Liste()
 		{
-			ListeModel listeModel = new ListeModel();
+	
 
-			listeModel.Maps = uow.MapRepository.Get();
 
-			return View(listeModel);
+			return View();
 		}
 
 		[LanAuthorize(Roles = "placeAdmin")]
@@ -183,7 +181,7 @@ namespace LanAdeptAdmin.Controllers
 			}
 
 			model.Users = new SelectList(Userlist, "Id", "CompleteName");
-			model.PlaceID = placeAReserver.PlaceID;
+			model.SeatsId = placeAReserver.SeatsId;
 			model.Place = placeAReserver;
 
 			return View(model);
@@ -194,12 +192,7 @@ namespace LanAdeptAdmin.Controllers
 		[LanAuthorize(Roles = "placeAdmin")]
 		public ActionResult Reserve([Bind(Include = "PlaceID,UserID,IsGuest,Place,FullNameNoAccount")] ReserveModel model)
 		{
-			if (model.PlaceID < 1)
-			{
-				TempData["Error"] = ERROR_INVALID_ID;
-				return RedirectToAction("Liste");
-			}
-			Place currentPlace = uow.PlaceRepository.GetByID(model.PlaceID);
+			Place currentPlace = uow.PlaceRepository.GetByID(model.SeatsId);
 			if (currentPlace == null)
 			{
 				TempData["Error"] = ERROR_INVALID_ID;
@@ -208,7 +201,7 @@ namespace LanAdeptAdmin.Controllers
 			if (currentPlace.IsOccupied)
 			{
 				TempData["Error"] = ERROR_PLACE_OCCUPIED;
-				return RedirectToAction("Details", new { id = model.PlaceID });
+				return RedirectToAction("Details", new { id = model.SeatsId });
 			}
 
 			if (ModelState.IsValid)
@@ -261,7 +254,7 @@ namespace LanAdeptAdmin.Controllers
 				}
 			}
 
-			model.PlaceID = currentPlace.PlaceID;
+			model.SeatsId = currentPlace.SeatsId;
 			model.Place = currentPlace;
 			ViewBag.UserID = new SelectList(uow.UserRepository.Get().OrderBy(u => u.CompleteName), "UserID", "CompleteName");
 
@@ -393,85 +386,6 @@ namespace LanAdeptAdmin.Controllers
 			{
 				uow.PlaceRepository.Delete(place);
 			}
-
-			IEnumerable<PlaceSection> sections = uow.PlaceSectionRepository.Get();
-			foreach (PlaceSection section in sections)
-			{
-				uow.PlaceSectionRepository.Delete(section);
-			}
-
-			IEnumerable<Map> maps = uow.MapRepository.Get();
-			foreach (Map map in maps)
-			{
-				uow.MapRepository.Delete(map);
-			}
-
-			Map newMap = new Map();
-			newMap.MapName = "Caféteria orange";
-			newMap.Width = 18;
-			newMap.Height = 13;
-			newMap.Places = new List<Place>();
-
-			int x = 1;
-			int y = 0;
-			for (char sectionName = 'A'; sectionName <= 'H'; sectionName++)
-			{
-				PlaceSection section = new PlaceSection();
-				section.Name = sectionName.ToString();
-
-				for (int i = 1; i <= 24; i++)
-				{
-					if (i == 13)
-					{
-						x++;
-						y = 0;
-					}
-					y++;
-					Place place = new Place();
-					place.Number = i;
-					place.PlaceSection = section;
-
-                    place.PositionX = x;
-                    place.PositionY = y;
-
-					newMap.Places.Add(place);
-
-					uow.PlaceRepository.Insert(place);
-				}
-				x++;
-				y = 0;
-
-				uow.PlaceSectionRepository.Insert(section);
-			}
-
-			x = 0;
-			for (char sectionName = 'I'; sectionName <= 'J'; sectionName++)
-			{
-				PlaceSection section = new PlaceSection();
-				section.Name = sectionName.ToString();
-
-				for (int i = 1; i <= 9; i++)
-				{
-					Place place = new Place();
-					place.Number = i;
-					place.PlaceSection = section;
-
-                    place.PositionX = x;
-                    place.PositionY = 0;
-
-					newMap.Places.Add(place);
-
-					x++;
-
-					uow.PlaceRepository.Insert(place);
-				}
-				x = 9;
-
-				uow.PlaceSectionRepository.Insert(section);
-			}
-
-			uow.MapRepository.Insert(newMap);
-
 			uow.Save();
 
 			return RedirectToAction("Index");

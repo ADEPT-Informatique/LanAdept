@@ -1,11 +1,10 @@
-﻿@model LanAdept.Views.Places.ModelController.ListeModel
+﻿@model LanAdept.Views.Place.ModelController.ListeModel
 @Scripts.Render("~/bundles/jquery")
 @{
     ViewBag.Title = "Places";
     ViewBag.Settings = Model.Settings;
     var userHaveAPlace = LanAdeptCore.Service.ReservationService.HasUserPlace();
     ViewBag.userHaveAPlace = userHaveAPlace;
-    var isPlaceStarted = Model.Settings.IsPlaceReservationStarted;
     var seatId = 0;
     bool isLoggedIn = LanAdeptCore.Service.UserService.IsUserLoggedIn();
 }
@@ -132,7 +131,7 @@ else
             $('#ModalReserverPlace, #ModalChangerPlace').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget);
                 var placeID = seatId;
-                var text = button.data('placeText');
+                var text = seatId;
 
                 var modal = $(this);
                 modal.find('.modal-place-text').text(text);

@@ -14,7 +14,7 @@ namespace LanAdeptAdmin.Views.Places.ModelController
 	{
 		public Place Place { get; set; }
 
-		public int PlaceID { get; set; }
+		public string SeatsId { get; set; }
 
 		public bool IsGuest { get; set; }
 
