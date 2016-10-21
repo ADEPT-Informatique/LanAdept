@@ -5,6 +5,7 @@
     ViewBag.Settings = Model.Settings;
     var userHaveAPlace = LanAdeptCore.Service.ReservationService.HasUserPlace();
     ViewBag.userHaveAPlace = userHaveAPlace;
+    var isPlaceStarted = Model.Settings.IsPlaceReservationStarted;
     var seatId = 0;
     bool isLoggedIn = LanAdeptCore.Service.UserService.IsUserLoggedIn();
 }
@@ -19,27 +20,16 @@
                 event: 'cd826557-5c7e-48d2-96e2-2523128a6e25',
                 maxSelectedObjects: 1,
                 onObjectSelected: function (object) {
-                    @*  $.ajax({
-                    method: "POST",
-                    url: "https://app.seats.io/api/book",
-                    data: {
-                        'objects': "'" + object.id + "'",
-                        'publicKey': '3788b701-1b85-4864-bc58-49ff85ca2c14',
-                        'eventKey': 'cd826557-5c7e-48d2-96e2-2523128a6e25'
-                    },
-                    contentType: 'application/json',
-                    dataType: 'json'
-                }).done(function (msg) {
-                    console.log(msg);
-                })*@
-                    seatId = object.id
-                    console.log(seatId);
-                    console.log(object);
-                    var elem = $('#ModalReserverPlace, #ModalChangerPlace')[0].open();
-
+                    seatId = object.id;
+                    var placeHaveStarted = @Model.Settings.IsPlaceReservationStarted.ToString().ToLower();
+                    var lanHasStarted = @Model.Settings.IsLanStarted.ToString().ToLower();
+                    if (placeHaveStarted && !lanHasStarted)
+                    {
+                        $('#ModalReserverPlace, #ModalChangerPlace').modal('show');
+                    }                  
                 },
                 onObjectDeselected: function (object) {
-                    $("#lastAction").html("deselected " + object.id);
+                    
                 },
                
             }).render();
@@ -129,60 +119,15 @@ else
 }
 <div id="chart" style="margin:10px"></div>
 
-@*
-    @foreach (LanAdept.Views.Places.ModelController.FastMap fastMap in Model.Maps)
-    {
-        @Html.Partial("SingleMapPartial", fastMap)
-    }
-*@
-@*
-<div id="legende-container">
-    <div id="legende">
-        <div class="row">
-            <h4>Légende</h4>
-            <div class="legende-col" data-toggle="tooltip" data-placement="top" title="Indique que cette place n'est pas réservée.">
-                <div class="place">A00</div>
-            </div>
-            <div class="legende-col" data-toggle="tooltip" data-placement="top" title="Indique que cette place est réservée, mais que personne ne l'occupe présentement.">
-                <div class="place place-reserve">A00</div>
-            </div>
-            <div class="legende-col" data-toggle="tooltip" data-placement="top" title="Indique votre place actuelle.">
-                <div class="place place-actuelle">A00</div>
-            </div>
-            <div class="legende-col" data-toggle="tooltip" data-placement="top" title="Indique que quelqu'un occupe actuellement cette place.">
-                <div class="place place-occupe">A00</div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="legende-col">
-                <div class="legende-label">Libre</div>
-            </div>
-            <div class="legende-col">
-                <div class="legende-label">Réservée</div>
-            </div>
-            <div class="legende-col">
-                <div class="legende-label">Ma place</div>
-            </div>
-            <div class="legende-col">
-                <div class="legende-label">Occupée</div>
-            </div>
-        </div>
-    </div>
-</div>
-*@
 @section scripts {
     <script>
-        @*
+        
 		$(function () {
 			$('[data-toggle="tooltip"]').tooltip();
 			$('[data-toggle="popover"]').popover();
-
-			var placesToHighlight = window.location.hash.replace("#", "").split(";");
-
-			highlightPlaces(placesToHighlight);
 		});
 
-*@
+
 
             $('#ModalReserverPlace, #ModalChangerPlace').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget);
@@ -194,13 +139,6 @@ else
                 modal.find('.btnReserver').attr("href", "@Url.Action("Reserver")/" + placeID)
             });
         
-        @*
-		function highlightPlaces(placeArray) {
-			for (var i = 0; i < placeArray.length; i++) {
-				$("#" + placeArray[i]).addClass("place-highlight");
-			}
-		}
-            *@
     </script>
 }
 @section Styles {
