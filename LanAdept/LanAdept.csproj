@@ -356,7 +356,6 @@
     <Content Include="Views\Auth\Login.cshtml" />
     <Content Include="Views\Auth\Register.cshtml" />
     <Content Include="Views\Auth\Message.cshtml" />
-    <Content Include="Views\Place\Partial\SingleSectionPartial.cshtml" />
     <Content Include="Views\Place\Liste.cshtml" />
     <Content Include="Views\Place\Partial\ModalReserverPlacePartial.cshtml" />
     <Content Include="Views\Place\Partial\ModalChangerPlacePartial.cshtml" />
@@ -365,7 +364,6 @@
     <Content Include="Views\Tournament\Index.cshtml" />
     <Content Include="Views\Tournament\Details.cshtml" />
     <Content Include="Views\Tournament\AddTeam.cshtml" />
-    <Content Include="Views\Place\Partial\SingleMapPartial.cshtml" />
     <Content Include="Views\Emails\_ViewStart.cshtml" />
     <Content Include="Views\Emails\Confirmation.cshtml" />
     <Content Include="Views\Emails\Web.config" />

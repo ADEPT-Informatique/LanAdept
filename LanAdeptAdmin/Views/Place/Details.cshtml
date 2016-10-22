@@ -94,16 +94,16 @@
 		@{
 			if (Model.IsFree || !Model.LastReservation.HasArrived)
 			{
-				@Html.AuthorizeActionLink("Réserver", "Reserve", null, new { id = Model.PlaceID }, new { @class = "btn btn-default btn-mobile-full" })
+				@Html.AuthorizeActionLink("Réserver", "Reserve", null, new { id = Model.SeatsId }, new { @class = "btn btn-default btn-mobile-full" })
 			}
 			if (!Model.IsFree && !Model.LastReservation.HasArrived)
 			{
-				@Html.AuthorizeActionLink("Confirmer la présence", "Arriving", null, new { id = Model.PlaceID }, new { @class = "btn btn-success btn-mobile-full" })
-				@Html.AuthorizeActionLink("Annuler la réservation", "Cancel", null, new { id = Model.PlaceID }, new { @class = "btn btn-danger btn-mobile-full" })
+				@Html.AuthorizeActionLink("Confirmer la présence", "Arriving", null, new { id = Model.SeatsId }, new { @class = "btn btn-success btn-mobile-full" })
+				@Html.AuthorizeActionLink("Annuler la réservation", "Cancel", null, new { id = Model.SeatsId }, new { @class = "btn btn-danger btn-mobile-full" })
 			}
 			if (!Model.IsFree && Model.LastReservation.HasArrived && !Model.LastReservation.HasLeft)
 			{
-				@Html.AuthorizeActionLink("Confirmer le départ", "Leaving", null, new { id = Model.PlaceID }, new { @class = "btn btn-danger btn-mobile-full" })
+				@Html.AuthorizeActionLink("Confirmer le départ", "Leaving", null, new { id = Model.SeatsId }, new { @class = "btn btn-danger btn-mobile-full" })
 			}
 		}
 	</div>

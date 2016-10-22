@@ -14,6 +14,7 @@ using Microsoft.AspNet.Identity.Owin;
 using LanAdeptData.Model.Places;
 using LanAdeptData.Model.Users;
 
+
 namespace LanAdeptAdmin.Controllers
 {
 	public class PlaceController : Controller
@@ -43,15 +44,15 @@ namespace LanAdeptAdmin.Controllers
 		}
 
 		[LanAuthorize(Roles = "placeAdmin")]
-		public ActionResult Details(int? id, string sortOrder, string searchString, string currentFilter, int? page)
+		public ActionResult Details(string id, string sortOrder, string searchString, string currentFilter, int? page)
 		{
-			if (id == null || id < 1)
+			if (id == null)
 			{
 				TempData["Error"] = ERROR_INVALID_ID;
 				return RedirectToAction("Liste");
 			}
 
-			Place placeAReserver = uow.PlaceRepository.GetByID(id.Value);
+            Place placeAReserver = uow.PlaceRepository.GetBySteatsId(id).First();
 
 			if (placeAReserver == null)
 			{
@@ -59,9 +60,9 @@ namespace LanAdeptAdmin.Controllers
 				return RedirectToAction("Liste");
 			}
 
-			Place place = uow.PlaceRepository.GetByID(id);
+			Place place = uow.PlaceRepository.GetBySteatsId(id).First();
 
-			ViewBag.CurrentSort = sortOrder;
+            ViewBag.CurrentSort = sortOrder;
 			ViewBag.DateSort = String.IsNullOrEmpty(sortOrder) ? "date_desc" : "";
 			ViewBag.NameSort = sortOrder == "Name" ? "name_desc" : "Name";
 
@@ -130,7 +131,7 @@ namespace LanAdeptAdmin.Controllers
 				{
 					Reservation reservationFound = model.ReservationsFound.First();
 
-					return RedirectToAction("Details", new { id = reservationFound.Place.PlaceID });
+					return RedirectToAction("Details", new { id = reservationFound.Place.SeatsId });
 				}
 				else
 				{
@@ -142,14 +143,14 @@ namespace LanAdeptAdmin.Controllers
 		}
 
 		[LanAuthorize(Roles = "placeAdmin")]
-		public ActionResult Reserve(int? id)
+		public ActionResult Reserve(string id)
 		{
-			if (id == null || id < 1)
+			if (id == null)
 			{
 				TempData["Error"] = ERROR_INVALID_ID;
 				return RedirectToAction("Liste");
 			}
-			Place placeAReserver = uow.PlaceRepository.GetByID(id.Value);
+            Place placeAReserver = uow.PlaceRepository.GetBySteatsId(id).First();
 			if (placeAReserver == null)
 			{
 				TempData["Error"] = ERROR_INVALID_ID;
@@ -190,9 +191,9 @@ namespace LanAdeptAdmin.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]  //Le code de cette action est affreux
 		[LanAuthorize(Roles = "placeAdmin")]
-		public ActionResult Reserve([Bind(Include = "PlaceID,UserID,IsGuest,Place,FullNameNoAccount")] ReserveModel model)
+		public ActionResult Reserve([Bind(Include = "SeatsId,UserID,IsGuest,Place,FullNameNoAccount")] ReserveModel model)
 		{
-			Place currentPlace = uow.PlaceRepository.GetByID(model.SeatsId);
+			Place currentPlace = uow.PlaceRepository.GetBySteatsId(model.SeatsId).First();
 			if (currentPlace == null)
 			{
 				TempData["Error"] = ERROR_INVALID_ID;
@@ -211,7 +212,7 @@ namespace LanAdeptAdmin.Controllers
 					if (!currentPlace.IsFree && currentPlace.LastReservation.User.Id == model.UserID)
 					{
 						TempData["Warning"] = "Aucune donnée n'a été mise à jours";
-						return RedirectToAction("Details", new { id = currentPlace.PlaceID });
+						return RedirectToAction("Details", new { id = currentPlace.SeatsId });
 					}
 					else
 					{
@@ -231,7 +232,7 @@ namespace LanAdeptAdmin.Controllers
 							else
 							{
 								TempData["Success"] = "La place a bien été enregistré";
-								return RedirectToAction("Details", new { id = currentPlace.PlaceID });
+								return RedirectToAction("Details", new { id = currentPlace.SeatsId });
 							}
 						}
 					}
@@ -249,7 +250,7 @@ namespace LanAdeptAdmin.Controllers
 					else
 					{
 						TempData["Success"] = "La place a bien été enregistré";
-						return RedirectToAction("Details", new { id = currentPlace.PlaceID });
+						return RedirectToAction("Details", new { id = currentPlace.SeatsId });
 					}
 				}
 			}
@@ -262,14 +263,14 @@ namespace LanAdeptAdmin.Controllers
 		}
 
 		[LanAuthorize(Roles = "placeAdmin")]
-		public ActionResult Cancel(int? id)
+		public ActionResult Cancel(string id)
 		{
-			if (id == null || id < 1)
+			if (id == null)
 			{
 				TempData["Error"] = ERROR_INVALID_ID;
 				return RedirectToAction("Liste");
 			}
-			Place currentPlace = uow.PlaceRepository.GetByID(id.Value);
+            Place currentPlace = uow.PlaceRepository.GetBySteatsId(id).First();
 			if (currentPlace == null)
 			{
 				TempData["Error"] = ERROR_INVALID_ID;
@@ -291,19 +292,19 @@ namespace LanAdeptAdmin.Controllers
 				TempData["Success"] = "Cette place n'est plus réservée.";
 			}
 
-			return RedirectToAction("Details", new { id = currentPlace.PlaceID });
+			return RedirectToAction("Details", new { id = currentPlace.SeatsId });
 		}
 
 		[LanAuthorize(Roles = "placeAdmin")]
-		public ActionResult Arriving(int? id)
+		public ActionResult Arriving(string id)
 		{
-			if (id == null || id < 1)
+			if (id == null)
 			{
 				TempData["Error"] = ERROR_INVALID_ID;
 				return RedirectToAction("Liste");
 			}
-			Place currentPlace = uow.PlaceRepository.GetByID(id.Value);
-			if (currentPlace == null)
+			Place currentPlace = uow.PlaceRepository.GetBySteatsId(id).First();
+            if (currentPlace == null)
 			{
 				TempData["Error"] = ERROR_INVALID_ID;
 				return RedirectToAction("Liste");
@@ -326,19 +327,19 @@ namespace LanAdeptAdmin.Controllers
 				TempData["Success"] = "Cette place est maintenant occupée.";
 			}
 
-			return RedirectToAction("Details", new { id = currentPlace.PlaceID });
+			return RedirectToAction("Details", new { id = currentPlace.SeatsId });
 		}
 
 		[LanAuthorize(Roles = "placeAdmin")]
-		public ActionResult Leaving(int? id)
+		public ActionResult Leaving(string id)
 		{
-			if (id == null || id < 1)
+			if (id == null)
 			{
 				TempData["Error"] = ERROR_INVALID_ID;
 				return RedirectToAction("Liste");
 			}
-			Place currentPlace = uow.PlaceRepository.GetByID(id.Value);
-			if (currentPlace == null)
+			Place currentPlace = uow.PlaceRepository.GetBySteatsId(id).First();
+            if (currentPlace == null)
 			{
 				TempData["Error"] = ERROR_INVALID_ID;
 				return RedirectToAction("Liste");
@@ -361,7 +362,7 @@ namespace LanAdeptAdmin.Controllers
 				TempData["Success"] = "Cette place est maintenant libérée.";
 			}
 
-			return RedirectToAction("Details", new { id = currentPlace.PlaceID });
+			return RedirectToAction("Details", new { id = currentPlace.SeatsId });
 		}
 
 #if DEBUG

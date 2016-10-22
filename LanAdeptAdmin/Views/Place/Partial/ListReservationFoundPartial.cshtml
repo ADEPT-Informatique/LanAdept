@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Reservation>
+﻿@model IEnumerable<LanAdeptData.Model.Places.Reservation>
 
 <h4>Résultats</h4>
 <table class="table">
@@ -10,11 +10,12 @@
 	</thead>
 	<tbody>
 
-		@foreach (Reservation reservation in Model)
+		@foreach (LanAdeptData.Model.Places.Reservation reservation in Model)
 		{
-			<tr class="vertical-align clickable-row" data-row-url="@Url.Action("Details", new { id = reservation.Place.PlaceID })">
+			<tr class="vertical-align clickable-row" data-row-url="@Url.Action("Details", new { id = reservation.Place.SeatsId })">
 				<td>@reservation.UserCompleteName</td>
 				<td>@(reservation.IsGuest ? "--" : reservation.User.Email)</td>
+                <td>@reservation.Place.SeatsId</td>
 			</tr>
 		}
 	</tbody>

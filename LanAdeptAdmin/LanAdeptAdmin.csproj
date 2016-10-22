@@ -215,6 +215,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\Place\ModelController\ListeModel.cs" />
     <Compile Include="Views\Place\ModelController\PlaceController.cs" />
     <Compile Include="Views\Place\ModelController\ReserveModel.cs" />
     <Compile Include="Views\Place\ModelController\SearchModel.cs" />
@@ -349,7 +350,6 @@
     <Content Include="Views\Shared\_Sidebar_Place.cshtml" />
     <Content Include="Views\Shared\_Sidebar_Tournament.cshtml" />
     <Content Include="Views\Place\Liste.cshtml" />
-    <Content Include="Views\Place\Partial\SingleSectionPartial.cshtml" />
     <Content Include="Views\Place\Details.cshtml" />
     <Content Include="Views\General\Settings.cshtml" />
     <Content Include="Views\Place\Partial\ModalConfirmerAdminAction.cshtml" />
@@ -361,7 +361,6 @@
     <Content Include="Views\Tournaments\DeleteTeam.cshtml" />
     <Content Include="Views\Tournaments\Shared\UserList.cshtml" />
     <Content Include="Views\Place\Reset.cshtml" />
-    <Content Include="Views\Place\Partial\SingleMapPartial.cshtml" />
     <Content Include="Views\General\Description.cshtml" />
     <Content Include="Views\Emails\_ViewStart.cshtml" />
     <Content Include="Views\General\RememberEmail.cshtml" />

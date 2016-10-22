@@ -17,7 +17,7 @@
 			<div class="form-group">
 				<div class="col-md-6">
 					<div class="input-group">
-						@Html.EditorFor(model => model.Query, new { htmlAttributes = new { @class = "form-control", placeholder = "Code barre, email ou nom complet", autofocus = "true" } })
+						@Html.EditorFor(model => model.Query, new { htmlAttributes = new { @class = "form-control", placeholder = "email ou nom complet", autofocus = "true" } })
 						<span class="input-group-btn">
 							<button class="btn btn-primary" type="submit">
 								<span class="glyphicon glyphicon-search"></span>
@@ -30,16 +30,17 @@
 		}
 	</div>
 
-	<div class="btn-group btn-group-justified visible-xs-block">
-		<a href="https://play.google.com/store/apps/details?id=com.google.zxing.client.android&hl=fr" class="btn btn-default">
-			<span class="glyphicon glyphicon-save"></span>
-			Télécharger l'app
-		</a>
-		<a href="zxing://scan/?ret=@Url.Action("Search", "Place", new { query = "{CODE}", SCAN_FORMATS = "39" }, "http")" class="btn btn-success">
-			<span class="glyphicon glyphicon-barcode"></span>
-			Ouvrir le Scanner
-		</a>
-	</div>
+
+    <div class="btn-group btn-group-justified visible-xs-block">
+        <a href="https://play.google.com/store/apps/details?id=com.google.zxing.client.android&hl=fr" class="btn btn-default">
+            <span class="glyphicon glyphicon-save"></span>
+            Télécharger l'app
+        </a>
+        <a href="zxing://scan/?ret=@Url.Action("Search", "Place", new { query = "{CODE}", SCAN_FORMATS = "39" }, "http")" class="btn btn-success">
+            <span class="glyphicon glyphicon-barcode"></span>
+            Ouvrir le Scanner
+        </a>
+    </div>
 
 	@if (Model.FoundReservation)
 	{
