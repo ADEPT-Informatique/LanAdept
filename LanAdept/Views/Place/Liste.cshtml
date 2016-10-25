@@ -7,6 +7,9 @@
     ViewBag.userHaveAPlace = userHaveAPlace;
     var seatId = 0;
     bool isLoggedIn = LanAdeptCore.Service.UserService.IsUserLoggedIn();
+    var eventKey = Model.Settings.EventKeyId;
+    var publicKey = Model.Settings.PublicKeyId;
+
 }
 
 @if (isLoggedIn)
@@ -15,8 +18,8 @@
         $(document).ready(function () {
             new seatsio.SeatingChart({
                 divId: 'chart',
-                publicKey: '3788b701-1b85-4864-bc58-49ff85ca2c14',
-                event: 'cd826557-5c7e-48d2-96e2-2523128a6e25',
+                publicKey: '@publicKey',
+                event: '@eventKey',
                 maxSelectedObjects: 1,
                 onObjectSelected: function (object) {
                     seatId = object.id;
@@ -43,9 +46,9 @@ else
         $(document).ready(function () {
             new seatsio.SeatingChart({
                 divId: 'chart',
-                publicKey: '3788b701-1b85-4864-bc58-49ff85ca2c14',
-                event: 'cd826557-5c7e-48d2-96e2-2523128a6e25',
-                maxSelectedObjects: 0,             
+                publicKey: '@publicKey',
+                event: '@eventKey',
+                maxSelectedObjects: 0,
             }).render();
         });
 

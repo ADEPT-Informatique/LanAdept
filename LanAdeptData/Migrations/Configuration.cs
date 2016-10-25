@@ -119,7 +119,9 @@ namespace LanAdeptData.Migrations
 					TournamentSubsciptionStartDate = DateTime.Now.AddMonths(1).AddDays(-7),
 					NbDaysBeforeRemember = 5,
 					RememberEmailContent = "Non utilisé pour le moment",
-					SendRememberEmail = false
+					SendRememberEmail = false,
+                    PublicKeyId= "3788b701-1b85-4864-bc58-49ff85ca2c14",
+                    EventKeyId= "cd826557-5c7e-48d2-96e2-2523128a6e25"
 				};
 
 				context.Settings.Add(settings);

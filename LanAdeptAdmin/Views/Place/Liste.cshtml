@@ -4,6 +4,8 @@
 	ViewBag.Title = "Places";
 	ViewBag.Sidebar = "_Sidebar_Place";
     var seatId = 0;
+    var eventKeyId = Model.Settings.EventKeyId;
+    var publicKeyId = Model.Settings.PublicKeyId;
 }
 
 <div class="page-header clearfix">
@@ -16,19 +18,12 @@
         $(document).ready(function () {
             new seatsio.SeatingChart({
                 divId: 'chart',
-                publicKey: '3788b701-1b85-4864-bc58-49ff85ca2c14',
-                event: 'cd826557-5c7e-48d2-96e2-2523128a6e25',
+                publicKey: '@publicKeyId',
+                event: '@eventKeyId',
                 maxSelectedObjects: 1,
                 onObjectSelected: function (object) {
                     seatId = object.id;
-                    //$.ajax({
-                    //    type: "GET",
-                    //    url: "../Place/Details",
-                    //    data: "id=" + seatId,
-                    //    success: function (msg) { console.log(msg);}
-                    //});
-                    window.location.href = "../Place/Details/" + seatId;
-                 
+                    window.location.href = "../Place/Details/" + seatId;                
                 },
                 onObjectDeselected: function (object) {
 

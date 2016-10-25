@@ -134,10 +134,6 @@
     <Compile Include="DAL\Users\GuestRepository.cs" />
     <Compile Include="DAL\Users\RoleRepository.cs" />
     <Compile Include="DAL\Users\UserRepository.cs" />
-    <Compile Include="Migrations\201610212227062_NewVersion.cs" />
-    <Compile Include="Migrations\201610212227062_NewVersion.Designer.cs">
-      <DependentUpon>201610212227062_NewVersion.cs</DependentUpon>
-    </Compile>
     <Compile Include="Model\Canteen\Item.cs" />
     <Compile Include="Model\Canteen\Order.cs" />
     <Compile Include="Model\Canteen\Product.cs" />
@@ -163,11 +159,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201610212227062_NewVersion.resx">
-      <DependentUpon>201610212227062_NewVersion.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

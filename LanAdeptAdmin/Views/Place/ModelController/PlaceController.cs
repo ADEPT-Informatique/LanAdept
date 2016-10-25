@@ -13,7 +13,7 @@ using PagedList;
 using Microsoft.AspNet.Identity.Owin;
 using LanAdeptData.Model.Places;
 using LanAdeptData.Model.Users;
-
+using LanAdeptAdmin.Views.Place.ModelController;
 
 namespace LanAdeptAdmin.Controllers
 {
@@ -37,11 +37,14 @@ namespace LanAdeptAdmin.Controllers
 		[LanAuthorize(Roles = "placeAdmin")]
 		public ActionResult Liste()
 		{
-	
-
-
-			return View();
-		}
+            ListeModel listeModel = new ListeModel();
+            listeModel.Settings = uow.SettingRepository.GetCurrentSettings();
+            if (!listeModel.Settings.IsLanStarted)
+            {
+                listeModel.NbPlacesLibres = uow.PlaceRepository.Get().Count(x => x.IsFree);
+            }
+            return View(listeModel);
+        }
 
 		[LanAuthorize(Roles = "placeAdmin")]
 		public ActionResult Details(string id, string sortOrder, string searchString, string currentFilter, int? page)
