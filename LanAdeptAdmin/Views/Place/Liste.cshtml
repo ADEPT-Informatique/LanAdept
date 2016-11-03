@@ -20,6 +20,18 @@
                 divId: 'chart',
                 publicKey: '@publicKeyId',
                 event: '@eventKeyId',
+                language: 'fr',
+                tooltipText: function (object) {
+                    if (object.status == 'free') {
+                        return object.id;
+                    }
+                    else {                        
+                        return object.extraData.name;
+                    }
+                },
+                isObjectSelectable: function(object) {
+                    return true;
+                },
                 maxSelectedObjects: 1,
                 onObjectSelected: function (object) {
                     seatId = object.id;
@@ -28,28 +40,13 @@
                 onObjectDeselected: function (object) {
 
                 },
-
             }).render();
 
         });
 
 </script>
 
-@section Scripts {
 
-	@*<script>
-        $('#ModalReserverPlace, #ModalChangerPlace').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            var placeID = button.data('placeId');
-            var text = button.data('placeText');
-
-            var modal = $(this);
-            modal.find('.modal-place-text').text(text);
-            modal.find('.btnReserver').attr("href", "@Url.Action("Reserver")/" + placeID)
-        })
-    </script>
-    *@
-}
 
 @section Styles {
     <link href="@Url.Content("~/Content/Map.css")" rel="stylesheet" type="text/css" />

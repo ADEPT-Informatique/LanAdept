@@ -20,6 +20,16 @@
                 divId: 'chart',
                 publicKey: '@publicKey',
                 event: '@eventKey',
+                language: 'fr',
+                tooltipText : function(object){
+                    if(object.status == 'free')
+                    {
+                        return object.id;
+                    }
+                    else{
+                        return object.extraData.name;
+                    }
+                },
                 maxSelectedObjects: 1,
                 onObjectSelected: function (object) {
                     seatId = object.id;
@@ -48,6 +58,7 @@ else
                 divId: 'chart',
                 publicKey: '@publicKey',
                 event: '@eventKey',
+                language: 'fr',
                 maxSelectedObjects: 0,
             }).render();
         });

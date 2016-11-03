@@ -8,6 +8,8 @@ using System.Web;
 using Microsoft.AspNet.Identity.Owin;
 using LanAdeptData.Model.Places;
 using LanAdeptData.Model.Users;
+using System.Net;
+using System.IO;
 
 namespace LanAdeptCore.Service
 {
@@ -113,8 +115,23 @@ namespace LanAdeptCore.Service
 
 			if (user.LastReservation != null && !user.LastReservation.IsCancelled)
 				CancelUserReservation(user);
-
-			Reservation reservation = new Reservation();
+            var request = (HttpWebRequest)WebRequest.Create("https://app.seats.io/api/book");
+            request.ContentType = "application/json";
+            request.Method = "POST";
+            using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+            {
+                string json =
+                  "{\'objects\': " + "[{\'objectId\':" + "\'" + place.SeatsId + "\', \'extraData\': { \'name\': \'" + user.CompleteName + "\'}}]" + "," +
+                    "\'eventKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().EventKeyId + "\'" + "," +
+                    "\'secretKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().SecretKeyId + "\'}";
+                streamWriter.Write(json);
+            }
+            var httpResponse = (HttpWebResponse)request.GetResponse();
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                var response = streamReader.ReadToEnd();
+            }
+            Reservation reservation = new Reservation();
 			reservation.CreationDate = DateTime.Now;
 			reservation.User = user;
 			reservation.Place = place;
@@ -130,16 +147,30 @@ namespace LanAdeptCore.Service
 		/// </summary>
 		/// <param name="place">Place to reserve</param>
 		/// <param name="user">Guest that is reserving the place</param>
-		public static BaseResult ReservePlace(Place place, String guestName)
+		public static BaseResult ReservePlace(Place place, string guestName)
 		{
 			if (!place.IsFree)
 				return new BaseResult() { Message = "Désolé, cette place est déjà occupée ou réservée. Vous ne pouvez pas la réservée.", HasError = true };
 
 			if (string.IsNullOrWhiteSpace(guestName))
 				return new BaseResult() { Message = "Le nom de l'invité ne peut pas être vide.", HasError = true };
-
-
-			Guest guest = new Guest();
+            var request = (HttpWebRequest)WebRequest.Create("https://app.seats.io/api/book");
+            request.ContentType = "application/json";
+            request.Method = "POST";
+            using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+            {
+                string json =
+                  "{\'objects\': " + "[{\'objectId\':" + "\'" + place.SeatsId + "\', \'extraData\': { \'name\': \'" + guestName + "\'}}]" + "," +
+                    "\'eventKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().EventKeyId + "\'" + "," +
+                    "\'secretKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().SecretKeyId + "\'}";
+                streamWriter.Write(json);
+            }
+            var httpResponse = (HttpWebResponse)request.GetResponse();
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                var response = streamReader.ReadToEnd();
+            }
+            Guest guest = new Guest();
 			guest.CompleteName = guestName;
 
 			Reservation reservation = new Reservation();
@@ -177,7 +208,23 @@ namespace LanAdeptCore.Service
 		{
 			if (!place.LastReservation.IsCancelled)
 			{
-				place.LastReservation.CancellationDate = DateTime.Now;
+                var request = (HttpWebRequest)WebRequest.Create("https://app.seats.io/api/release");
+                request.ContentType = "application/json";
+                request.Method = "POST";
+                using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+                {
+                    string json =
+                      "{\'objects\': " + "[\'" + place.SeatsId + "\']" + "," +
+                        "\'eventKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().EventKeyId + "\'" + "," +
+                        "\'secretKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().SecretKeyId + "\'}";
+                    streamWriter.Write(json);
+                }
+                var httpResponse = (HttpWebResponse)request.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var response = streamReader.ReadToEnd();
+                }
+                place.LastReservation.CancellationDate = DateTime.Now;
 				uow.ReservationRepository.Update(place.LastReservation);
 				uow.Save();
 			}
@@ -199,7 +246,23 @@ namespace LanAdeptCore.Service
 		{
 			if (!user.LastReservation.IsCancelled)
 			{
-				user.LastReservation.CancellationDate = DateTime.Now;
+                var request = (HttpWebRequest)WebRequest.Create("https://app.seats.io/api/release");
+                request.ContentType = "application/json";
+                request.Method = "POST";
+                using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+                {
+                    string json =
+                      "{\'objects\': " + "[\'" + user.LastReservation.Place.SeatsId + "\']" + "," +
+                        "\'eventKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().EventKeyId + "\'" + "," +
+                        "\'secretKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().SecretKeyId + "\'}";
+                    streamWriter.Write(json);
+                }
+                var httpResponse = (HttpWebResponse)request.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var response = streamReader.ReadToEnd();
+                }
+                user.LastReservation.CancellationDate = DateTime.Now;
 				uow.ReservationRepository.Update(user.LastReservation);
 				uow.Save();
 			}

@@ -95,26 +95,8 @@ namespace LanAdept.Controllers
 				return RedirectToAction("Liste");
 			}
 			else
-			{
-                var request = (HttpWebRequest)WebRequest.Create("https://app.seats.io/api/book");
-                request.ContentType = "application/json";
-                request.Method = "POST";
-                    using (var streamWriter = new StreamWriter(request.GetRequestStream()))
-                {
-                    string json =
-                      "{\'objects\': " + "[\'" + placeAReserver.SeatsId + "\']" + "," +
-                        "\'eventKey\' :" + "\'" + uow.SettingRepository.Get().First().EventKeyId + "\'" + "," +
-                        "\'secretKey\' :" + "\'" + uow.SettingRepository.Get().First().SecretKeyId + "\'}";
-                    streamWriter.Write(json);
-                    Console.Write(json);           
-                }
-                var httpResponse = (HttpWebResponse)request.GetResponse();
-                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-                {
-                    var response = streamReader.ReadToEnd();
-                    Console.Write(result);
-                }
-                    TempData["Success"] = "La place <strong>" + placeAReserver.SeatsId + "</strong> a bien été réservée.";
+			{           
+                TempData["Success"] = "La place <strong>" + placeAReserver.SeatsId + "</strong> a bien été réservée.";
 				return RedirectToAction("MaPlace");
 			}
 		}
