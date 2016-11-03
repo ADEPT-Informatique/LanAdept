@@ -71,6 +71,23 @@ else
                 event: '@eventKey',
                 language: 'fr',
                 maxSelectedObjects: 0,
+                tooltipText : function(object){
+                    if(object.status == 'free')
+                    {
+                        return object.id;
+                    }
+                    else{
+                        return object.id + " - " + object.extraData.name;
+                    }
+                },
+                objectColor: function (object) {                
+                    if (object.status == 'booked') {
+                        return "#D8ECF5";
+                    }
+                    else {
+                        return "#F9E5E6";
+                    }
+                }
             }).render();
         });
 
