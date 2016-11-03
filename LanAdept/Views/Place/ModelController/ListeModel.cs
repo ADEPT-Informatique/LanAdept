@@ -10,5 +10,6 @@ namespace LanAdept.Views.Place.ModelController
     {
         public Setting Settings { get; set; }
         public int NbPlacesLibres { get; set; }
+        public string activeUser { get; set; }
     }
 }

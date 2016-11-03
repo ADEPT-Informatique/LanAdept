@@ -47,8 +47,10 @@ namespace LanAdept.Controllers
 		[AllowAnonymous]
 		public ActionResult Liste()
 		{
+
             ListeModel listeModel = new ListeModel();
             listeModel.Settings = uow.SettingRepository.GetCurrentSettings();
+            listeModel.activeUser = UserService.GetLoggedInUser().CompleteName;
             if (!listeModel.Settings.IsLanStarted)
             {
                 listeModel.NbPlacesLibres = uow.PlaceRepository.Get().Count(x => x.IsFree);

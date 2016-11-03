@@ -27,7 +27,18 @@
                         return object.id;
                     }
                     else{
-                        return object.extraData.name;
+                        return object.id + " - " + object.extraData.name;
+                    }
+                },
+                objectColor: function (object) {                
+                    if (object.status == 'booked') {
+                        if (object.extraData.name == '@Model.activeUser') {
+                            return "#0073e6";
+                        }
+                           return "#D8ECF5";
+                       }
+                    else {
+                        return "#F9E5E6";
                     }
                 },
                 maxSelectedObjects: 1,

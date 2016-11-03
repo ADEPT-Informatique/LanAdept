@@ -22,11 +22,20 @@
                 event: '@eventKeyId',
                 language: 'fr',
                 tooltipText: function (object) {
+                    console.log(object);
                     if (object.status == 'free') {
                         return object.id;
                     }
                     else {                        
-                        return object.extraData.name;
+                        return object.id + " - " + object.extraData.name;
+                    }
+                },
+                objectColor: function (object) {
+                    if (object.status == 'booked') {
+                        return "#D8ECF5";
+                    }
+                    else {
+                        return "#F9E5E6";
                     }
                 },
                 isObjectSelectable: function(object) {
