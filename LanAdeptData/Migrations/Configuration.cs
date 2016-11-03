@@ -122,7 +122,7 @@ namespace LanAdeptData.Migrations
 					SendRememberEmail = false,
                     PublicKeyId= "3788b701-1b85-4864-bc58-49ff85ca2c14",
                     EventKeyId= "cd826557-5c7e-48d2-96e2-2523128a6e25",
-                    SecretKeyId = "2a56fcea-f3c7-f339-e019-d994e0fb10b7"
+                    SecretKeyId = "7cb1e091-2f53-44fa-b3fd-24159a31ba5b"
                 };
 
 				context.Settings.Add(settings);
