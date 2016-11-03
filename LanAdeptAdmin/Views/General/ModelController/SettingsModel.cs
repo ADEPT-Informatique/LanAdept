@@ -34,7 +34,12 @@ namespace LanAdeptAdmin.Views.General.ModelController
 
 		[DisplayName("Nombre de jour avant le rappel")]
 		public int NbDaysBeforeRemember { get; set; }
-
+        [DisplayName("Clé public pour les places")]
+        public string PublicId { get; set; }
+        [DisplayName("Clé secrete pour les places")]
+        public string SecretId { get; set; }
+        [DisplayName("Clé evenement pour les places")]
+        public string EventId { get; set; }
 
 		public SettingsModel() { }
 
@@ -47,6 +52,9 @@ namespace LanAdeptAdmin.Views.General.ModelController
 			TournamentSubsciptionStartDate = settings.TournamentSubsciptionStartDate;
 			SendRememberEmail = settings.SendRememberEmail;
 			NbDaysBeforeRemember = settings.NbDaysBeforeRemember;
+            PublicId = settings.PublicKeyId;
+            EventId = settings.EventKeyId;
+            SecretId = settings.SecretKeyId;
 		}
 
 	}
