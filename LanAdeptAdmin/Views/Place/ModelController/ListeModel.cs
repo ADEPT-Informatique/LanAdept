@@ -1,17 +1,14 @@
-﻿using System;
+﻿using LanAdeptData.Model.Settings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using LanAdeptData.Model;
-using LanAdeptData.Model.Places;
-using LanAdeptData.Model.Maps;
 
-namespace LanAdeptAdmin.Views.Places.ModelController
+namespace LanAdeptAdmin.Views.Place.ModelController
 {
-	public class ListeModel
-	{
-        public IEnumerable<Map> Maps { get; set; }
-		public IEnumerable<PlaceSection> Sections { get; set; }
-
-	}
+    public class ListeModel
+    {
+        public Setting Settings { get; set; }
+        public int NbPlacesLibres { get; set; }
+    }
 }

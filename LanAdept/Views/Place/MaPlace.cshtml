@@ -7,31 +7,32 @@
 @Html.Partial("ModalAnnulerReservationPartial")
 
 <div class="container-sm" id="desktop-view">
-	<h2>Ma place</h2>
-	<hr />
+    <div class="row">
+        <h2>Ma place</h2>
+        <hr />
 
-	@Html.ShowMessage()
+        @Html.ShowMessage()
 
-	<div class="alert alert-info" role="alert">
-		<strong>Important: </strong>Vous devez avoir ce billet en votre possession lorsque vous arriverez au LAN
-	</div>
-	<div class="row">
-		<div class="col-sm-6">
-			<dl class="dl-horizontal">
-				<dt>Numéro de place</dt>
-				<dd>@Model.reservation.Place</dd>
+        <div class="alert alert-info" role="alert">
+            <strong>Important: </strong>Vous devez avoir ce billet en votre possession lorsque vous arriverez au LAN
+        </div>
 
-				<dt>Nom Complet</dt>
-				<dd>@Html.DisplayFor(model => model.reservation.User.CompleteName)</dd>
+        <div class="col-sm-6">
+            <dl class="dl-horizontal">
+                <dt>Numéro de place</dt>
+                <dd>@Model.reservation.Place.SeatsId</dd>
 
-				<dt>Date de réservation</dt>
-				<dd>@Model.reservation.CreationDate.ToString("f", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA"))</dd>
-			</dl>
-		</div>
-		<div class="barcode col-sm-6">
-			<img src="/Place/GetBarcode/@Model.reservation.User.Barcode" alt="@Model.reservation.User.Barcode" class="pull-right img-responsive">
-		</div>
-	</div>
+                <dt>Nom Complet</dt>
+                <dd>@Html.DisplayFor(model => model.reservation.User.CompleteName)</dd>
+
+                <dt>Date de réservation</dt>
+                <dd>@Model.reservation.CreationDate.ToString("f", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA"))</dd>
+            </dl>
+        </div>
+        <div class="barcode col-sm-6">
+            <img src="/Place/GetBarcode/@Model.reservation.User.Barcode" alt="@Model.reservation.User.Barcode" class="pull-right img-responsive">
+        </div>
+    </div>
 
 	<div class="pull-right btn-place">
 		@Html.IconActionLink("glyphicon-arrow-left", "Index", null, null, new { @class = "btn btn-default" })

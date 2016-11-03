@@ -9,7 +9,6 @@ using LanAdeptData.DAL.Places;
 using LanAdeptData.DAL.Users;
 using LanAdeptData.DAL.Tournaments;
 using LanAdeptData.DAL.Settings;
-using LanAdeptData.DAL.Maps;
 using Microsoft.AspNet.Identity.Owin;
 using LanAdeptData.DAL.Canteen;
 
@@ -70,17 +69,7 @@ namespace LanAdeptData.DAL
 			}
 		}
 
-		private PlaceSectionRepository placeSectionRepository;
-		public PlaceSectionRepository PlaceSectionRepository
-		{
-			get
-			{
-				if (placeSectionRepository == null)
-					placeSectionRepository = new PlaceSectionRepository(context);
-
-				return placeSectionRepository;
-			}
-		}
+		
 
 		private ReservationRepository reservationRepository;
 		public ReservationRepository ReservationRepository
@@ -161,18 +150,6 @@ namespace LanAdeptData.DAL
 			}
 		}
 
-		private MapRepository mapRepository;
-		public MapRepository MapRepository
-		{
-			get
-			{
-				if (mapRepository == null)
-				{
-					mapRepository = new MapRepository(context);
-				}
-				return mapRepository;
-			}
-		}
 
 		private GuestRepository guestRepository;
 		public GuestRepository GuestRepository

@@ -27,6 +27,9 @@ namespace LanAdeptData.Model.Settings
 		public int NbDaysBeforeRemember { get; set; }
 
 		public string RememberEmailContent { get; set; }
+        public string EventKeyId { get; set; }
+        public string PublicKeyId { get; set; }
+        public string SecretKeyId { get; set; }
 
 
 		#region Calculated Properties

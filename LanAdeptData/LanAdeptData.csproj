@@ -74,8 +74,8 @@
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
@@ -124,10 +124,8 @@
     <Compile Include="DAL\Generic\IRepository.cs" />
     <Compile Include="DAL\Generic\IUnitOfWork.cs" />
     <Compile Include="DAL\LanAdeptDataContext.cs" />
-    <Compile Include="DAL\Maps\MapRepository.cs" />
     <Compile Include="DAL\Places\ReservationRepository.cs" />
     <Compile Include="DAL\Places\PlaceRepository.cs" />
-    <Compile Include="DAL\Places\PlaceSectionRepository.cs" />
     <Compile Include="DAL\Settings\SettingRepository.cs" />
     <Compile Include="DAL\Tournaments\DemandeRepository.cs" />
     <Compile Include="DAL\Tournaments\GamerTagRepository.cs" />
@@ -143,10 +141,8 @@
     <Compile Include="Model\Tournaments\GamerTag.cs" />
     <Compile Include="Model\Users\Guest.cs" />
     <Compile Include="Model\Users\LoginHistory.cs" />
-    <Compile Include="Model\Maps\Map.cs" />
     <Compile Include="Model\Places\Place.cs" />
     <Compile Include="Model\Places\Reservation.cs" />
-    <Compile Include="Model\Places\PlaceSection.cs" />
     <Compile Include="Model\Users\Role.cs" />
     <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -157,7 +153,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validation\UniqueEmailAttribute.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Model\Maps\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

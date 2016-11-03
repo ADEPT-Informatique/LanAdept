@@ -11,18 +11,10 @@ namespace LanAdeptData.Model.Places
 	{
 		public int PlaceID { get; set; }
 
-		public int Number { get; set; }
-
-        public int PositionX { get; set; }
-
-        public int PositionY { get; set; }
-
-        [ForeignKey("PlaceSection")]
-		public virtual int PlaceSectionID { get; set; }
+        public string SeatsId { get; set; }
 
 		#region Navigation properties
 
-		public virtual PlaceSection PlaceSection { get; set; }
 
 		public virtual ICollection<Reservation> Reservations { get; set; }
 
@@ -82,7 +74,7 @@ namespace LanAdeptData.Model.Places
 
 		public override string ToString()
 		{
-			return PlaceSection.Name + Number.ToString("00");
+            return PlaceID.ToString();
 		}
 	}
 }

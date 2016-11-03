@@ -24,8 +24,10 @@ namespace LanAdeptData.Migrations
 			SeedRoles(context);
 			SeedUsers(context);
 			SeedGlobalSettings(context);
+            SeedPlaces(context);
 
-			context.SaveChanges();
+
+            context.SaveChanges();
 		}
 
 		private void SeedRoles(LanAdeptDataContext context)
@@ -117,11 +119,26 @@ namespace LanAdeptData.Migrations
 					TournamentSubsciptionStartDate = DateTime.Now.AddMonths(1).AddDays(-7),
 					NbDaysBeforeRemember = 5,
 					RememberEmailContent = "Non utilisé pour le moment",
-					SendRememberEmail = false
-				};
+					SendRememberEmail = false,
+                    PublicKeyId= "3788b701-1b85-4864-bc58-49ff85ca2c14",
+                    EventKeyId= "cd826557-5c7e-48d2-96e2-2523128a6e25",
+                    SecretKeyId = "7cb1e091-2f53-44fa-b3fd-24159a31ba5b"
+                };
 
 				context.Settings.Add(settings);
 			}
 		}
+        private void SeedPlaces(LanAdeptDataContext context)
+        {
+            for(char i = 'A'; i <= 'I'; i++)
+            {
+                for (int y = 1; y < 25; y++)
+                {
+                    Model.Places.Place place = new Model.Places.Place();
+                    place.SeatsId = i + "-" + y.ToString();
+                    context.Places.Add(place);
+                }
+            }
+        }
 	}
 }

@@ -1,39 +1,125 @@
-﻿@model LanAdept.Views.Places.ModelController.ListeModel
-
+﻿@model LanAdept.Views.Place.ModelController.ListeModel
+@Scripts.Render("~/bundles/jquery")
 @{
-	ViewBag.Title = "Places";
-	ViewBag.Settings = Model.Settings;
-	var userHaveAPlace = LanAdeptCore.Service.ReservationService.HasUserPlace();
-	ViewBag.userHaveAPlace = userHaveAPlace;
+    ViewBag.Title = "Places";
+    ViewBag.Settings = Model.Settings;
+    var userHaveAPlace = LanAdeptCore.Service.ReservationService.HasUserPlace();
+    ViewBag.userHaveAPlace = userHaveAPlace;
+    var seatId = 0;
+    bool isLoggedIn = LanAdeptCore.Service.UserService.IsUserLoggedIn();
+    var eventKey = Model.Settings.EventKeyId;
+    var publicKey = Model.Settings.PublicKeyId;
 
-	bool isLoggedIn = LanAdeptCore.Service.UserService.IsUserLoggedIn();
 }
 
-@if (userHaveAPlace)
+@if (isLoggedIn)
 {
-	@Html.Partial("ModalChangerPlacePartial")
+    <script>
+        $(document).ready(function () {
+            new seatsio.SeatingChart({
+                divId: 'chart',
+                publicKey: '@publicKey',
+                event: '@eventKey',
+                language: 'fr',
+                tooltipText : function(object){
+                    if(object.status == 'free')
+                    {
+                        return object.id;
+                    }
+                    else{
+                        return object.id + " - " + object.extraData.name;
+                    }
+                },
+                objectColor: function (object) {                
+                    if (object.status == 'booked') {
+                        if (object.extraData.name == '@Model.activeUser') {
+                            return "#0073e6";
+                        }
+                           return "#D8ECF5";
+                       }
+                    else {
+                        return "#F9E5E6";
+                    }
+                },
+                maxSelectedObjects: 1,
+                onObjectSelected: function (object) {
+                    seatId = object.id;
+                    var placeHaveStarted = @Model.Settings.IsPlaceReservationStarted.ToString().ToLower();
+                    var lanHasStarted = @Model.Settings.IsLanStarted.ToString().ToLower();
+                    if (placeHaveStarted && !lanHasStarted)
+                    {
+                        $('#ModalReserverPlace, #ModalChangerPlace').modal('show');
+                    }                  
+                },
+                onObjectDeselected: function (object) {
+                    
+                },
+               
+            }).render();
+          
+        });
+
+    </script>
 }
 else
 {
-	@Html.Partial("ModalReserverPlacePartial")
+    <script>
+        $(document).ready(function () {
+            new seatsio.SeatingChart({
+                divId: 'chart',
+                publicKey: '@publicKey',
+                event: '@eventKey',
+                language: 'fr',
+                maxSelectedObjects: 0,
+                tooltipText : function(object){
+                    if(object.status == 'free')
+                    {
+                        return object.id;
+                    }
+                    else{
+                        return object.id + " - " + object.extraData.name;
+                    }
+                },
+                objectColor: function (object) {                
+                    if (object.status == 'booked') {
+                        return "#D8ECF5";
+                    }
+                    else {
+                        return "#F9E5E6";
+                    }
+                }
+            }).render();
+        });
+
+    </script>
+
+}
+
+
+@if (userHaveAPlace)
+{
+    @Html.Partial("ModalChangerPlacePartial")
+}
+else
+{
+    @Html.Partial("ModalReserverPlacePartial")
 }
 <div class="page-header clearfix">
-	<h1 class="pull-left">
-		Places
-		@if (isLoggedIn && !userHaveAPlace)
-		{
-			<span class="glyphicon glyphicon-question-sign info" data-toggle="tooltip" data-placement="bottom" title="Pour réserver une place, cliquez sur la place qui vous intéresse dans le plan ci-dessous."></span>
-		}
-	</h1>
+    <h1 class="pull-left">
+        Places
+        @if (isLoggedIn && !userHaveAPlace)
+        {
+            <span class="glyphicon glyphicon-question-sign info" data-toggle="tooltip" data-placement="bottom" title="Pour réserver une place, cliquez sur la place qui vous intéresse dans le plan ci-dessous."></span>}
+    </h1>
 
-	@if (userHaveAPlace)
-	{
-		<div class="btn-toolbar pull-right">
-			<div class="btn-group">
-				@Html.AuthorizeActionLink("Ma place", "MaPlace", null, null, new { @class = "btn btn-success btn-header" })
-			</div>
-		</div>
-	}
+    @if (userHaveAPlace)
+    {
+        <div class="btn-toolbar pull-right">
+            <div class="btn-group">
+                @Html.AuthorizeActionLink("Ma place", "MaPlace", null, null, new { @class = "btn btn-success btn-header" })
+            </div>
+        </div>
+    }
 
 </div>
 
@@ -41,109 +127,62 @@ else
 
 @if (!Model.Settings.IsPlaceReservationStarted)
 {
-	<div class="alert alert-info">
-		Les réservations de places ne sont pas encore débutées! Elles débuteront 
-		@Model.Settings.PlaceReservationStartDate.ToString("dddd le d MMMM à H\\hmm", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA")) @* Jour *@
-	</div>
+    <div class="alert alert-info">
+        Les réservations de places ne sont pas encore débutées! Elles débuteront
+        @Model.Settings.PlaceReservationStartDate.ToString("dddd le d MMMM à H\\hmm", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA")) @* Jour *@
+    </div>
 }
 
 
 @if (Model.Settings.IsLanOver)
 {
-	<div class="alert alert-warning" role="alert">
-		Le LAN est maintenant terminé. Il n'est donc plus possible de réserver une place.
-	</div>
+    <div class="alert alert-warning" role="alert">
+        Le LAN est maintenant terminé. Il n'est donc plus possible de réserver une place.
+    </div>
 }
 else if (Model.Settings.IsLanStarted)
 {
-	<div class="alert alert-warning" role="alert">
-		Le LAN a déjà débuté. Il n'est donc plus possible de réserver une place. Si vous désirez obtenir une place ou changer de place, veuillez vous rendre à l'accueil du LAN.
-		<br /><br />
-		
-	</div>
+    <div class="alert alert-warning" role="alert">
+        Le LAN a déjà débuté. Il n'est donc plus possible de réserver une place. Si vous désirez obtenir une place ou changer de place, veuillez vous rendre à l'accueil du LAN.
+        <br /><br />
+
+    </div>
 }
 else
 {
-	if (!isLoggedIn && Model.Settings.IsPlaceReservationStarted)
-	{
-		<div class="alert alert-info" role="alert">
-			Pour réserver une place, vous devez d'abord @Html.AuthorizeActionLink("vous connecter", "Login", "Auth", new { returnUrl = HttpContext.Current.Request.RawUrl }, new { @class = "alert-link" }).
-			Si vous n'avez pas encore de compte, vous pouvez en créer un en @Html.AuthorizeActionLink("cliquant ici", "Register", "Auth", null, new { @class = "alert-link" })
-		</div>
-	}
+    if (!isLoggedIn && Model.Settings.IsPlaceReservationStarted)
+    {
+        <div class="alert alert-info" role="alert">
+            Pour réserver une place, vous devez d'abord @Html.AuthorizeActionLink("vous connecter", "Login", "Auth", new { returnUrl = HttpContext.Current.Request.RawUrl }, new { @class = "alert-link" }).
+            Si vous n'avez pas encore de compte, vous pouvez en créer un en @Html.AuthorizeActionLink("cliquant ici", "Register", "Auth", null, new { @class = "alert-link" })
+        </div>
+    }
 }
-
-
-@foreach (LanAdept.Views.Places.ModelController.FastMap fastMap in Model.Maps)
-{
-	@Html.Partial("SingleMapPartial", fastMap)
-}
-
-<div id="legende-container">
-	<div id="legende">
-		<div class="row">
-			<h4>Légende</h4>
-			<div class="legende-col" data-toggle="tooltip" data-placement="top" title="Indique que cette place n'est pas réservée.">
-				<div class="place">A00</div>
-			</div>
-			<div class="legende-col" data-toggle="tooltip" data-placement="top" title="Indique que cette place est réservée, mais que personne ne l'occupe présentement.">
-				<div class="place place-reserve">A00</div>
-			</div>
-			<div class="legende-col" data-toggle="tooltip" data-placement="top" title="Indique votre place actuelle.">
-				<div class="place place-actuelle">A00</div>
-			</div>
-			<div class="legende-col" data-toggle="tooltip" data-placement="top" title="Indique que quelqu'un occupe actuellement cette place.">
-				<div class="place place-occupe">A00</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="legende-col">
-				<div class="legende-label">Libre</div>
-			</div>
-			<div class="legende-col">
-				<div class="legende-label">Réservée</div>
-			</div>
-			<div class="legende-col">
-				<div class="legende-label">Ma place</div>
-			</div>
-			<div class="legende-col">
-				<div class="legende-label">Occupée</div>
-			</div>
-		</div>
-	</div>
-</div>
+<div id="chart" style="margin:10px"></div>
 
 @section scripts {
-	<script>
+    <script>
+        
 		$(function () {
 			$('[data-toggle="tooltip"]').tooltip();
 			$('[data-toggle="popover"]').popover();
-
-			var placesToHighlight = window.location.hash.replace("#", "").split(";");
-
-			highlightPlaces(placesToHighlight);
 		});
 
 
-		$('#ModalReserverPlace, #ModalChangerPlace').on('show.bs.modal', function (event) {
-			var button = $(event.relatedTarget);
-			var placeID = button.data('placeId');
-			var text = button.data('placeText');
 
-			var modal = $(this);
-			modal.find('.modal-place-text').text(text);
-			modal.find('.btnReserver').attr("href", "@Url.Action("Reserver")/" + placeID)
-		});
+            $('#ModalReserverPlace, #ModalChangerPlace').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var placeID = seatId;
+                var text = seatId;
 
-		function highlightPlaces(placeArray) {
-			for (var i = 0; i < placeArray.length; i++) {
-				$("#" + placeArray[i]).addClass("place-highlight");
-			}
-		}
-
-	</script>
+                var modal = $(this);
+                modal.find('.modal-place-text').text(text);
+                modal.find('.btnReserver').attr("href", "@Url.Action("Reserver")/" + placeID)
+            });
+        
+    </script>
 }
-
 @section Styles {
-	<link href="@Url.Content("~/Content/Map.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Map.css")" rel="stylesheet" type="text/css" />
+    <script src="https://app.seats.io/chart.js" type="text/javascript"></script>
 }

@@ -47,6 +47,9 @@ namespace LanAdeptAdmin.Controllers
 				settings.TournamentSubsciptionStartDate = model.TournamentSubsciptionStartDate;
 				settings.SendRememberEmail = model.SendRememberEmail;
 				settings.NbDaysBeforeRemember = model.NbDaysBeforeRemember;
+                settings.SecretKeyId = model.SecretId;
+                settings.PublicKeyId = model.PublicId;
+                settings.EventKeyId = model.EventId;
 
 				uow.SettingRepository.Update(settings);
 				uow.Save();
