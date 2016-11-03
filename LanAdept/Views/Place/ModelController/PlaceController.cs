@@ -50,7 +50,7 @@ namespace LanAdept.Controllers
 
             ListeModel listeModel = new ListeModel();
             listeModel.Settings = uow.SettingRepository.GetCurrentSettings();
-            listeModel.activeUser = UserService.GetLoggedInUser().CompleteName;
+            listeModel.activeUser = UserService.GetLoggedInUser() == null ? "" : UserService.GetLoggedInUser().CompleteName;
             if (!listeModel.Settings.IsLanStarted)
             {
                 listeModel.NbPlacesLibres = uow.PlaceRepository.Get().Count(x => x.IsFree);
