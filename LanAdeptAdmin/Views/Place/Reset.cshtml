@@ -8,14 +8,16 @@
 </h2>
 <hr />
 
-<div class="col-lg-7">
+<div class="col-lg-12">
 	<strong class="text-danger">Attention!</strong>
 	<p>
 		Voulez-vous vraiment réinitialiser les places du LAN? Ce changement effacera toutes les places actuelle et les recréera selon la configuration de base.<br />
 		<strong>Ce changement est irréversible!</strong>
 	</p>
-	<div class="btn-group pull-right">
+    <div class="col-lg-5"></div>
+	<div class="btn-group col-lg-2">
 		@Html.ActionLink("Annuler", "Index", null, new { @class = "btn btn-default" })
 		@Html.ActionLink("Réinitialiser", "DoReset", null, new { @class = "btn btn-danger" })
 	</div>
+    <div class="col-lg-5"></div>
 </div>

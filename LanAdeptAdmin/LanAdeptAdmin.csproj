@@ -217,6 +217,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\Place\ModelController\ListeModel.cs" />
     <Compile Include="Views\Place\ModelController\PlaceController.cs" />
+    <Compile Include="Views\Place\ModelController\PrepareDelete.cs" />
     <Compile Include="Views\Place\ModelController\ReserveModel.cs" />
     <Compile Include="Views\Place\ModelController\SearchModel.cs" />
     <Compile Include="Views\Tournaments\ModelController\EmailModel.cs" />
@@ -265,6 +266,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Properties\PublishProfiles\Default Settings %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
+    <None Include="Properties\PublishProfiles\QA.pubxml" />
     <None Include="Properties\PublishProfiles\LanAdeptAdmin ProdProd.pubxml" />
     <None Include="Properties\PublishProfiles\LanAdeptAdmin.pubxml" />
     <Content Include="Images\Favicon\android-chrome-144x144.png" />
@@ -376,6 +378,7 @@
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Error\PageNotFound.cshtml" />
     <Content Include="Views\Tournaments\Partial\ConfirmationModal.cshtml" />
+    <Content Include="Views\Place\PrepareReset.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Emails\ModelController\" />

@@ -136,6 +136,7 @@ namespace LanAdeptData.Migrations
                 {
                     Model.Places.Place place = new Model.Places.Place();
                     place.SeatsId = i + "-" + y.ToString();
+                    place.IsBackUpSeats = false;
                     context.Places.Add(place);
                 }
             }

@@ -367,35 +367,110 @@ namespace LanAdeptAdmin.Controllers
 
 			return RedirectToAction("Details", new { id = currentPlace.SeatsId });
 		}
+        [LanAuthorize(Roles = "placeAdmin")]
+        public ActionResult PrepareReset()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [LanAuthorize(Roles = "placeAdmin")]
+        public ActionResult PrepareReset(PrepareDelete pPrepareDelete)
+        {
+            IEnumerable<Reservation> reservations = uow.ReservationRepository.Get();
+            foreach (Reservation reservation in reservations)
+            {
+                uow.ReservationRepository.Delete(reservation);
+            }
 
-#if DEBUG
+            IEnumerable<Place> places = uow.PlaceRepository.Get();
+            foreach (Place place in places)
+            {
+                uow.PlaceRepository.Delete(place);
+            }
+            uow.Save();
+            char rows = (char)('A' + pPrepareDelete.NumberOf24SeatsRow);
+            for (char i = 'A'; i < rows; i++)
+            {
+                for (int seats = 1; seats <= 24; seats++)
+                {
+                    Place place = new Place();
+                    place.SeatsId = i + "-" + seats.ToString();
+                    place.IsBackUpSeats = false;
+                    uow.PlaceRepository.Insert(place);
+                }
+            }
+            string firstRows = "Les rangée de 24 places sont de A à " + rows;
+            char lastRow = rows;
+            rows = (char)(lastRow + pPrepareDelete.NumberOf24SeatsSpearTable);
+            for (char i = (char)(lastRow); i < rows; i++)
+            {
+                for (int seats = 1; seats <= 24; seats++)
+                {
+                    Place place = new Place();
+                    place.SeatsId = i + "-" + seats.ToString();
+                    place.IsBackUpSeats = true;
+                    uow.PlaceRepository.Insert(place);
+                }
+            }
+            string secondRows = "Les rangées de 24 places supplémentaires sont de " + lastRow + 1 + " à " + rows;
+            lastRow = rows;
+            rows = (char)(lastRow + pPrepareDelete.NumberOf9SeatsRow);
+            for (char i = (char)(lastRow); i < rows; i++)
+            {
+                for (int seats = 1; seats <= 9; seats++)
+                {
+                    Place place = new Place();
+                    place.SeatsId = i + "-" + seats.ToString();
+                    place.IsBackUpSeats = false;
+                    uow.PlaceRepository.Insert(place);
+                }
+            }
+            string thirdRows = "Les rangées de 9 places sont de " + lastRow + 1 + " à " + rows;
+            lastRow = rows;
+            rows = (char)(lastRow + pPrepareDelete.NumberOfSpecialRowSeatsTable);
+            for (char i = (char)(lastRow); i < rows; i++)
+            {
+                for (int seats = 1; seats <= pPrepareDelete.NumberOfSpecialRowSeats; seats++)
+                {
+                    Place place = new Place();
+                    place.SeatsId = i + "-" + seats.ToString();
+                    place.IsBackUpSeats = false;
+                    uow.PlaceRepository.Insert(place);
+                }
+            }
+            string fourthRow = "Les rangées de " + pPrepareDelete.NumberOfSpecialRowSeats + " places sont de " + lastRow + 1 + " à " + rows;
+            uow.Save();
+            TempData["Success"] = firstRows + "<br />" + secondRows + "<br />" + thirdRows + "<br />" + fourthRow;
+            return RedirectToAction("Liste");
+        }
+//#if DEBUG
 
-		[LanAuthorize(Roles = "placeAdmin")]
-		public ActionResult Reset()
-		{
-			return View();
-		}
+//    [LanAuthorize(Roles = "placeAdmin")]
+//		public ActionResult Reset()
+//		{
+//			return View();
+//		}
 
-		[LanAuthorize(Roles = "placeAdmin")]
-		public ActionResult DoReset()
-		{
-			IEnumerable<Reservation> reservations = uow.ReservationRepository.Get();
-			foreach (Reservation reservation in reservations)
-			{
-				uow.ReservationRepository.Delete(reservation);
-			}
+//		[LanAuthorize(Roles = "placeAdmin")]
+//		public ActionResult DoReset()
+//		{
+//			IEnumerable<Reservation> reservations = uow.ReservationRepository.Get();
+//			foreach (Reservation reservation in reservations)
+//			{
+//				uow.ReservationRepository.Delete(reservation);
+//			}
 
-			IEnumerable<Place> places = uow.PlaceRepository.Get();
-			foreach (Place place in places)
-			{
-				uow.PlaceRepository.Delete(place);
-			}
-			uow.Save();
+//			IEnumerable<Place> places = uow.PlaceRepository.Get();
+//			foreach (Place place in places)
+//			{
+//				uow.PlaceRepository.Delete(place);
+//			}
+//			uow.Save();
 
-			return RedirectToAction("Index");
-		}
+//			return RedirectToAction("Index");
+//		}
 
-#endif
-
-	}
+//#endif
+    }
 }

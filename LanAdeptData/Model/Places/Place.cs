@@ -12,6 +12,7 @@ namespace LanAdeptData.Model.Places
 		public int PlaceID { get; set; }
 
         public string SeatsId { get; set; }
+        public bool IsBackUpSeats { get; set; }
 
 		#region Navigation properties
 
