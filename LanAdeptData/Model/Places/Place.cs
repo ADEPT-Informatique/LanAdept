@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -9,8 +10,9 @@ namespace LanAdeptData.Model.Places
 {
 	public class Place
 	{
-		public int PlaceID { get; set; }
-
+        public int PlaceID { get; set; }
+        [StringLength(50)]
+        [Index(IsUnique = true)]
         public string SeatsId { get; set; }
         public bool IsBackUpSeats { get; set; }
 

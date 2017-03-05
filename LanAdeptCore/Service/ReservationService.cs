@@ -10,6 +10,7 @@ using LanAdeptData.Model.Places;
 using LanAdeptData.Model.Users;
 using System.Net;
 using System.IO;
+using System.Text;
 
 namespace LanAdeptCore.Service
 {
@@ -267,6 +268,5 @@ namespace LanAdeptCore.Service
 				uow.Save();
 			}
 		}
-
 	}
 }

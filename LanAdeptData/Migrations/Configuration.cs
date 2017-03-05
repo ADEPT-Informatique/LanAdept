@@ -22,9 +22,9 @@ namespace LanAdeptData.Migrations
         protected override void Seed(LanAdeptDataContext context)
         {
 			SeedRoles(context);
-			SeedUsers(context);
+			//SeedUsers(context);
 			SeedGlobalSettings(context);
-            SeedPlaces(context);
+            //SeedPlaces(context);
 
 
             context.SaveChanges();
