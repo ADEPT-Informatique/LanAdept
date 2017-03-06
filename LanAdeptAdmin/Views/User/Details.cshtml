@@ -40,7 +40,7 @@
 		<dd>
 			@if (LanAdeptCore.Service.ReservationService.HasUserPlace(Model))
 			{
-				@Html.AuthorizeActionLink(Model.LastReservation.Place.ToString(), "Details", "Place", new { id = Model.LastReservation.Place.PlaceID }, true)
+				@Html.AuthorizeActionLink(Model.LastReservation.Place.SeatsId.ToString(), "Details", "Place", new { id = Model.LastReservation.Place.SeatsId }, true)
 			}
 			else
 			{
@@ -95,7 +95,7 @@
 						@foreach (LanAdeptData.Model.Places.Reservation reservation in Model.Reservations)
 						{
 							<tr>
-								<td>@Html.AuthorizeActionLink(reservation.Place.ToString(), "Details", "Place", new { id = reservation.Place.PlaceID }, true)</td>
+								<td>@Html.AuthorizeActionLink(reservation.Place.SeatsId.ToString(), "Details", "Place", new { id = reservation.Place.SeatsId }, true)</td>
 								<td>@reservation.CreationDate.ToString("f", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA"))</td>
 								<td>
 									@if (reservation.ArrivalDate != null)
