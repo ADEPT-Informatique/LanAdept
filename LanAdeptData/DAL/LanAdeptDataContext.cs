@@ -52,7 +52,6 @@ namespace LanAdeptData.DAL
 							tg.MapRightKey("TeamID");
 							tg.ToTable("GamertagTeam");
 						});
-
 			base.OnModelCreating(modelBuilder);
 		}
 	}
