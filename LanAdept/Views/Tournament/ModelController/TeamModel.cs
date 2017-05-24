@@ -38,12 +38,12 @@ namespace LanAdept.Views.Tournaments.ModelController
 
 		public string GetSeeTeamOnMapHash()
 		{
-			string hash = "#";
+			string hash = "?";
 
 			foreach (GamerTag gamertag in Gamertags)
 			{
 				if (ReservationService.HasUserPlace(gamertag.User))
-					hash += gamertag.User.LastReservation.Place.SeatsId + ";";
+					hash += "seats=" + gamertag.User.LastReservation.Place.SeatsId + "&";
 			}
 
 			return hash;

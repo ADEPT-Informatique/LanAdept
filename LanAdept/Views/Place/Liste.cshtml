@@ -5,11 +5,11 @@
     ViewBag.Settings = Model.Settings;
     var userHaveAPlace = LanAdeptCore.Service.ReservationService.HasUserPlace();
     ViewBag.userHaveAPlace = userHaveAPlace;
-    var seatId = 0;
+    string seatId = "0";
     bool isLoggedIn = LanAdeptCore.Service.UserService.IsUserLoggedIn();
     var eventKey = Model.Settings.EventKeyId;
     var publicKey = Model.Settings.PublicKeyId;
-
+    List<string> mapSeats = Model.infoSeats;
 }
 
 @if (isLoggedIn)
@@ -26,17 +26,25 @@
                     {
                         return object.id;
                     }
-                    else{                        
+                    else{
                         return object.id + " - " + object.extraData.name;
                     }
                 },
-                objectColor: function (object) {                
-                    if (object.status == 'booked') {
+
+                objectColor: function (object,extraConfig) {
+                    if (object.status == 'booked') {                      
+                        var seats = JSON.parse('@Html.Raw(Json.Encode(@mapSeats))')
+                        if(seats != null){
+                            for (var i = 0; i < seats.length; i++) {
+                                if(seats[i] == object.id)
+                                    return "#ff0000";
+                            }
+                        }
                         if (object.extraData.name == '@Model.activeUser') {
                             return "#0073e6";
                         }
-                           return "#D8ECF5";
-                       }
+                        return "#D8ECF5";
+                    }
                     else {
                         return "#F9E5E6";
                     }
@@ -49,14 +57,14 @@
                     if (placeHaveStarted && !lanHasStarted)
                     {
                         $('#ModalReserverPlace, #ModalChangerPlace').modal('show');
-                    }                  
+                    }
                 },
                 onObjectDeselected: function (object) {
-                    
+
                 },
-               
+
             }).render();
-          
+
         });
 
     </script>
@@ -80,7 +88,7 @@ else
                         return object.id + " - " + object.extraData.name;
                     }
                 },
-                objectColor: function (object) {                
+                objectColor: function (object) {
                     if (object.status == 'booked') {
                         return "#D8ECF5";
                     }
@@ -165,24 +173,24 @@ else
 
 @section scripts {
     <script>
-        
-		$(function () {
-			$('[data-toggle="tooltip"]').tooltip();
-			$('[data-toggle="popover"]').popover();
-		});
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+            $('[data-toggle="popover"]').popover();
+        });
 
 
 
-            $('#ModalReserverPlace, #ModalChangerPlace').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget);
-                var placeID = seatId;
-                var text = seatId;
+        $('#ModalReserverPlace, #ModalChangerPlace').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var placeID = seatId;
+            var text = seatId;
 
-                var modal = $(this);
-                modal.find('.modal-place-text').text(text);
-                modal.find('.btnReserver').attr("href", "@Url.Action("Reserver")/" + placeID)
-            });
-        
+            var modal = $(this);
+            modal.find('.modal-place-text').text(text);
+            modal.find('.btnReserver').attr("href", "@Url.Action("Reserver")/" + placeID)
+        });
+
     </script>
 }
 @section Styles {

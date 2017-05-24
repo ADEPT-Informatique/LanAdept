@@ -45,10 +45,11 @@ namespace LanAdept.Controllers
 		}
 
 		[AllowAnonymous]
-		public ActionResult Liste()
+		public ActionResult Liste(List<string>seats)
 		{
-
             ListeModel listeModel = new ListeModel();
+            if(seats != null)
+            listeModel.infoSeats = seats;
             listeModel.Settings = uow.SettingRepository.GetCurrentSettings();
             listeModel.activeUser = UserService.GetLoggedInUser() == null ? "" : UserService.GetLoggedInUser().CompleteName;
             if (!listeModel.Settings.IsLanStarted)
@@ -57,7 +58,6 @@ namespace LanAdept.Controllers
             }
             return View(listeModel);
 		}
-
 		[LanAuthorize]
 		public ActionResult Reserver(string id)
 		{
