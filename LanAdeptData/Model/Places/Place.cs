@@ -74,10 +74,5 @@ namespace LanAdeptData.Model.Places
 
 
 		#endregion
-
-		public override string ToString()
-		{
-            return PlaceID.ToString();
-		}
 	}
 }
