@@ -9,6 +9,7 @@ using LanAdeptData.Model;
 using Microsoft.AspNet.Identity.Owin;
 using LanAdeptCore.Attribute.Authorization;
 using LanAdeptData.Model.Settings;
+using System.Configuration;
 
 namespace LanAdeptAdmin.Controllers
 {
@@ -81,8 +82,14 @@ namespace LanAdeptAdmin.Controllers
 
 				uow.SettingRepository.Update(settings);
 				uow.Save();
-
-				TempData["Success"] = "Les modifications ont bien été enregistrées";
+                // TODO : Change file path depending of the current website
+                var filepath = @"C:\inetpub\LanAdeptTest\Web.config";
+                var map =new ExeConfigurationFileMap{ ExeConfigFilename = filepath };
+                var configFile = ConfigurationManager.OpenMappedExeConfiguration(map, ConfigurationUserLevel.None);
+                configFile.AppSettings.Settings["clientId"].Value = settings.PaypalClientId;
+                configFile.AppSettings.Settings["clientSecret"].Value = settings.PaypalSecretId;
+                configFile.Save();
+                TempData["Success"] = "Les modifications ont bien été enregistrées";
 			}
 
 			return View(model);

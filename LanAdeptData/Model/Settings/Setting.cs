@@ -31,6 +31,10 @@ namespace LanAdeptData.Model.Settings
         public string PublicKeyId { get; set; }
         public string SecretKeyId { get; set; }
 
+        public bool IsPaypalActive { get; set; }
+        public string PaypalClientId { get; set; }
+        public string PaypalSecretId { get; set; }
+        public double TicketPrice { get; set; }
 
 		#region Calculated Properties
 

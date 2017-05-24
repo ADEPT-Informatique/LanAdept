@@ -40,6 +40,14 @@ namespace LanAdeptAdmin.Views.General.ModelController
         public string SecretId { get; set; }
         [DisplayName("Clé evenement pour les places")]
         public string EventId { get; set; }
+        [DisplayName("Clé de client paypal pour le paiement en ligne")]
+        public string PaypalClientId { get; set; }
+        [DisplayName("Clé secrete de paypal pour le paiement en ligne")]
+        public string PaypalSecretId { get; set; }
+        [DisplayName("Paiement par paypal activé")]
+        public bool IsPaypalActive { get; set; }
+        [DisplayName("Prix du billet")]
+        public double TicketPrice { get; set; }
 
 		public SettingsModel() { }
 
@@ -55,6 +63,10 @@ namespace LanAdeptAdmin.Views.General.ModelController
             PublicId = settings.PublicKeyId;
             EventId = settings.EventKeyId;
             SecretId = settings.SecretKeyId;
+            IsPaypalActive = settings.IsPaypalActive;
+            PaypalClientId = settings.PaypalClientId;
+            PaypalSecretId = settings.PaypalSecretId;
+        
 		}
 
 	}

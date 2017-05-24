@@ -125,6 +125,10 @@
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PayPal, Version=1.8.0.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PayPal.1.8.0\lib\net45\PayPal.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Postal, Version=1.0.0.0, Culture=neutral, PublicKeyToken=45719375b8b4d528, processorArchitecture=MSIL">
       <HintPath>..\packages\Postal.Mvc5.1.2.0\lib\net45\Postal.dll</HintPath>
       <Private>True</Private>
@@ -212,6 +216,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\Payment\PaymentController.cs" />
+    <Compile Include="Views\PayPal\PayPalConfiguration.cs" />
+    <Compile Include="Views\PayPal\PayPalPayment.cs" />
     <Compile Include="Views\Place\ModelController\ListeModel.cs" />
     <Compile Include="Views\Place\ModelController\MaPlaceModel.cs" />
     <Compile Include="Views\Place\ModelController\PlaceController.cs" />
@@ -341,7 +348,9 @@
     <Content Include="Scripts\_references.js" />
     <Content Include="Sounds\loopMusic.mp3" />
     <Content Include="Sounds\sound.mp3" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
