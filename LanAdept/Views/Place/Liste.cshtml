@@ -89,7 +89,14 @@ else
                     }
                 },
                 objectColor: function (object) {
-                    if (object.status == 'booked') {
+                    if (object.status == 'booked') {                  
+                        var seats = JSON.parse('@Html.Raw(Json.Encode(@mapSeats))')
+                        if(seats != null){
+                            for (var i = 0; i < seats.length; i++) {
+                                if(seats[i] == object.id)
+                                    return "#ff0000";
+                            }
+                        }
                         return "#D8ECF5";
                     }
                     else {

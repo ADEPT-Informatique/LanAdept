@@ -49,7 +49,7 @@
 					<td class="text-center">
 						@if (LanAdeptCore.Service.ReservationService.HasUserPlace(user))
 						{
-							@user.LastReservation.Place
+							@user.LastReservation.Place.SeatsId
 						}
 						else
 						{
