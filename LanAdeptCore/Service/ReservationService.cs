@@ -122,9 +122,9 @@ namespace LanAdeptCore.Service
             using (var streamWriter = new StreamWriter(request.GetRequestStream()))
             {
                 string json =
-                  "{\'objects\': " + "[{\'objectId\':" + "\'" + place.SeatsId + "\', \'extraData\': { \'name\': \'" + user.CompleteName + "\'}}]" + "," +
-                    "\'eventKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().EventKeyId + "\'" + "," +
-                    "\'secretKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().SecretKeyId + "\'}";
+                  "{\'objects\': " + "[{\'objectId\': " + "\'" + place.SeatsId + "\', \'extraData\': { \'name\': \'" + user.CompleteName + "\'}}]" + "," +
+                    "\'eventKey\': " + "\'" + uow.SettingRepository.GetCurrentSettings().EventKeyId.Replace(" ", "") + "\'" + "," +
+                    "\'secretKey\': " + "\'" + uow.SettingRepository.GetCurrentSettings().SecretKeyId.Replace(" ","") + "\'}";
                 streamWriter.Write(json);
             }
             var httpResponse = (HttpWebResponse)request.GetResponse();
@@ -162,8 +162,8 @@ namespace LanAdeptCore.Service
             {
                 string json =
                   "{\'objects\': " + "[{\'objectId\':" + "\'" + place.SeatsId + "\', \'extraData\': { \'name\': \'" + guestName + "\'}}]" + "," +
-                    "\'eventKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().EventKeyId + "\'" + "," +
-                    "\'secretKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().SecretKeyId + "\'}";
+                    "\'eventKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().EventKeyId.Replace(" ", "") + "\'" + "," +
+                    "\'secretKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().SecretKeyId.Replace(" ", "") + "\'}";
                 streamWriter.Write(json);
             }
             var httpResponse = (HttpWebResponse)request.GetResponse();
@@ -216,8 +216,8 @@ namespace LanAdeptCore.Service
                 {
                     string json =
                       "{\'objects\': " + "[\'" + place.SeatsId + "\']" + "," +
-                        "\'eventKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().EventKeyId + "\'" + "," +
-                        "\'secretKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().SecretKeyId + "\'}";
+                        "\'eventKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().EventKeyId.Replace(" ", "") + "\'" + "," +
+                        "\'secretKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().SecretKeyId.Replace(" ", "") + "\'}";
                     streamWriter.Write(json);
                 }
                 var httpResponse = (HttpWebResponse)request.GetResponse();
@@ -254,8 +254,8 @@ namespace LanAdeptCore.Service
                 {
                     string json =
                       "{\'objects\': " + "[\'" + user.LastReservation.Place.SeatsId + "\']" + "," +
-                        "\'eventKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().EventKeyId + "\'" + "," +
-                        "\'secretKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().SecretKeyId + "\'}";
+                        "\'eventKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().EventKeyId.Replace(" ", "") + "\'" + "," +
+                        "\'secretKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().SecretKeyId.Replace(" ", "") + "\'}";
                     streamWriter.Write(json);
                 }
                 var httpResponse = (HttpWebResponse)request.GetResponse();

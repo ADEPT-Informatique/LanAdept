@@ -43,7 +43,7 @@ namespace LanAdept.Views.Tournaments.ModelController
 			foreach (GamerTag gamertag in Gamertags)
 			{
 				if (ReservationService.HasUserPlace(gamertag.User))
-					hash += gamertag.User.LastReservation.Place.PlaceID + ";";
+					hash += gamertag.User.LastReservation.Place.SeatsId + ";";
 			}
 
 			return hash;
