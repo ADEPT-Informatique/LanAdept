@@ -8,47 +8,55 @@
         <img src="~/Image/LOGO_noir_Transparent.png" class="img-responsive center-block home-image" alt="LAN de l'ADEPT" />
     </div>
 
-	<div id="messageInfo">
-		<h2 class="text-success text-center messageStart" style="display:none">
-			Le LAN est maintenant commencé. Bon LAN!
-		</h2>
-
-		<h2 class="text-success text-center messageEnd" style="display:none">
-			Le LAN est terminé. À la prochaine!
-		</h2>
-	</div>
-
-    <div class="text-center">
-        <p id="date">@ViewBag.dateLanHuman.ToString("dddd", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA")) @ViewBag.dateLanHuman.ToString("f", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA"))</p>
-        <div class="inscription">
-            @Html.AuthorizeActionLink("Connectez-vous dès maintenant!", "Login", "Auth", null, new { @class = "text-center btn btn-primary", @role = "button" })
+    <div id="messageInfo">
+        @if (ViewBag.isStarted && !ViewBag.isOver)
+        {
+            <h2 class="text-success text-center messageStart">
+                Le LAN est maintenant commencé. Bon LAN!
+            </h2>
+        }
+        @if (ViewBag.isOver)
+        {
+            <h2 class="text-success text-center messageEnd">
+                Le LAN est terminé. À la prochaine!
+            </h2>
+        }
+    </div>
+    @if (ViewBag.inscription)
+    {
+        <div class="text-center">
+            <p id="date">@ViewBag.dateLanHuman.ToString("dddd", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA")) @ViewBag.dateLanHuman.ToString("f", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA"))</p>
+            <div class="inscription">
+                @Html.AuthorizeActionLink("Connectez-vous dès maintenant!", "Login", "Auth", null, new { @class = "text-center btn btn-primary", @role = "button" })
+            </div>
+        </div>
+    }
+</div>
+@if (!ViewBag.isStarted)
+{
+    <div class="row text-center countdown">
+        <div class="col-xs-3">
+            <h1 id="days"></h1>
+            <hr />
+            <h4>jours</h4>
+        </div>
+        <div class="col-xs-3">
+            <h1 id="hours"></h1>
+            <hr />
+            <h4>heures</h4>
+        </div>
+        <div class="col-xs-3">
+            <h1 id="minutes"></h1>
+            <hr />
+            <h4>minutes</h4>
+        </div>
+        <div class="col-xs-3">
+            <h1 id="seconds"></h1>
+            <hr />
+            <h4>secondes</h4>
         </div>
     </div>
-</div>
-
-<div class="row text-center countdown">
-    <div class="col-xs-3">
-        <h1 id="days"></h1>
-        <hr />
-        <h4>jours</h4>
-    </div>
-    <div class="col-xs-3">
-        <h1 id="hours"></h1>
-        <hr />
-        <h4>heures</h4>
-    </div>
-    <div class="col-xs-3">
-        <h1 id="minutes"></h1>
-        <hr />
-        <h4>minutes</h4>
-    </div>
-    <div class="col-xs-3">
-        <h1 id="seconds"></h1>
-        <hr />
-        <h4>secondes</h4>
-    </div>
-</div>
-
+}
 <div class="row">
     <div id="description" class="col-md-6">
         <h2>À propos du LAN</h2>
@@ -140,28 +148,6 @@
             var mois = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
 
             function setTimer() {
-                var dateNow = new Date();
-                var timeDiff = new Date(dateLan - dateNow);
-                var timdeDiffEnd = new Date(dateLanEnd - dateNow);
-
-                if (timdeDiffEnd < 0) {
-                    $(".messageEnd").show();
-                    $(".messageStart").hide();
-                    $(".inscription").hide();
-                    $(".countdown").hide();
-                    $("#date").hide();
-                } else if (timeDiff < 0) {
-                    $(".message").show();
-                    $(".messageEnd").hide();
-                    $(".inscription").hide();
-                    $(".countdown").hide();
-                    clearTimeout(timer);
-                    return;
-                } else {
-                    $(".messageEnd").hide();
-                    $(".messageStart").hide();
-                }
-
                 var seconds = Math.floor((dateLan.getTime() - (new Date().getTime())) / 1000);
                 var minutes = Math.floor(seconds / 60);
                 var hours = Math.floor(minutes / 60);

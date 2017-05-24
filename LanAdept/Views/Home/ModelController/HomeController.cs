@@ -34,7 +34,10 @@ namespace LanAdept.Controllers
 			ViewBag.dateLan = dateLanMs;
 			ViewBag.dateLanEnd = dateLanEndMs;
 			ViewBag.dateLanHuman = setting.StartDate;
-			return View();
+            ViewBag.isOver = uow.SettingRepository.GetCurrentSettings().IsLanOver;
+            ViewBag.isStarted = uow.SettingRepository.GetCurrentSettings().IsLanStarted;
+            ViewBag.inscription = uow.SettingRepository.GetCurrentSettings().IsPlaceReservationStarted;
+            return View();
 		}
 
 		public ActionResult About()
