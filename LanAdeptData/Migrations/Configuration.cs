@@ -22,11 +22,7 @@ namespace LanAdeptData.Migrations
         protected override void Seed(LanAdeptDataContext context)
         {
 			SeedRoles(context);
-			//SeedUsers(context);
-			SeedGlobalSettings(context);
-            //SeedPlaces(context);
-
-
+            SeedGlobalSettings(context);
             context.SaveChanges();
 		}
 
@@ -90,21 +86,6 @@ namespace LanAdeptData.Migrations
 			}
 		}
 
-		private void SeedUsers(LanAdeptDataContext context)
-		{
-			var store = new UserStore<User>(context);
-			var manager = new UserManager<User>(store);
-
-			if (!context.Users.Any(u => u.Email == "admin@lanadept.com"))
-			{
-				var user = new User { UserName = "admin@lanadept.com", Email = "admin@lanadept.com", CompleteName = "Administrateur", EmailConfirmed = true };
-
-				manager.Create(user, "fafa1234");
-				manager.AddToRole(user.Id, "owner");
-				manager.AddToRole(user.Id, "admin");
-			}
-		}
-
 		private void SeedGlobalSettings(LanAdeptDataContext context)
 		{
 			if(!context.Settings.Any())
@@ -120,9 +101,9 @@ namespace LanAdeptData.Migrations
 					NbDaysBeforeRemember = 5,
 					RememberEmailContent = "Non utilisé pour le moment",
 					SendRememberEmail = false,
-                    PublicKeyId= "3788b701-1b85-4864-bc58-49ff85ca2c14",
-                    EventKeyId= "cd826557-5c7e-48d2-96e2-2523128a6e25",
-                    SecretKeyId = "7cb1e091-2f53-44fa-b3fd-24159a31ba5b"
+                    PublicKeyId= "",
+                    EventKeyId= "",
+                    SecretKeyId = ""
                 };
 
 				context.Settings.Add(settings);
