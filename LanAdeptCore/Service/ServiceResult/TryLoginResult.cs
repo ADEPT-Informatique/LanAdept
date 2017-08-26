@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LanAdeptData.Model;
-using LanAdeptData.Model.Users;
 
 namespace LanAdeptCore.Service.ServiceResult
 {

@@ -1,13 +1,9 @@
-﻿using LanAdeptData.Model.Users;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace LanAdeptData.Model.Canteen
+namespace LanAdeptData.Model
 {
-	public class Order
+    public class Order
 	{
 		public int OrderID { get; set; }
 

@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 using LanAdeptData.DAL;
 using LanAdeptData.Model;
-using System.Web;
-using Microsoft.AspNet.Identity.Owin;
-using LanAdeptData.Model.Users;
 
 namespace LanAdeptData.Validation
 {
-	public class UniqueEmailAttribute : ValidationAttribute
+    public class UniqueEmailAttribute : ValidationAttribute
 	{
 		protected override ValidationResult IsValid(object value, ValidationContext validationContext)
 		{

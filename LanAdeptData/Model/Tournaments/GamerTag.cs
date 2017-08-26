@@ -1,11 +1,10 @@
-﻿using LanAdeptData.Model.Users;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace LanAdeptData.Model.Tournaments
+namespace LanAdeptData.Model
 {
-	public class GamerTag
+    public class GamerTag
 	{
 		public int GamerTagID { get; set; }
 

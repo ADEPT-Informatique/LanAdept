@@ -1,22 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LanAdeptData.Model;
 using Microsoft.AspNet.Identity.EntityFramework;
-using LanAdeptData.Model.Users;
-using LanAdeptData.Model.Places;
-using LanAdeptData.Model.Tournaments;
-using LanAdeptData.Model.Settings;
-
-using LanAdeptData.Model.Canteen;
 
 namespace LanAdeptData.DAL
 {
-	public class LanAdeptDataContext : IdentityDbContext<User>
+    public class LanAdeptDataContext : IdentityDbContext<User>
 	{
 		public static LanAdeptDataContext Create()
 		{

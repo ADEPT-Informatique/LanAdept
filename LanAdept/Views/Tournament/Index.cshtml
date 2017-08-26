@@ -1,8 +1,7 @@
-﻿@model IEnumerable<LanAdept.Views.Tournaments.ModelController.TournamentModel>
-
+﻿@model IEnumerable<LanAdept.Models.TournamentModel>
 @{
 	ViewBag.Title = "Liste des tournois";
-	LanAdeptData.Model.Settings.Setting settings = ViewBag.Settings;
+	Setting settings = ViewBag.Settings;
 }
 
 <div class="page-header clearfix">
@@ -37,7 +36,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (LanAdept.Views.Tournaments.ModelController.TournamentModel tournamentModel in Model)
+			@foreach (LanAdept.Models.TournamentModel tournamentModel in Model)
 				{
 				<tr @("class=clickable-row data-row-url=" + Url.Action("Details", "Tournament", new { id = tournamentModel.TournamentID }))>
 					<td>

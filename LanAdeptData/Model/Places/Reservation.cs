@@ -1,13 +1,8 @@
-﻿using LanAdeptData.Model.Users;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
-namespace LanAdeptData.Model.Places
+namespace LanAdeptData.Model
 {
-	public class Reservation
+    public class Reservation
 	{
 		public int ReservationID { get; set; }
 

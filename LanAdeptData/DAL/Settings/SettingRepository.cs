@@ -2,13 +2,10 @@
 using System.Linq;
 using LanAdeptData.DAL.Generic;
 using LanAdeptData.Model;
-using System.Web;
-using Microsoft.AspNet.Identity.Owin;
-using LanAdeptData.Model.Settings;
 
 namespace LanAdeptData.DAL.Settings
 {
-	public class SettingRepository : GenericRepository<Setting>
+    public class SettingRepository : GenericRepository<Setting>
 	{
 		public SettingRepository(LanAdeptDataContext context) : base(context) { }
 

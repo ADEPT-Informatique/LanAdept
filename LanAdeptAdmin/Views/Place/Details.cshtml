@@ -1,11 +1,12 @@
-﻿@model LanAdeptData.Model.Places.Place
+﻿@model LanAdeptData.Model.Place
 @using PagedList.Mvc;
 @using PagedList;
+@using LanAdeptData.Model;
 
 @{
 	ViewBag.Title = "Details";
 	ViewBag.Sidebar = "_Sidebar_Place";
-	PagedList<LanAdeptData.Model.Places.Reservation> reservations = ViewBag.Reservations;
+	PagedList<Reservation> reservations = ViewBag.Reservations;
 
 	string classeEtat = "";
 	string messageEtat = "";
@@ -144,7 +145,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				@foreach (LanAdeptData.Model.Places.Reservation reservation in reservations)
+				@foreach (Reservation reservation in reservations)
 				{
 					<tr>
 						<td>@reservation.CreationDate</td>

@@ -1,5 +1,5 @@
-﻿@using LanAdeptData.Model.Tournaments
-@model  LanAdeptAdmin.Views.Tournaments.ModelController.TournamentModel
+﻿@using LanAdeptData.Model;
+@model  LanAdeptAdmin.Models.TournamentModel
 
 @{
 	ViewBag.Title = "Details";
@@ -168,7 +168,7 @@
 			<div class="modal-body">
 				@if (Model.Teams.Count > 0)
 				{
-					foreach (LanAdeptData.Model.Tournaments.Team team in Model.Teams)
+					foreach (Team team in Model.Teams)
 					{
 						<p>
 							@team.Name

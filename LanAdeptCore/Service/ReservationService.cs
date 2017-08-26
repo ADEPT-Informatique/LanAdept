@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using LanAdeptCore.Service.ServiceResult;
 using LanAdeptData.DAL;
 using LanAdeptData.Model;
-using System.Web;
-using Microsoft.AspNet.Identity.Owin;
-using LanAdeptData.Model.Places;
-using LanAdeptData.Model.Users;
 using System.Net;
 using System.IO;
-using System.Text;
 
 namespace LanAdeptCore.Service
 {
-	public static class ReservationService
+    public static class ReservationService
 	{
 		private static UnitOfWork uow
 		{

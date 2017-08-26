@@ -1,23 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Security;
-using LanAdeptCore.Service.ServiceResult;
+﻿using LanAdeptCore.Manager;
 using LanAdeptData.DAL;
 using LanAdeptData.Model;
-using Microsoft.AspNet.Identity.Owin;
-using LanAdeptCore.Manager;
 using Microsoft.AspNet.Identity;
-using LanAdeptData.Model.Users;
-using LanAdeptData.Model.Tournaments;
+using Microsoft.AspNet.Identity.Owin;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
 namespace LanAdeptCore.Service
 {
-	public static class UserService
+    public static class UserService
 	{
 		private static UnitOfWork uow
 		{

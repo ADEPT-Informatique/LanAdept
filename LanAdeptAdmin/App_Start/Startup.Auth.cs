@@ -1,7 +1,6 @@
 ﻿using LanAdeptCore.Manager;
 using LanAdeptData.DAL;
 using LanAdeptData.Model;
-using LanAdeptData.Model.Users;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;

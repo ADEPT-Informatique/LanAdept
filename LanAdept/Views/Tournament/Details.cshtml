@@ -1,10 +1,9 @@
-﻿@using LanAdept.Views.Tournaments.ModelController
-@using LanAdeptData.Model.Tournaments
+﻿@using LanAdept.Models;
 @model TournamentModel
 
 @{
     ViewBag.Title = "Tournoi de " + Model.Game;
-    LanAdeptData.Model.Settings.Setting settings = ViewBag.Settings;
+    Setting settings = ViewBag.Settings;
 }
 
 <div class="page-header clearfix">
@@ -63,7 +62,7 @@ else if (Model.IsStarted)
 
 @if (Model.Teams.Count() > 0)
 {
-    using (Html.BeginForm("JoinTeam", "Tournament", new LanAdept.Views.Tournaments.ModelController.JoinTeamModel() { TournamentID = Model.TournamentID }))
+    using (Html.BeginForm("JoinTeam", "Tournament", new JoinTeamModel() { TournamentID = Model.TournamentID }))
     {
         @Html.Hidden("GamerTagID", 0, new { id = "tagInput" })
         @Html.Hidden("TeamID", 0, new { id = "teamInput" })

@@ -5,13 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Security.Claims;
 using Microsoft.AspNet.Identity;
-using LanAdeptData.Model.Places;
-using LanAdeptData.Model.Tournaments;
-using LanAdeptData.Model.Canteen;
 
-namespace LanAdeptData.Model.Users
+namespace LanAdeptData.Model
 {
-	public class User : IdentityUser
+    public class User : IdentityUser
 	{
 		[Required]
 		[Display(Name = "Nom complet")]

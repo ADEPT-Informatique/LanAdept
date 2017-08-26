@@ -1,17 +1,14 @@
 namespace LanAdeptData.Migrations
 {
-	using DAL;
-	using Microsoft.AspNet.Identity;
-	using Microsoft.AspNet.Identity.EntityFramework;
-	using Model;
-	using Model.Settings;
-	using Model.Users;
-	using System;
-	using System.Data.Entity;
-	using System.Data.Entity.Migrations;
-	using System.Linq;
+    using DAL;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using Model;
+    using System;
+    using System.Data.Entity.Migrations;
+    using System.Linq;
 
-	internal sealed class Configuration : DbMigrationsConfiguration<LanAdeptDataContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<LanAdeptDataContext>
     {
         public Configuration()
         {
@@ -115,7 +112,7 @@ namespace LanAdeptData.Migrations
             {
                 for (int y = 1; y < 25; y++)
                 {
-                    Model.Places.Place place = new Model.Places.Place();
+                    Place place = new Place();
                     place.SeatsId = i + "-" + y.ToString();
                     place.IsBackUpSeats = false;
                     context.Places.Add(place);
