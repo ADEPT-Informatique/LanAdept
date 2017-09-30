@@ -38,7 +38,8 @@ namespace LanAdeptAdmin
 					  "~/Content/bootstrap-social.css",
 					  "~/Content/jasny-bootstrap.css",
 					  "~/Content/bootstrap-datetimepicker.css",
-					  "~/Content/site.css"));
+					  "~/Content/site.css",
+                      "~/Content/Settings.css"));
 		}
 	}
 }

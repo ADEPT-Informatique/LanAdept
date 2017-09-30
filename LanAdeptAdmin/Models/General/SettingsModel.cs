@@ -40,6 +40,12 @@ namespace LanAdeptAdmin.Models
         [DisplayName("Clé evenement pour les places")]
         public string EventId { get; set; }
 
+        [DisplayName("Frais pour le lan ?")]
+        public bool IsLanPayable { get; set; }
+
+        [DisplayName("Prix du billet")]
+        public double LanPrice { get; set; }
+
 		public SettingsModel() { }
 
 		public SettingsModel(Setting settings)
@@ -54,6 +60,8 @@ namespace LanAdeptAdmin.Models
             PublicId = settings.PublicKeyId;
             EventId = settings.EventKeyId;
             SecretId = settings.SecretKeyId;
+            LanPrice = settings.LanPrice;
+            IsLanPayable = settings.IsLanPayable;
 		}
 
 	}

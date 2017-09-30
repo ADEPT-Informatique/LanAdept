@@ -23,14 +23,21 @@ namespace LanAdeptData.Model
 		public int NbDaysBeforeRemember { get; set; }
 
 		public string RememberEmailContent { get; set; }
+
         public string EventKeyId { get; set; }
+
         public string PublicKeyId { get; set; }
+
         public string SecretKeyId { get; set; }
 
+        public bool IsLanPayable { get; set; }
 
-		#region Calculated Properties
+        public double LanPrice { get; set; }
 
-		public bool IsLanStarted { get { return DateTime.Now > StartDate; } }
+
+        #region Calculated Properties
+
+        public bool IsLanStarted { get { return DateTime.Now > StartDate; } }
 
 		public bool IsLanOver { get { return DateTime.Now > EndDate; } }
 

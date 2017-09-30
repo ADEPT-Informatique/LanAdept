@@ -32,7 +32,7 @@
                 },
 
                 objectColor: function (object,extraConfig) {
-                    if (object.status == 'booked') {                      
+                    if (object.status == 'booked') {
                         var seats = JSON.parse('@Html.Raw(Json.Encode(@mapSeats))')
                         if(seats != null){
                             for (var i = 0; i < seats.length; i++) {
@@ -89,7 +89,7 @@ else
                     }
                 },
                 objectColor: function (object) {
-                    if (object.status == 'booked') {                  
+                    if (object.status == 'booked') {
                         var seats = JSON.parse('@Html.Raw(Json.Encode(@mapSeats))')
                         if(seats != null){
                             for (var i = 0; i < seats.length; i++) {
@@ -173,9 +173,14 @@ else
         </div>
     }
 }
-<div class="alert alert-warning" role="alert">
-    Des frais de 10$ seront demandés à l'entrée
-</div>
+
+@if (Model.Settings.IsLanPayable)
+{
+    <div class="alert alert-warning" role="alert">
+        Des frais de @(Model.Settings.LanPrice + "$") seront demandés à l'entrée
+    </div>
+}
+
 <div id="chart" style="margin:10px"></div>
 
 @section scripts {

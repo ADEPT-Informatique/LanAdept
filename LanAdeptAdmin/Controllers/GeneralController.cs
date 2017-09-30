@@ -49,6 +49,8 @@ namespace LanAdeptAdmin.Controllers
                 settings.SecretKeyId = model.SecretId;
                 settings.PublicKeyId = model.PublicId;
                 settings.EventKeyId = model.EventId;
+                settings.LanPrice = model.LanPrice;
+                settings.IsLanPayable = model.IsLanPayable;
 
 				uow.SettingRepository.Update(settings);
 				uow.Save();

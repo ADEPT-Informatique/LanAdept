@@ -1,72 +1,72 @@
 ﻿@model LanAdeptAdmin.Models.SettingsModel
 
 @{
-	ViewBag.Title = "Paramètres généraux";
-	ViewBag.Sidebar = "_Sidebar_General";
+    ViewBag.Title = "Paramètres généraux";
+    ViewBag.Sidebar = "_Sidebar_General";
 }
 
 <div class="page-header clearfix">
-	<h2>@ViewBag.Title</h2>
+    <h2>@ViewBag.Title</h2>
 </div>
 
 @using (Html.BeginForm())
 {
-	@Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()
 
-	<div class="form-horizontal">
+    <div class="form-horizontal">
 
-		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-		@Html.HiddenFor(model => model.SettingId)
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.SettingId)
 
-		@if (!string.IsNullOrWhiteSpace(TempData["Success"] as string))
-		{
-			<div class="form-group">
-				<div class="col-md-8 col-lg-5 col-md-push-4 col-lg-push-3">
-					<div class="alert alert-success" role="alert" style="margin-bottom:0;">
-						@Html.Raw(TempData["Success"])
-					</div>
-				</div>
-			</div>
-		}
+        @if (!string.IsNullOrWhiteSpace(TempData["Success"] as string))
+        {
+            <div class="form-group">
+                <div class="col-md-8 col-lg-5 col-md-push-4 col-lg-push-3">
+                    <div class="alert alert-success" role="alert" style="margin-bottom:0;">
+                        @Html.Raw(TempData["Success"])
+                    </div>
+                </div>
+            </div> }
 
-		<div class="form-group">
-			@Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-4 col-lg-3" })
-			<div class="col-md-8 col-lg-5">
-				<div class='input-group date' id='datetimepickerStart'>
-					@Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
-					<span class="input-group-addon">
-						<span class="glyphicon glyphicon-calendar"></span>
-					</span>
-				</div>
-				@Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
-			</div>
-		</div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-4 col-lg-3" })
+            <div class="col-md-8 col-lg-5">
+                <div class='input-group date' id='datetimepickerStart'>
+                    @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-		<div class="form-group">
-			@Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-4 col-lg-3" })
-			<div class="col-md-8 col-lg-5">
-				<div class='input-group date' id='datetimepickerEnd'>
-					@Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
-					<span class="input-group-addon">
-						<span class="glyphicon glyphicon-calendar"></span>
-					</span>
-				</div>
-				@Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
-			</div>
-		</div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-4 col-lg-3" })
+            <div class="col-md-8 col-lg-5">
+                <div class='input-group date' id='datetimepickerEnd'>
+                    @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-		<div class="form-group">
-			@Html.LabelFor(model => model.PlaceReservationStartDate, htmlAttributes: new { @class = "control-label col-md-4 col-lg-3" })
-			<div class="col-md-8 col-lg-5">
-				<div class='input-group date' id='datetimepickerEnd'>
-					@Html.EditorFor(model => model.PlaceReservationStartDate, new { htmlAttributes = new { @class = "form-control" } })
-					<span class="input-group-addon">
-						<span class="glyphicon glyphicon-calendar"></span>
-					</span>
-				</div>
-				@Html.ValidationMessageFor(model => model.PlaceReservationStartDate, "", new { @class = "text-danger" })
-			</div>
-		</div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.PlaceReservationStartDate, htmlAttributes: new { @class = "control-label col-md-4 col-lg-3" })
+            <div class="col-md-8 col-lg-5">
+                <div class='input-group date' id='datetimepickerEnd'>
+                    @Html.EditorFor(model => model.PlaceReservationStartDate, new { htmlAttributes = new { @class = "form-control" } })
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                @Html.ValidationMessageFor(model => model.PlaceReservationStartDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.TournamentSubsciptionStartDate, htmlAttributes: new { @class = "control-label col-md-4 col-lg-3" })
             <div class="col-md-8 col-lg-5">
@@ -79,6 +79,7 @@
                 @Html.ValidationMessageFor(model => model.TournamentSubsciptionStartDate, "", new { @class = "text-danger" })
             </div>
         </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.PublicId, htmlAttributes: new { @class = "control-label col-md-4 col-lg-3" })
             <div class="col-md-8 col-lg-5">
@@ -86,6 +87,7 @@
                 @Html.ValidationMessageFor(model => model.PublicId, "", new { @class = "text-danger" })
             </div>
         </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.SecretId, htmlAttributes: new { @class = "control-label col-md-4 col-lg-3" })
             <div class="col-md-8 col-lg-5">
@@ -93,58 +95,76 @@
                 @Html.ValidationMessageFor(model => model.SecretId, "", new { @class = "text-danger" })
             </div>
         </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.EventId, htmlAttributes: new { @class = "control-label col-md-4 col-lg-3" })
-                <div class="col-md-8 col-lg-5">
-                    @Html.EditorFor(model => model.EventId, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.EventId, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EventId, htmlAttributes: new { @class = "control-label col-md-4 col-lg-3" })
+            <div class="col-md-8 col-lg-5">
+                @Html.EditorFor(model => model.EventId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EventId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsLanPayable,htmlAttributes: new { @class = "control-label col-md-4 col-lg-3", id = "labelPayable"})
+            <div class="col-md-8 col-lg-5">
+                @Html.CheckBoxFor(model => model.IsLanPayable, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IsLanPayable, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LanPrice, htmlAttributes: new { @class = "control-label col-md-4 col-lg-3" })
+            <div class="col-md-8 col-lg-5">
+                @Html.EditorFor(model => model.LanPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LanPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-8 col-lg-5 col-md-push-4 col-lg-push-3">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.SendRememberEmail, new { htmlAttributes = new { style = "margin-left:0;", disabled = true } })
+                    @Html.LabelFor(model => model.SendRememberEmail)
+                    @Html.ValidationMessageFor(model => model.SendRememberEmail, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-md-8 col-lg-5 col-md-push-4 col-lg-push-3">
-                    <div class="checkbox">
-                        @Html.EditorFor(model => model.SendRememberEmail, new { htmlAttributes = new { style = "margin-left:0;", disabled = true } })
-                        @Html.LabelFor(model => model.SendRememberEmail)
-                        @Html.ValidationMessageFor(model => model.SendRememberEmail, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NbDaysBeforeRemember, htmlAttributes: new { @class = "control-label col-md-4 col-lg-3" })
+            <div class="col-md-8 col-lg-5">
+                @Html.EditorFor(model => model.NbDaysBeforeRemember, new { htmlAttributes = new { @class = "form-control", disabled = true } })
+                @Html.ValidationMessageFor(model => model.NbDaysBeforeRemember, "", new { @class = "text-danger" })
+                <p class="help-block">Cette fonctionnalité n'est pas encore implémentée.</p>
             </div>
-		
+        </div>
 
-		<div class="form-group">
-			@Html.LabelFor(model => model.NbDaysBeforeRemember, htmlAttributes: new { @class = "control-label col-md-4 col-lg-3" })
-			<div class="col-md-8 col-lg-5">
-				@Html.EditorFor(model => model.NbDaysBeforeRemember, new { htmlAttributes = new { @class = "form-control", disabled = true } })
-				@Html.ValidationMessageFor(model => model.NbDaysBeforeRemember, "", new { @class = "text-danger" })
-				<p class="help-block">Cette fonctionnalité n'est pas encore implémentée.</p>
-			</div>
-		</div>
-
-		<div class="form-group">
-			<div class="col-md-offset-3 col-md-5">
-				<input type="submit" value="Enregistrer" class="btn btn-primary pull-right" />
-			</div>
-		</div>
-	</div>
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-5">
+                <input type="submit" value="Enregistrer" class="btn btn-primary pull-right" />
+            </div>
+        </div>
+    </div>
 }
 
 
 @section Scripts {
-	<script>
-		$(function () {
-			$('#datetimepickerStart, #datetimepickerEnd').datetimepicker({
-				locale: 'fr-ca'
-			});
+    <script>
+        $(function () {
+            $('#datetimepickerStart, #datetimepickerEnd').datetimepicker({
+                locale: 'fr-ca'
+            });
 
-			$("#datetimepickerStart").on("dp.change", function (e) {
-				$('#datetimepickerEnd').data("DateTimePicker").minDate(e.date);
-			});
-			$("#datetimepickerEnd").on("dp.change", function (e) {
-				$('#datetimepickerStart').data("DateTimePicker").maxDate(e.date);
-			});
+            $("#datetimepickerStart").on("dp.change", function (e) {
+                $('#datetimepickerEnd').data("DateTimePicker").minDate(e.date);
+            });
+            $("#datetimepickerEnd").on("dp.change", function (e) {
+                $('#datetimepickerStart').data("DateTimePicker").maxDate(e.date);
+            });
 
-			$('#datetimepickerEnd').data("DateTimePicker").minDate($('#StartDate').val());
-			$('#datetimepickerStart').data("DateTimePicker").maxDate($('#EndDate').val());
-		});
-	</script>
+            $('#datetimepickerEnd').data("DateTimePicker").minDate($('#StartDate').val());
+            $('#datetimepickerStart').data("DateTimePicker").maxDate($('#EndDate').val());
+        });
+    </script>
 }

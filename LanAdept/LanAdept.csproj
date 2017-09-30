@@ -241,7 +241,6 @@
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Home.css" />
     <Content Include="Content\Login.css" />
-    <Content Include="Content\Map.css" />
     <Content Include="Content\MaPlacePrint.css" />
     <Content Include="Content\Propos.css" />
     <Content Include="Content\Tournois.css" />
