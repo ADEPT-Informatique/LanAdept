@@ -144,7 +144,7 @@ else
 {
     <div class="alert alert-info">
         Les réservations de places ne sont pas encore débutées! Elles débuteront
-        @Model.Settings.PlaceReservationStartDate.ToString("dddd le d MMMM à H\\hmm", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA")) @* Jour *@
+        @Model.Settings.PlaceReservationStartDate.ToString("le dddd d MMMM à H\\hmm", System.Globalization.CultureInfo.CreateSpecificCulture("fr-CA")) @* Jour *@
     </div>
 }
 
