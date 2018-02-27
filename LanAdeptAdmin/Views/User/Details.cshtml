@@ -92,7 +92,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						@foreach (LanAdeptData.Model.Places.Reservation reservation in Model.Reservations)
+						@foreach (LanAdeptData.Model.Reservation reservation in Model.Reservations)
 						{
 							<tr>
 								<td>@Html.AuthorizeActionLink(reservation.Place.SeatsId.ToString(), "Details", "Place", new { id = reservation.Place.SeatsId }, true)</td>
@@ -150,7 +150,7 @@
                     <th>Nom Utilisateur</th>
                 </tr>
             </thead>
-            @foreach(LanAdeptData.Model.Tournaments.Team gamer in ViewBag.Teams)
+            @foreach(LanAdeptData.Model.Team gamer in ViewBag.Teams)
             {
             <tr>
                 
