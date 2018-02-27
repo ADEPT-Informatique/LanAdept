@@ -229,31 +229,36 @@ namespace LanAdept.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var user = new User
-				{
-					UserName = model.Email,
-					Email = model.Email,
-					CompleteName = model.CompleteName,
-					Barcode = GetNewBarcode()
+                var user = new User
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    CompleteName = model.CompleteName,
+                    Barcode = GetNewBarcode(),
+
+                    //Désactivation temporaire de la validation email
+                    EmailConfirmed = true
+                   
 				};
 
 				var result = await UserManager.CreateAsync(user, model.Password);
 				if (result.Succeeded)
 				{
 					// Send confirmation link by email
-					string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-					ConfirmationEmail email = new ConfirmationEmail();
-					email.User = user;
-					email.ConfirmationToken = code;
-					email.Send();
+					//string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+					//ConfirmationEmail email = new ConfirmationEmail();
+					//email.User = user;
+					//email.ConfirmationToken = code;
+					//email.Send();
 
-					var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-					await UserManager.SendEmailAsync(user.Id, "Confirmez votre compte", "Confirmez votre compte en cliquant <a href=\"" + callbackUrl + "\">ici</a>");
+					//var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+					//await UserManager.SendEmailAsync(user.Id, "Confirmez votre compte", "Confirmez votre compte en cliquant <a href=\"" + callbackUrl + "\">ici</a>");
 
 					MessageModel messageView = new MessageModel()
 					{
 						Title = "Vous êtes maintenant inscrit",
-						Content = "Vous devez maintenant <strong>confirmer votre email</strong>. Une fois que ce sera fait, vous pourrez réserver une place pour participer au LAN de l'ADEPT.",
+						//Content = "Vous devez maintenant <strong>confirmer votre email</strong>. Une fois que ce sera fait, vous pourrez réserver une place pour participer au LAN de l'ADEPT.",
+                        Content = "Il ne vous reste qu'à réserver une place pour participer au LAN de l'ADEPT!",
 						Type = AuthMessageType.Success
 					};
 

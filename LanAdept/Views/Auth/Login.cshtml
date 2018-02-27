@@ -10,6 +10,7 @@
 
 	<div class="row vertical-divider">
 		<div class="col-sm-6">
+            <div class="alert alert-info">Veuillez prendre note que suite à une reconfiguration du serveur vous devrez vous créer un nouveau compte même si vous en possédiez déjà un au dernier LAN. Merci de votre compréhension.</div>
 			@using (Html.BeginForm("Login", "Auth", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
 			{
 				@Html.AntiForgeryToken()
