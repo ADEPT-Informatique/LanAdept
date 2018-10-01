@@ -139,22 +139,21 @@ Cependant il nous faut ajouter manuellement un premier administrateur `Owner` à
 
 #### Création d'un compte administrateur `Owner`
 
-Depuis SSMS, se connecter au serveur `lanadept.database.windows.net`
-
-Il faudra éxécuter deux requêtes.
+Depuis SSMS, se connecter au serveur `lanadept.database.windows.net`. Il faudra éxécuter deux requêtes.
 
 D'abord insérez un utilisateur :
+
 ```sql
-INSERT [dbo].[AspNetUsers] ([ID],[CompleteName], [Email], [EmailConfirmed], [PasswordHash], [SecurityStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEndDateUtc], [LockoutEnabled], [AccessFailedCount], [UserName]) VALUES (N'c8aaf2f7-ee34-4075-8da7-eaf0deda966d',N'VOTRE_NOM', N'VOTRE_EMAIL', 1, N'AJSwwY4q+gb66ZxmOhPJwrvfFtSdJ9ds7XUYNc0+kdg8ruYjFj1H9h9lkhYwg8LXag==', N'45151331-b44d-482f-85d5-11d3c9a6feb5', NULL, 0, 0, NULL, 1, 0, N'VOTRE_EMAIL')
+INSERT INTO [dbo].[AspNetUsers] ([ID],[CompleteName], [Email], [EmailConfirmed], [PasswordHash], [SecurityStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEndDateUtc], [LockoutEnabled], [AccessFailedCount], [UserName]) VALUES (N'c8aaf2f7-ee34-4075-8da7-eaf0deda966d',N'VOTRE_NOM', N'VOTRE_EMAIL', 1, N'AJSwwY4q+gb66ZxmOhPJwrvfFtSdJ9ds7XUYNc0+kdg8ruYjFj1H9h9lkhYwg8LXag==', N'45151331-b44d-482f-85d5-11d3c9a6feb5', NULL, 0, 0, NULL, 1, 0, N'VOTRE_EMAIL')
 ```
-:bulb: ***Le mot de passe de ce compte sera `admin123`** et pourra être changé éventuellement depuis le site. 
+:bulb: **Le mot de passe de ce compte sera `admin123`** et pourra être changé éventuellement depuis le site. 
 
 Donnez le rôle `owner` à cet utilisateur :
 
 ```sql
 DECLARE @idOwner nvarchar(40);
 SELECT @idOwner = id FROM AspNetRoles WHERE Name = 'owner';
-INSERT [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'c8aaf2f7-ee34-4075-8da7-eaf0deda966d', @idOwner);
+INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'c8aaf2f7-ee34-4075-8da7-eaf0deda966d', @idOwner);
 ```
 
 Et voilà ! Le déploiement est terminé !
