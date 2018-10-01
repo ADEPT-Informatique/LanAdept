@@ -8,6 +8,9 @@ Site Internet de gestion du Lan de l'Adept. Permet de gérer les inscriptions et
 - Panneau d'administration complet
 - Système de permission dans le panneau d'administration pour donner accès à certains modules seulement
 
+## Déploiement
+Veuillez vous référer au [Guide de déploiement Azure](./deploiement.md)
+
 ## Images
 ![Page d'accueil](/Screenshots/main.png?raw=true "Page d'accueil")
 ![Carte des places](/Screenshots/map.png?raw=true "Carte des places")
