@@ -27,7 +27,7 @@ Connectez vous au portail azure avec le compte préalablement créé: https://po
 - S'assurer que le serveur de la BD est bien celui que nous venons de créer
 - Ne pas utiliser le pool élastique SQL
 - Choisir le *Niveau tarifaire* de base
-- Laisaer le Classement (encodage) par défaut
+- Laisser le Classement (encodage) par défaut
 - Appuyer sur Créer
 
 > Le serveur et la base de donnée seront déployés automatiquement en quelques minutes. Vous recevrez une notification lorsque ce sera pret.
