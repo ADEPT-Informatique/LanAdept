@@ -1,9 +1,11 @@
 ﻿using System;
+using System.IO;
+using System.Net;
+using System.Text;
+using System.Web.Helpers;
 using LanAdeptCore.Service.ServiceResult;
 using LanAdeptData.DAL;
 using LanAdeptData.Model;
-using System.Net;
-using System.IO;
 
 namespace LanAdeptCore.Service
 {
@@ -12,6 +14,14 @@ namespace LanAdeptCore.Service
 		private static UnitOfWork uow
 		{
 			get { return UnitOfWork.Current; }
+		}
+
+		private static string GetSeatsioHttpHeader()
+		{
+			var plainTextBytes =
+				Encoding.UTF8.GetBytes(uow.SettingRepository.GetCurrentSettings().SecretKeyId
+					.Replace(" ", ""));
+			return "Basic " + Convert.ToBase64String(plainTextBytes);
 		}
 
 		/// <summary>
@@ -105,26 +115,42 @@ namespace LanAdeptCore.Service
 		public static BaseResult ReservePlace(Place place, User user)
 		{
 			if (!place.IsFree)
-				return new BaseResult() { Message = "Désolé, cette place est déjà occupée ou réservée. Vous ne pouvez pas la réservée.", HasError = true };
+				return new BaseResult() { Message = "Désolé, cette place est déjà occupée ou réservée. Vous ne pouvez pas la réserver.", HasError = true };
 
 			if (user.LastReservation != null && !user.LastReservation.IsCancelled)
 				CancelUserReservation(user);
-            var request = (HttpWebRequest)WebRequest.Create("https://app.seats.io/api/book");
-            request.ContentType = "application/json";
-            request.Method = "POST";
-            using (var streamWriter = new StreamWriter(request.GetRequestStream()))
-            {
-                string json =
-                  "{\'objects\': " + "[{\'objectId\': " + "\'" + place.SeatsId + "\', \'extraData\': { \'name\': \'" + user.CompleteName + "\'}}]" + "," +
-                    "\'eventKey\': " + "\'" + uow.SettingRepository.GetCurrentSettings().EventKeyId.Replace(" ", "") + "\'" + "," +
-                    "\'secretKey\': " + "\'" + uow.SettingRepository.GetCurrentSettings().SecretKeyId.Replace(" ","") + "\'}";
-                streamWriter.Write(json);
-            }
-            var httpResponse = (HttpWebResponse)request.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            {
-                var response = streamReader.ReadToEnd();
-            }
+			
+			var request = (HttpWebRequest) WebRequest.Create("https://api.seatsio.net/events/" +
+			                                                 uow.SettingRepository.GetCurrentSettings().EventKeyId
+				                                                 .Replace(" ", "") + "/actions/book");
+			request.ContentType = "application/json";
+			request.Method = "POST";
+			request.Headers["Authorization"] = GetSeatsioHttpHeader();
+
+			using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+			{
+				var json = new
+				{
+					objects = new[]
+					{
+						new
+						{
+							objectId = place.SeatsId,
+							extraData = new {name = user.CompleteName}
+						}
+					}
+				};
+
+				streamWriter.Write(Json.Encode(json));
+			}
+
+			var httpResponse = (HttpWebResponse) request.GetResponse();
+			using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+			{
+				var response = streamReader.ReadToEnd();
+			}
+
+
             Reservation reservation = new Reservation();
 			reservation.CreationDate = DateTime.Now;
 			reservation.User = user;
@@ -144,20 +170,34 @@ namespace LanAdeptCore.Service
 		public static BaseResult ReservePlace(Place place, string guestName)
 		{
 			if (!place.IsFree)
-				return new BaseResult() { Message = "Désolé, cette place est déjà occupée ou réservée. Vous ne pouvez pas la réservée.", HasError = true };
+				return new BaseResult() { Message = "Désolé, cette place est déjà occupée ou réservée. Vous ne pouvez pas la réserver.", HasError = true };
 
 			if (string.IsNullOrWhiteSpace(guestName))
 				return new BaseResult() { Message = "Le nom de l'invité ne peut pas être vide.", HasError = true };
-            var request = (HttpWebRequest)WebRequest.Create("https://app.seats.io/api/book");
+			
+            var request = (HttpWebRequest)WebRequest.Create("https://api.seatsio.net/events/" +
+                                                            uow.SettingRepository.GetCurrentSettings().EventKeyId
+	                                                            .Replace(" ", "") + "/actions/book");
+            
             request.ContentType = "application/json";
             request.Method = "POST";
+            request.Headers["Authorization"] = GetSeatsioHttpHeader();
+            
             using (var streamWriter = new StreamWriter(request.GetRequestStream()))
             {
-                string json =
-                  "{\'objects\': " + "[{\'objectId\':" + "\'" + place.SeatsId + "\', \'extraData\': { \'name\': \'" + guestName + "\'}}]" + "," +
-                    "\'eventKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().EventKeyId.Replace(" ", "") + "\'" + "," +
-                    "\'secretKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().SecretKeyId.Replace(" ", "") + "\'}";
-                streamWriter.Write(json);
+	            var json = new
+	            {
+		            objects = new[]
+		            {
+			            new
+			            {
+				            objectId = place.SeatsId,
+				            extraData = new {name = guestName}
+			            }
+		            }
+	            };
+
+                streamWriter.Write(Json.Encode(json));
             }
             var httpResponse = (HttpWebResponse)request.GetResponse();
             using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
@@ -202,16 +242,25 @@ namespace LanAdeptCore.Service
 		{
 			if (!place.LastReservation.IsCancelled)
 			{
-                var request = (HttpWebRequest)WebRequest.Create("https://app.seats.io/api/release");
+                var request = (HttpWebRequest)WebRequest.Create("https://api.seatsio.net/events/" +
+                                                                uow.SettingRepository.GetCurrentSettings().EventKeyId
+	                                                                .Replace(" ", "") + "/actions/release");
+                
                 request.ContentType = "application/json";
                 request.Method = "POST";
+                request.Headers["Authorization"] = GetSeatsioHttpHeader();
+                
                 using (var streamWriter = new StreamWriter(request.GetRequestStream()))
-                {
-                    string json =
-                      "{\'objects\': " + "[\'" + place.SeatsId + "\']" + "," +
-                        "\'eventKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().EventKeyId.Replace(" ", "") + "\'" + "," +
-                        "\'secretKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().SecretKeyId.Replace(" ", "") + "\'}";
-                    streamWriter.Write(json);
+                {   
+	                var json = new
+	                {
+		                objects = new[]
+		                {
+			                place.SeatsId
+		                }
+	                };
+	                
+                    streamWriter.Write(Json.Encode(json));
                 }
                 var httpResponse = (HttpWebResponse)request.GetResponse();
                 using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
@@ -240,25 +289,48 @@ namespace LanAdeptCore.Service
 		{
 			if (!user.LastReservation.IsCancelled)
 			{
-                var request = (HttpWebRequest)WebRequest.Create("https://app.seats.io/api/release");
+                var request = (HttpWebRequest)WebRequest.Create("https://api.seatsio.net/events/" +
+                                                                uow.SettingRepository.GetCurrentSettings().EventKeyId
+	                                                                .Replace(" ", "") + "/actions/release");
+                
                 request.ContentType = "application/json";
                 request.Method = "POST";
+                request.Headers["Authorization"] = GetSeatsioHttpHeader();
+                
                 using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                 {
-                    string json =
-                      "{\'objects\': " + "[\'" + user.LastReservation.Place.SeatsId + "\']" + "," +
-                        "\'eventKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().EventKeyId.Replace(" ", "") + "\'" + "," +
-                        "\'secretKey\' :" + "\'" + uow.SettingRepository.GetCurrentSettings().SecretKeyId.Replace(" ", "") + "\'}";
-                    streamWriter.Write(json);
+	                var json = new
+	                {
+		                objects = new[]
+		                {
+			                user.LastReservation.Place.SeatsId
+		                }
+	                };
+	                
+                    streamWriter.Write(Json.Encode(json));
                 }
-                var httpResponse = (HttpWebResponse)request.GetResponse();
-                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-                {
-                    var response = streamReader.ReadToEnd();
-                }
+
+//                try
+//                {
+	                var httpResponse = (HttpWebResponse) request.GetResponse();
+	                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+	                {
+		                var response = streamReader.ReadToEnd();
+	                }
+//                }
+//                catch (WebException ex)
+//                {
+//	                using (var stream = ex.Response.GetResponseStream())
+//	                using (var reader = new StreamReader(stream))
+//	                {
+//		                Console.WriteLine(reader.ReadToEnd());
+//	                }
+//                }
+
                 user.LastReservation.CancellationDate = DateTime.Now;
 				uow.ReservationRepository.Update(user.LastReservation);
 				uow.Save();
+				
 			}
 		}
 	}
