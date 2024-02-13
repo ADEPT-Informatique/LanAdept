@@ -15,11 +15,11 @@ namespace LanAdeptData.DAL.Settings
 			if(setting == null)
 			{
 				setting = new Setting();
-				setting.StartDate = DateTime.Now;
-				setting.EndDate = DateTime.Now.AddDays(1);
+					setting.StartDate = DateTime.Now;
+					setting.EndDate = DateTime.Now.AddDays(1);
 
-				Insert(setting);
-				context.SaveChanges();
+					Insert(setting);
+					context.SaveChanges();
 				//UnitOfWork.Current.Save();
 			}
 
