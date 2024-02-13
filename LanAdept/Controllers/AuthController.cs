@@ -6,7 +6,6 @@ using LanAdeptData.Model;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using Postal;
 using System;
 using System.Linq;
 using System.Security.Cryptography;
@@ -321,12 +320,13 @@ namespace LanAdept.Controllers
 				string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
 				var callbackUrl = Url.Action("ResetPassword", "Auth", new { id = user.Id, code = code }, protocol: Request.Url.Scheme);
 
-				ResetPasswordEmail email = new ResetPasswordEmail()
-				{
-					User = user,
-					ResetLink = callbackUrl
-				};
-				await email.SendAsync();
+				// TODO FIX EMAIL
+				//ResetPasswordEmail email = new ResetPasswordEmail()
+				//{
+				//	User = user,
+				//	ResetLink = callbackUrl
+				//};
+				//await email.SendAsync();
 
 				return View("Message", confirmMessage);
 			}
@@ -392,12 +392,14 @@ namespace LanAdept.Controllers
 			User user = uow.UserRepository.Get().First();
 			string code = "Testing 1212";
 
-			ConfirmationEmail email = new ConfirmationEmail();
-			email.User = user;
-			email.ConfirmationToken = code;
-			email.Send();
+			// TODO fix email 
+			//ConfirmationEmail email = new ConfirmationEmail();
+			//email.User = user;
+			//email.ConfirmationToken = code;
+			//email.Send();
 
-			return new EmailViewResult(email);
+			//return new EmailViewResult(email);
+			return null;
 		}
 #endif
 

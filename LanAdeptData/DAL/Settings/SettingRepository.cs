@@ -19,7 +19,8 @@ namespace LanAdeptData.DAL.Settings
 				setting.EndDate = DateTime.Now.AddDays(1);
 
 				Insert(setting);
-				UnitOfWork.Current.Save();
+				context.SaveChanges();
+				//UnitOfWork.Current.Save();
 			}
 
 			return setting;

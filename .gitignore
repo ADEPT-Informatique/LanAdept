@@ -7,6 +7,10 @@
 *.userosscache
 *.sln.docstates
 
+# Visual studio files
+.vs/
+.vscode/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
