@@ -122,11 +122,6 @@
     <Compile Include="DAL\Users\GuestRepository.cs" />
     <Compile Include="DAL\Users\RoleRepository.cs" />
     <Compile Include="DAL\Users\UserRepository.cs" />
-    <Compile Include="LanAdeptDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LanAdeptDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Model\Canteen\Item.cs" />
     <Compile Include="Model\Canteen\Order.cs" />
     <Compile Include="Model\Canteen\Product.cs" />
@@ -153,17 +148,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="LanAdeptDataSet.xsc">
-      <DependentUpon>LanAdeptDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="LanAdeptDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>LanAdeptDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="LanAdeptDataSet.xss">
-      <DependentUpon>LanAdeptDataSet.xsd</DependentUpon>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
